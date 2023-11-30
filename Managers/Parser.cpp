@@ -7,6 +7,7 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -66,7 +67,8 @@ void Parser::readFlights(Graph &g) {
             auto dest = airports.find(target);
 
             if (depart != airports.end() && dest != airports.end()) {
-                g.addEdge(depart->second, dest->second, 0.0, airline);
+                double distance = haversine(depart->second.getLatitude(),depart->second.getLongitude(), dest->second.getLatitude(), dest->second.getLongitude());
+                g.addEdge(depart->second, dest->second, distance, airline);
             }
         }
 
@@ -85,7 +87,7 @@ Graph Parser::getGraph() {
         iff.open("../dataset/airports.csv", ios::in);
         map<string, Airline> airlines;
         string line, code, name, city, country, temp;
-        float latitude, longitude;
+        double latitude, longitude;
 
         getline(iff, line);
 
@@ -97,9 +99,9 @@ Graph Parser::getGraph() {
             getline(iss, city, ',');
             getline(iss, country, ',');
             getline(iss, temp, ',');
-            latitude = stof(temp);
+            latitude = stod(temp);
             getline(iss, temp, ',');
-            longitude = stof(temp);
+            longitude = stod(temp);
 
             Airport airport = Airport(code, name, city, country, latitude, longitude);
             airports.insert({code, airport});
@@ -114,4 +116,21 @@ Graph Parser::getGraph() {
         cout << "Falha a abrir o ficheiro" << endl;
     }
     return {};
+}
+
+double Parser::haversine(double lat1, double lon1, double lat2, double lon2) {
+    double dLat = (lat2 - lat1) *
+                  M_PI / 180.0;
+    double dLon = (lon2 - lon1) *
+                  M_PI / 180.0;
+
+    lat1 = (lat1) * M_PI / 180.0;
+    lat2 = (lat2) * M_PI / 180.0;
+
+    double a = pow(sin(dLat / 2), 2) +
+               pow(sin(dLon / 2), 2) *
+               cos(lat1) * cos(lat2);
+    double rad = 6371;
+    double c = 2 * asin(sqrt(a));
+    return rad * c;
 }

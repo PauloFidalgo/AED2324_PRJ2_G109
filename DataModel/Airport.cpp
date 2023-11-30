@@ -10,3 +10,11 @@ Airport::Airport(const std::string &code, const std::string &name, const std::st
 bool Airport::operator==(const Airport &other) const {
     return other.code == this->code;
 }
+
+const double &Airport::getLatitude() const {
+    return this->latitude;
+}
+
+const double &Airport::getLongitude() const {
+    return this->longitude;
+}

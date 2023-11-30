@@ -18,6 +18,7 @@ public:
     Parser();
     std::map<std::string, Airline> readAirlines();
     Graph getGraph();
+    static double haversine(double lat1, double lon1, double lat2, double lon2);
 };
 
 
