@@ -3,5 +3,4 @@ cmake-build-debug/
 *.o
 *.csv
 main.cpp
-CMakeLists.txt
 dataset/
