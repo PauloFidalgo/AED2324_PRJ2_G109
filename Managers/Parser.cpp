@@ -10,7 +10,9 @@
 
 using namespace std;
 
-map<string, Airline> Parser::readAirlines() const {
+Parser::Parser() {}
+
+map<string, Airline> Parser::readAirlines() {
     fstream iff;
 
     try {
@@ -42,7 +44,7 @@ map<string, Airline> Parser::readAirlines() const {
     return {};
 }
 
-void Parser::readFlights(Graph &g) const {
+void Parser::readFlights(Graph &g) {
     fstream iff;
 
     try {
@@ -60,10 +62,12 @@ void Parser::readFlights(Graph &g) const {
             getline(iss, target, ',');
             getline(iss, airline, ',');
 
-            auto* departure = graph.findVertex(Airport(source, "", "", "", 0, 0));
-            auto* arrival = graph.findVertex(Airport(target, "", "", "", 0, 0));
-            Edge e = Edge(arrival, 0);
-            departure->addAdj(e, airline);
+            auto depart = airports.find(source);
+            auto dest = airports.find(target);
+
+            if (depart != airports.end() && dest != airports.end()) {
+                g.addEdge(depart->second, dest->second, 0.0, airline);
+            }
         }
 
         iff.close();
@@ -73,7 +77,7 @@ void Parser::readFlights(Graph &g) const {
     }
 }
 
-Graph Parser::getGraph() const {
+Graph Parser::getGraph() {
     fstream iff;
 
     try {
@@ -98,6 +102,7 @@ Graph Parser::getGraph() const {
             longitude = stof(temp);
 
             Airport airport = Airport(code, name, city, country, latitude, longitude);
+            airports.insert({code, airport});
             graph.addVertex(airport);
         }
 

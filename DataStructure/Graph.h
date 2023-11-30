@@ -23,7 +23,7 @@ public:
     int getNumVertex() const;
     bool addVertex(const Airport &in);
     bool removeVertex(const Airport &in);
-    bool addEdge(const Airport &sourc, const Airport &dest, double w);
+    bool addEdge(const Airport &sourc, const Airport &dest, double w, const std::string & airline);
     bool removeEdge(const Airport &sourc, const Airport &dest);
     std::vector<Vertex * > getVertexSet() const;
     int inDegree(const Airport &v) const;

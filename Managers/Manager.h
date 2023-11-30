@@ -7,6 +7,7 @@
 
 
 #include "Parser.h"
+#include "../DataStructure/Graph.h"
 #include <map>
 #include <string>
 #include "../DataModel/Airline.h"

@@ -40,7 +40,7 @@ void Vertex::setAdj(const std::vector<Edge> &destinations) {
     this->adj = destinations;
 }
 
-void Vertex::addAdj(Edge &destination, std::string airline) {
+void Vertex::addAdj(Edge &destination, const std::string &airline) {
     for (auto& flight : this->adj) {
         if (flight.dest->airport == destination.dest->airport) {
             flight.addAirline(airline);
@@ -51,11 +51,24 @@ void Vertex::addAdj(Edge &destination, std::string airline) {
     this->adj.push_back(destination);
 }
 
+void Vertex::addEdge(Vertex *d, double w) {
+    adj.push_back(Edge(d, w));
+}
+
 bool Vertex::hasFlight(const Edge &destination) {
     for (auto& flight : this->adj) {
         if (flight.dest->airport == destination.dest->airport) {
             return true;
         }
     }
+    return false;
+}
+
+bool Vertex::removeEdgeTo(Vertex *d) {
+    for (auto it = adj.begin(); it != adj.end(); it++)
+        if (it->dest  == d) {
+            adj.erase(it);
+            return true;
+        }
     return false;
 }

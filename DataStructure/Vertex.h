@@ -31,7 +31,7 @@ public:
     void setProcessing(const bool &p);
     const std::vector<Edge> &getAdj() const;
     void setAdj(const std::vector<Edge> &destinations);
-    void addAdj(Edge &destination, std::string airline);
+    void addAdj(Edge &destination, const std::string &airline);
     bool hasFlight(const Edge &destination);
     friend class Graph;
 

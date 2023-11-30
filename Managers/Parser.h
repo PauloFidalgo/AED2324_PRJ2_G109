@@ -12,11 +12,12 @@
 
 class Parser {
 private:
-    void readFlights(Graph &g) const;
+    std::map<std::string, Airport> airports;
+    void readFlights(Graph &g);
 public:
     Parser();
-    std::map<std::string, Airline> readAirlines() const;
-    Graph getGraph() const;
+    std::map<std::string, Airline> readAirlines();
+    Graph getGraph();
 };
 
 
