@@ -6,6 +6,15 @@
 
 Manager::Manager() {
     this->parser = Parser();
-    this->airlines = parser.readAirlines();
+    this->airlines = parser.getAirlines();
     this->connections = parser.getGraph();
+    this->airports = parser.getAirports();
+}
+
+map<std::string, Airline*> Manager::getAirlines() {
+    return this->airlines;
+}
+
+map<string, Airport*> Manager::getAirports() {
+    return this->airports;
 }

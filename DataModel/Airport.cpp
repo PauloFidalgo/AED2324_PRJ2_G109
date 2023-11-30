@@ -18,3 +18,11 @@ const double &Airport::getLatitude() const {
 const double &Airport::getLongitude() const {
     return this->longitude;
 }
+
+std::string Airport::getCode() const{
+    return this->code;
+}
+
+std::string Airport::getName() const {
+    return this->name;
+}

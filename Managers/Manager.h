@@ -16,11 +16,14 @@
 class Manager {
 private:
     Parser parser;
-    std::map<std::string, Airline> airlines;
+    std::map<std::string, Airline*> airlines;
+    std::map<std::string, Airport*> airports;
     Graph connections;
 
 public:
     Manager();
+    std::map<std::string, Airline*> getAirlines();
+    std::map<std::string, Airport*> getAirports();
 };
 
 

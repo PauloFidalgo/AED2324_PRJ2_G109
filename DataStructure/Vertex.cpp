@@ -4,15 +4,15 @@
 
 #include "Vertex.h"
 
-Vertex::Vertex(const Airport &in): airport(in) {}
+Vertex::Vertex(Airport* in): airport(in) {}
 
 
 Airport Vertex::getInfo() const {
-    return airport;
+    return *airport;
 }
 
 void Vertex::setInfo(const Airport &in) {
-    airport = in;
+    *airport = in;
 }
 
 bool Vertex::isProcessing() const {

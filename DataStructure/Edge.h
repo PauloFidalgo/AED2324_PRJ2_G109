@@ -6,6 +6,7 @@
 #define AED2324_PRJ2_G109_EDGE_H
 #include "Vertex.h"
 #include "Graph.h"
+#include <string>
 
 class Graph;
 class Vertex;

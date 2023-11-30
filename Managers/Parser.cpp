@@ -31,8 +31,8 @@ map<string, Airline> Parser::readAirlines() {
             getline(iss, callsign, ',');
             getline(iss, country);
 
-            Airline airline = Airline(code, name, callsign, country);
-            airlines.insert({code, airline});
+            auto* airline = new Airline(code, name, callsign, country);
+            airlines.insert({code, *airline});
         }
 
         iff.close();
@@ -47,7 +47,7 @@ map<string, Airline> Parser::readAirlines() {
 
 void Parser::readFlights(Graph &g) {
     fstream iff;
-
+    int i = 0;
     try {
         Graph graph = Graph();
         iff.open("../dataset/flights.csv", ios::in);
@@ -67,11 +67,11 @@ void Parser::readFlights(Graph &g) {
             auto dest = airports.find(target);
 
             if (depart != airports.end() && dest != airports.end()) {
-                double distance = haversine(depart->second.getLatitude(),depart->second.getLongitude(), dest->second.getLatitude(), dest->second.getLongitude());
+                double distance = haversine(depart->second->getLatitude(),depart->second->getLongitude(), dest->second->getLatitude(), dest->second->getLongitude());
                 g.addEdge(depart->second, dest->second, distance, airline);
+                i++;
             }
         }
-
         iff.close();
 
     } catch (const ifstream::failure& e) {
@@ -103,7 +103,7 @@ Graph Parser::getGraph() {
             getline(iss, temp, ',');
             longitude = stod(temp);
 
-            Airport airport = Airport(code, name, city, country, latitude, longitude);
+            auto* airport = new Airport(code, name, city, country, latitude, longitude);
             airports.insert({code, airport});
             graph.addVertex(airport);
         }
@@ -133,4 +133,21 @@ double Parser::haversine(double lat1, double lon1, double lat2, double lon2) {
     double rad = 6371;
     double c = 2 * asin(sqrt(a));
     return rad * c;
+}
+
+std::map<std::string, Airport*> Parser::getAirports() {
+    return airports;
+}
+
+map<string, Airline *> Parser::getAirlines() {
+    return airlines;
+}
+
+Parser::~Parser() {
+    for(auto &elem : airports) {
+        delete elem.second;
+    }
+    for (auto &elem : airlines) {
+        delete elem.second;
+    }
 }

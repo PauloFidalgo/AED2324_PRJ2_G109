@@ -8,7 +8,9 @@
 #include <vector>
 #include "Vertex.h"
 #include "Edge.h"
+#include <string>
 using namespace std;
+
 
 class Vertex;
 class Edge;
@@ -19,14 +21,14 @@ class Airport;
 class Graph {
     std::vector<Vertex *> vertexSet;    // vertex set
 public:
-    Vertex *findVertex(const Airport &in) const;
+    Vertex *findVertex(Airport* in) const;
     int getNumVertex() const;
-    bool addVertex(const Airport &in);
-    bool removeVertex(const Airport &in);
-    bool addEdge(const Airport &sourc, const Airport &dest, double w, const std::string & airline);
-    bool removeEdge(const Airport &sourc, const Airport &dest);
+    bool addVertex(Airport* in);
+    bool removeVertex(Airport* in);
+    bool addEdge(Airport* sourc, Airport* dest, double w, const string &airline);
+    bool removeEdge(Airport* sourc, Airport* dest);
     std::vector<Vertex * > getVertexSet() const;
-    int inDegree(const Airport &v) const;
+    int inDegree(Airport* v) const;
 
 };
 

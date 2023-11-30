@@ -16,6 +16,8 @@ public:
     bool operator==(const Airport &other) const;
     const double& getLatitude() const;
     const double& getLongitude() const;
+    std::string getCode() const;
+    std::string getName() const;
 };
 
 

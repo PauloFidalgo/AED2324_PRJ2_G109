@@ -14,7 +14,7 @@ class Airport;
 
 class Vertex {
 protected:
-    Airport airport;                // contents
+    Airport* airport;                // contents
     std::vector<Edge> adj;  // list of outgoing edges
     bool visited;          // auxiliary field
     bool processing;       // auxiliary field
@@ -22,7 +22,7 @@ protected:
     void addEdge(Vertex *dest, double w);
     bool removeEdgeTo(Vertex *d);
 public:
-    Vertex(const Airport &in);
+    Vertex(Airport* in);
     Airport getInfo() const;
     void setInfo(const Airport &in);
     bool isVisited() const;

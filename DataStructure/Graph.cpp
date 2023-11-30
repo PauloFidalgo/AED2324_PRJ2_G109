@@ -16,14 +16,14 @@ vector<Vertex * > Graph::getVertexSet() const {
 }
 
 
-bool Graph::addVertex(const Airport &in) {
+bool Graph::addVertex(Airport* in) {
     if ( findVertex(in) != NULL)
         return false;
     vertexSet.push_back(new Vertex(in));
     return true;
 }
 
-bool Graph::addEdge(const Airport &sourc, const Airport &dest, double w, const std::string &airline) {
+bool Graph::addEdge(Airport* sourc, Airport *dest, double w, const std::string &airline) {
     auto v1 = findVertex(sourc);
     auto v2 = findVertex(dest);
     if (v1 == NULL || v2 == NULL) {
@@ -34,7 +34,7 @@ bool Graph::addEdge(const Airport &sourc, const Airport &dest, double w, const s
     return true;
 }
 
-bool Graph::removeEdge(const Airport &sourc, const Airport &dest) {
+bool Graph::removeEdge(Airport* sourc, Airport* dest) {
     auto v1 = findVertex(sourc);
     auto v2 = findVertex(dest);
     if (v1 == NULL || v2 == NULL)
@@ -44,7 +44,7 @@ bool Graph::removeEdge(const Airport &sourc, const Airport &dest) {
 
 
 
-bool Graph::removeVertex(const Airport &in) {
+bool Graph::removeVertex(Airport* in) {
     for (auto it = vertexSet.begin(); it != vertexSet.end(); it++)
         if ((*it)->airport  == in) {
             auto v = *it;
@@ -57,7 +57,7 @@ bool Graph::removeVertex(const Airport &in) {
     return false;
 }
 
-Vertex * Graph::findVertex(const Airport &in) const {
+Vertex * Graph::findVertex(Airport* in) const {
     for (auto v : vertexSet)
         if (v->airport == in)
             return v;
