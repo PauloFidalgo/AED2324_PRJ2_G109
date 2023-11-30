@@ -4,54 +4,58 @@
 
 #include "Vertex.h"
 
-template <class T>
-Vertex<T>::Vertex(T in): info(in) {}
+Vertex::Vertex(const Airport &in): airport(in) {}
 
 
-template<class T>
-T Vertex<T>::getInfo() const {
-    return info;
+Airport Vertex::getInfo() const {
+    return airport;
 }
 
-template<class T>
-void Vertex<T>::setInfo(T in) {
-    Vertex::info = in;
+void Vertex::setInfo(const Airport &in) {
+    airport = in;
 }
 
-template<class T>
-bool Vertex<T>::isProcessing() const {
+bool Vertex::isProcessing() const {
     return processing;
 }
 
-template<class T>
-void Vertex<T>::setProcessing(bool p) {
-    Vertex::processing = p;
+void Vertex::setProcessing(const bool &p) {
+    this->processing = p;
 }
 
-template <class T>
-Vertex<T> * Graph<T>::findVertex(const T &in) const {
-    for (auto v : vertexSet)
-        if (v->info == in)
-            return v;
-    return NULL;
-}
 
-template <class T>
-bool Vertex<T>::isVisited() const {
+bool Vertex::isVisited() const {
     return visited;
 }
 
-template <class T>
-void Vertex<T>::setVisited(bool v) {
-    Vertex::visited = v;
+void Vertex::setVisited(const bool &v) {
+    this->visited = v;
 }
 
-template<class T>
-const vector<Edge<T>> &Vertex<T>::getAdj() const {
+const std::vector<Edge> &Vertex::getAdj() const {
     return adj;
 }
 
-template <class T>
-void Vertex<T>::setAdj(const vector<Edge<T>> &adj) {
-    Vertex::adj = adj;
+void Vertex::setAdj(const std::vector<Edge> &destinations) {
+    this->adj = destinations;
+}
+
+void Vertex::addAdj(Edge &destination, std::string airline) {
+    for (auto& flight : this->adj) {
+        if (flight.dest->airport == destination.dest->airport) {
+            flight.addAirline(airline);
+            return;
+        }
+    }
+    destination.addAirline(airline);
+    this->adj.push_back(destination);
+}
+
+bool Vertex::hasFlight(const Edge &destination) {
+    for (auto& flight : this->adj) {
+        if (flight.dest->airport == destination.dest->airport) {
+            return true;
+        }
+    }
+    return false;
 }

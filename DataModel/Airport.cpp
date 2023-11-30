@@ -6,3 +6,7 @@
 
 Airport::Airport(const std::string &code, const std::string &name, const std::string &city, const std::string &country,
                  const double &latitude, const double &longitude) : code(code), name(name), city(city), country(country), latitude(latitude), longitude(longitude) {}
+
+bool Airport::operator==(const Airport &other) const {
+    return other.code == this->code;
+}

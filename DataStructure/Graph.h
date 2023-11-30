@@ -10,20 +10,23 @@
 #include "Edge.h"
 using namespace std;
 
+class Vertex;
+class Edge;
+class Airport;
+
 /****************** Provided structures  ********************/
 
-template <class T>
 class Graph {
-    vector<Vertex<T> *> vertexSet;    // vertex set
+    std::vector<Vertex *> vertexSet;    // vertex set
 public:
-    Vertex<T> *findVertex(const T &in) const;
+    Vertex *findVertex(const Airport &in) const;
     int getNumVertex() const;
-    bool addVertex(const T &in);
-    bool removeVertex(const T &in);
-    bool addEdge(const T &sourc, const T &dest, double w);
-    bool removeEdge(const T &sourc, const T &dest);
-    vector<Vertex<T> * > getVertexSet() const;
-    int inDegree(const T &v) const;
+    bool addVertex(const Airport &in);
+    bool removeVertex(const Airport &in);
+    bool addEdge(const Airport &sourc, const Airport &dest, double w);
+    bool removeEdge(const Airport &sourc, const Airport &dest);
+    std::vector<Vertex * > getVertexSet() const;
+    int inDegree(const Airport &v) const;
 
 };
 

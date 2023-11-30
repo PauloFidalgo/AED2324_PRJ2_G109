@@ -7,17 +7,24 @@
 #include "Vertex.h"
 #include "Graph.h"
 
+class Graph;
+class Vertex;
+class Airport;
 
-template <class T>
 class Edge {
-    Vertex<T> * dest;      // destination vertex
+    Vertex * dest;      // destination vertex
     double weight;         // edge weight
+    std::vector<std::string> airlines;
 public:
-    Edge(Vertex<T> *d, double w);
-    Vertex<T> *getDest() const;
-    void setDest(Vertex<T> *dest);
+    Edge(Vertex *d, double w);
+    void addAirline(const std::string &airline);
+    std::vector<std::string> getAirlines() const;
+    Vertex *getDest() const;
+    void setDest(Vertex *dest);
     double getWeight() const;
     void setWeight(double weight);
+    friend class Graph;
+    friend class Vertex;
 };
 
 

@@ -1,0 +1,26 @@
+//
+// Created by Paulo Fidalgo on 30/11/2023.
+//
+
+#ifndef AED2324_PRJ2_G109_MANAGER_H
+#define AED2324_PRJ2_G109_MANAGER_H
+
+
+#include "Parser.h"
+#include <map>
+#include <string>
+#include "../DataModel/Airline.h"
+
+
+class Manager {
+private:
+    Parser parser;
+    std::map<std::string, Airline> airlines;
+    Graph connections;
+
+public:
+    Manager();
+};
+
+
+#endif //AED2324_PRJ2_G109_MANAGER_H

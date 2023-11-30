@@ -13,6 +13,7 @@ private:
 
 public:
     Airport(const std::string &code, const std::string &name, const std::string &city, const std::string &country, const double &latitude, const double &longitude);
+    bool operator==(const Airport &other) const;
 };
 
 

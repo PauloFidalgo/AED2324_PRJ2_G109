@@ -7,12 +7,17 @@
 
 /****************** Provided constructors and functions ********************/
 
-template <class T>
-int Graph<T>::getNumVertex() const {
+int Graph::getNumVertex() const {
     return vertexSet.size();
 }
 
-template <class T>
-vector<Vertex<T> * > Graph<T>::getVertexSet() const {
+vector<Vertex * > Graph::getVertexSet() const {
     return vertexSet;
+}
+
+Vertex * Graph::findVertex(const Airport &in) const {
+    for (auto v : vertexSet)
+        if (v->airport == in)
+            return v;
+    return NULL;
 }

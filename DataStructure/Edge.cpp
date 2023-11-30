@@ -4,25 +4,29 @@
 
 #include "Edge.h"
 
-template <class T>
-Edge<T>::Edge(Vertex<T> *d, double w): dest(d), weight(w) {}
+Edge::Edge(Vertex *d, double w): dest(d), weight(w) {}
 
-template<class T>
-Vertex<T> *Edge<T>::getDest() const {
-    return dest;
+
+Vertex *Edge::getDest() const {
+    return this->dest;
 }
 
-template<class T>
-void Edge<T>::setDest(Vertex<T> *d) {
-    Edge::dest = d;
+void Edge::setDest(Vertex *d) {
+    this->dest = d;
 }
 
-template<class T>
-double Edge<T>::getWeight() const {
-    return weight;
+double Edge::getWeight() const {
+    return this->weight;
 }
 
-template<class T>
-void Edge<T>::setWeight(double weight) {
-    Edge::weight = weight;
+void Edge::setWeight(double weight) {
+    this->weight = weight;
+}
+
+void Edge::addAirline(const std::string &airline) {
+    this->airlines.push_back(airline);
+}
+
+std::vector<std::string> Edge::getAirlines() const {
+    return this->airlines;
 }

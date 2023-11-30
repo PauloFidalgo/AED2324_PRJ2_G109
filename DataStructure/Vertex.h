@@ -5,27 +5,35 @@
 #ifndef AED2324_PRJ2_G109_VERTEX_H
 #define AED2324_PRJ2_G109_VERTEX_H
 #include "Edge.h"
+#include <vector>
+#include "../DataModel/Airport.h"
 
+class Edge;
+class Graph;
+class Airport;
 
-template <class T>
 class Vertex {
-    T info;                // contents
-    vector<Edge<T> > adj;  // list of outgoing edges
+protected:
+    Airport airport;                // contents
+    std::vector<Edge> adj;  // list of outgoing edges
     bool visited;          // auxiliary field
     bool processing;       // auxiliary field
 
-    void addEdge(Vertex<T> *dest, double w);
-    bool removeEdgeTo(Vertex<T> *d);
+    void addEdge(Vertex *dest, double w);
+    bool removeEdgeTo(Vertex *d);
 public:
-    Vertex(T in);
-    T getInfo() const;
-    void setInfo(T in);
+    Vertex(const Airport &in);
+    Airport getInfo() const;
+    void setInfo(const Airport &in);
     bool isVisited() const;
-    void setVisited(bool v);
+    void setVisited(const bool &v);
     bool isProcessing() const;
-    void setProcessing(bool p);
-    const vector<Edge<T>> &getAdj() const;
-    void setAdj(const vector<Edge<T>> &adj);
+    void setProcessing(const bool &p);
+    const std::vector<Edge> &getAdj() const;
+    void setAdj(const std::vector<Edge> &destinations);
+    void addAdj(Edge &destination, std::string airline);
+    bool hasFlight(const Edge &destination);
+    friend class Graph;
 
 };
 
