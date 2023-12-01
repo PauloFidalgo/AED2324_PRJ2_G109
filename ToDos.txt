@@ -1,0 +1,46 @@
+Porks:
+- Listagens:
+    - Aeroportos com mais voos
+    - Companhias com mais voos
+    - Companhias com mais voos por país
+    - Compannihas com mais voos intercontinentais (Cria mapa com lista de países e respespeto continente)
+    - Aeroportos com mais companhias
+    - Número global de airports
+    - Listar aeroportos por pais
+    - Número de voos a sair de aeroporto e de quantas diferentes companhias
+    - Listar os países in de um airport
+    - Listar os países out de um airport
+    - Número global de voos
+    - Número de voos por cidade / airline
+    - Companhias que voam para um país
+    - Listar os países que posso chegar a partir de um aeroporto (destinos) e as respetivas companhias
+
+
+Wagner:
+- Main Menu:
+    - Pesquisas
+        - De: Selecione Continente:
+                   - Selecione País
+                   - Selecione Aeroporto (Com nome da cidade)
+
+        - Para: Selecione Continente:
+                    - Selecione País
+                    - Quer selecionar aeroporto ?
+                    - Selecione Aeroporto ? (pode querer ir pro país sem ser pra um aeroporto especifico)
+        - Quer filtros?
+            - Não (BFS simples)
+            - Sim:
+                - Max escalas ? Sim/Não
+                - Voas apenas em algumas companhias (lista) (0 já acabou, 1 - Tap Air, 2 - Lufthansa,3,4.... selecionar)
+                - Passar em país (Quais)
+                - Não passar em país (Quais)
+    - Informações (ordenações)
+    - Estatísticas
+- Desenha um aviao no menu
+- Time Thread
+
+
+Paulo:
+- BFS
+- BFS com filtos (max escalas, usar apenas algumas companhias, não passar por país, quero fazer escala naquele país)
+- Aeroporto com ligações chave (sao aqueles que se deixassem de existir, haviam grafos bipartite)
