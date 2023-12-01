@@ -6,6 +6,7 @@
 #define AED2324_PRJ2_G109_MAINMENUSTATE_H
 #include "State.h"
 
+
 class MainMenuState : public State{
 public:
     void displayMenu() override;

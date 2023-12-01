@@ -4,16 +4,30 @@
 
 #include "MainMenuState.h"
 #include <iostream>
-
+using namespace std;
 
 void MainMenuState::displayMenu() {
-  
 
-    std::cout << "Main Menu of the chikis" << std::endl;
-    std::cout << "                       " << std::endl;
-    std::cout << "option 1" << std::endl;
-    std::cout << "Option 2" << std::endl;
-    std::cout << "Option 3" << std::endl;
+
+    cout << "___________________________________________________________________________________________________________" << endl;
+    cout << "|                                                                                                          |" << endl;
+    cout << "|                                                                      |                                   |" << endl;
+    cout << "|                                                                      |                                   |" << endl;
+    cout << "|            1. Search                                           --====|====--                             |" << endl;
+    cout << "|            2. Information                                            |                                   |" << endl;
+    cout << "|            3. Statistics                                        .-         -.                            |" << endl;
+    cout << "|                                                                .'_________'.                             |" << endl;
+    cout << "|                                                              /_/_|__|__|_   _                            |" << endl;
+    cout << "|                                                             ;'-._       _.-';                            |" << endl;
+    cout << "|                                        ,--------------------|    `-. .-'    |--------------------,       |" << endl;
+    cout << "|                                        ``  --..__    ___   ;       '       ;   ___    __..--  ``         |" << endl;
+    cout << "|                                                  `  -//     .._               /_..//     -  `            |" << endl;
+    cout << "|                                                         _//    '._       _.'        _//                  |" << endl;
+    cout << "|                                                       `  `        ``---``        `  `                    |" << endl;
+    cout << "|                                                                                                          |" << endl;
+    cout << "|                                                                                                          |" << endl;
+    cout << "|    q - sair                                                                                              |" << endl;
+    cout << "-----------------------------------------------------------------------------------------------------------" << endl;
 
 }
 
