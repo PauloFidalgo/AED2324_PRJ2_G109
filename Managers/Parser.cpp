@@ -13,12 +13,12 @@ using namespace std;
 
 Parser::Parser() {}
 
-map<string, Airline> Parser::readAirlines() {
+map<string, Airline*> Parser::readAirlines() {
     fstream iff;
 
     try {
         iff.open("../dataset/airlines.csv", ios::in);
-        map<string, Airline> airlines;
+        map<string, Airline*> airlines;
         string line, code, name, callsign, country;
 
         getline(iff, line);
@@ -32,7 +32,7 @@ map<string, Airline> Parser::readAirlines() {
             getline(iss, country);
 
             auto* airline = new Airline(code, name, callsign, country);
-            airlines.insert({code, *airline});
+            airlines.insert({code, airline});
         }
 
         iff.close();
@@ -68,7 +68,9 @@ void Parser::readFlights(Graph &g) {
 
             if (depart != airports.end() && dest != airports.end()) {
                 double distance = haversine(depart->second->getLatitude(),depart->second->getLongitude(), dest->second->getLatitude(), dest->second->getLongitude());
-                g.addEdge(depart->second, dest->second, distance, airline);
+
+                auto air = airlines.find(airline);
+                g.addEdge(depart->second, dest->second, distance, &air->second);
                 i++;
             }
         }

@@ -3,6 +3,7 @@
 //
 
 #include "Graph.h"
+#include "../DataModel/Airline.h"
 
 
 /****************** Provided constructors and functions ********************/
@@ -23,7 +24,7 @@ bool Graph::addVertex(Airport* in) {
     return true;
 }
 
-bool Graph::addEdge(Airport* sourc, Airport *dest, double w, const std::string &airline) {
+bool Graph::addEdge(Airport* sourc, Airport *dest, double w, Airline* airline) {
     auto v1 = findVertex(sourc);
     auto v2 = findVertex(dest);
     if (v1 == NULL || v2 == NULL) {
@@ -41,7 +42,6 @@ bool Graph::removeEdge(Airport* sourc, Airport* dest) {
         return false;
     return v1->removeEdgeTo(v2);
 }
-
 
 
 bool Graph::removeVertex(Airport* in) {

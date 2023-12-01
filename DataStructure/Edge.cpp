@@ -23,10 +23,10 @@ void Edge::setWeight(double weight) {
     this->weight = weight;
 }
 
-void Edge::addAirline(const std::string &airline) {
+void Edge::addAirline(Airline* airline) {
     this->airlines.push_back(airline);
 }
 
-std::vector<std::string> Edge::getAirlines() const {
+std::vector<Airline *> Edge::getAirlines() const {
     return this->airlines;
 }

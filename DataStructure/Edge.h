@@ -11,15 +11,16 @@
 class Graph;
 class Vertex;
 class Airport;
+class Airline;
 
 class Edge {
     Vertex * dest;      // destination vertex
     double weight;         // edge weight
-    std::vector<std::string> airlines;
+    std::vector<Airline*> airlines;
 public:
     Edge(Vertex *d, double w);
-    void addAirline(const std::string &airline);
-    std::vector<std::string> getAirlines() const;
+    void addAirline(Airline* airline);
+    std::vector<Airline *> getAirlines() const;
     Vertex *getDest() const;
     void setDest(Vertex *dest);
     double getWeight() const;

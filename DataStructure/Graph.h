@@ -8,6 +8,7 @@
 #include <vector>
 #include "Vertex.h"
 #include "Edge.h"
+#include "../DataModel/Airline.h"
 #include <string>
 using namespace std;
 
@@ -25,7 +26,7 @@ public:
     int getNumVertex() const;
     bool addVertex(Airport* in);
     bool removeVertex(Airport* in);
-    bool addEdge(Airport* sourc, Airport* dest, double w, const string &airline);
+    bool addEdge(Airport* sourc, Airport* dest, double w, Airline* airline);
     bool removeEdge(Airport* sourc, Airport* dest);
     std::vector<Vertex * > getVertexSet() const;
     int inDegree(Airport* v) const;

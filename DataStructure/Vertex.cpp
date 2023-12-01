@@ -40,7 +40,7 @@ void Vertex::setAdj(const std::vector<Edge> &destinations) {
     this->adj = destinations;
 }
 
-void Vertex::addAdj(Edge &destination, const std::string &airline) {
+void Vertex::addAdj(Edge &destination, Airline* airline) {
     for (auto& flight : this->adj) {
         if (flight.dest->airport == destination.dest->airport) {
             flight.addAirline(airline);
