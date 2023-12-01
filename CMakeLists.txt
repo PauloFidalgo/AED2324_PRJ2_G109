@@ -18,4 +18,10 @@ add_executable(AED2324_PRJ2_G109
         Managers/Parser.cpp
         Managers/Parser.h
         Managers/Manager.cpp
-        Managers/Manager.h)
+        Managers/Manager.h
+        Menu/State.h
+        Menu/MainMenuState.h
+        Menu/MainMenuState.cpp
+        Menu/MenuManager.h
+        Menu/MenuManager.cpp
+)
