@@ -2,25 +2,25 @@
 // Created by Wagner Pedrosa on 01/12/2023.
 //
 
-#include "ChooseAirportState.h"
+#include "ChooseTypeOfAirportState.h"
 #include "iostream"
 using namespace std;
 
-void ChooseAirportState::displayMenu() {
+void ChooseTypeOfAirportState::displayMenu() {
     cout << "________________________________________________________________________________________________________"<< endl;
     cout << "|                                                                                                      |"<< endl;
-    cout << "|                          Choose an option for Airports                                               |" << endl;
+    cout << "|                                     Choose an option for Airports                                    |" << endl;
     cout << "|                                                                                                      |"<< endl;
-    cout << "|                                     1 - Display International Airports                               |"<< endl;
-    cout << "|                                     2 - Display Domestic Airports                                    |"<< endl;
-    cout << "|                                     3 - Display All Airports                                         |"<< endl;
+    cout << "|                                  1 - Display International Airports                                  |"<< endl;
+    cout << "|                                  2 - Display Domestic Airports                                       |"<< endl;
+    cout << "|                                  3 - Display All Airports                                            |"<< endl;
     cout << "|                                                                                                      |"<< endl;
     cout << "|  0 - Go back                                                                                         |"<< endl;
     cout << "| -1 - Exit                                                                                            |" << endl;
     cout << "--------------------------------------------------------------------------------------------------------"<< endl;
 }
 
-State *ChooseAirportState::handleInput() {
+State *ChooseTypeOfAirportState::handleInput() {
     int userInput;
     std::cout << " Enter your choice: ";
     std::cin >> userInput;

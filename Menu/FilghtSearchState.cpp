@@ -3,11 +3,14 @@
 //
 #include "iostream"
 #include "FilghtSearchState.h"
-#include "MenuManager.h"
-#include "ChooseAirportState.h"
+#include "ChooseTypeOfAirportState.h"
+#include "FilterState.h"
 
 using namespace std;
-ChooseAirportState chooseAirport;
+
+FilterState filter;
+ChooseTypeOfAirportState chooseAirport;
+
 
 
 void FilghtSearchState::displayMenu() {
@@ -17,6 +20,7 @@ void FilghtSearchState::displayMenu() {
     cout << "|                                                                                                      |"<< endl;
     cout << "|                                     1 - Country from                                                 |"<< endl;
     cout << "|                                     2 - Country to                                                   |"<< endl;
+    cout << "|                                     3 - Filters                                                      |" << endl;
     cout << "|                                                                                                      |"<< endl;
     cout << "|  0 - anterior                                                                                        |"<< endl;
     cout << "|  q - Quit                                                                                            |" << endl;
@@ -35,8 +39,11 @@ State *FilghtSearchState::handleInput() {
             State::stateHistory.push(this);
             return &chooseAirport;
         case 2:
-            std:: cout << " Pais de chegada "<< std::endl;
-            break;
+            State::stateHistory.push(this);
+            return &chooseAirport;
+        case 3:
+            State::stateHistory.push(this);
+            return &filter;
         case 0:
             if(!State::stateHistory.empty()){
                 State* previousState = State::stateHistory.top();
