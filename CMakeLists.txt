@@ -27,4 +27,6 @@ add_executable(AED2324_PRJ2_G109
         Menu/FilghtSearchState.h
         Menu/FilghtSearchState.cpp
         Menu/State.cpp
+        Menu/ChooseAirportState.h
+        Menu/ChooseAirportState.cpp
 )

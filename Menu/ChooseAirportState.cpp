@@ -1,30 +1,26 @@
 //
 // Created by Wagner Pedrosa on 01/12/2023.
 //
-#include "iostream"
-#include "FilghtSearchState.h"
-#include "MenuManager.h"
+
 #include "ChooseAirportState.h"
-
+#include "iostream"
 using namespace std;
-ChooseAirportState chooseAirport;
 
-
-void FilghtSearchState::displayMenu() {
+void ChooseAirportState::displayMenu() {
     cout << "________________________________________________________________________________________________________"<< endl;
     cout << "|                                                                                                      |"<< endl;
-    cout << "|                                     Chose an option                                                  |" << endl;
+    cout << "|                          Choose an option for Airports                                               |" << endl;
     cout << "|                                                                                                      |"<< endl;
-    cout << "|                                     1 - Country from                                                 |"<< endl;
-    cout << "|                                     2 - Country to                                                   |"<< endl;
+    cout << "|                                     1 - Display International Airports                               |"<< endl;
+    cout << "|                                     2 - Display Domestic Airports                                    |"<< endl;
+    cout << "|                                     3 - Display All Airports                                         |"<< endl;
     cout << "|                                                                                                      |"<< endl;
-    cout << "|  0 - anterior                                                                                        |"<< endl;
-    cout << "|  q - Quit                                                                                            |" << endl;
-    cout << "--------------------------------------------------------------------------------------------------------"<< endl;\
-
+    cout << "|  0 - Go back                                                                                         |"<< endl;
+    cout << "| -1 - Exit                                                                                            |" << endl;
+    cout << "--------------------------------------------------------------------------------------------------------"<< endl;
 }
 
-State *FilghtSearchState::handleInput() {
+State *ChooseAirportState::handleInput() {
     int userInput;
     std::cout << " Enter your choice: ";
     std::cin >> userInput;
@@ -32,8 +28,8 @@ State *FilghtSearchState::handleInput() {
 
     switch (userInput) {
         case 1:
-            State::stateHistory.push(this);
-            return &chooseAirport;
+            std::cout << " internacional airports"<< std::endl;
+            break;
         case 2:
             std:: cout << " Pais de chegada "<< std::endl;
             break;

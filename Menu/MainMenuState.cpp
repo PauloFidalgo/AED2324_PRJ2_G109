@@ -46,6 +46,8 @@ State * MainMenuState::handleInput() {
         case 2:
             std:: cout << " PorksState"<< std::endl;
             break;
+        case -1:
+            exit(0);
         default:
             std:: cout << " Invalid choice. try again"<< std::endl;
             return this;
