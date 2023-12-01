@@ -16,14 +16,14 @@ ChooseTypeOfAirportState chooseAirport;
 void FilghtSearchState::displayMenu() {
     cout << "________________________________________________________________________________________________________"<< endl;
     cout << "|                                                                                                      |"<< endl;
-    cout << "|                                     Chose an option                                                  |" << endl;
+    cout << "|                                     Chose a Airport                                                  |" << endl;
     cout << "|                                                                                                      |"<< endl;
-    cout << "|                                     1 - Country from                                                 |"<< endl;
-    cout << "|                                     2 - Country to                                                   |"<< endl;
+    cout << "|                                     1 - From                                                         |"<< endl;
+    cout << "|                                     2 - To                                                           |"<< endl;
     cout << "|                                     3 - Filters                                                      |" << endl;
     cout << "|                                                                                                      |"<< endl;
     cout << "|  0 - anterior                                                                                        |"<< endl;
-    cout << "|  q - Quit                                                                                            |" << endl;
+    cout << "|  -1 - Quit                                                                                            |" << endl;
     cout << "--------------------------------------------------------------------------------------------------------"<< endl;\
 
 }

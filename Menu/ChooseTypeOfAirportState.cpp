@@ -6,10 +6,11 @@
 #include "iostream"
 using namespace std;
 
+
 void ChooseTypeOfAirportState::displayMenu() {
     cout << "________________________________________________________________________________________________________"<< endl;
     cout << "|                                                                                                      |"<< endl;
-    cout << "|                                     Choose an option for Airports                                    |" << endl;
+    cout << "|                                    Choose an option for Airports                                     |" << endl;
     cout << "|                                                                                                      |"<< endl;
     cout << "|                                  1 - Display International Airports                                  |"<< endl;
     cout << "|                                  2 - Display Domestic Airports                                       |"<< endl;
