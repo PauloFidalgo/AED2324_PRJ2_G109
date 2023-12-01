@@ -11,7 +11,6 @@ class MainMenuState : public State{
 public:
     void displayMenu() override;
     State * handleInput() override;
-    static void menuNavigation();
 
 };
 

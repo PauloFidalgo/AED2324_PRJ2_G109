@@ -5,10 +5,11 @@
 #ifndef AED2324_PRJ2_G109_MENUMANAGER_H
 #define AED2324_PRJ2_G109_MENUMANAGER_H
 #include "State.h"
-
+#include "stack"
 class MenuManager {
 private:
     State* currentState;
+
 public:
     MenuManager();
     ~MenuManager();

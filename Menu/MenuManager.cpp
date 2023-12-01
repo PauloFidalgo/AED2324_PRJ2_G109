@@ -6,16 +6,15 @@
 #include "MainMenuState.h"
 
 MenuManager::MenuManager(): currentState(new MainMenuState()) {};
+
 MenuManager::~MenuManager() {
     delete currentState;
 }
 
 void MenuManager::menuNavigation() {
-    while(currentState) {
+    while (currentState) {
         currentState->displayMenu();
-        State *nextState = currentState->handleInput();
-
-        delete currentState;
+        State* nextState = currentState->handleInput();
 
         currentState = nextState;
     }

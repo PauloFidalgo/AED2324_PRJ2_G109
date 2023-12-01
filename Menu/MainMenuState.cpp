@@ -3,8 +3,11 @@
 //
 
 #include "MainMenuState.h"
+#include "FilghtSearchState.h"
 #include <iostream>
 using namespace std;
+FilghtSearchState flightSearchState;
+
 
 void MainMenuState::displayMenu() {
 
@@ -26,20 +29,20 @@ void MainMenuState::displayMenu() {
     cout << "|                                                       `  `        ``---``        `  `                    |" << endl;
     cout << "|                                                                                                          |" << endl;
     cout << "|                                                                                                          |" << endl;
-    cout << "|    q - sair                                                                                              |" << endl;
+    cout << "|    q - Quit                                                                                              |" << endl;
     cout << "-----------------------------------------------------------------------------------------------------------" << endl;
 
 }
 
 State * MainMenuState::handleInput() {
     int userInput;
-    std::cout << " Enter your choice: " << std::endl;
+    std::cout << " Enter your choice: ";
     std::cin >> userInput;
 
     switch (userInput) {
         case 1:
-            std::cout << " ListagensState"<< std::endl;
-            break;
+            State::stateHistory.push(this);
+            return &flightSearchState;
         case 2:
             std:: cout << " PorksState"<< std::endl;
             break;
@@ -49,12 +52,3 @@ State * MainMenuState::handleInput() {
     }
 }
 
-void MainMenuState::menuNavigation(){
-    State* currentState = new MainMenuState();
-    while (currentState){
-        currentState->displayMenu();
-        currentState = currentState->handleInput();
-    }
-
-    delete currentState;
-}
