@@ -11,7 +11,10 @@
 #include <map>
 #include <string>
 #include "../DataModel/Airline.h"
+#include <vector>
+#include <queue>
 
+using namespace std;
 
 class Manager {
 private:
@@ -24,6 +27,11 @@ public:
     Manager();
     std::map<std::string, Airline*> getAirlines();
     std::map<std::string, Airport*> getAirports();
+    void dfsVisit(Vertex *v, Vertex *t, vector<Airport> &flights);
+    bool hasPath(Vertex *v, Vertex *t, vector<Airport> &flights);
+    vector<Airport> pathExists(Airport *d, Airport *t);
+    vector<Airport> getPath(Airport *source, Airport *destination);
+    vector<Vertex*> airportsAtDistanceK(Vertex *source, int k);
 };
 
 
