@@ -17,6 +17,7 @@ public:
     const double& getLatitude() const;
     const double& getLongitude() const;
     std::string getCode() const;
+    std::string getCountry() const;
     std::string getName() const;
 };
 

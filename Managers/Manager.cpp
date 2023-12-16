@@ -25,7 +25,7 @@ bool Manager::hasPath(Vertex *v, Vertex *t, vector<Airport> &flights) {
 
     if (v == t) return true;
 
-    for (auto edge : v->getAdj()) {
+    for (auto &edge : v->getAdj()) {
         auto dest = edge.getDest();
 
         if (!dest->isVisited()) {
@@ -38,7 +38,7 @@ vector<Airport> Manager::pathExists(Airport *d, Airport *t) {
     auto dest = connections.findVertex(d);
     auto target = connections.findVertex(t);
 
-    for (auto edge : connections.getVertexSet()) {
+    for (auto &edge : connections.getVertexSet()) {
         edge->setVisited(false);
     }
 
@@ -56,7 +56,7 @@ void Manager::dfsVisit(Vertex *v, Vertex *t, vector<Airport> &flights) {
 
     if (v == t) return;
 
-    for (auto edge : v->getAdj()) {
+    for (auto &edge : v->getAdj()) {
         auto dest = edge.getDest();
 
         if (!dest->isVisited()) {
@@ -66,13 +66,15 @@ void Manager::dfsVisit(Vertex *v, Vertex *t, vector<Airport> &flights) {
     }
 }
 
-vector<Vertex*> Manager::airportsAtDistanceK(Vertex *source, int k) {
-    for (auto airport : connections.getVertexSet()) {
+vector<Vertex*> Manager::airportsAtDistanceK(Airport *source, int k) {
+    for (auto &airport : connections.getVertexSet()) {
         airport->setVisited(true);
     }
 
+    auto depart = connections.findVertex(source);
+
     queue<Vertex*> q;
-    q.push(source);
+    q.push(depart);
     vector<Vertex*> res;
 
     while (!q.empty()) {
@@ -101,7 +103,7 @@ vector<Vertex*> Manager::airportsAtDistanceK(Vertex *source, int k) {
 }
 
 vector<Airport> Manager::articulationPoints() {
-    for (auto airport : connections.getVertexSet()) {
+    for (auto &airport : connections.getVertexSet()) {
         airport->setVisited(false);
     }
 
@@ -109,7 +111,7 @@ vector<Airport> Manager::articulationPoints() {
     stack<Airport> s;
     int i = 0;
 
-    for (auto airport : connections.getVertexSet()) {
+    for (auto &airport : connections.getVertexSet()) {
         if (!airport->isVisited()) {
             dfsApp(airport, s, res, i);
         }
@@ -159,7 +161,7 @@ bool hasAirline(Edge &e, vector<Airline*> &air) {
 
 
 vector<Airport> Manager::hasFlightAirline(Airport *source, Airport *target, vector<Airline*> &setOfAirlines) {
-    for (auto airport : connections.getVertexSet()) {
+    for (auto &airport : connections.getVertexSet()) {
         airport->setVisited(false);
     }
     vector<Airport> res;
@@ -186,7 +188,7 @@ vector<Airport> Manager::hasFlightAirline(Airport *source, Airport *target, vect
 }
 
 vector<vector<Airport>> Manager::scc() {
-    for (auto airport : connections.getVertexSet()) {
+    for (auto &airport : connections.getVertexSet()) {
         airport->setVisited(false);
     }
 
@@ -194,7 +196,7 @@ vector<vector<Airport>> Manager::scc() {
     stack<Airport> s;
 
     int i = 0;
-    for (auto airport : connections.getVertexSet()) {
+    for (auto &airport : connections.getVertexSet()) {
         if (!airport->isVisited()) {
             dfsScc(airport, s, res, i);
         }
@@ -244,5 +246,81 @@ void Manager::dfsScc(Vertex *v, stack<Airport> &s, vector<vector<Airport>> &res,
     }
 
 }
+
+bool excludeCountries(Vertex* v, vector<string> &countries) {
+    for (const auto& country : countries) {
+        if (v->getInfo().getCountry() == country) {
+            return true;
+        }
+    }
+    return false;
+}
+
+vector<Airport> Manager::findPathExcludeCountries(Airport *source, Airport *target, vector<string> &countries) {
+    for (auto &node : connections.getVertexSet()) {
+        if (!excludeCountries(node, countries)) {
+            node->setVisited(false);
+        }
+        else {
+            node->setVisited(true);
+        }
+    }
+
+    auto depart = connections.findVertex(source);
+    auto arrival = connections.findVertex(target);
+
+    vector<Airport> res;
+
+    if (depart != nullptr && arrival != nullptr) {
+        hasPath(depart, arrival, res);
+    }
+
+    return res;
+}
+
+vector<Airport> Manager::pathMaximumConnectionFlights(Airport *source, Airport *target, int &max) {
+    for (auto &node : connections.getVertexSet()) {
+        node->setVisited(false);
+    }
+
+    auto depart = connections.findVertex(source);
+    queue<Vertex*> q;
+    vector<Airport> res;
+
+    q.push(depart);
+
+    while (!q.empty() && max > 0) {
+        auto next = q.front();
+        q.pop();
+        next->setVisited(true);
+
+        for (const auto& edge : next->getAdj()) {
+            auto dest = edge.getDest();
+
+            if (!dest->isVisited()) {
+                q.push(dest);
+            }
+
+            res.push_back(dest->getInfo());
+        }
+        max--;
+    }
+    return res;
+}
+
+vector<Airport> Manager::getAirportsPerCountry(const string &country) {
+    vector<Airport> res;
+
+    for (auto &node : connections.getVertexSet()) {
+        if (node->getInfo().getCountry() == country) {
+            res.push_back(node->getInfo());
+        }
+    }
+    return res;
+}
+
+
+
+
 
 

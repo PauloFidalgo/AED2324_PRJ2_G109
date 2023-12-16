@@ -26,3 +26,7 @@ std::string Airport::getCode() const{
 std::string Airport::getName() const {
     return this->name;
 }
+
+std::string Airport::getCountry() const {
+    return this->country;
+}

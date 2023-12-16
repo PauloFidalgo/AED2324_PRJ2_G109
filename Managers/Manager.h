@@ -32,12 +32,15 @@ public:
     bool hasPath(Vertex *v, Vertex *t, vector<Airport> &flights);
     vector<Airport> pathExists(Airport *d, Airport *t);
     vector<Airport> getPath(Airport *source, Airport *destination);
-    vector<Vertex*> airportsAtDistanceK(Vertex *source, int k);
+    vector<Vertex*> airportsAtDistanceK(Airport *source, int k);
     vector<Airport> articulationPoints();
     void dfsApp(Vertex *v, stack<Airport> &s, vector<Airport> &res, int &i);
     vector<vector<Airport>> scc();
     vector<Airport> hasFlightAirline(Airport *source, Airport *target, vector<Airline*> &setOfAirlines);
     void dfsScc(Vertex *v, stack<Airport> &s, vector<vector<Airport>> &res, int &i);
+    vector<Airport> findPathExcludeCountries(Airport *source, Airport *target, vector<string> &countries);
+    vector<Airport> pathMaximumConnectionFlights(Airport *source, Airport *target, int &max);
+    vector<Airport> getAirportsPerCountry(const string &country);
 };
 
 
