@@ -35,7 +35,7 @@ public:
     vector<Vertex*> airportsAtDistanceK(Vertex *source, int k);
     vector<Airport> articulationPoints();
     void dfsApp(Vertex *v, stack<Airport> &s, vector<Airport> &res, int &i);
-    vector<Airport> hasFlightAirline(Airport *source, Airport *target, vector<Airline> &setOfAirlines);
+    vector<Airport> hasFlightAirline(Airport *source, Airport *target, vector<Airline*> &setOfAirlines);
 };
 
 

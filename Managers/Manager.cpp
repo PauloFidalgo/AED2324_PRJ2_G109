@@ -148,8 +148,17 @@ void Manager::dfsApp(Vertex *v, stack<Airport> &s, vector<Airport> &res, int &i)
     s.pop();
 }
 
+bool hasAirline(Edge &e, vector<Airline*> &air) {
+    for (auto &airline : air) {
+        if (e.hasAirline(airline)) {
+            return true;
+        }
+    }
+    return false;
+}
 
-vector<Airport> Manager::hasFlightAirline(Airport *source, Airport *target, vector<Airline> &setOfAirlines) {
+
+vector<Airport> Manager::hasFlightAirline(Airport *source, Airport *target, vector<Airline*> &setOfAirlines) {
     for (auto airport : connections.getVertexSet()) {
         airport->setVisited(false);
     }
@@ -161,9 +170,16 @@ vector<Airport> Manager::hasFlightAirline(Airport *source, Airport *target, vect
 
     while (!q.empty()) {
         auto next = q.front();
+        q.pop();
+        next->setVisited(true);
 
         for (auto edge : next->getAdj()) {
-
+            if (hasAirline(edge, setOfAirlines)) {
+                auto dest = edge.getDest();
+                if (!dest->isVisited()) {
+                    q.push(dest);
+                }
+            }
         }
     }
     return res;
