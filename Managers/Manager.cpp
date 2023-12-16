@@ -185,4 +185,64 @@ vector<Airport> Manager::hasFlightAirline(Airport *source, Airport *target, vect
     return res;
 }
 
+vector<vector<Airport>> Manager::scc() {
+    for (auto airport : connections.getVertexSet()) {
+        airport->setVisited(false);
+    }
+
+    vector<vector<Airport>> res;
+    stack<Airport> s;
+
+    int i = 0;
+    for (auto airport : connections.getVertexSet()) {
+        if (!airport->isVisited()) {
+            dfsScc(airport, s, res, i);
+        }
+    }
+
+    return res;
+
+}
+
+void Manager::dfsScc(Vertex *v, stack<Airport> &s, vector<vector<Airport>> &res, int &i) {
+    v->setLow(i);
+    v->setNum(i);
+    v->setProcessing(true);
+    v->setVisited(true);
+    i++;
+    s.push(v->getInfo());
+
+    for (auto &edge : v->getAdj()) {
+        auto dest = edge.getDest();
+
+        if (!dest->isVisited()) {
+            dfsScc(dest, s, res, i);
+
+            v->setLow(min(v->getLow(), dest->getLow()));
+        }
+        else if (dest->isProcessing()) {
+            v->setLow(min(v->getLow(), dest->getNum()));
+        }
+    }
+
+    v->setProcessing(false);
+
+    vector<Airport> scc;
+    if (v->getNum() == v->getLow()) {
+        while (!s.empty() && s.top().getCode() != v->getInfo().getCode()){
+            scc.push_back(s.top());
+            s.pop();
+        }
+        if (!s.empty()) {
+            scc.push_back(s.top());
+            s.pop();
+        }
+    }
+
+    if (!scc.empty()) {
+        res.push_back(scc);
+    }
+
+}
+
 
