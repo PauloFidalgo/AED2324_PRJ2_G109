@@ -28,6 +28,22 @@ bool Vertex::isVisited() const {
     return visited;
 }
 
+int Vertex::getLow() const {
+    return low;
+}
+
+int Vertex::getNum() const {
+    return num;
+}
+
+void Vertex::setLow(int low) {
+    this->low = low;
+}
+
+void Vertex::setNum(int num) {
+    this->num = num;
+}
+
 void Vertex::setVisited(const bool &v) {
     this->visited = v;
 }
@@ -55,9 +71,9 @@ void Vertex::addEdge(Vertex *d, double w) {
     adj.push_back(Edge(d, w));
 }
 
-bool Vertex::hasFlight(const Edge &destination) {
+bool Vertex::hasFlight(const Airport *destination) {
     for (auto& flight : this->adj) {
-        if (flight.dest->airport == destination.dest->airport) {
+        if (flight.dest->airport->getCode() == destination->getCode()) {
             return true;
         }
     }

@@ -18,7 +18,9 @@ protected:
     Airport* airport;                // contents
     std::vector<Edge> adj;  // list of outgoing edges
     bool visited;          // auxiliary field
-    bool processing;       // auxiliary field
+    bool processing; // auxiliary field
+    int low;
+    int num;
 
     void addEdge(Vertex *dest, double w);
     bool removeEdgeTo(Vertex *d);
@@ -26,6 +28,10 @@ public:
     Vertex(Airport* in);
     Airport getInfo() const;
     void setInfo(const Airport &in);
+    int getLow() const;
+    int getNum() const;
+    void setLow(int low);
+    void setNum(int num);
     bool isVisited() const;
     void setVisited(const bool &v);
     bool isProcessing() const;
@@ -33,7 +39,7 @@ public:
     const std::vector<Edge> &getAdj() const;
     void setAdj(const std::vector<Edge> &destinations);
     void addAdj(Edge &destination, Airline* airline);
-    bool hasFlight(const Edge &destination);
+    bool hasFlight(const Airport *destination);
     friend class Graph;
 
 };

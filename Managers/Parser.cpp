@@ -1,5 +1,5 @@
 //
-// Created by Paulo Fidalgo on 30/11/2023.
+// Created by Paulo Fidalgo e escrito por Mafarrica on 30/11/2023.
 //
 
 #include "Parser.h"
@@ -69,9 +69,24 @@ void Parser::readFlights(Graph &g) {
             if (depart != airports.end() && dest != airports.end()) {
                 double distance = haversine(depart->second->getLatitude(),depart->second->getLongitude(), dest->second->getLatitude(), dest->second->getLongitude());
 
-                auto air = airlines.find(airline);
-                g.addEdge(depart->second, dest->second, distance, &air->second);
+                auto air = getAirline(airline);
+                auto source = g.findVertex(depart->second);
+                if (source != nullptr){
+                    if (source->hasFlight(dest->second)) {
+                        for (auto edge : source->getAdj()) {
+                            if (edge.getDest()->getInfo() == *dest->second) {
+                                if (air != nullptr) {
+                                    edge.addAirline(air);
+                                }
+                            }
+                        }
+                    }
+                    if (air != nullptr) {
+                        g.addEdge(depart->second, dest->second, distance, air);
+                    }
+                }
                 i++;
+
             }
         }
         iff.close();
@@ -144,6 +159,16 @@ std::map<std::string, Airport*> Parser::getAirports() {
 map<string, Airline *> Parser::getAirlines() {
     return airlines;
 }
+
+Airline* Parser::getAirline(const std::string &airline) {
+    auto it = airlines.find(airline);
+
+    if (it != airlines.end()) {
+        return it->second;
+    }
+    return nullptr;
+}
+
 
 Parser::~Parser() {
     for(auto &elem : airports) {

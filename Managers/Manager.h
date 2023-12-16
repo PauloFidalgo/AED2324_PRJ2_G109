@@ -13,6 +13,7 @@
 #include "../DataModel/Airline.h"
 #include <vector>
 #include <queue>
+#include <stack>
 
 using namespace std;
 
@@ -32,6 +33,9 @@ public:
     vector<Airport> pathExists(Airport *d, Airport *t);
     vector<Airport> getPath(Airport *source, Airport *destination);
     vector<Vertex*> airportsAtDistanceK(Vertex *source, int k);
+    vector<Airport> articulationPoints();
+    void dfsApp(Vertex *v, stack<Airport> &s, vector<Airport> &res, int &i);
+    vector<Airport> hasFlightAirline(Airport *source, Airport *target, vector<Airline> &setOfAirlines);
 };
 
 

@@ -100,6 +100,73 @@ vector<Vertex*> Manager::airportsAtDistanceK(Vertex *source, int k) {
     return res;
 }
 
+vector<Airport> Manager::articulationPoints() {
+    for (auto airport : connections.getVertexSet()) {
+        airport->setVisited(false);
+    }
 
+    vector<Airport> res;
+    stack<Airport> s;
+    int i = 0;
+
+    for (auto airport : connections.getVertexSet()) {
+        if (!airport->isVisited()) {
+            dfsApp(airport, s, res, i);
+        }
+    }
+    return res;
+}
+
+void Manager::dfsApp(Vertex *v, stack<Airport> &s, vector<Airport> &res, int &i) {
+    v->setNum(i);
+    v->setLow(i);
+    i++;
+    s.push(v->getInfo());
+    v->setVisited(true);
+    v->setProcessing(true);
+    int child = 0;
+
+    for (auto &edge : v->getAdj()) {
+        auto dest = edge.getDest();
+        if (!dest->isVisited()) {
+            child++;
+            dfsApp(dest, s, res, i);
+            v->setLow(min(v->getLow(), dest->getLow()));
+
+            if (dest->getLow() >= v->getNum() && v->getNum() != 0) {
+                res.push_back(dest->getInfo());
+            }
+        }
+        else if (dest->isProcessing()) {
+            v->setLow(min(v->getLow(), dest->getNum()));
+        }
+        if (child > 1 && v->getNum() == 0) {
+            res.push_back(v->getInfo());
+        }
+    }
+    v->setProcessing(false);
+    s.pop();
+}
+
+
+vector<Airport> Manager::hasFlightAirline(Airport *source, Airport *target, vector<Airline> &setOfAirlines) {
+    for (auto airport : connections.getVertexSet()) {
+        airport->setVisited(false);
+    }
+    vector<Airport> res;
+    queue<Vertex*> q;
+
+    auto init = connections.findVertex(source);
+    q.push(init);
+
+    while (!q.empty()) {
+        auto next = q.front();
+
+        for (auto edge : next->getAdj()) {
+
+        }
+    }
+    return res;
+}
 
 

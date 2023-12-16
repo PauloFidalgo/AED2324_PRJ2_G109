@@ -24,9 +24,15 @@ void Edge::setWeight(double weight) {
 }
 
 void Edge::addAirline(Airline* airline) {
-    this->airlines.push_back(airline);
+    this->airlines.insert(airline);
 }
 
-std::vector<Airline *> Edge::getAirlines() const {
+std::set<Airline *> Edge::getAirlines() const {
     return this->airlines;
+}
+
+bool Edge::hasAirline(Airline *airline) const {
+    auto it = airlines.find(airline);
+
+    return it != airlines.end();
 }
