@@ -52,6 +52,10 @@ const std::vector<Edge> &Vertex::getAdj() const {
     return adj;
 }
 
+std::vector<Edge> &Vertex::getAdj() {
+    return adj;
+}
+
 void Vertex::setAdj(const std::vector<Edge> &destinations) {
     this->adj = destinations;
 }

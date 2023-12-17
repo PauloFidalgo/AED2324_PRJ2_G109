@@ -18,7 +18,7 @@ private:
 public:
     Parser();
     ~Parser();
-    std::map<std::string, Airline*> readAirlines();
+    void readAirlines();
     Graph getGraph();
     static double haversine(double lat1, double lon1, double lat2, double lon2);
     std::map<std::string, Airport*> getAirports();

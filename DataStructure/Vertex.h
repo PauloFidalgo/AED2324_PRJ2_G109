@@ -37,6 +37,7 @@ public:
     bool isProcessing() const;
     void setProcessing(const bool &p);
     const std::vector<Edge> &getAdj() const;
+    std::vector<Edge> &getAdj();
     void setAdj(const std::vector<Edge> &destinations);
     void addAdj(Edge &destination, Airline* airline);
     bool hasFlight(const Airport *destination);

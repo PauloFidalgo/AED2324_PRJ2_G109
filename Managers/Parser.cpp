@@ -13,12 +13,12 @@ using namespace std;
 
 Parser::Parser() {}
 
-map<string, Airline*> Parser::readAirlines() {
+void Parser::readAirlines() {
     fstream iff;
 
     try {
         iff.open("../dataset/airlines.csv", ios::in);
-        map<string, Airline*> airlines;
+        map<string, Airline*> air;
         string line, code, name, callsign, country;
 
         getline(iff, line);
@@ -32,38 +32,34 @@ map<string, Airline*> Parser::readAirlines() {
             getline(iss, country);
 
             auto* airline = new Airline(code, name, callsign, country);
-            airlines.insert({code, airline});
+            air.insert({code, airline});
         }
 
         iff.close();
 
-        return airlines;
+        this->airlines = air;
 
     } catch (const ifstream::failure& e) {
         cout << "Falha a abrir o ficheiro" << endl;
     }
-    return {};
 }
 
 void Parser::readFlights(Graph &g) {
     fstream iff;
-    int i = 0;
     try {
-        Graph graph = Graph();
         iff.open("../dataset/flights.csv", ios::in);
-        map<string, Airline> airlines;
-        string line, source, target, airline;
+        string line, s, target, airline;
 
         getline(iff, line);
 
         while (getline(iff, line)) {
             stringstream iss(line);
 
-            getline(iss, source, ',');
+            getline(iss, s, ',');
             getline(iss, target, ',');
             getline(iss, airline, ',');
 
-            auto depart = airports.find(source);
+            auto depart = airports.find(s);
             auto dest = airports.find(target);
 
             if (depart != airports.end() && dest != airports.end()) {
@@ -73,7 +69,7 @@ void Parser::readFlights(Graph &g) {
                 auto source = g.findVertex(depart->second);
                 if (source != nullptr){
                     if (source->hasFlight(dest->second)) {
-                        for (auto edge : source->getAdj()) {
+                        for (auto &edge : source->getAdj()) {
                             if (edge.getDest()->getInfo() == *dest->second) {
                                 if (air != nullptr) {
                                     edge.addAirline(air);
@@ -81,14 +77,13 @@ void Parser::readFlights(Graph &g) {
                             }
                         }
                     }
-                    if (air != nullptr) {
+                    else if (air != nullptr) {
                         g.addEdge(depart->second, dest->second, distance, air);
                     }
                 }
-                i++;
-
             }
         }
+
         iff.close();
 
     } catch (const ifstream::failure& e) {
@@ -102,7 +97,6 @@ Graph Parser::getGraph() {
     try {
         Graph graph = Graph();
         iff.open("../dataset/airports.csv", ios::in);
-        map<string, Airline> airlines;
         string line, code, name, city, country, temp;
         double latitude, longitude;
 
@@ -126,8 +120,9 @@ Graph Parser::getGraph() {
         }
 
         iff.close();
-
+        this->readAirlines();
         this->readFlights(graph);
+
         return graph;
     } catch (const ifstream::failure& e) {
         cout << "Falha a abrir o ficheiro" << endl;

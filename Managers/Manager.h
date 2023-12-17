@@ -26,8 +26,11 @@ private:
 
 public:
     Manager();
+    Graph getG() {return connections;}
     std::map<std::string, Airline*> getAirlines();
     std::map<std::string, Airport*> getAirports();
+    Airport* getAirport(const string &code) const;
+    Airline* getAirline(const string &code) const;
     void dfsVisit(Vertex *v, Vertex *t, vector<Airport> &flights);
     bool hasPath(Vertex *v, Vertex *t, vector<Airport> &flights);
     vector<Airport> pathExists(Airport *d, Airport *t);
@@ -41,6 +44,9 @@ public:
     vector<Airport> findPathExcludeCountries(Airport *source, Airport *target, vector<string> &countries);
     vector<Airport> pathMaximumConnectionFlights(Airport *source, Airport *target, int &max);
     vector<Airport> getAirportsPerCountry(const string &country);
+    int minPath(Vertex *v, Vertex *t, stack<Airport> &res, int &last);
+    vector<Airport> shortesPath(Airport *source, Airport *target);
+    vector<Edge> getOutFlights(const string &code) const;
 };
 
 

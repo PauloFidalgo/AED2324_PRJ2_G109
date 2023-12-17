@@ -6,9 +6,9 @@
 
 Manager::Manager() {
     this->parser = Parser();
-    this->airlines = parser.getAirlines();
     this->connections = parser.getGraph();
     this->airports = parser.getAirports();
+    this->airlines = parser.getAirlines();
 }
 
 map<std::string, Airline*> Manager::getAirlines() {
@@ -17,6 +17,26 @@ map<std::string, Airline*> Manager::getAirlines() {
 
 map<string, Airport*> Manager::getAirports() {
     return this->airports;
+}
+
+Airport* Manager::getAirport(const std::string &code) const {
+    auto it = airports.find(code);
+
+    if (it != airports.end()) {
+        return it->second;
+    }
+
+    return nullptr;
+}
+
+Airline* Manager::getAirline(const std::string &code) const {
+    auto it = airlines.find(code);
+
+    if (it != airlines.end()) {
+        return it->second;
+    }
+
+    return nullptr;
 }
 
 bool Manager::hasPath(Vertex *v, Vertex *t, vector<Airport> &flights) {
@@ -239,12 +259,11 @@ void Manager::dfsScc(Vertex *v, stack<Airport> &s, vector<vector<Airport>> &res,
             scc.push_back(s.top());
             s.pop();
         }
-    }
 
-    if (!scc.empty()) {
-        res.push_back(scc);
+        if (!scc.empty()) {
+            res.push_back(scc);
+        }
     }
-
 }
 
 bool excludeCountries(Vertex* v, vector<string> &countries) {
@@ -319,8 +338,70 @@ vector<Airport> Manager::getAirportsPerCountry(const string &country) {
     return res;
 }
 
+vector<Airport> Manager::shortesPath(Airport *source, Airport *target) {
+    for (auto &node : connections.getVertexSet()) {
+        node->setVisited(false);
+    }
+
+    auto depart = connections.findVertex(source);
+    auto destination = connections.findVertex(target);
+
+    stack<Airport> s;
+    int i = 0;
+    if (destination != nullptr && depart != nullptr) {
+        minPath(depart, destination, s, i);
+    }
+
+    vector<Airport> res;
+
+    while (!s.empty()) {
+        res.push_back(s.top());
+        s.pop();
+    }
+
+    return res;
+}
+
+int Manager::minPath(Vertex *v, Vertex *t, stack<Airport> &res, int &last) {
+    if (v == t) return 0;
+    v->setVisited(true);
+
+    res.push(v->getInfo());
+
+    int ans = INT32_MAX;
+
+    for (auto &edge : v->getAdj()) {
+        auto dest = edge.getDest();
+
+        if (!dest->isVisited()) {
+            int current = minPath(dest, t, res, last);
+
+            if (current < INT32_MAX) {
+                last += current;
+                if (last < ans) {
+                    ans = last;
+                }
+            }
+        }
+    }
+
+    v->setVisited(false);
+
+    return ans;
+}
 
 
+vector<Edge> Manager::getOutFlights(const string &code) const {
+    auto v = getAirport(code);
+
+
+    if (v == nullptr) return {};
+
+    auto vertex = connections.findVertex(v);
+    if (vertex == nullptr) return {};
+
+    return vertex->getAdj();
+}
 
 
 
