@@ -50,6 +50,18 @@ public:
 
     //--------------------------------------------------------------------------------------------------
     void getNumAirportsAndFlights() const;
+
+    void getNumFlightsAndAirlines(const string &airportCode) const;
+
+    void getNumFlightsPerCity(const string &city) const;
+
+    void getNumFlightsPerAirline(const string &airlineCode) const;
+
+    void getCountriesCitiesCanFlyTo(const string &airportCode) const;
+
+    void getDestinantions(const string &airportCode) const;
+
+
 };
 
 

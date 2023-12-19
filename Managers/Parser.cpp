@@ -61,11 +61,12 @@ void Parser::readFlights(Graph &g) {
 
             auto depart = airports.find(s);
             auto dest = airports.find(target);
-
             if (depart != airports.end() && dest != airports.end()) {
                 double distance = haversine(depart->second->getLatitude(),depart->second->getLongitude(), dest->second->getLatitude(), dest->second->getLongitude());
-
+                depart->second->increaseNumFlightsOut();
+                dest->second->increaseNumFlightsIn();
                 auto air = getAirline(airline);
+                air->increaseNumFlights();
                 auto source = g.findVertex(depart->second);
                 if (source != nullptr){
                     if (source->hasFlight(dest->second)) {
