@@ -3,6 +3,8 @@
 //
 
 #include "Manager.h"
+#include <iostream>
+#include <unordered_map>
 
 Manager::Manager() {
     this->parser = Parser();
@@ -260,7 +262,7 @@ void Manager::dfsScc(Vertex *v, stack<Airport> &s, vector<vector<Airport>> &res,
             s.pop();
         }
 
-        if (!scc.empty()) {
+        if (scc.size() > 1) {
             res.push_back(scc);
         }
     }
@@ -338,58 +340,6 @@ vector<Airport> Manager::getAirportsPerCountry(const string &country) {
     return res;
 }
 
-vector<Airport> Manager::shortesPath(Airport *source, Airport *target) {
-    for (auto &node : connections.getVertexSet()) {
-        node->setVisited(false);
-    }
-
-    auto depart = connections.findVertex(source);
-    auto destination = connections.findVertex(target);
-
-    stack<Airport> s;
-    int i = 0;
-    if (destination != nullptr && depart != nullptr) {
-        minPath(depart, destination, s, i);
-    }
-
-    vector<Airport> res;
-
-    while (!s.empty()) {
-        res.push_back(s.top());
-        s.pop();
-    }
-
-    return res;
-}
-
-int Manager::minPath(Vertex *v, Vertex *t, stack<Airport> &res, int &last) {
-    if (v == t) return 0;
-    v->setVisited(true);
-
-    res.push(v->getInfo());
-
-    int ans = INT32_MAX;
-
-    for (auto &edge : v->getAdj()) {
-        auto dest = edge.getDest();
-
-        if (!dest->isVisited()) {
-            int current = minPath(dest, t, res, last);
-
-            if (current < INT32_MAX) {
-                last += current;
-                if (last < ans) {
-                    ans = last;
-                }
-            }
-        }
-    }
-
-    v->setVisited(false);
-
-    return ans;
-}
-
 
 vector<Edge> Manager::getOutFlights(const string &code) const {
     auto v = getAirport(code);
@@ -402,6 +352,81 @@ vector<Edge> Manager::getOutFlights(const string &code) const {
 
     return vertex->getAdj();
 }
+
+
+bool notIn(vector<Airport> &v, const Airport &t) {
+    for (auto &it : v) {
+        if (it == t) return false;
+    }
+    return true;
+}
+
+vector<Airport> Manager::sheduleTrip(const string &u, const string &v, vector<string>& visit) {
+    vector<Airport> path;
+
+    auto first = getAirport(u);
+    auto vert = connections.findVertex(first);
+
+    if (first != nullptr) {
+        visit.push_back(v);
+        for (auto &flight : visit) {
+            auto final = connections.findVertex(getAirport(flight));
+
+            auto res = bfsPathTrip(vert, final);
+
+            for (auto &airport : res) {
+                if (notIn(path, airport)) {
+                    path.push_back(airport);
+                }
+            }
+            vert = final;
+        }
+    }
+
+    return path;
+}
+
+vector<Airport> Manager::bfsPathTrip(Vertex *first, Vertex *last) {
+    for (auto node : connections.getVertexSet()) {
+        node->setVisited(false);
+    }
+
+    vector<Airport> path;
+
+    queue<Vertex*> q;
+    unordered_map<Vertex*, Vertex*> parent;
+
+    q.push(first);
+    first->setVisited(true);
+
+    while (!q.empty()) {
+        Vertex* current = q.front();
+        q.pop();
+
+        for (Edge& flight : current->getAdj()) {
+            Vertex* neighbor = flight.getDest();
+
+            if (!neighbor->isVisited()) {
+                q.push(neighbor);
+                neighbor->setVisited(true);
+                parent[neighbor] = current;
+
+                if (neighbor == last) {
+                    break;
+                }
+            }
+        }
+    }
+
+    Vertex* current = last;
+
+    while (current != nullptr) {
+        path.insert(path.begin(), current->getInfo());
+        current = parent[current];
+    }
+    return path;
+}
+
 
 
 

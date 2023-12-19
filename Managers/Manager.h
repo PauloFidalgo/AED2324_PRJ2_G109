@@ -44,9 +44,12 @@ public:
     vector<Airport> findPathExcludeCountries(Airport *source, Airport *target, vector<string> &countries);
     vector<Airport> pathMaximumConnectionFlights(Airport *source, Airport *target, int &max);
     vector<Airport> getAirportsPerCountry(const string &country);
-    int minPath(Vertex *v, Vertex *t, stack<Airport> &res, int &last);
-    vector<Airport> shortesPath(Airport *source, Airport *target);
+    bool minPath(Vertex* v, Vertex* t, stack<Airport>& res, int& last, int& ans);
+    vector<Airport> shortestPath(Airport *source, Airport *target);
     vector<Edge> getOutFlights(const string &code) const;
+
+    vector<Airport> sheduleTrip(const string &u, const string &v, vector<string> & visit);
+    vector<Airport> bfsPathTrip(Vertex *first, Vertex *last);
 };
 
 

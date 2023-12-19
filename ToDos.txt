@@ -41,6 +41,6 @@ Wagner:
 
 
 Paulo:
-- BFS
-- BFS com filtos (max escalas, usar apenas algumas companhias, não passar por país, quero fazer escala naquele país)
-- Aeroporto com ligações chave (sao aqueles que se deixassem de existir, haviam grafos bipartite)
+- BFS X
+- BFS com filtos (max escalas X, usar apenas algumas companhias X, não passar por país X, quero fazer escala naquele país)
+- Aeroporto com ligações chave X

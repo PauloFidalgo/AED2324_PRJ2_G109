@@ -7,18 +7,14 @@
 int main() {
     Manager m;
 
-    auto v = m.scc();
-    auto g = m.getG();
+    vector<string> visit = {"IAS", "LIS"};
+    vector<Airport> res = m.sheduleTrip("OPO", "CRA", visit);
 
-    int i = 1;
-    for (auto m : v) {
-        cout << "SCC " << i++ << " : ";
-        for (auto p : m) {
-            cout << p.getCode() << " | ";
-        }
-        cout << endl;
+    for (auto v : res) {
+        cout << v.getCode() << " ";
     }
-    
+
+
 
 
     return 0;
