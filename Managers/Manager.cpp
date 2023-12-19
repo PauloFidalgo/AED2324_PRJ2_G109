@@ -6,6 +6,8 @@
 #include "Manager.h"
 #include <iostream>
 #include <unordered_map>
+#include <algorithm>
+#include <limits>
 
 Manager::Manager() {
     this->parser = Parser();
@@ -91,7 +93,7 @@ void Manager::dfsVisit(Vertex *v, Vertex *t, vector<Airport> &flights) {
 
 vector<Vertex*> Manager::airportsAtDistanceK(Airport *source, int k) {
     for (auto &airport : connections.getVertexSet()) {
-        airport->setVisited(true);
+        airport->setVisited(false);
     }
 
     auto depart = connections.findVertex(source);
@@ -733,5 +735,113 @@ vector<Airport> Manager::scheduleTripMinDistance(const string &u, const string &
 
 
 void Manager::getDestinantions(const string &airportCode) const {
-    
+    vector<string> air;
+    set<string> countries;
+    set<string> cities;
+    for (auto &airport : connections.getVertexSet()) {
+        airport->setVisited(false);
+    }
+    auto airport = airports.find(airportCode);
+    auto depart = connections.findVertex(airport->second);
+
+    queue<Vertex*> q;
+    depart->setVisited(true);
+    for (auto& edge : depart->getAdj()) {
+        q.push(edge.getDest());
+        edge.getDest()->setVisited(true);
+    }
+
+    while (!q.empty()) {
+        Vertex *currentVertex = q.front();
+        q.pop();
+        air.push_back(currentVertex->getInfo().getCode());
+        countries.emplace(currentVertex->getInfo().getCountry());
+        cities.emplace(currentVertex->getInfo().getCity());
+        for (auto& edge : currentVertex->getAdj()) {
+            Vertex *neighbor = edge.getDest();
+            if (!neighbor->isVisited()) {
+                q.push(neighbor);
+                neighbor->setVisited(true);
+            }
+        }
+    }
+    int numAirports = air.size();
+    int numCountries = countries.size();
+    int numCities = cities.size();
+    int space = airport->second->getName().length() > 7 ? airport->second->getName().length() + 2: 7;
+    int lenAirportCode = (space - airportCode.length()) / 2;
+    int lenFAirportCode = (space - airportCode.length()) % 2 == 0 ? lenAirportCode : lenAirportCode + 1;
+    int lenAirportName = (space - airport->second->getName().length()) / 2;
+    int lenFAirportName = (space - airport->second->getName().length()) % 2 == 0 ? lenAirportName : lenAirportName + 1;
+    int lenNumAirports = (space - to_string(numAirports).length()) / 2;
+    int lenFNumAirports = (space - to_string(numAirports).length()) % 2 == 0 ? lenNumAirports : lenNumAirports + 1;
+    int lenNumCountries = (space - to_string(numCountries).length()) / 2;
+    int lenFNumCountries = (space - to_string(numCountries).length()) % 2 == 0 ? lenNumCountries : lenNumCountries + 1;
+    int lenNumCities = (space - to_string(numCities).length()) / 2;
+    int lenFNumCities = (space - to_string(numCities).length()) % 2 == 0 ? lenNumCities : lenNumCities + 1;
+    cout << "---------------------------------" << string(space + 1, '-') << endl;
+    cout << "|         Airport Code          |" << string(lenAirportCode, ' ') << airportCode << string(lenFAirportCode, ' ') << '|' << endl;
+    cout << "|         Airport Name          |" << string(lenAirportName, ' ') << airport->second->getName() << string(lenFAirportName, ' ') << '|' << endl;
+    cout << "| Number of Reachable Airports  |" << string(lenNumAirports, ' ') << numAirports << string(lenFNumAirports, ' ') << '|' << endl;
+    cout << "| Number of Reachable Countries |" << string(lenNumCountries, ' ') << numCountries << string(lenFNumCountries, ' ') << '|' << endl;
+    cout << "|  Number of Reachable Cities   |" << string(lenNumCities, ' ') << numCities << string(lenFNumCities, ' ') << '|' << endl;
+    cout << "---------------------------------" << string(space + 1, '-') << endl;
+}
+
+void Manager::getDestinantionsUntilDistanceK(const string &airportCode, const int &k) const {
+    vector<string> air;
+    set<string> countries;
+    set<string> cities;
+    for (auto &airport : connections.getVertexSet()) {
+        airport->setVisited(false);
+    }
+    auto airport = airports.find(airportCode);
+    auto depart = connections.findVertex(airport->second);
+
+    queue<pair<Vertex*, int>> q;
+    depart->setVisited(true);
+    for (auto& edge : depart->getAdj()) {
+        q.push({edge.getDest(), 1});
+        edge.getDest()->setVisited(true);
+    }
+
+    while (!q.empty()) {
+        Vertex *currentVertex = q.front().first;
+        int n = q.front().second;
+        q.pop();
+        if (n <= k) {
+            air.push_back(currentVertex->getInfo().getCode());
+            countries.emplace(currentVertex->getInfo().getCountry());
+            cities.emplace(currentVertex->getInfo().getCity());
+        }
+        else break;
+        for (auto& edge : currentVertex->getAdj()) {
+            Vertex *neighbor = edge.getDest();
+            if (!neighbor->isVisited()) {
+                q.push({neighbor, n + 1});
+                neighbor->setVisited(true);
+            }
+        }
+    }
+    int numAirports = air.size();
+    int numCountries = countries.size();
+    int numCities = cities.size();
+    int space = airport->second->getName().length() > 7 ? airport->second->getName().length() + 2: 7;
+    int lenAirportCode = (space - airportCode.length()) / 2;
+    int lenFAirportCode = (space - airportCode.length()) % 2 == 0 ? lenAirportCode : lenAirportCode + 1;
+    int lenAirportName = (space - airport->second->getName().length()) / 2;
+    int lenFAirportName = (space - airport->second->getName().length()) % 2 == 0 ? lenAirportName : lenAirportName + 1;
+    int lenNumAirports = (space - to_string(numAirports).length()) / 2;
+    int lenFNumAirports = (space - to_string(numAirports).length()) % 2 == 0 ? lenNumAirports : lenNumAirports + 1;
+    int lenNumCountries = (space - to_string(numCountries).length()) / 2;
+    int lenFNumCountries = (space - to_string(numCountries).length()) % 2 == 0 ? lenNumCountries : lenNumCountries + 1;
+    int lenNumCities = (space - to_string(numCities).length()) / 2;
+    int lenFNumCities = (space - to_string(numCities).length()) % 2 == 0 ? lenNumCities : lenNumCities + 1;
+    cout << "---------------------------------" << string(space + 1, '-') << endl;
+    cout << "|         Airport Code          |" << string(lenAirportCode, ' ') << airportCode << string(lenFAirportCode, ' ') << '|' << endl;
+    cout << "|         Airport Name          |" << string(lenAirportName, ' ') << airport->second->getName() << string(lenFAirportName, ' ') << '|' << endl;
+    cout << "| Number of Reachable Airports  |" << string(lenNumAirports, ' ') << numAirports << string(lenFNumAirports, ' ') << '|' << endl;
+    cout << "| Number of Reachable Countries |" << string(lenNumCountries, ' ') << numCountries << string(lenFNumCountries, ' ') << '|' << endl;
+    cout << "|  Number of Reachable Cities   |" << string(lenNumCities, ' ') << numCities << string(lenFNumCities, ' ') << '|' << endl;
+    cout << "---------------------------------" << string(space + 1, '-') << endl;
 }

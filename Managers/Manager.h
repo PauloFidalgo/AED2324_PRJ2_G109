@@ -66,6 +66,8 @@ public:
     void getCountriesCanFlyToCity(const string &city) const;
 
     void getDestinantions(const string &airportCode) const;
+
+    void getDestinantionsUntilDistanceK(const string &airportCode, const int &k) const;
 };
 
 

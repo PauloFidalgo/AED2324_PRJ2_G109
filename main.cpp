@@ -12,5 +12,7 @@ int main() {
     m.getNumFlightsPerAirline("TAP");
     m.getCountriesCanFlyToAirport("JFK");
     m.getCountriesCanFlyToCity("New York");
+    m.getDestinantions("JFK");
+    m.getDestinantionsUntilDistanceK("OPO", 10);
     return 0;
 }
