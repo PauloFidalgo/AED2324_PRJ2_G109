@@ -2,6 +2,7 @@
 // Created by Paulo Fidalgo on 30/11/2023.
 //
 
+#include <iostream>
 #include "Manager.h"
 
 Manager::Manager() {
@@ -401,6 +402,23 @@ vector<Edge> Manager::getOutFlights(const string &code) const {
     if (vertex == nullptr) return {};
 
     return vertex->getAdj();
+}
+
+void Manager::getNumAirportsAndFlights() const {
+    int numAirports = airports.size();
+    int numFlights = 0;
+    for (auto& elem : connections.getVertexSet()) {
+        numFlights += elem->getAdj().size();
+    }
+    int space = numFlights > numAirports ? to_string(numFlights).length() + 2  : to_string(numAirports).length() + 2;
+    int lenAirports = (space - to_string(numAirports).length()) / 2;
+    int lenFAirports = (space - to_string(numAirports).length()) % 2 == 0 ? lenAirports : lenAirports + 1;
+    int lenFlights = (space - to_string(numFlights).length()) / 2;
+    int lenFFlights = (space - to_string(numFlights).length()) % 2 == 0 ? lenFlights : lenFlights + 1;
+    cout << "----------------------" << string(space + 1, '-') << endl;
+    cout << "| Number of Airports |" << string(lenAirports, ' ') << numAirports << string(lenFAirports, ' ') << '|' << endl;
+    cout << "| Number of Flights  |" << string(lenFlights, ' ') << numFlights << string(lenFFlights, ' ') << '|' << endl;
+    cout << "----------------------" << string(space + 1, '-') << endl;
 }
 
 

@@ -6,20 +6,6 @@
 
 int main() {
     Manager m;
-
-    auto v = m.scc();
-    auto g = m.getG();
-
-    int i = 1;
-    for (auto m : v) {
-        cout << "SCC " << i++ << " : ";
-        for (auto p : m) {
-            cout << p.getCode() << " | ";
-        }
-        cout << endl;
-    }
-    
-
-
+    m.getNumAirportsAndFlights();
     return 0;
 }

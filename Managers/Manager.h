@@ -47,6 +47,9 @@ public:
     int minPath(Vertex *v, Vertex *t, stack<Airport> &res, int &last);
     vector<Airport> shortesPath(Airport *source, Airport *target);
     vector<Edge> getOutFlights(const string &code) const;
+
+    //--------------------------------------------------------------------------------------------------
+    void getNumAirportsAndFlights() const;
 };
 
 
