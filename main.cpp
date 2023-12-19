@@ -10,6 +10,7 @@ int main() {
     m.getNumFlightsAndAirlines("HGU");
     m.getNumFlightsPerCity("Mount Hagen");
     m.getNumFlightsPerAirline("TAP");
-    m.getCountriesCitiesCanFlyTo("HGU");
+    m.getCountriesCanFlyToAirport("JFK");
+    m.getCountriesCanFlyToCity("New York");
     return 0;
 }

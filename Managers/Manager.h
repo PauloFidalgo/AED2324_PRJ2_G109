@@ -57,11 +57,11 @@ public:
 
     void getNumFlightsPerAirline(const string &airlineCode) const;
 
-    void getCountriesCitiesCanFlyTo(const string &airportCode) const;
+    void getCountriesCanFlyToAirport(const string &airportCode) const;
+
+    void getCountriesCanFlyToCity(const string &city) const;
 
     void getDestinantions(const string &airportCode) const;
-
-
 };
 
 
