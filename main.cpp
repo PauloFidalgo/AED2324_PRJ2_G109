@@ -7,31 +7,37 @@
 int main() {
     Manager m;
 
-    vector<string> visit = {"IAS", "LIS"};
-    auto res = m.findShortestPath("ZAH", "PVR");
 
-    auto v2 = m.bfsPathTrip("ZAH", "PVR");
+    vector<string> c = {"CRL", "ERF", "POR"};
+    auto v = m.sheduleTripMinConnection("OPO", "DUB", c);
 
-    cout << m.getDistance("ZAH", "PVR");
-    cout << endl;
-    for (auto v : res) {
-        cout << v.getCode() << " ";
+    for (auto &r : v) {
+        cout << r.getCode() << " ";
     }
 
     cout << endl;
 
-    for (auto v : v2) {
-        cout << v.getCode() << " ";
-    }
+    int i = m.getDistance("OPO", "CRL");
+    i += m.getDistance("CRL", "MAN");
+    i += m.getDistance("MAN", "IOM");
+    i += m.getDistance("IOM", "LGW");
+    i += m.getDistance("LGW", "ERF");
+    i += m.getDistance("ERF", "GOT");
+    i += m.getDistance("GOT", "ARN");
+    i += m.getDistance("ARN", "POR");
+    i += m.getDistance("POR", "DUB");
 
-    int r = m.getDistance("ZAH", "DXB");
-    r += m.getDistance("DXB", "SFO");
-    r += m.getDistance("SFO", "PVR");
+    cout << i << endl;
 
-    cout << r;  
+    int j = m.getDistance("OPO", "CRL");
+    j += m.getDistance("CRL", "FUE");
+    j += m.getDistance("FUE", "ERF");
+    j += m.getDistance("ERF", "LGW");
+    j += m.getDistance("LGW", "ARN");
+    j += m.getDistance("ARN", "POR");
+    j += m.getDistance("POR", "DUB");
 
-
-
+    cout << endl << j << endl;
 
     return 0;
 }

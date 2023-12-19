@@ -268,36 +268,6 @@ void Manager::dfsScc(Vertex *v, stack<Airport> &s, vector<vector<Airport>> &res,
     }
 }
 
-bool excludeCountries(Vertex* v, vector<string> &countries) {
-    for (const auto& country : countries) {
-        if (v->getInfo().getCountry() == country) {
-            return true;
-        }
-    }
-    return false;
-}
-
-vector<Airport> Manager::findPathExcludeCountries(Airport *source, Airport *target, vector<string> &countries) {
-    for (auto &node : connections.getVertexSet()) {
-        if (!excludeCountries(node, countries)) {
-            node->setVisited(false);
-        }
-        else {
-            node->setVisited(true);
-        }
-    }
-
-    auto depart = connections.findVertex(source);
-    auto arrival = connections.findVertex(target);
-
-    vector<Airport> res;
-
-    if (depart != nullptr && arrival != nullptr) {
-        hasPath(depart, arrival, res);
-    }
-
-    return res;
-}
 
 vector<Airport> Manager::pathMaximumConnectionFlights(Airport *source, Airport *target, int &max) {
     for (auto &node : connections.getVertexSet()) {
@@ -361,28 +331,30 @@ bool notIn(vector<Airport> &v, const Airport &t) {
     return true;
 }
 
-vector<Airport> Manager::sheduleTrip(string &u, const string &v, vector<string>& visit) {
+vector<Airport> Manager::scheduleTripMinConnection(const string &u, const string &v, vector<string>& visit) {
     vector<Airport> path;
 
 
     visit.push_back(v);
+    string p = u;
+
     for (auto &flight : visit) {
 
-        auto res = bfsPathTrip(u, flight);
+        auto res = bfsMinConnections(p, flight);
 
         for (auto &airport : res) {
             if (notIn(path, airport)) {
                 path.push_back(airport);
             }
         }
-        u = flight;
+        p = flight;
     }
 
 
     return path;
 }
 
-vector<Airport> Manager::bfsPathTrip(const string &s, const string &t) {
+vector<Airport> Manager::bfsMinConnections(const string &s, const string &t) {
     for (auto node : connections.getVertexSet()) {
         node->setVisited(false);
     }
@@ -430,6 +402,7 @@ vector<Airport> Manager::findShortestPath(const string &u, const string &v) {
     unordered_map<Vertex*, int> distances;
     for (Vertex* vertex : connections.getVertexSet()) {
         distances[vertex] = numeric_limits<int>::max();
+        vertex->setVisited(false);
     }
 
     priority_queue<pair<int, Vertex*>, vector<pair<int, Vertex*>>, greater<pair<int, Vertex*>>> pq;
@@ -460,14 +433,96 @@ vector<Airport> Manager::findShortestPath(const string &u, const string &v) {
 
         for (Edge& flight : current->getAdj()) {
             Vertex* neighbor = flight.getDest();
-            int weight = flight.getWeight();
 
-            int newDistance = currentDistance + weight;
+            if (!neighbor->isVisited()) {
+                int weight = flight.getWeight();
 
-            if (newDistance < distances[neighbor]) {
-                distances[neighbor] = newDistance;
-                pq.push({newDistance, neighbor});
-                parent[neighbor] = current;
+                int newDistance = currentDistance + weight;
+
+                if (newDistance < distances[neighbor]) {
+                    distances[neighbor] = newDistance;
+                    pq.push({newDistance, neighbor});
+                    parent[neighbor] = current;
+                }
+            }
+        }
+    }
+
+    vector<Airport> path;
+    Vertex* current = targetAirport;
+
+    while (current != nullptr) {
+        path.insert(path.begin(), current->getInfo());
+        current = parent[current];
+    }
+
+    return path;
+}
+
+bool excludeCountries(Vertex* v, vector<string> &countries) {
+    for (const auto& country : countries) {
+        if (v->getInfo().getCountry() == country) {
+            return true;
+        }
+    }
+    return false;
+}
+
+vector<Airport> Manager::findShortestPathExcludeCountries(const string &u, const string &v, vector<string> &countries) {
+    unordered_map<Vertex*, int> distances;
+    for (auto &node : connections.getVertexSet()) {
+        distances[node] = numeric_limits<int>::max();
+        if (!excludeCountries(node, countries)) {
+            node->setVisited(false);
+        }
+        else {
+            node->setVisited(true);
+        }
+    }
+
+    auto depart = connections.findVertex(getAirport(u));
+    auto arrival = connections.findVertex(getAirport(v));
+
+
+    priority_queue<pair<int, Vertex*>, vector<pair<int, Vertex*>>, greater<pair<int, Vertex*>>> pq;
+
+
+    Vertex* sourceAirport = connections.findVertex(getAirport(u));
+    Vertex* targetAirport = connections.findVertex(getAirport(v));
+
+
+    if (!sourceAirport || !targetAirport) {
+        cerr << "Source or target airport not found." << endl;
+        return {};
+    }
+
+    distances[sourceAirport] = 0;
+    pq.push({0, sourceAirport});
+
+    unordered_map<Vertex*, Vertex*> parent;
+
+    while (!pq.empty()) {
+        Vertex* current = pq.top().second;
+        int currentDistance = pq.top().first;
+        pq.pop();
+
+        if (currentDistance > distances[current]) {
+            continue;
+        }
+
+        for (Edge& flight : current->getAdj()) {
+            Vertex* neighbor = flight.getDest();
+
+            if (!neighbor->isVisited()) {
+                int weight = flight.getWeight();
+
+                int newDistance = currentDistance + weight;
+
+                if (newDistance < distances[neighbor]) {
+                    distances[neighbor] = newDistance;
+                    pq.push({newDistance, neighbor});
+                    parent[neighbor] = current;
+                }
             }
         }
     }
@@ -512,6 +567,37 @@ int Manager::getDistance(const string &u, const string &v) {
         }
     }
     return dist;
+}
+
+vector<Airport> Manager::scheduleTripMinDistance(const string &u, const string &v, vector<string> & visit) {
+    for (auto node : connections.getVertexSet()) {
+        node->setVisited(false);
+    }
+
+    vector<Airport> res;
+
+    visit.push_back(v);
+    string first = u;
+
+    for (auto &country : visit) {
+        auto min_dist = findShortestPath(first, country);
+
+        for (auto &c : min_dist) {
+            if (std::find(res.begin(), res.end(),c) == res.end())
+            res.push_back(c);
+        }
+
+        first = country;
+    }
+
+    auto min_dist = findShortestPath(first, v);
+
+    for (auto &c : min_dist) {
+        if (std::find(res.begin(), res.end(),c) == res.end())
+        res.push_back(c);
+    }
+
+    return res;
 }
 
 
