@@ -45,11 +45,12 @@ public:
     vector<Airport> pathMaximumConnectionFlights(Airport *source, Airport *target, int &max);
     vector<Airport> getAirportsPerCountry(const string &country);
     bool minPath(Vertex* v, Vertex* t, stack<Airport>& res, int& last, int& ans);
-    vector<Airport> shortestPath(Airport *source, Airport *target);
+    vector<Airport> findShortestPath(const string &u, const string &v);
     vector<Edge> getOutFlights(const string &code) const;
 
-    vector<Airport> sheduleTrip(const string &u, const string &v, vector<string> & visit);
-    vector<Airport> bfsPathTrip(Vertex *first, Vertex *last);
+    int getDistance(const string &u, const string &v);
+    vector<Airport> sheduleTrip(string &u, const string &v, vector<string> & visit);
+    vector<Airport> bfsPathTrip(const string &s, const string &t);
 };
 
 

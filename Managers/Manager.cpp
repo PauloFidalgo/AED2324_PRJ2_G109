@@ -361,35 +361,34 @@ bool notIn(vector<Airport> &v, const Airport &t) {
     return true;
 }
 
-vector<Airport> Manager::sheduleTrip(const string &u, const string &v, vector<string>& visit) {
+vector<Airport> Manager::sheduleTrip(string &u, const string &v, vector<string>& visit) {
     vector<Airport> path;
 
-    auto first = getAirport(u);
-    auto vert = connections.findVertex(first);
 
-    if (first != nullptr) {
-        visit.push_back(v);
-        for (auto &flight : visit) {
-            auto final = connections.findVertex(getAirport(flight));
+    visit.push_back(v);
+    for (auto &flight : visit) {
 
-            auto res = bfsPathTrip(vert, final);
+        auto res = bfsPathTrip(u, flight);
 
-            for (auto &airport : res) {
-                if (notIn(path, airport)) {
-                    path.push_back(airport);
-                }
+        for (auto &airport : res) {
+            if (notIn(path, airport)) {
+                path.push_back(airport);
             }
-            vert = final;
         }
+        u = flight;
     }
+
 
     return path;
 }
 
-vector<Airport> Manager::bfsPathTrip(Vertex *first, Vertex *last) {
+vector<Airport> Manager::bfsPathTrip(const string &s, const string &t) {
     for (auto node : connections.getVertexSet()) {
         node->setVisited(false);
     }
+
+    auto first = connections.findVertex(getAirport(s));
+    auto last = connections.findVertex(getAirport(t));
 
     vector<Airport> path;
 
@@ -427,6 +426,93 @@ vector<Airport> Manager::bfsPathTrip(Vertex *first, Vertex *last) {
     return path;
 }
 
+vector<Airport> Manager::findShortestPath(const string &u, const string &v) {
+    unordered_map<Vertex*, int> distances;
+    for (Vertex* vertex : connections.getVertexSet()) {
+        distances[vertex] = numeric_limits<int>::max();
+    }
+
+    priority_queue<pair<int, Vertex*>, vector<pair<int, Vertex*>>, greater<pair<int, Vertex*>>> pq;
+
+
+    Vertex* sourceAirport = connections.findVertex(getAirport(u));
+    Vertex* targetAirport = connections.findVertex(getAirport(v));
+
+
+    if (!sourceAirport || !targetAirport) {
+        cerr << "Source or target airport not found." << endl;
+        return {};
+    }
+
+    distances[sourceAirport] = 0;
+    pq.push({0, sourceAirport});
+
+    unordered_map<Vertex*, Vertex*> parent;
+
+    while (!pq.empty()) {
+        Vertex* current = pq.top().second;
+        int currentDistance = pq.top().first;
+        pq.pop();
+
+        if (currentDistance > distances[current]) {
+            continue;
+        }
+
+        for (Edge& flight : current->getAdj()) {
+            Vertex* neighbor = flight.getDest();
+            int weight = flight.getWeight();
+
+            int newDistance = currentDistance + weight;
+
+            if (newDistance < distances[neighbor]) {
+                distances[neighbor] = newDistance;
+                pq.push({newDistance, neighbor});
+                parent[neighbor] = current;
+            }
+        }
+    }
+
+    vector<Airport> path;
+    Vertex* current = targetAirport;
+
+    while (current != nullptr) {
+        path.insert(path.begin(), current->getInfo());
+        current = parent[current];
+    }
+
+    return path;
+}
+
+int Manager::getDistance(const string &u, const string &v) {
+    auto p = findShortestPath(u, v);
+
+    auto it = p.begin();
+    double dist = 0.0;
+
+    while (it != p.end()) {
+        auto source = connections.findVertex(getAirport(it->getCode()));
+
+        if (source) {
+            auto nextIt = std::next(it);
+
+            if (nextIt != p.end()) {
+                for (auto &edge : source->getAdj()) {
+                    if (edge.getDest()->getInfo().getCode() == nextIt->getCode()) {
+                        dist += edge.getWeight();
+                        break;
+                    }
+                }
+            } else {
+                break;
+            }
+
+            it = nextIt;
+        } else {
+            break;
+        }
+    }
+    return dist;
+}
 
 
 
