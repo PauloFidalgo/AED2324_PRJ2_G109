@@ -41,16 +41,19 @@ public:
     vector<vector<Airport>> scc();
     vector<Airport> hasFlightAirline(Airport *source, Airport *target, vector<Airline*> &setOfAirlines);
     void dfsScc(Vertex *v, stack<Airport> &s, vector<vector<Airport>> &res, int &i);
-    vector<Airport> pathMaximumConnectionFlights(Airport *source, Airport *target, int &max);
+    vector<vector<Airport>> pathMaximumConnectionFlights(const string& startAirport, const string& destination, int maxFlights);
+    void DFS(Vertex* current, Vertex* destination, int maxFlights, std::vector<Airport>& currentPath, std::vector<std::vector<Airport>>& allPaths);
     vector<Airport> getAirportsPerCountry(const string &country);
     bool minPath(Vertex* v, Vertex* t, stack<Airport>& res, int& last, int& ans);
     vector<Airport> findShortestPath(const string &u, const string &v);
     vector<Edge> getOutFlights(const string &code) const;
     vector<Airport> findShortestPathExcludeCountries(const string &u, const string &v, vector<string> &countries);
     int getDistance(const string &u, const string &v);
+    int getTripDistance(const vector<string> &trip);
     vector<Airport> scheduleTripMinConnection(const string &u, const string &v, vector<string> & visit);
     vector<Airport> scheduleTripMinDistance(const string &u, const string &v, vector<string> & visit);
     vector<Airport> bfsMinConnections(const string &s, const string &t);
+    vector<Airport> findMinConnectionsExcludeCountries(const string &s, const string &t, vector<string> & countries);
 };
 
 

@@ -90,7 +90,7 @@ void Manager::dfsVisit(Vertex *v, Vertex *t, vector<Airport> &flights) {
 
 vector<Vertex*> Manager::airportsAtDistanceK(Airport *source, int k) {
     for (auto &airport : connections.getVertexSet()) {
-        airport->setVisited(true);
+        airport->setVisited(false);
     }
 
     auto depart = connections.findVertex(source);
@@ -268,36 +268,48 @@ void Manager::dfsScc(Vertex *v, stack<Airport> &s, vector<vector<Airport>> &res,
     }
 }
 
+void Manager::DFS(Vertex* current, Vertex *destination, int maxFlights, vector<Airport>& currentPath,
+                  vector<vector<Airport>>& allPaths) {
+    if (current == destination) {
+        allPaths.push_back(currentPath);
+        return;
+    }
 
-vector<Airport> Manager::pathMaximumConnectionFlights(Airport *source, Airport *target, int &max) {
-    for (auto &node : connections.getVertexSet()) {
+    if (maxFlights == 0 ) return;
+
+    current->setVisited(true);
+
+    for (Edge& flight : current->getAdj()) {
+        Vertex* neighbor = flight.getDest();
+
+        if (!neighbor->isVisited()) {
+            currentPath.push_back(neighbor->getInfo());
+            DFS(neighbor, destination, maxFlights - 1, currentPath, allPaths);
+            currentPath.pop_back();
+        }
+    }
+
+    // Unmark the node after exploring all neighbors
+    current->setVisited(false);
+}
+
+vector<vector<Airport>> Manager::pathMaximumConnectionFlights(const string& startAirport, const string& destination, int maxFlights) {
+    for (auto& node : connections.getVertexSet()) {
         node->setVisited(false);
     }
 
-    auto depart = connections.findVertex(source);
-    queue<Vertex*> q;
-    vector<Airport> res;
+    Vertex* start = connections.findVertex(getAirport(startAirport));
+    Vertex* end = connections.findVertex(getAirport(destination));
 
-    q.push(depart);
+    std::vector<std::vector<Airport>> allPaths;
+    std::vector<Airport> currentPath;
 
-    while (!q.empty() && max > 0) {
-        auto next = q.front();
-        q.pop();
-        next->setVisited(true);
+    currentPath.push_back(start->getInfo());
+    DFS(start, end, maxFlights, currentPath, allPaths);
 
-        for (const auto& edge : next->getAdj()) {
-            auto dest = edge.getDest();
-
-            if (!dest->isVisited()) {
-                q.push(dest);
-            }
-
-            res.push_back(dest->getInfo());
-        }
-        max--;
-    }
-    return res;
+    return allPaths;
 }
+
 
 vector<Airport> Manager::getAirportsPerCountry(const string &country) {
     vector<Airport> res;
@@ -331,28 +343,6 @@ bool notIn(vector<Airport> &v, const Airport &t) {
     return true;
 }
 
-vector<Airport> Manager::scheduleTripMinConnection(const string &u, const string &v, vector<string>& visit) {
-    vector<Airport> path;
-
-
-    visit.push_back(v);
-    string p = u;
-
-    for (auto &flight : visit) {
-
-        auto res = bfsMinConnections(p, flight);
-
-        for (auto &airport : res) {
-            if (notIn(path, airport)) {
-                path.push_back(airport);
-            }
-        }
-        p = flight;
-    }
-
-
-    return path;
-}
 
 vector<Airport> Manager::bfsMinConnections(const string &s, const string &t) {
     for (auto node : connections.getVertexSet()) {
@@ -468,6 +458,106 @@ bool excludeCountries(Vertex* v, vector<string> &countries) {
     return false;
 }
 
+
+int Manager::getTripDistance(const vector<string> &trip) {
+    int res = 0;
+
+    auto it = trip.begin();
+    string first = *it;
+
+    it++;
+    while (it != trip.end()) {
+        res += getDistance(first, *it);
+        it++;
+    }
+    return res;
+}
+
+int Manager::getDistance(const string &u, const string &v) {
+    auto p = findShortestPath(u, v);
+
+    auto it = p.begin();
+    double dist = 0.0;
+
+    while (it != p.end()) {
+        auto source = connections.findVertex(getAirport(it->getCode()));
+
+        if (source) {
+            auto nextIt = std::next(it);
+
+            if (nextIt != p.end()) {
+                for (auto &edge : source->getAdj()) {
+                    if (edge.getDest()->getInfo().getCode() == nextIt->getCode()) {
+                        dist += edge.getWeight();
+                        break;
+                    }
+                }
+            } else {
+                break;
+            }
+
+            it = nextIt;
+        } else {
+            break;
+        }
+    }
+    return dist;
+}
+
+vector<Airport> Manager::scheduleTripMinDistance(const string &u, const string &v, vector<string> & visit) {
+    for (auto node : connections.getVertexSet()) {
+        node->setVisited(false);
+    }
+
+    vector<Airport> res;
+
+    visit.push_back(v);
+    string first = u;
+
+    for (auto &country : visit) {
+        auto min_dist = findShortestPath(first, country);
+
+        for (auto &c : min_dist) {
+            if (std::find(res.begin(), res.end(),c) == res.end())
+            res.push_back(c);
+        }
+
+        first = country;
+    }
+
+    auto min_dist = findShortestPath(first, v);
+
+    for (auto &c : min_dist) {
+        if (std::find(res.begin(), res.end(),c) == res.end())
+        res.push_back(c);
+    }
+
+    return res;
+}
+
+vector<Airport> Manager::scheduleTripMinConnection(const string &u, const string &v, vector<string>& visit) {
+    vector<Airport> path;
+
+
+    visit.push_back(v);
+    string p = u;
+
+    for (auto &flight : visit) {
+
+        auto res = bfsMinConnections(p, flight);
+
+        for (auto &airport : res) {
+            if (notIn(path, airport)) {
+                path.push_back(airport);
+            }
+        }
+        p = flight;
+    }
+
+
+    return path;
+}
+
 vector<Airport> Manager::findShortestPathExcludeCountries(const string &u, const string &v, vector<string> &countries) {
     unordered_map<Vertex*, int> distances;
     for (auto &node : connections.getVertexSet()) {
@@ -538,67 +628,53 @@ vector<Airport> Manager::findShortestPathExcludeCountries(const string &u, const
     return path;
 }
 
-int Manager::getDistance(const string &u, const string &v) {
-    auto p = findShortestPath(u, v);
-
-    auto it = p.begin();
-    double dist = 0.0;
-
-    while (it != p.end()) {
-        auto source = connections.findVertex(getAirport(it->getCode()));
-
-        if (source) {
-            auto nextIt = std::next(it);
-
-            if (nextIt != p.end()) {
-                for (auto &edge : source->getAdj()) {
-                    if (edge.getDest()->getInfo().getCode() == nextIt->getCode()) {
-                        dist += edge.getWeight();
-                        break;
-                    }
-                }
-            } else {
-                break;
-            }
-
-            it = nextIt;
-        } else {
-            break;
-        }
-    }
-    return dist;
-}
-
-vector<Airport> Manager::scheduleTripMinDistance(const string &u, const string &v, vector<string> & visit) {
+vector<Airport> Manager::findMinConnectionsExcludeCountries(const string &s, const string &t, vector<string> & countries) {
     for (auto node : connections.getVertexSet()) {
-        node->setVisited(false);
-    }
-
-    vector<Airport> res;
-
-    visit.push_back(v);
-    string first = u;
-
-    for (auto &country : visit) {
-        auto min_dist = findShortestPath(first, country);
-
-        for (auto &c : min_dist) {
-            if (std::find(res.begin(), res.end(),c) == res.end())
-            res.push_back(c);
+        if (excludeCountries(node, countries)) {
+            node->setVisited(true);
         }
-
-        first = country;
+        else {
+            node->setVisited(false);
+        }
     }
 
-    auto min_dist = findShortestPath(first, v);
+    auto first = connections.findVertex(getAirport(s));
+    auto last = connections.findVertex(getAirport(t));
 
-    for (auto &c : min_dist) {
-        if (std::find(res.begin(), res.end(),c) == res.end())
-        res.push_back(c);
+    vector<Airport> path;
+
+    queue<Vertex*> q;
+    unordered_map<Vertex*, Vertex*> parent;
+
+    q.push(first);
+    first->setVisited(true);
+
+    while (!q.empty()) {
+        Vertex* current = q.front();
+        q.pop();
+
+        for (Edge& flight : current->getAdj()) {
+            Vertex* neighbor = flight.getDest();
+
+            if (!neighbor->isVisited()) {
+                q.push(neighbor);
+                neighbor->setVisited(true);
+                parent[neighbor] = current;
+
+                if (neighbor == last) {
+                    break;
+                }
+            }
+        }
     }
 
-    return res;
+    Vertex* current = last;
+
+    while (current != nullptr) {
+        path.insert(path.begin(), current->getInfo());
+        current = parent[current];
+    }
+    return path;
 }
-
 
 
