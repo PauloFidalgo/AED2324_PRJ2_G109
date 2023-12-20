@@ -6,7 +6,7 @@
 
 int main() {
     Manager m;
-    
+
 
     return 0;
 }

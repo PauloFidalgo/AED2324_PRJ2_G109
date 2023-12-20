@@ -31,7 +31,6 @@ public:
     std::map<std::string, Airport*> getAirports();
     Airport* getAirport(const string &code) const;
     Airline* getAirline(const string &code) const;
-    vector<Airport> getPath(Airport *source, Airport *destination);
     vector<Vertex*> airportsAtDistanceK(const string &source, int k);
     vector<Airport> articulationPoints();
     void dfsApp(Vertex *v, stack<Airport> &s, vector<Airport> &res, int &i);
