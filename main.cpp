@@ -13,7 +13,7 @@ int main() {
     m.getCountriesCanFlyToAirport("JFK");
     m.getCountriesCanFlyToCity("New York");
     m.getDestinantions("AAQ");
-    m.getDestinantionsUntilDistanceK("AAQ", 11);
+    m.getDestinantionsUntilDistanceK("JFK", 3);
     m.diameterPairs();
     /*
     auto res = m.scc();
