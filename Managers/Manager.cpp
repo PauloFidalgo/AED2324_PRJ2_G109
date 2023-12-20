@@ -41,9 +41,20 @@ Airline* Manager::getAirline(const std::string &code) const {
     return nullptr;
 }
 
-bool Manager::hasPath(Vertex *v, Vertex *t, vector<Airport> &flights) {
+
+bool Manager::hasConnection(const string &s, const string &t) {
+    auto source = connections.findVertex(getAirport(s));
+    auto target = connections.findVertex(getAirport(t));
+
+    for (auto n : connections.getVertexSet()) {
+        n->setVisited(false);
+    }
+
+    return dfsVisitBool(source, target);
+}
+
+bool Manager::dfsVisitBool(Vertex *v, Vertex *t) {
     v->setVisited(true);
-    flights.push_back(v->getInfo());
 
     if (v == t) return true;
 
@@ -51,49 +62,21 @@ bool Manager::hasPath(Vertex *v, Vertex *t, vector<Airport> &flights) {
         auto dest = edge.getDest();
 
         if (!dest->isVisited()) {
-            if (hasPath(dest, t, flights)) return true;
-        }
-     }
-}
-
-vector<Airport> Manager::pathExists(Airport *d, Airport *t) {
-    auto dest = connections.findVertex(d);
-    auto target = connections.findVertex(t);
-
-    for (auto &edge : connections.getVertexSet()) {
-        edge->setVisited(false);
-    }
-
-    vector<Airport> flights;
-
-    if (dest != nullptr && target != nullptr) {
-        hasPath(dest, target, flights);
-    }
-
-    return flights;
-}
-
-void Manager::dfsVisit(Vertex *v, Vertex *t, vector<Airport> &flights) {
-    v->setVisited(true);
-
-    if (v == t) return;
-
-    for (auto &edge : v->getAdj()) {
-        auto dest = edge.getDest();
-
-        if (!dest->isVisited()) {
-            flights.push_back(dest->getInfo());
-            dfsVisit(dest, t, flights);
+            if (dfsVisitBool(dest, t)) return true;
         }
     }
 }
 
-vector<Vertex*> Manager::airportsAtDistanceK(Airport *source, int k) {
+
+vector<Vertex*> Manager::airportsAtDistanceK(const string &source, int k) {
     for (auto &airport : connections.getVertexSet()) {
         airport->setVisited(false);
     }
 
-    auto depart = connections.findVertex(source);
+    auto s = getAirport(source);
+
+    auto depart = connections.findVertex(s);
+    depart->setVisited(true);
 
     queue<Vertex*> q;
     q.push(depart);
@@ -104,18 +87,18 @@ vector<Vertex*> Manager::airportsAtDistanceK(Airport *source, int k) {
 
         for (int i = 0; i < size; i++) {
             auto next = q.front();
-            next->setVisited(true);
             q.pop();
 
-            if (k == 0) {
-                res.push_back(next);
-            }
 
             for (auto &edge : next->getAdj()) {
                 auto w = edge.getDest();
 
                 if (!w->isVisited()) {
+                    if (k - 1 == 0) {
+                        res.push_back(w);
+                    }
                     q.push(w);
+                    w->setVisited(true);
                 }
             }
         }
@@ -289,7 +272,6 @@ void Manager::DFS(Vertex* current, Vertex *destination, int maxFlights, vector<A
         }
     }
 
-    // Unmark the node after exploring all neighbors
     current->setVisited(false);
 }
 
