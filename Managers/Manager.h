@@ -68,6 +68,10 @@ public:
     void getDestinantions(const string &airportCode) const;
 
     void getDestinantionsUntilDistanceK(const string &airportCode, const int &k) const;
+
+    void diameterPairs() const;
+
+    void findComponentDiameterPairs(Vertex *origin, vector<pair<Airport, Airport>> &result, int &i) const;
 };
 
 

@@ -215,6 +215,7 @@ vector<Airport> Manager::hasFlightAirline(Airport *source, Airport *target, vect
 vector<vector<Airport>> Manager::scc() {
     for (auto &airport : connections.getVertexSet()) {
         airport->setVisited(false);
+        airport->setProcessing(false);
     }
 
     vector<vector<Airport>> res;
@@ -265,7 +266,7 @@ void Manager::dfsScc(Vertex *v, stack<Airport> &s, vector<vector<Airport>> &res,
             s.pop();
         }
 
-        if (scc.size() > 1) {
+        if (scc.size() >= 1) {
             res.push_back(scc);
         }
     }
@@ -845,3 +846,54 @@ void Manager::getDestinantionsUntilDistanceK(const string &airportCode, const in
     cout << "|  Number of Reachable Cities   |" << string(lenNumCities, ' ') << numCities << string(lenFNumCities, ' ') << '|' << endl;
     cout << "---------------------------------" << string(space + 1, '-') << endl;
 }
+
+void Manager::findComponentDiameterPairs(Vertex *origin, vector<pair<Airport, Airport>> &result, int &i) const {
+    queue<pair<Vertex *, int>> q;
+    origin->setVisited(true);
+    q.emplace(origin, 0);
+
+
+    while (!q.empty()) {
+        auto [v, distance] = q.front();
+        q.pop();
+
+        if (distance == i) {
+            result.emplace_back(origin->getInfo(), v->getInfo());
+        }
+        if (distance > i) {
+            i = distance;
+            result.clear();
+        }
+
+        for (auto& e : v->getAdj()) {
+            Vertex *w = e.getDest();
+            if (!w->isVisited()) {
+                w->setVisited(true);
+                q.emplace(w, distance + 1);
+            }
+        }
+    }
+
+    for (auto vertex : connections.getVertexSet()) {
+        vertex->setVisited(false);
+    }
+}
+
+
+void Manager::diameterPairs() const {
+    vector<pair<Airport, Airport>> result;
+    int maxDiameter = 0;
+    for (auto &elem : connections.getVertexSet()) {
+        findComponentDiameterPairs(elem, result, maxDiameter);
+    }
+
+    cout << "-----------------------------------------------" << endl;
+    cout << "|   Source Airports    | Destination Airports |" << endl;
+    cout << "-----------------------------------------------" << endl;
+    for (auto& elem : result) {
+        cout << "|         " << elem.first.getCode() << "          |" << "         " << elem.second.getCode() << "          |" << endl;
+    }
+    cout << "-----------------------------------------------" << endl << endl;
+    cout << "The maximum trip between two airports has " << maxDiameter << " stops.";
+}
+

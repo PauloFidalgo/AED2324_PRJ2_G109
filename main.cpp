@@ -12,7 +12,21 @@ int main() {
     m.getNumFlightsPerAirline("TAP");
     m.getCountriesCanFlyToAirport("JFK");
     m.getCountriesCanFlyToCity("New York");
-    m.getDestinantions("JFK");
-    m.getDestinantionsUntilDistanceK("OPO", 10);
+    m.getDestinantions("AAQ");
+    m.getDestinantionsUntilDistanceK("AAQ", 11);
+    m.diameterPairs();
+    /*
+    auto res = m.scc();
+    for (auto elem : res) {
+        for (auto ze : elem) {
+            cout << ze.getCode() << ' ';
+        }
+        cout << endl;
+    }
+    cout << "-------------------------------------" << endl;
+    auto pila = m.articulationPoints();
+    for (auto elem : pila) {
+        cout << elem.getCode() << endl;
+    }*/
     return 0;
 }
