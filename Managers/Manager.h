@@ -22,6 +22,8 @@ private:
     Parser parser;
     std::map<std::string, Airline*> airlines;
     std::map<std::string, Airport*> airports;
+    std::map<std::string, Airport*> airportsByName;
+    std::map<std::string, Airline*> airlinesByName;
     Graph connections;
 
 public:
@@ -36,7 +38,7 @@ public:
     vector<Airport> pathExists(Airport *d, Airport *t);
     vector<Airport> getPath(Airport *source, Airport *destination);
     vector<Vertex*> airportsAtDistanceK(Airport *source, int k);
-    vector<Airport> articulationPoints();
+    void articulationPoints();
     void dfsApp(Vertex *v, stack<Airport> &s, vector<Airport> &res, int &i);
     vector<vector<Airport>> scc();
     vector<Airport> hasFlightAirline(Airport *source, Airport *target, vector<Airline*> &setOfAirlines);
@@ -56,18 +58,26 @@ public:
     void getNumAirportsAndFlights() const;
 
     void getNumFlightsAndAirlines(const string &airportCode) const;
+    void getNumFlightsAndAirlinesByName(const string &airportName) const;
 
     void getNumFlightsPerCity(const string &city) const;
 
     void getNumFlightsPerAirline(const string &airlineCode) const;
+    void getNumFlightsPerAirlineByName(const string &airlineName) const;
 
     void getCountriesCanFlyToAirport(const string &airportCode) const;
+    void getCountriesCanFlyToAirportByName(const string &airportName) const;
 
     void getCountriesCanFlyToCity(const string &city) const;
 
+    void getDestinantionsDistance1(const string &airportCode) const;
+    void getDestinationsDistance1ByName(const string &airportName) const;
+
     void getDestinantions(const string &airportCode) const;
+    void getDestinantionsByName(const string &airportName) const;
 
     void getDestinantionsUntilDistanceK(const string &airportCode, const int &k) const;
+    void getDestinantionsUntilDistanceKByName(const string &airportName, const int &k) const;
 
     void diameterPairs() const;
 

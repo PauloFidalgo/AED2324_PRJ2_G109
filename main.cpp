@@ -14,10 +14,13 @@ int main() {
     //m.getCountriesCanFlyToCity("New York");
     //m.getDestinantions("AAQ");
     //m.getDestinantionsUntilDistanceK("JFK", 3);
-    m.diameterPairs();
+    //m.diameterPairs();
     //m.getTopKGreatestTrafficAirport(1);
     //m.getTopKGreatestTrafficAirportPerCountry(3,"Portugal");
     //m.getTopKGreatestTrafficAirline(3);
     //m.getTopKGreatestTrafficAirlinePerCountry(3,"Portugal");
+    //m.getDestinantionsDistance1("HGU");
+    //m.getDestinationsDistance1ByName("Mount Hagen");
+    m.articulationPoints();
     return 0;
 }

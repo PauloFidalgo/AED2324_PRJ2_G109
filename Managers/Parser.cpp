@@ -19,6 +19,7 @@ void Parser::readAirlines() {
     try {
         iff.open("../dataset/airlines.csv", ios::in);
         map<string, Airline*> air;
+        map<string, Airline*> airByName;
         string line, code, name, callsign, country;
 
         getline(iff, line);
@@ -33,11 +34,13 @@ void Parser::readAirlines() {
 
             auto* airline = new Airline(code, name, callsign, country);
             air.insert({code, airline});
+            airByName.insert({name, airline});
         }
 
         iff.close();
 
         this->airlines = air;
+        this->airlinesByName = airByName;
 
     } catch (const ifstream::failure& e) {
         cout << "Falha a abrir o ficheiro" << endl;
@@ -117,6 +120,7 @@ Graph Parser::getGraph() {
 
             auto* airport = new Airport(code, name, city, country, latitude, longitude);
             airports.insert({code, airport});
+            airportsByName.insert({name, airport});
             graph.addVertex(airport);
         }
 
@@ -173,6 +177,14 @@ Parser::~Parser() {
     for (auto &elem : airlines) {
         delete elem.second;
     }
+}
+
+std::map<std::string, Airport *> Parser::getAirportsByName() {
+    return airportsByName;
+}
+
+std::map<std::string, Airline *> Parser::getAirlinesByName() {
+    return airlinesByName;
 }
 
 

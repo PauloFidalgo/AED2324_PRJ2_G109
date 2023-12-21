@@ -9,23 +9,13 @@
 #include <string>
 #include "../DataModel/Airline.h"
 #include "../DataStructure/Graph.h"
-struct CompareByTraffic {
-    bool operator()(Airport *a, Airport *b) const {
-        int trafficA = a->getNumFlightsIn() + a->getNumFlightsOut();
-        int trafficB = b->getNumFlightsIn() + b->getNumFlightsOut();
-
-        if (trafficA == trafficB) {
-            return a->getName() < b->getName();
-        }
-
-        return trafficA > trafficB;
-    }
-};
 
 class Parser {
 private:
     std::map<std::string, Airport*> airports;
+    std::map<std::string, Airport*> airportsByName;
     std::map<std::string, Airline*> airlines;
+    std::map<std::string, Airline*> airlinesByName;
     void readFlights(Graph &g);
 public:
     Parser();
@@ -34,8 +24,10 @@ public:
     Graph getGraph();
     static double haversine(double lat1, double lon1, double lat2, double lon2);
     std::map<std::string, Airport*> getAirports();
+    std::map<std::string, Airport*> getAirportsByName();
     map<string, Airline*> getAirlines();
     Airline* getAirline(const std::string &airline);
+    std::map<std::string, Airline*> getAirlinesByName();
 };
 
 
