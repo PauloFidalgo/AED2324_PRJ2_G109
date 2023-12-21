@@ -19,6 +19,7 @@ public:
     std::string getName() const;
     void increaseNumFlights();
     int getNumFlights() const;
+    std::string getCode() const;
 };
 
 

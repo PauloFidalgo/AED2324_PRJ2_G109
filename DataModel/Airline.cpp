@@ -18,3 +18,7 @@ int Airline::getNumFlights() const {
     return this->numFlights;
 }
 
+std::string Airline::getCode() const {
+    return this->code;
+}
+

@@ -15,6 +15,8 @@ int main() {
     m.getDestinantions("AAQ");
     m.getDestinantionsUntilDistanceK("JFK", 3);
     m.diameterPairs();
+    m.getTopKGreatestTrafficAirport(1);
+    m.getTopKGreatestTrafficAirline(3);
     /*
     auto res = m.scc();
     for (auto elem : res) {

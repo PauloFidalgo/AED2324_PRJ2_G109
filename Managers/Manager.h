@@ -72,6 +72,10 @@ public:
     void diameterPairs() const;
 
     void findComponentDiameterPairs(Vertex *origin, vector<pair<Airport, Airport>> &result, int &i) const;
+
+    void getTopKGreatestTrafficAirport(int k) const;
+
+    void getTopKGreatestTrafficAirline(int k) const;
 };
 
 

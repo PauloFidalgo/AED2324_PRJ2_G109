@@ -9,6 +9,18 @@
 #include <string>
 #include "../DataModel/Airline.h"
 #include "../DataStructure/Graph.h"
+struct CompareByTraffic {
+    bool operator()(Airport *a, Airport *b) const {
+        int trafficA = a->getNumFlightsIn() + a->getNumFlightsOut();
+        int trafficB = b->getNumFlightsIn() + b->getNumFlightsOut();
+
+        if (trafficA == trafficB) {
+            return a->getName() < b->getName();
+        }
+
+        return trafficA > trafficB;
+    }
+};
 
 class Parser {
 private:
