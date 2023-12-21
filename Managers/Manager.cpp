@@ -932,6 +932,34 @@ void Manager::getTopKGreatestTrafficAirport(int k) const {
         if (k == 0) return;
     }
 }
+void Manager::getTopKGreatestTrafficAirportPerCountry(int k, const string &country) const {
+    set<Airport *, decltype(comparatorAirport)> airportsByTraffic(comparatorAirport);
+    int nameSize = 0;
+    for (auto& elem : airports) {
+        if (elem.second->getCountry() == country) {
+            if (elem.second->getName().length() > nameSize) nameSize = elem.second->getName().length();
+            airportsByTraffic.insert(elem.second);
+        }
+    }
+    int space1 = nameSize + 8 ? nameSize + 8 : 10;
+    int lenAirportsLabel = (space1 - 8) / 2;
+    int lenFAirportsLabel = (space1 - 8) % 2 == 0 ? lenAirportsLabel : lenAirportsLabel + 1;
+    cout << string(space1 + 2, '-') << "--------------------" << endl;
+    cout << '|' << string(lenAirportsLabel, ' ') << "Airports" << string (lenFAirportsLabel, ' ') << "| Number of flights |" << endl;
+    cout << string(space1 + 2, '-') << "--------------------" << endl;
+    for (auto& elem : airportsByTraffic) {
+        int numFlights = elem->getNumFlightsOut() + elem->getNumFlightsIn();
+        int lenNumFlights = (19 - to_string(numFlights).length()) / 2;
+        int lenFNumFlights = (19 - to_string(numFlights).length()) % 2 == 0 ? lenNumFlights : lenNumFlights+ 1;
+        cout << "| Code: " << elem->getCode() << string(space1 - 10, ' ') << "|                   |" << endl;
+        cout << string(space1 + 1, ' ') << '-' << string(lenNumFlights, ' ') << numFlights << string (lenFNumFlights, ' ') << '-' << endl;
+        cout << "| Name: " << elem->getName() << string(space1 - 8 - elem->getName().length(), ' ') <<" |                   |" << endl;
+        cout << string(space1 + 2, '-') << "--------------------" << endl;
+        k--;
+        if (k == 0) return;
+    }
+}
+
 auto comparatorAirline = [](Airline *a, Airline *b) {
     int trafficA = a->getNumFlights();
     int trafficB = b->getNumFlights();
@@ -949,6 +977,34 @@ void Manager::getTopKGreatestTrafficAirline(int k) const {
     for (auto& elem : airlines) {
         if (elem.second->getName().length() > nameSize) nameSize = elem.second->getName().length();
         airlinesByTraffic.insert(elem.second);
+    }
+    int space1 = nameSize + 8 > 10 ? nameSize + 8 : 10;
+    int lenAirlinesLabel = (space1 - 8) / 2;
+    int lenFAirlinesLabel = (space1 - 8) % 2 == 0 ? lenAirlinesLabel : lenAirlinesLabel + 1;
+    cout << string(space1 + 2, '-') << "--------------------" << endl;
+    cout << '|' << string(lenAirlinesLabel, ' ') << "Airlines" << string (lenFAirlinesLabel, ' ') << "| Number of flights |" << endl;
+    cout << string(space1 + 2, '-') << "--------------------" << endl;
+    for (auto& elem : airlinesByTraffic) {
+        int numFlights = elem->getNumFlights();
+        int lenNumFlights = (19 - to_string(numFlights).length()) / 2;
+        int lenFNumFlights = (19 - to_string(numFlights).length()) % 2 == 0 ? lenNumFlights : lenNumFlights+ 1;
+        cout << "| Code: " << elem->getCode() << string(space1 - 10, ' ') << "|                   |" << endl;
+        cout << string(space1 + 1, ' ') << '-' << string(lenNumFlights, ' ') << numFlights << string (lenFNumFlights, ' ') << '-' << endl;
+        cout << "| Name: " << elem->getName() << string(space1 - 8 - elem->getName().length(), ' ') <<" |                   |" << endl;
+        cout << string(space1 + 2, '-') << "--------------------" << endl;
+        k--;
+        if (k == 0) return;
+    }
+}
+
+void Manager::getTopKGreatestTrafficAirlinePerCountry(int k, const string &country) const {
+    set<Airline *, decltype(comparatorAirline)> airlinesByTraffic(comparatorAirline);
+    int nameSize = 0;
+    for (auto& elem : airlines) {
+        if (elem.second->getCountry() == country) {
+            if (elem.second->getName().length() > nameSize) nameSize = elem.second->getName().length();
+            airlinesByTraffic.insert(elem.second);
+        }
     }
     int space1 = nameSize + 8 > 10 ? nameSize + 8 : 10;
     int lenAirlinesLabel = (space1 - 8) / 2;

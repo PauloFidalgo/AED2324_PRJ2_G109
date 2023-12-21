@@ -20,6 +20,7 @@ public:
     void increaseNumFlights();
     int getNumFlights() const;
     std::string getCode() const;
+    std::string getCountry() const;
 };
 
 

@@ -75,7 +75,11 @@ public:
 
     void getTopKGreatestTrafficAirport(int k) const;
 
+    void getTopKGreatestTrafficAirportPerCountry(int k, const string &country) const;
+
     void getTopKGreatestTrafficAirline(int k) const;
+
+    void getTopKGreatestTrafficAirlinePerCountry(int k, const string &country) const;
 };
 
 

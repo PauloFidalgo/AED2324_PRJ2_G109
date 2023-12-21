@@ -6,29 +6,18 @@
 
 int main() {
     Manager m;
-    m.getNumAirportsAndFlights();
-    m.getNumFlightsAndAirlines("HGU");
-    m.getNumFlightsPerCity("Mount Hagen");
-    m.getNumFlightsPerAirline("TAP");
-    m.getCountriesCanFlyToAirport("JFK");
-    m.getCountriesCanFlyToCity("New York");
-    m.getDestinantions("AAQ");
-    m.getDestinantionsUntilDistanceK("JFK", 3);
+    //m.getNumAirportsAndFlights();
+    //m.getNumFlightsAndAirlines("HGU");
+    //m.getNumFlightsPerCity("Mount Hagen");
+    //m.getNumFlightsPerAirline("TAP");
+    //m.getCountriesCanFlyToAirport("JFK");
+    //m.getCountriesCanFlyToCity("New York");
+    //m.getDestinantions("AAQ");
+    //m.getDestinantionsUntilDistanceK("JFK", 3);
     m.diameterPairs();
-    m.getTopKGreatestTrafficAirport(1);
-    m.getTopKGreatestTrafficAirline(3);
-    /*
-    auto res = m.scc();
-    for (auto elem : res) {
-        for (auto ze : elem) {
-            cout << ze.getCode() << ' ';
-        }
-        cout << endl;
-    }
-    cout << "-------------------------------------" << endl;
-    auto pila = m.articulationPoints();
-    for (auto elem : pila) {
-        cout << elem.getCode() << endl;
-    }*/
+    //m.getTopKGreatestTrafficAirport(1);
+    //m.getTopKGreatestTrafficAirportPerCountry(3,"Portugal");
+    //m.getTopKGreatestTrafficAirline(3);
+    //m.getTopKGreatestTrafficAirlinePerCountry(3,"Portugal");
     return 0;
 }

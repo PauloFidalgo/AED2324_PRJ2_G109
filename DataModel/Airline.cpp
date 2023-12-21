@@ -22,3 +22,7 @@ std::string Airline::getCode() const {
     return this->code;
 }
 
+std::string Airline::getCountry() const {
+    return country;
+}
+
