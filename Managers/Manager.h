@@ -90,6 +90,14 @@ public:
     void getTopKGreatestTrafficAirline(int k) const;
 
     void getTopKGreatestTrafficAirlinePerCountry(int k, const string &country) const;
+
+    void listAiportsPerCountry(const string &country) const;
+
+    void searchAirportsByName(const string &airportName);
+
+    void searchAirlinesByName(const string &airlineName);
+
+    void printAirportInfo(const string &airportCode);
 };
 
 

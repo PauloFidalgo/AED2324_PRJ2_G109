@@ -7,7 +7,7 @@ Porks:
     - Companihas com mais voos intercontinentais (Cria mapa com lista de países e respespeto continente)
     - Aeroportos com mais companhias dnoqwoidqwdoji
     - Número global de airports (done)
-    - Listar aeroportos por pais   wefoiwefowef
+    - Listar aeroportos por pais  (done)
     - Número de voos a sair de aeroporto e de quantas diferentes companhias (done)
     - Listar os países in de um airport nwdnqwndqw
     - Listar os países out de um airport qdnqwdoiqwdoi

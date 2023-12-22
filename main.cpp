@@ -21,6 +21,9 @@ int main() {
     //m.getTopKGreatestTrafficAirlinePerCountry(3,"Portugal");
     //m.getDestinantionsDistance1("HGU");
     //m.getDestinationsDistance1ByName("Mount Hagen");
-    m.articulationPoints();
+    //m.articulationPoints();
+    //m.listAiportsPerCountry("China");
+    m.searchAirlinesByName("Ry");
+    m.printAirportInfo("RYR");
     return 0;
 }

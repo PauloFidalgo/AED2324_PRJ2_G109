@@ -1294,6 +1294,112 @@ void Manager::getTopKGreatestTrafficAirlinePerCountry(int k, const string &count
     }
 }
 
+void Manager::listAiportsPerCountry(const string &country) const{
+
+    int maxLengthName = 0;
+    vector<Airport *> res;
+    for (auto& elem : airportsByName) {
+        if (elem.second->getCountry() == country) {
+            if (elem.first.length() > maxLengthName) maxLengthName = elem.first.length();
+            res.push_back(elem.second);
+        }
+    }
+    int space = maxLengthName + 8 > 40 ? maxLengthName + 8 : 40;
+    int lenEssentialAirportsLabel = (space - 12 - country.length()) / 2;
+    int lenFEssentialAirportsLabel = (space - 12 - country.length()) % 2 == 0 ? lenEssentialAirportsLabel : lenEssentialAirportsLabel + 1;
+    cout << string(space + 2, '-') << endl;
+    cout << '|' << string(lenEssentialAirportsLabel, ' ') << "Airports in " << country << string(lenFEssentialAirportsLabel, ' ') << '|' << endl;
+    cout << string(space + 2, '-') << endl;
+    for (auto &elem : res) {
+        cout << "| Code: " << elem->getCode() << string(space - 10, ' ') << '|' << endl;
+        cout << "| Name: " << elem->getName() << string(space - 7 - elem->getName().length(), ' ') << '|' << endl;
+        cout << string(space + 2, '-') << endl;
+    }
+}
+string nameToLower(const string& word) {
+    string res;
+    for (auto& ch : word) {
+        res += tolower(ch);
+    }
+    return res;
+}
+
+void Manager::searchAirportsByName(const string &airportName) {
+    if (airportName == "") {
+        cout << "Invalid name." << endl;
+        return;
+    }
+    vector<Airport *> res;
+    int maxLengthName = 0;
+    for (auto& airport : airportsByName) {
+        if (nameToLower(airport.second->getName()).find(nameToLower(airportName)) != string::npos)  {
+            if (airport.second->getName().length() > maxLengthName) maxLengthName = airport.second->getName().length();
+            res.push_back(airport.second);
+        }
+    }
+    if (res.empty()) {
+        cout << "No airports with the name " << airportName << " were found." << endl;
+        return;
+    }
+    int space = maxLengthName + 8 > 10 ? maxLengthName + 8 : 10;
+    int lenAirportsLabel = (space - 8) / 2;
+    int lenFAirportsLabel = (space - 8) % 2 == 0 ? lenAirportsLabel : lenAirportsLabel + 1;
+    cout << string(space + 2, '-') << endl;
+    cout << '|' << string(lenAirportsLabel, ' ') << "Airports" << string(lenAirportsLabel, ' ') << '|' << endl;
+    cout << string(space + 2, '-') << endl;
+    for (auto &elem : res) {
+        cout << "| Code: " << elem->getCode() << string(space - 10, ' ') << '|' << endl;
+        cout << "| Name: " << elem->getName() << string(space - 7 - elem->getName().length(), ' ') << '|' << endl;
+        cout << string(space + 2, '-') << endl;
+    }
+}
+
+void Manager::searchAirlinesByName(const string &airlineName) {
+    if (airlineName == "") {
+        cout << "Invalid name." << endl;
+        return;
+    }
+    vector<Airline *> res;
+    int maxLengthName = 0;
+    for (auto& airline : airlinesByName) {
+        if (nameToLower(airline.second->getName()).find(nameToLower(airlineName)) != string::npos)  {
+            if (airline.second->getName().length() > maxLengthName) maxLengthName = airline.second->getName().length();
+            res.push_back(airline.second);
+        }
+    }
+    if (res.empty()) {
+        cout << "No airlines with the name " << airlineName << " were found." << endl;
+        return;
+    }
+    int space = maxLengthName + 8 > 10 ? maxLengthName + 8 : 10;
+    int lenAirlinesLabel = (space - 8) / 2;
+    int lenFAirlinesLabel = (space - 8) % 2 == 0 ? lenAirlinesLabel : lenAirlinesLabel + 1;
+    cout << string(space + 2, '-') << endl;
+    cout << '|' << string(lenAirlinesLabel, ' ') << "AirLines" << string(lenFAirlinesLabel, ' ') << '|' << endl;
+    cout << string(space + 2, '-') << endl;
+    for (auto &elem : res) {
+        cout << "| Code: " << elem->getCode() << string(space - 10, ' ') << '|' << endl;
+        cout << "| Name: " << elem->getName() << string(space - 7 - elem->getName().length(), ' ') << '|' << endl;
+        cout << string(space + 2, '-') << endl;
+    }
+}
+
+void Manager::printAirportInfo(const string& airportCode) {
+    auto airport = airports.find(airportCode);
+    int nameLength = airport->second->getName().length();
+    int space = nameLength + 8 > 41 ? nameLength + 8 : 41;
+    cout << string(space + 2, '-') << endl;
+    cout << "| Code: " << airportCode << string(space - 10, ' ') << '|' << endl;
+    cout << "| Name: " << airport->second->getName() << string(space - 7 - nameLength, ' ') << '|' << endl;
+    cout << "| City: " << airport->second->getCity() << string(space - 7 - airport->second->getCity().length(), ' ') << '|' << endl;
+    cout << "| Country: " << airport->second->getCountry() << string(space - 10 - airport->second->getCountry().length(), ' ') << '|' << endl;
+    cout << "| Coordinates: " << '(' << airport->second->getLatitude() << ',' << airport->second->getLongitude() << ')' << string(space - to_string(airport->second->getLatitude()).length() - to_string(airport->second->getLongitude()).length(), ' ') << '|' << endl;
+    cout << "| Number of Departures: " << airport->second->getNumFlightsOut() << string(space - 24 - to_string(airport->second->getNumFlightsOut()).length(), ' ') << '|' << endl;
+    cout << "| Number of Arrivals: " << airport->second->getNumFlightsIn() << string(space - 22 - to_string(airport->second->getNumFlightsIn()).length(), ' ') << '|' << endl;
+    cout << string(space + 2, '-') << endl;
+}
+
+
 
 
 
