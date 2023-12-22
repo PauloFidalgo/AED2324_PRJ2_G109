@@ -11,8 +11,6 @@
 
 using namespace std;
 
-Parser::Parser() {}
-
 void Parser::readAirlines() {
     fstream iff;
 
@@ -116,6 +114,15 @@ Graph Parser::getGraph() {
 
             auto* airport = new Airport(code, name, city, country, latitude, longitude);
             airports.insert({code, airport});
+
+            auto cityAir = cityAirports.find(city);
+
+            if (cityAir != cityAirports.end()) {
+                cityAir->second.push_back(airport);
+            }
+            else {
+                cityAirports.insert({city, {}});
+            }
             graph.addVertex(airport);
         }
 
@@ -153,6 +160,10 @@ std::unordered_map<std::string, Airport*> Parser::getAirports() {
 
 unordered_map<string, Airline *> Parser::getAirlines() {
     return airlines;
+}
+
+unordered_map<string, vector<Airport*>> Parser::getCityAirports() {
+    return cityAirports;
 }
 
 Airline* Parser::getAirline(const std::string &airline) {

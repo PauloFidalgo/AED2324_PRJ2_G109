@@ -12,8 +12,9 @@
 
 class Parser {
 private:
-    std::unordered_map<std::string, Airport*> airports;
-    std::unordered_map<std::string, Airline*> airlines;
+    unordered_map<string, Airport*> airports;
+    unordered_map<string, Airline*> airlines;
+    unordered_map<string, vector<Airport*>> cityAirports;
     void readFlights(Graph &g);
 public:
     Parser();
@@ -21,9 +22,10 @@ public:
     void readAirlines();
     Graph getGraph();
     static double haversine(double lat1, double lon1, double lat2, double lon2);
-    std::unordered_map<std::string, Airport*> getAirports();
+    unordered_map<string, Airport*> getAirports();
     unordered_map<string, Airline*> getAirlines();
-    Airline* getAirline(const std::string &airline);
+    unordered_map<string, vector<Airport*>> getCityAirports();
+    Airline* getAirline(const string &airline);
 };
 
 

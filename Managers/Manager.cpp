@@ -659,4 +659,52 @@ vector<Airport> Manager::findMinConnectionsExcludeCountries(const string &s, con
     return path;
 }
 
+unordered_map<string, int> Manager::outFlightsPerAirport(const string &s) {
+    unordered_map<string, int> res;
+
+    auto airport = connections.findVertex(getAirport(s));
+
+    for (auto &a : airport->getAdj()) {
+        auto flights = a.getAirlines();
+        for (auto airline : flights) {
+            auto it = res.find(airline->getName());
+
+            if (it == res.end()) {
+                res.insert({airline->getName(), 1});
+            }
+            else {
+                it->second++;
+            }
+        }
+    }
+
+    return res;
+}
+
+unordered_map<string, int> Manager::inFlightsPerAirport(const string &d) {
+    unordered_map<string, int> res;
+
+    auto airport = connections.findVertex(getAirport(d));
+
+    for (auto &node : connections.getVertexSet()) {
+        if (node == airport) continue;
+
+        for (auto &flight : node->getAdj()) {
+            if (flight.getDest() == airport) {
+
+                for (auto &airline : flight.getAirlines()) {
+                    auto it = res.find(airline->getName());
+
+                    if (it == res.end()) {
+                        res.insert({airline->getName(), 1});
+                    }
+                    else {
+                        it->second++;
+                    }
+                }
+            }
+        }
+    }
+    return res;
+}
 

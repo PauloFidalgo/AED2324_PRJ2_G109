@@ -52,6 +52,8 @@ public:
     vector<Airport> scheduleTripMinDistance(const string &u, const string &v, vector<string> & visit);
     vector<Airport> bfsMinConnections(const string &s, const string &t);
     vector<Airport> findMinConnectionsExcludeCountries(const string &s, const string &t, vector<string> & countries);
+    unordered_map<string, int> outFlightsPerAirport(const string &s);
+    unordered_map<string, int> inFlightsPerAirport(const string &d);
 };
 
 
