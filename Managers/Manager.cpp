@@ -13,11 +13,11 @@ Manager::Manager() {
     this->airlines = parser.getAirlines();
 }
 
-map<std::string, Airline*> Manager::getAirlines() {
+unordered_map<std::string, Airline*> Manager::getAirlines() {
     return this->airlines;
 }
 
-map<string, Airport*> Manager::getAirports() {
+unordered_map<string, Airport*> Manager::getAirports() {
     return this->airports;
 }
 

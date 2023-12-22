@@ -9,6 +9,7 @@
 #include "Parser.h"
 #include "../DataStructure/Graph.h"
 #include <map>
+#include <unordered_map>
 #include <string>
 #include "../DataModel/Airline.h"
 #include <vector>
@@ -20,15 +21,15 @@ using namespace std;
 class Manager {
 private:
     Parser parser;
-    std::map<std::string, Airline*> airlines;
-    std::map<std::string, Airport*> airports;
+    std::unordered_map<std::string, Airline*> airlines;
+    std::unordered_map<std::string, Airport*> airports;
     Graph connections;
 
 public:
     Manager();
     Graph getG() {return connections;}
-    std::map<std::string, Airline*> getAirlines();
-    std::map<std::string, Airport*> getAirports();
+    std::unordered_map<std::string, Airline*> getAirlines();
+    std::unordered_map<std::string, Airport*> getAirports();
     Airport* getAirport(const string &code) const;
     Airline* getAirline(const string &code) const;
     vector<Vertex*> airportsAtDistanceK(const string &source, int k);

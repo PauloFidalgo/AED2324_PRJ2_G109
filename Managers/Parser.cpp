@@ -18,7 +18,7 @@ void Parser::readAirlines() {
 
     try {
         iff.open("../dataset/airlines.csv", ios::in);
-        map<string, Airline*> air;
+        unordered_map<string, Airline*> air;
         string line, code, name, callsign, country;
 
         getline(iff, line);
@@ -147,11 +147,11 @@ double Parser::haversine(double lat1, double lon1, double lat2, double lon2) {
     return rad * c;
 }
 
-std::map<std::string, Airport*> Parser::getAirports() {
+std::unordered_map<std::string, Airport*> Parser::getAirports() {
     return airports;
 }
 
-map<string, Airline *> Parser::getAirlines() {
+unordered_map<string, Airline *> Parser::getAirlines() {
     return airlines;
 }
 
