@@ -23,7 +23,8 @@ int main() {
     //m.getDestinationsDistance1ByName("Mount Hagen");
     //m.articulationPoints();
     //m.listAiportsPerCountry("China");
-    m.searchAirlinesByName("Ry");
-    m.printAirportInfo("RYR");
+    //m.searchAirlinesByName("Ry");
+    //m.printAirportInfo("RYR");
+    m.printAirlineInfo("RYR");
     return 0;
 }

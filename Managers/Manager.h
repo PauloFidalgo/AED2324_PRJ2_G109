@@ -98,6 +98,8 @@ public:
     void searchAirlinesByName(const string &airlineName);
 
     void printAirportInfo(const string &airportCode);
+
+    void printAirlineInfo(const string &airlineCode);
 };
 
 

@@ -13,10 +13,10 @@ Porks:
     - Listar os países out de um airport qdnqwdoiqwdoi
     - Número global de voos (done)
     - Número de voos por cidade / airline (done)
-    - Companhias que voam para um país oindqwdjiqwdji
+    - Companhias que voam para um país asdkjeq
     - Listar os países que posso chegar a partir de um aeroporto (destinos) e as respetivas companhias
-    - Pesquisar informação sobre um aeroporto wibdiqud
-    - Pesquisar informação sobre uma companhia qwjodqwd
+    - Pesquisar informação sobre um aeroporto (done)
+    - Pesquisar informação sobre uma companhia (done)
 
 
 Wagner:

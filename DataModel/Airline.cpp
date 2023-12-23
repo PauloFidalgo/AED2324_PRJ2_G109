@@ -26,3 +26,7 @@ std::string Airline::getCountry() const {
     return country;
 }
 
+std::string Airline::getCallsign() const {
+    return  callsign;
+}
+

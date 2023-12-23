@@ -21,6 +21,7 @@ public:
     int getNumFlights() const;
     std::string getCode() const;
     std::string getCountry() const;
+    std::string getCallsign() const;
 };
 
 

@@ -1393,13 +1393,24 @@ void Manager::printAirportInfo(const string& airportCode) {
     cout << "| Name: " << airport->second->getName() << string(space - 7 - nameLength, ' ') << '|' << endl;
     cout << "| City: " << airport->second->getCity() << string(space - 7 - airport->second->getCity().length(), ' ') << '|' << endl;
     cout << "| Country: " << airport->second->getCountry() << string(space - 10 - airport->second->getCountry().length(), ' ') << '|' << endl;
-    cout << "| Coordinates: " << '(' << airport->second->getLatitude() << ',' << airport->second->getLongitude() << ')' << string(space - to_string(airport->second->getLatitude()).length() - to_string(airport->second->getLongitude()).length(), ' ') << '|' << endl;
-    cout << "| Number of Departures: " << airport->second->getNumFlightsOut() << string(space - 24 - to_string(airport->second->getNumFlightsOut()).length(), ' ') << '|' << endl;
-    cout << "| Number of Arrivals: " << airport->second->getNumFlightsIn() << string(space - 22 - to_string(airport->second->getNumFlightsIn()).length(), ' ') << '|' << endl;
+    cout << "| Coordinates: " << '(' << to_string(airport->second->getLatitude()) << ", " << to_string(airport->second->getLongitude()) << ')' << string(space - 18 - to_string(airport->second->getLatitude()).length() - to_string(airport->second->getLongitude()).length(), ' ') << '|' << endl;
+    cout << "| Number of Departures: " << airport->second->getNumFlightsOut() << string(space - 23 - to_string(airport->second->getNumFlightsOut()).length(), ' ') << '|' << endl;
+    cout << "| Number of Arrivals: " << airport->second->getNumFlightsIn() << string(space - 21 - to_string(airport->second->getNumFlightsIn()).length(), ' ') << '|' << endl;
     cout << string(space + 2, '-') << endl;
 }
 
-
+void Manager::printAirlineInfo(const string& airlineCode) {
+    auto airline = airlines.find(airlineCode);
+    int nameLength = airline->second->getName().length();
+    int space = nameLength + 8 > 27 ? nameLength + 8 : 27;
+    cout << string(space + 2, '-') << endl;
+    cout << "| Code: " << airlineCode << string(space - 10, ' ') << '|' << endl;
+    cout << "| Name: " << airline->second->getName() << string(space - 7 - nameLength, ' ') << '|' << endl;
+    cout << "| Callsign: " << airline->second->getCallsign() << string(space - 11 - airline->second->getCallsign().length(), ' ') << '|' << endl;
+    cout << "| Country: " << airline->second->getCountry() << string(space - 10 - airline->second->getCountry().length(), ' ') << '|' << endl;
+    cout << "| Number of Flights: " << airline->second->getNumFlights() << string(space - 20 - to_string(airline->second->getNumFlights()).length(), ' ') << '|' << endl;
+    cout << string(space + 2, '-') << endl;
+}
 
 
 
