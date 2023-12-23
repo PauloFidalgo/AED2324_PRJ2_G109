@@ -116,12 +116,20 @@ Graph Parser::getGraph() {
             airports.insert({code, airport});
 
             auto cityAir = cityAirports.find(city);
+            auto countryAir = countryCities.find(country);
 
             if (cityAir != cityAirports.end()) {
                 cityAir->second.push_back(airport);
             }
             else {
-                cityAirports.insert({city, {}});
+                cityAirports.insert({city, {airport}});
+            }
+
+            if (countryAir != countryCities.end()) {
+                countryAir->second.insert({city});
+            }
+            else {
+                countryCities.insert({country, {city}});
             }
             graph.addVertex(airport);
         }
@@ -173,6 +181,10 @@ Airline* Parser::getAirline(const std::string &airline) {
         return it->second;
     }
     return nullptr;
+}
+
+unordered_map<string, unordered_set<string>> Parser::getCountryCities() {
+    return countryCities;
 }
 
 

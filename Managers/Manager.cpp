@@ -11,6 +11,8 @@ Manager::Manager() {
     this->connections = parser.getGraph();
     this->airports = parser.getAirports();
     this->airlines = parser.getAirlines();
+    this->cityAirports = parser.getCityAirports();
+    this->countryCities = parser.getCountryCities();
 }
 
 unordered_map<std::string, Airline*> Manager::getAirlines() {
@@ -65,6 +67,7 @@ bool Manager::dfsVisitBool(Vertex *v, Vertex *t) {
             if (dfsVisitBool(dest, t)) return true;
         }
     }
+    return false;
 }
 
 
@@ -292,17 +295,6 @@ vector<vector<Airport>> Manager::pathMaximumConnectionFlights(const string& star
     return allPaths;
 }
 
-
-vector<Airport> Manager::getAirportsPerCountry(const string &country) {
-    vector<Airport> res;
-
-    for (auto &node : connections.getVertexSet()) {
-        if (node->getInfo().getCountry() == country) {
-            res.push_back(node->getInfo());
-        }
-    }
-    return res;
-}
 
 
 vector<Edge> Manager::getOutFlights(const string &code) const {
@@ -705,6 +697,40 @@ unordered_map<string, int> Manager::inFlightsPerAirport(const string &d) {
             }
         }
     }
+    return res;
+}
+
+vector<Airport*> Manager::getAiportsPerCity(const string& city) {
+    auto it = cityAirports.find(city);
+
+    if (it != cityAirports.end()) return it->second;
+
+    return {};
+}
+
+unordered_set<string> Manager::getCitiesPerCountry(const string& c) {
+    auto it = countryCities.find(c);
+
+    if (it != countryCities.end()) return it->second;
+
+    return {};
+}
+
+vector<Airport*> Manager::getAirportsPerCountry(const string &c) {
+    auto cities = this->getCitiesPerCountry(c);
+
+    vector<Airport*> res;
+
+    if (!cities.empty()) {
+        for (auto &city : cities) {
+            auto air = this->getAiportsPerCity(city);
+
+            if (!air.empty()) {
+                res.insert(res.end(), make_move_iterator(air.begin()), make_move_iterator(air.end()));
+            }
+        }
+    }
+
     return res;
 }
 

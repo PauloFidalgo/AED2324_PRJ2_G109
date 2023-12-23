@@ -6,6 +6,7 @@
 #define AED2324_PRJ2_G109_PARSER_H
 
 #include <unordered_map>
+#include <unordered_set>
 #include <string>
 #include "../DataModel/Airline.h"
 #include "../DataStructure/Graph.h"
@@ -15,6 +16,7 @@ private:
     unordered_map<string, Airport*> airports;
     unordered_map<string, Airline*> airlines;
     unordered_map<string, vector<Airport*>> cityAirports;
+    unordered_map<string, unordered_set<string>> countryCities;
     void readFlights(Graph &g);
 public:
     Parser();
@@ -25,6 +27,7 @@ public:
     unordered_map<string, Airport*> getAirports();
     unordered_map<string, Airline*> getAirlines();
     unordered_map<string, vector<Airport*>> getCityAirports();
+    unordered_map<string, unordered_set<string>> getCountryCities();
     Airline* getAirline(const string &airline);
 };
 
