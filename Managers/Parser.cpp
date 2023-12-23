@@ -11,14 +11,12 @@
 
 using namespace std;
 
-Parser::Parser() {}
-
 void Parser::readAirlines() {
     fstream iff;
 
     try {
         iff.open("../dataset/airlines.csv", ios::in);
-        map<string, Airline*> air;
+        unordered_map<string, Airline*> air;
         map<string, Airline*> airByName;
         string line, code, name, callsign, country;
 
@@ -64,6 +62,7 @@ void Parser::readFlights(Graph &g) {
 
             auto depart = airports.find(s);
             auto dest = airports.find(target);
+
             if (depart != airports.end() && dest != airports.end()) {
                 double distance = haversine(depart->second->getLatitude(),depart->second->getLongitude(), dest->second->getLatitude(), dest->second->getLongitude());
                 depart->second->increaseNumFlightsOut();
@@ -121,6 +120,23 @@ Graph Parser::getGraph() {
             auto* airport = new Airport(code, name, city, country, latitude, longitude);
             airports.insert({code, airport});
             airportsByName.insert({name, airport});
+
+            auto cityAir = cityAirports.find(city);
+            auto countryAir = countryCities.find(country);
+
+            if (cityAir != cityAirports.end()) {
+                cityAir->second.push_back(airport);
+            }
+            else {
+                cityAirports.insert({city, {airport}});
+            }
+
+            if (countryAir != countryCities.end()) {
+                countryAir->second.insert({city});
+            }
+            else {
+                countryCities.insert({country, {city}});
+            }
             graph.addVertex(airport);
         }
 
@@ -152,12 +168,16 @@ double Parser::haversine(double lat1, double lon1, double lat2, double lon2) {
     return rad * c;
 }
 
-std::map<std::string, Airport*> Parser::getAirports() {
+std::unordered_map<std::string, Airport*> Parser::getAirports() {
     return airports;
 }
 
-map<string, Airline *> Parser::getAirlines() {
+unordered_map<string, Airline *> Parser::getAirlines() {
     return airlines;
+}
+
+unordered_map<string, vector<Airport*>> Parser::getCityAirports() {
+    return cityAirports;
 }
 
 Airline* Parser::getAirline(const std::string &airline) {
@@ -167,6 +187,10 @@ Airline* Parser::getAirline(const std::string &airline) {
         return it->second;
     }
     return nullptr;
+}
+
+unordered_map<string, unordered_set<string>> Parser::getCountryCities() {
+    return countryCities;
 }
 
 
