@@ -369,7 +369,7 @@ vector<Airport> Manager::findShortestPath(const string &u, const string &v) {
         vertex->setVisited(false);
     }
 
-    priority_queue<pair<int, Vertex*>, vector<pair<int, Vertex*>>, greater<pair<int, Vertex*>>> pq;
+    priority_queue<pair<int, Vertex*>, vector<pair<int, Vertex*>>, greater<>> pq;
 
 
     Vertex* sourceAirport = connections.findVertex(getAirport(u));
@@ -382,7 +382,7 @@ vector<Airport> Manager::findShortestPath(const string &u, const string &v) {
     }
 
     distances[sourceAirport] = 0;
-    pq.push({0, sourceAirport});
+    pq.emplace(0, sourceAirport);
 
     unordered_map<Vertex*, Vertex*> parent;
 
@@ -433,8 +433,8 @@ bool excludeCountries(Vertex* v, vector<string> &countries) {
 }
 
 
-int Manager::getTripDistance(const vector<string> &trip) {
-    int res = 0;
+double Manager::getTripDistance(const vector<string> &trip) {
+    double res = 0.0;
 
     auto it = trip.begin();
     string first = *it;
@@ -447,7 +447,7 @@ int Manager::getTripDistance(const vector<string> &trip) {
     return res;
 }
 
-int Manager::getDistance(const string &u, const string &v) {
+double Manager::getDistance(const string &u, const string &v) {
     auto p = findShortestPath(u, v);
 
     auto it = p.begin();
@@ -548,7 +548,7 @@ vector<Airport> Manager::findShortestPathExcludeCountries(const string &u, const
     auto arrival = connections.findVertex(getAirport(v));
 
 
-    priority_queue<pair<int, Vertex*>, vector<pair<int, Vertex*>>, greater<pair<int, Vertex*>>> pq;
+    priority_queue<pair<int, Vertex*>, vector<pair<int, Vertex*>>, greater<>> pq;
 
 
     Vertex* sourceAirport = connections.findVertex(getAirport(u));
@@ -561,7 +561,7 @@ vector<Airport> Manager::findShortestPathExcludeCountries(const string &u, const
     }
 
     distances[sourceAirport] = 0;
-    pq.push({0, sourceAirport});
+    pq.emplace(0, sourceAirport);
 
     unordered_map<Vertex*, Vertex*> parent;
 
@@ -584,7 +584,7 @@ vector<Airport> Manager::findShortestPathExcludeCountries(const string &u, const
 
                 if (newDistance < distances[neighbor]) {
                     distances[neighbor] = newDistance;
-                    pq.push({newDistance, neighbor});
+                    pq.emplace(newDistance, neighbor);
                     parent[neighbor] = current;
                 }
             }

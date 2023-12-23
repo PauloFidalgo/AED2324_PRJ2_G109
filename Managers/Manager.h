@@ -50,8 +50,8 @@ public:
     vector<Airport> findShortestPath(const string &u, const string &v);
     vector<Edge> getOutFlights(const string &code) const;
     vector<Airport> findShortestPathExcludeCountries(const string &u, const string &v, vector<string> &countries);
-    int getDistance(const string &u, const string &v);
-    int getTripDistance(const vector<string> &trip);
+    double getDistance(const string &u, const string &v);
+    double getTripDistance(const vector<string> &trip);
     vector<Airport> scheduleTripMinConnection(const string &u, const string &v, vector<string> & visit);
     vector<Airport> scheduleTripMinDistance(const string &u, const string &v, vector<string> & visit);
     vector<Airport> bfsMinConnections(const string &s, const string &t);
