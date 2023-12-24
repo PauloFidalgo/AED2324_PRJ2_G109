@@ -2,6 +2,9 @@
 
 std::stack<State*> State::stateHistory;
 
+State::State() {
+    this->manager = Manager();
+}
 
 State::~State() {
     while (!stateHistory.empty()){

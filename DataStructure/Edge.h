@@ -21,8 +21,8 @@ class Edge {
 public:
     Edge(Vertex *d, double w);
     void addAirline(Airline* airline);
-    std::set<Airline *> getAirlines() const;
-    Vertex *getDest() const;
+    std::set<Airline*> getAirlines() const;
+    Vertex* getDest() const;
     void setDest(Vertex *dest);
     double getWeight() const;
     void setWeight(double weight);
