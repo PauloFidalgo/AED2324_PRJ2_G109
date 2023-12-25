@@ -35,6 +35,13 @@ public:
     Airport* getAirportPerCode(const string &code) const;
     Airline* getAirlinePerCode(const string &code) const;
     vector<Vertex*> airportsAtDistanceK(const string &source, int k);
+    void dfsVisit(Vertex *v, Vertex *t, vector<Airport> &flights);
+    bool hasPath(Vertex *v, Vertex *t, vector<Airport> &flights);
+    vector<Airport> pathExists(Airport *d, Airport *t);
+    vector<Airport> getPath(Airport *source, Airport *destination);
+    vector<Vertex*> airportsAtDistanceK(Airport *source, int k);
+    void articulationPoints();
+    void dfsApp(Vertex *v, stack<Airport> &s, vector<Airport> &res, int &i);
     Airport* getClosestAirport(const double &x, const double &y);
     vector<Airport*> getAiportsPerCoordinatesRange(const double &x, const double &y, const int &range);
     vector<Airport*> articulationPoints();
@@ -60,6 +67,64 @@ public:
     vector<Airport*> findMinConnectionsExcludeCountries(const string &s, const string &t, vector<string> & countries);
     unordered_map<string, int> outFlightsPerAirport(const string &s);
     unordered_map<string, int> inFlightsPerAirport(const string &d);
+
+    //--------------------------------------------------------------------------------------------------
+    void getNumAirportsAndFlights() const;
+
+    void getNumFlightsAndAirlines(const string &airportCode) const;
+    void getNumFlightsAndAirlinesByName(const string &airportName) const;
+
+    void getNumFlightsPerCity(const string &city) const;
+
+    void getNumFlightsPerAirline(const string &airlineCode) const;
+    void getNumFlightsPerAirlineByName(const string &airlineName) const;
+
+    void getCountriesCanFlyToAirport(const string &airportCode) const;
+    void getCountriesCanFlyToAirportByName(const string &airportName) const;
+
+    void getCountriesCanFlyToCity(const string &city) const;
+
+    void getDestinantionsDistance1(const string &airportCode) const;
+    void getDestinationsDistance1ByName(const string &airportName) const;
+
+    void getDestinantions(const string &airportCode) const;
+    void getDestinantionsByName(const string &airportName) const;
+
+    void getDestinantionsUntilDistanceK(const string &airportCode, const int &k) const;
+    void getDestinantionsUntilDistanceKByName(const string &airportName, const int &k) const;
+
+    //adicionar por cities e countries, incluir rejected vector, ou airlines obrigatorias
+
+    void diameterPairs() const;
+
+    void findComponentDiameterPairs(Vertex *origin, vector<pair<Airport, Airport>> &result, int &i) const;
+
+    void getTopKGreatestTrafficAirport(int k) const;
+
+    void getTopKGreatestTrafficAirportPerCountry(int k, const string &country) const;
+
+    void getTopKGreatestTrafficAirline(int k) const;
+
+    void getTopKGreatestTrafficAirlinePerCountry(int k, const string &country) const;
+    //fazer para mais e menos traffic
+    //fazer para cidades e paises
+
+    //top k airports com para onde voa uma companhia x;
+    //top k airports com mais e menos companhias diferentes;
+    //top k airports para onde voa mais a companhia x (racio entre voos para o aeroporto e voos totais); absoluto ou relativo
+    //listar ailines por aeroporto
+
+
+
+    void listAiportsPerCountry(const string &country) const;
+
+    void searchAirportsByName(const string &airportName);
+
+    void searchAirlinesByName(const string &airlineName);
+
+    void printAirportInfo(const string &airportCode);
+
+    void printAirlineInfo(const string &airlineCode);
 };
 
 

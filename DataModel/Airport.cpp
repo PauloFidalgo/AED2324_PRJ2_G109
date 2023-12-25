@@ -30,3 +30,23 @@ std::string Airport::getName() const {
 std::string Airport::getCountry() const {
     return this->country;
 }
+
+std::string Airport::getCity() const {
+    return this->city;
+}
+
+void Airport::increaseNumFlightsOut() {
+    numFlightsOut++;
+}
+
+int Airport::getNumFlightsOut() const {
+    return numFlightsOut;
+}
+
+void Airport::increaseNumFlightsIn() {
+    numFlightsIn++;
+}
+
+int Airport::getNumFlightsIn() const {
+    return numFlightsIn;
+}

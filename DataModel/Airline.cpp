@@ -9,3 +9,24 @@ Airline::Airline(const std::string &code, const std::string &name, const std::st
 std::string Airline::getName() const {
     return name;
 }
+
+void Airline::increaseNumFlights(){
+    this->numFlights++;
+}
+
+int Airline::getNumFlights() const {
+    return this->numFlights;
+}
+
+std::string Airline::getCode() const {
+    return this->code;
+}
+
+std::string Airline::getCountry() const {
+    return country;
+}
+
+std::string Airline::getCallsign() const {
+    return  callsign;
+}
+
