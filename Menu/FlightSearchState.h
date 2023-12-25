@@ -24,8 +24,8 @@ public:
 
     const std::string& getFrom() const;
     const std::string& getTo() const;
-    const int& getX() const;
-    const int& getY() const;
+    const double & getX() const;
+    const double & getY() const;
 
 };
 

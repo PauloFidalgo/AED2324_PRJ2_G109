@@ -8,11 +8,11 @@ using namespace std;
 
 CoordinatesFilterState::CoordinatesFilterState(): x(0),y(0) {}
 
-void CoordinatesFilterState::setX(const int &x) {
+void CoordinatesFilterState::setX(const double &x) {
     this->x = x;
 }
 
-void CoordinatesFilterState::setY(const int &y) {
+void CoordinatesFilterState::setY(const double &y) {
     this->y = y;
 }
 

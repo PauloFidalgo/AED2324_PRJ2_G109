@@ -16,15 +16,15 @@ public:
     CoordinatesFilterState();
 
     // Setters
-    void setX(const int& x);
-    void setY(const int& y);
+    void setX(const double& x);
+    void setY(const double& y);
 
     void displayMenu() override;
     State * handleInput() override;
 
-    int getX() const;
+    double getX() const;
 
-    int getY() const;
+    double getY() const;
 
 };
 

@@ -119,10 +119,10 @@ const std::string &FlightSearchState::getFrom() const {
     return from;
 }
 
-const int &FlightSearchState::getX() const {
+const double &FlightSearchState::getX() const {
     return x;
 }
 
-const int &FlightSearchState::getY() const {
+const double &FlightSearchState::getY() const {
     return y;
 }
