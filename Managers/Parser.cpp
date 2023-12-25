@@ -17,6 +17,7 @@ void Parser::readAirlines() {
     try {
         iff.open("../dataset/airlines.csv", ios::in);
         unordered_map<string, Airline*> air;
+        unordered_map<string, Airline*> airByName;
         string line, code, name, callsign, country;
 
         getline(iff, line);
@@ -31,11 +32,13 @@ void Parser::readAirlines() {
 
             auto* airline = new Airline(code, name, callsign, country);
             air.insert({code, airline});
+            airByName.insert({name, airline});
         }
 
         iff.close();
 
         this->airlines = air;
+        this->airlinesByName = airByName;
 
     } catch (const ifstream::failure& e) {
         cout << "Falha a abrir o ficheiro" << endl;
@@ -62,8 +65,10 @@ void Parser::readFlights(Graph &g) {
 
             if (depart != airports.end() && dest != airports.end()) {
                 double distance = haversine(depart->second->getLatitude(),depart->second->getLongitude(), dest->second->getLatitude(), dest->second->getLongitude());
-
+                depart->second->increaseNumFlightsOut();
+                dest->second->increaseNumFlightsIn();
                 auto air = getAirline(airline);
+                air->increaseNumFlights();
                 auto source = g.findVertex(depart->second);
                 if (source != nullptr){
                     if (source->hasFlight(dest->second)) {
@@ -114,6 +119,7 @@ Graph Parser::getGraph() {
 
             auto* airport = new Airport(code, name, city, country, latitude, longitude);
             airports.insert({code, airport});
+            airportsByName.insert({name, airport});
 
             auto cityAir = cityAirports.find(city);
             auto countryAir = countryCities.find(country);
@@ -196,3 +202,13 @@ Parser::~Parser() {
         delete elem.second;
     }
 }
+
+std::unordered_map<std::string, Airport *> Parser::getAirportsByName() {
+    return airportsByName;
+}
+
+std::unordered_map<std::string, Airline *> Parser::getAirlinesByName() {
+    return airlinesByName;
+}
+
+

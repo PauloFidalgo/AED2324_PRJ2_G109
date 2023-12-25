@@ -1,21 +1,25 @@
 Porks:
 - Listagens:
-    - Aeroportos com mais voos
-    - Companhias com mais voos
-    - Companhias com mais voos por país
-    - Compannihas com mais voos intercontinentais (Cria mapa com lista de países e respespeto continente)
-    - Aeroportos com mais companhias
-    - Número global de airports
-    - Listar aeroportos por pais
-    - Número de voos a sair de aeroporto e de quantas diferentes companhias
-    - Listar os países in de um airport
-    - Listar os países out de um airport
-    - Número global de voos
-    - Número de voos por cidade / airline
-    - Companhias que voam para um país
+    - Aeroportos com mais voos (done)
+    - Aeroportos com mais voos por país (done)
+    - Companhias com mais voos (done)
+    - Companhias com mais voos por país (done)
+    - Companihas com mais voos intercontinentais (Cria mapa com lista de países e respespeto continente)
+    - Aeroportos com mais companhias dnoqwoidqwdoji
+    - Número global de airports (done)
+    - Listar aeroportos por pais  (done)
+    - Número de voos a sair de aeroporto e de quantas diferentes companhias (done)
+    - Listar os países in de um airport nwdnqwndqw
+    - Listar os países out de um airport qdnqwdoiqwdoi
+    - Número global de voos (done)
+    - Número de voos por cidade / airline (done)
+    - Companhias que voam para um país asdkjeq
     - Listar os países que posso chegar a partir de um aeroporto (destinos) e as respetivas companhias
-    - Companhias por aeroporto (mais)
-    -
+    - Pesquisar informação sobre um aeroporto (done)
+    - Pesquisar informação sobre uma companhia (done)
+
+
+
 
 Wagner:
 - Main Menu:
