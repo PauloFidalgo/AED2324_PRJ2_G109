@@ -25,8 +25,8 @@ private:
     unordered_map<string, Airport*> airports;
     unordered_map<string, vector<Airport*>> cityAirports;
     unordered_map<string, unordered_set<string>> countryCities;
-    std::map<std::string, Airport*> airportsByName;
-    std::map<std::string, Airline*> airlinesByName;
+    unordered_map<std::string, Airport*> airportsByName;
+    unordered_map<std::string, Airline*> airlinesByName;
     Graph connections;
 
 public:
@@ -48,7 +48,7 @@ public:
     vector<Airport*> getAirportsPerCountry(const string &c);
     vector<vector<Airport>> scc();
     bool hasConnection(const string &s, const string &t);
-    vector<Airport*> getAiportsPerCity(const string& city);
+    vector<Airport*> getAiportsPerCity(const string& city) const;
     bool dfsVisitBool(Vertex *v, Vertex *t);
     vector<Airport> hasFlightAirline(Airport *source, Airport *target, vector<Airline*> &setOfAirlines);
     void dfsScc(Vertex *v, stack<Airport> &s, vector<vector<Airport>> &res, int &i);
@@ -91,6 +91,8 @@ public:
     void getDestinantionsUntilDistanceK(const string &airportCode, const int &k) const;
     void getDestinantionsUntilDistanceKByName(const string &airportName, const int &k) const;
 
+    //adicionar por cities e countries, incluir rejected vector, ou airlines obrigatorias
+
     void diameterPairs() const;
 
     void findComponentDiameterPairs(Vertex *origin, vector<pair<Airport, Airport>> &result, int &i) const;
@@ -102,6 +104,15 @@ public:
     void getTopKGreatestTrafficAirline(int k) const;
 
     void getTopKGreatestTrafficAirlinePerCountry(int k, const string &country) const;
+    //fazer para mais e menos traffic
+    //fazer para cidades e paises
+
+    //top k airports com para onde voa uma companhia x;
+    //top k airports com mais e menos companhias diferentes;
+    //top k airports para onde voa mais a companhia x (racio entre voos para o aeroporto e voos totais); absoluto ou relativo
+    //listar ailines por aeroporto
+
+
 
     void listAiportsPerCountry(const string &country) const;
 

@@ -8,7 +8,7 @@ int main() {
     Manager m;
     //m.getNumAirportsAndFlights();
     //m.getNumFlightsAndAirlines("HGU");
-    //m.getNumFlightsPerCity("Mount Hagen");
+    m.getNumFlightsPerCity("Mount Hagen");
     //m.getNumFlightsPerAirline("TAP");
     //m.getCountriesCanFlyToAirport("JFK");
     //m.getCountriesCanFlyToCity("New York");

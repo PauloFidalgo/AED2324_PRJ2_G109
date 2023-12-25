@@ -4,7 +4,6 @@
 
 #include <iostream>
 #include "Manager.h"
-#include <iostream>
 #include <unordered_map>
 #include <algorithm>
 #include <limits>
@@ -416,11 +415,10 @@ void Manager::getNumFlightsAndAirlinesByName(const string &airportName) const {
 
 void Manager::getNumFlightsPerCity(const string &city) const {
     int numFlights = 0;
-    for (auto& elem : connections.getVertexSet()) {
-        if (elem->getInfo().getCity() == city) {
-            numFlights += elem->getInfo().getNumFlightsOut();
-            numFlights += elem->getInfo().getNumFlightsIn();
-        }
+    vector<Airport*> air = getAiportsPerCity(city);
+    for (auto& elem : air) {
+        numFlights += elem->getNumFlightsOut();
+        numFlights += elem->getNumFlightsIn();
     }
     int space = city.length() > to_string(numFlights).length() ? city.length() + 2: to_string((numFlights)).length() + 2;
     int lenCity = (space - city.length()) / 2;
@@ -921,7 +919,7 @@ unordered_map<string, int> Manager::inFlightsPerAirport(const string &d) {
     return res;
 }
 
-vector<Airport*> Manager::getAiportsPerCity(const string& city) {
+vector<Airport*> Manager::getAiportsPerCity(const string& city) const {
     auto it = cityAirports.find(city);
 
     if (it != cityAirports.end()) return it->second;
