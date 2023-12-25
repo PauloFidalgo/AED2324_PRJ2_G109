@@ -31,4 +31,8 @@ add_executable(AED2324_PRJ2_G109
         Menu/ChooseTypeOfAirportState.cpp
         Menu/FilterState.h
         Menu/FilterState.cpp
+        Menu/FilterSearch.cpp
+        Menu/FilterSearch.h
+        Menu/FilterMinimization.cpp
+        Menu/FilterMinimization.h
 )
