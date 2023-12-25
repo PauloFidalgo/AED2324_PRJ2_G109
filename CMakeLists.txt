@@ -20,19 +20,15 @@ add_executable(AED2324_PRJ2_G109
         Managers/Manager.cpp
         Managers/Manager.h
         Menu/State.h
+        Menu/State.cpp
         Menu/MainMenuState.h
         Menu/MainMenuState.cpp
         Menu/MenuManager.h
         Menu/MenuManager.cpp
-        Menu/FilghtSearchState.h
-        Menu/FilghtSearchState.cpp
-        Menu/State.cpp
+        Menu/FlightSearch.cpp
+        Menu/FlightSearch.cpp
         Menu/ChooseTypeOfAirportState.h
         Menu/ChooseTypeOfAirportState.cpp
         Menu/FilterState.h
         Menu/FilterState.cpp
-        Menu/FilterSearch.cpp
-        Menu/FilterSearch.h
-        Menu/FilterMinimization.cpp
-        Menu/FilterMinimization.h
 )

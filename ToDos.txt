@@ -32,6 +32,7 @@ Wagner:
                     - Selecione País
                     - Quer selecionar aeroporto ?
                     - Selecione Aeroporto ? (pode querer ir pro país sem ser pra um aeroporto especifico)
+
         - Quer filtros?
             - Não (BFS simples)
             - Sim:
@@ -39,6 +40,7 @@ Wagner:
                 - Voas apenas em algumas companhias (lista) (0 já acabou, 1 - Tap Air, 2 - Lufthansa,3,4.... selecionar)
                 - Passar em país (Quais)
                 - Não passar em país (Quais)
+
     - Informações (ordenações)
     - Estatísticas
 - Desenha um aviao no menu

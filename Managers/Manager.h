@@ -123,7 +123,7 @@ public:
     void printAirportInfo(const string &airportCode);
 
     void printAirlineInfo(const string &airlineCode);
+    
 };
-
 
 #endif //AED2324_PRJ2_G109_MANAGER_H

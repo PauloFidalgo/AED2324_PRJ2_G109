@@ -3,10 +3,12 @@
 //
 
 #include "MainMenuState.h"
-#include "FilghtSearchState.h"
+#include "FlightSearch.h"
 #include <iostream>
+#include "../Managers/Manager.h"
 using namespace std;
-FilghtSearchState flightSearchState;
+
+FlightSearch flightSearchState;
 
 
 void MainMenuState::displayMenu() {
@@ -16,7 +18,7 @@ void MainMenuState::displayMenu() {
     cout << "|                                                                                                          |" << endl;
     cout << "|                                                                      |                                   |" << endl;
     cout << "|                                                                      |                                   |" << endl;
-    cout << "|            1. Search                                           --====|====--                             |" << endl;
+    cout << "|            1. Flight Search                                    --====|====--                             |" << endl;
     cout << "|            2. Information                                            |                                   |" << endl;
     cout << "|            3. Statistics                                        .-         -.                            |" << endl;
     cout << "|                                                                .'_________'.                             |" << endl;
@@ -36,7 +38,7 @@ void MainMenuState::displayMenu() {
 
 State * MainMenuState::handleInput() {
     int userInput;
-    std::cout << " Enter your choice: ";
+    std::cout << "Enter your choice: ";
     std::cin >> userInput;
 
     switch (userInput) {
@@ -44,13 +46,14 @@ State * MainMenuState::handleInput() {
             State::stateHistory.push(this);
             return &flightSearchState;
         case 2:
-            std:: cout << " PorksState"<< std::endl;
+            std::cout << " PorksState" << std::endl;
             break;
         case -1:
             exit(0);
         default:
-            std:: cout << " Invalid choice. try again"<< std::endl;
+            std::cout << " Invalid choice. try again" << std::endl;
             return this;
     }
+    return nullptr;
 }
 

@@ -4,41 +4,58 @@
 
 #include "FilterState.h"
 #include "iostream"
+#include "FlightSearch.h"
 
 using namespace std;
 
+FilterState::FilterState()
+        : from(""), to("") {}
+
+void FilterState::setFrom(const std::string& from) {
+    this->from = from;
+}
+
+void FilterState::setTo(const std::string& to) {
+    this->to = to;
+}
+
 void FilterState::displayMenu() {
+
+    cout << endl;
     cout << "________________________________________________________________________________________________________" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                                           Choose a filter                                            |" << endl;
+    cout << "|                                           Filters :                                                  |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                                     1 - Max Scales                                                   |" << endl;
-    cout << "|                                     2 - Choose specific Airlines                                     |" << endl;
-    cout << "|                                     3 - Choose specific countries to pass through                    |" << endl;
-    cout << "|                                     4 - Choose specific countries not to pass through                |" << endl;
+    cout << "|                                     1 - exclude 1 or more airlines                                   |" << endl;
+    cout << "|                                     2 - include 1 or more airlines                                   |" << endl;
+    cout << "|                                     3 - Avoid passing through 1 or more country's                    |" << endl;
+    cout << "|                                     4 - Pass trough 1 or more country's                              |" << endl;
+    cout << "|                                     5 - Minimize the number of distinct airlines                     |" << endl;
+    cout << "|                                     6 - Distance Travelled                                           |" << endl;
+    cout << "|                                     7 - Done                                                         |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|  0 - Go back                                                                                         |" << endl;
     cout << "| -1 - Exit                                                                                            |" << endl;
     cout << "--------------------------------------------------------------------------------------------------------" << endl;
 }
 
-State *FilterState::handleInput() {
+State* FilterState::handleInput() {
     int userInput;
-    std::cout << " Enter your choice: ";
+    std::cout << "Enter your choice: ";
     std::cin >> userInput;
 
     switch (userInput) {
         case 1:
-            std::cout << "Max Scales" << std::endl;
-            break;
+            manager.getNumFlightsAndAirlines(this->from);
+            return this;
         case 2:
-            std::cout << "Choose specific Airlines" << std::endl;
+            std::cout << "Name" << std::endl;
             break;
         case 3:
-            std::cout << "Choose specific countries to pass through " << std::endl;
+            std::cout << "Country" << std::endl;
             break;
         case 4:
-            std::cout << "Choose specific countries not to pass through" << std::endl;
+            std::cout << "Coordinates" << std::endl;
             break;
         case 0:
             if(!State::stateHistory.empty()){
@@ -46,7 +63,7 @@ State *FilterState::handleInput() {
                 State::stateHistory.pop();
                 return previousState;
             }
-            else{
+            else {
                 std::cout << "No previous Menu available" << std::endl;
                 return this;
             }
