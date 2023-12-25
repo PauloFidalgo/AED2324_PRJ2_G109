@@ -23,7 +23,7 @@ unordered_map<string, Airport*> Manager::getAirports() {
     return this->airports;
 }
 
-Airport* Manager::getAirport(const std::string &code) const {
+Airport* Manager::getAirportPerCode(const std::string &code) const {
     auto it = airports.find(code);
 
     if (it != airports.end()) {
@@ -33,7 +33,7 @@ Airport* Manager::getAirport(const std::string &code) const {
     return nullptr;
 }
 
-Airline* Manager::getAirline(const std::string &code) const {
+Airline* Manager::getAirlinePerCode(const std::string &code) const {
     auto it = airlines.find(code);
 
     if (it != airlines.end()) {
@@ -43,10 +43,90 @@ Airline* Manager::getAirline(const std::string &code) const {
     return nullptr;
 }
 
+vector<Airport*> Manager::getAirportsPerCountry(const string &c) {
+    auto cities = this->getCitiesPerCountry(c);
+
+    vector<Airport*> res;
+
+    if (!cities.empty()) {
+        for (auto &city : cities) {
+            auto air = this->getAiportsPerCity(city);
+
+            if (!air.empty()) {
+                res.insert(res.end(), make_move_iterator(air.begin()), make_move_iterator(air.end()));
+            }
+        }
+    }
+
+    return res;
+}
+
+vector<Airport*> Manager::getAiportsPerCity(const string& city) {
+    auto it = cityAirports.find(city);
+
+    if (it != cityAirports.end()) return it->second;
+
+    return {};
+}
+
+double haversine(double lat1, double lon1, double lat2, double lon2) {
+    double dLat = (lat2 - lat1) *
+                  M_PI / 180.0;
+    double dLon = (lon2 - lon1) *
+                  M_PI / 180.0;
+
+    lat1 = (lat1) * M_PI / 180.0;
+    lat2 = (lat2) * M_PI / 180.0;
+
+    double a = pow(sin(dLat / 2), 2) +
+               pow(sin(dLon / 2), 2) *
+               cos(lat1) * cos(lat2);
+    double rad = 6371;
+    double c = 2 * asin(sqrt(a));
+    return rad * c;
+}
+
+vector<Airport*> Manager::getAiportsPerCoordinatesRange(const double &x, const double &y, const int &range) {
+    double dist;
+    vector<Airport*> res;
+    for (auto &airport : connections.getVertexSet()) {
+        dist = haversine(x, y, airport->getInfo()->getLatitude(), airport->getInfo()->getLongitude());
+
+        if (dist <= range) {
+            res.push_back(airport->getInfo());
+        }
+    }
+
+    return res;
+}
+
+Airport* Manager::getClosestAirport(const double &x, const double &y) {
+    double min = MAXFLOAT, dist;
+    Airport* closest;
+
+    for (auto &airport : connections.getVertexSet()) {
+        dist = haversine(x, y, airport->getInfo()->getLatitude(), airport->getInfo()->getLongitude());
+        if (dist < min) {
+            min = dist;
+            closest = airport->getInfo();
+        }
+    }
+
+    return closest;
+}
+
+unordered_set<string> Manager::getCitiesPerCountry(const string& c) {
+    auto it = countryCities.find(c);
+
+    if (it != countryCities.end()) return it->second;
+
+    return {};
+}
+
 
 bool Manager::hasConnection(const string &s, const string &t) {
-    auto source = connections.findVertex(getAirport(s));
-    auto target = connections.findVertex(getAirport(t));
+    auto source = connections.findVertex(getAirportPerCode(s));
+    auto target = connections.findVertex(getAirportPerCode(t));
 
     for (auto n : connections.getVertexSet()) {
         n->setVisited(false);
@@ -76,7 +156,7 @@ vector<Vertex*> Manager::airportsAtDistanceK(const string &source, int k) {
         airport->setVisited(false);
     }
 
-    auto s = getAirport(source);
+    auto s = getAirportPerCode(source);
 
     auto depart = connections.findVertex(s);
     depart->setVisited(true);
@@ -110,13 +190,13 @@ vector<Vertex*> Manager::airportsAtDistanceK(const string &source, int k) {
     return res;
 }
 
-vector<Airport> Manager::articulationPoints() {
+vector<Airport*> Manager::articulationPoints() {
     for (auto &airport : connections.getVertexSet()) {
         airport->setVisited(false);
     }
 
-    vector<Airport> res;
-    stack<Airport> s;
+    vector<Airport*> res;
+    stack<Airport*> s;
     int i = 0;
 
     for (auto &airport : connections.getVertexSet()) {
@@ -127,7 +207,7 @@ vector<Airport> Manager::articulationPoints() {
     return res;
 }
 
-void Manager::dfsApp(Vertex *v, stack<Airport> &s, vector<Airport> &res, int &i) {
+void Manager::dfsApp(Vertex *v, stack<Airport*> &s, vector<Airport*> &res, int &i) {
     v->setNum(i);
     v->setLow(i);
     i++;
@@ -195,13 +275,13 @@ vector<Airport> Manager::hasFlightAirline(Airport *source, Airport *target, vect
     return res;
 }
 
-vector<vector<Airport>> Manager::scc() {
+vector<vector<Airport*>> Manager::scc() {
     for (auto &airport : connections.getVertexSet()) {
         airport->setVisited(false);
     }
 
-    vector<vector<Airport>> res;
-    stack<Airport> s;
+    vector<vector<Airport*>> res;
+    stack<Airport*> s;
 
     int i = 0;
     for (auto &airport : connections.getVertexSet()) {
@@ -214,7 +294,7 @@ vector<vector<Airport>> Manager::scc() {
 
 }
 
-void Manager::dfsScc(Vertex *v, stack<Airport> &s, vector<vector<Airport>> &res, int &i) {
+void Manager::dfsScc(Vertex *v, stack<Airport*> &s, vector<vector<Airport*>> &res, int &i) {
     v->setLow(i);
     v->setNum(i);
     v->setProcessing(true);
@@ -237,9 +317,9 @@ void Manager::dfsScc(Vertex *v, stack<Airport> &s, vector<vector<Airport>> &res,
 
     v->setProcessing(false);
 
-    vector<Airport> scc;
+    vector<Airport*> scc;
     if (v->getNum() == v->getLow()) {
-        while (!s.empty() && s.top().getCode() != v->getInfo().getCode()){
+        while (!s.empty() && s.top()->getCode() != v->getInfo()->getCode()){
             scc.push_back(s.top());
             s.pop();
         }
@@ -254,8 +334,8 @@ void Manager::dfsScc(Vertex *v, stack<Airport> &s, vector<vector<Airport>> &res,
     }
 }
 
-void Manager::DFS(Vertex* current, Vertex *destination, int maxFlights, vector<Airport>& currentPath,
-                  vector<vector<Airport>>& allPaths) {
+void Manager::DFS(Vertex* current, Vertex *destination, int maxFlights, vector<Airport*>& currentPath,
+                  vector<vector<Airport*>>& allPaths) {
     if (current == destination) {
         allPaths.push_back(currentPath);
         return;
@@ -278,16 +358,16 @@ void Manager::DFS(Vertex* current, Vertex *destination, int maxFlights, vector<A
     current->setVisited(false);
 }
 
-vector<vector<Airport>> Manager::pathMaximumConnectionFlights(const string& startAirport, const string& destination, int maxFlights) {
+vector<vector<Airport*>> Manager::pathMaximumConnectionFlights(const string& startAirport, const string& destination, int maxFlights) {
     for (auto& node : connections.getVertexSet()) {
         node->setVisited(false);
     }
 
-    Vertex* start = connections.findVertex(getAirport(startAirport));
-    Vertex* end = connections.findVertex(getAirport(destination));
+    Vertex* start = connections.findVertex(getAirportPerCode(startAirport));
+    Vertex* end = connections.findVertex(getAirportPerCode(destination));
 
-    std::vector<std::vector<Airport>> allPaths;
-    std::vector<Airport> currentPath;
+    std::vector<std::vector<Airport*>> allPaths;
+    std::vector<Airport*> currentPath;
 
     currentPath.push_back(start->getInfo());
     DFS(start, end, maxFlights, currentPath, allPaths);
@@ -298,7 +378,7 @@ vector<vector<Airport>> Manager::pathMaximumConnectionFlights(const string& star
 
 
 vector<Edge> Manager::getOutFlights(const string &code) const {
-    auto v = getAirport(code);
+    auto v = getAirportPerCode(code);
 
 
     if (v == nullptr) return {};
@@ -310,7 +390,7 @@ vector<Edge> Manager::getOutFlights(const string &code) const {
 }
 
 
-bool notIn(vector<Airport> &v, const Airport &t) {
+bool notIn(vector<Airport*> &v, Airport* &t) {
     for (auto &it : v) {
         if (it == t) return false;
     }
@@ -318,15 +398,15 @@ bool notIn(vector<Airport> &v, const Airport &t) {
 }
 
 
-vector<Airport> Manager::bfsMinConnections(const string &s, const string &t) {
+vector<Airport*> Manager::bfsMinConnections(const string &s, const string &t) {
     for (auto node : connections.getVertexSet()) {
         node->setVisited(false);
     }
 
-    auto first = connections.findVertex(getAirport(s));
-    auto last = connections.findVertex(getAirport(t));
+    auto first = connections.findVertex(getAirportPerCode(s));
+    auto last = connections.findVertex(getAirportPerCode(t));
 
-    vector<Airport> path;
+    vector<Airport*> path;
 
     queue<Vertex*> q;
     unordered_map<Vertex*, Vertex*> parent;
@@ -362,7 +442,7 @@ vector<Airport> Manager::bfsMinConnections(const string &s, const string &t) {
     return path;
 }
 
-vector<Airport> Manager::findShortestPath(const string &u, const string &v) {
+vector<Airport*> Manager::findShortestPath(const string &u, const string &v) {
     unordered_map<Vertex*, int> distances;
     for (Vertex* vertex : connections.getVertexSet()) {
         distances[vertex] = numeric_limits<int>::max();
@@ -372,11 +452,11 @@ vector<Airport> Manager::findShortestPath(const string &u, const string &v) {
     priority_queue<pair<int, Vertex*>, vector<pair<int, Vertex*>>, greater<>> pq;
 
 
-    Vertex* sourceAirport = connections.findVertex(getAirport(u));
-    Vertex* targetAirport = connections.findVertex(getAirport(v));
+    Vertex* sourceAirport = connections.findVertex(getAirportPerCode(u));
+    Vertex* targetAirportPerCode = connections.findVertex(getAirportPerCode(v));
 
 
-    if (!sourceAirport || !targetAirport) {
+    if (!sourceAirport || !targetAirportPerCode) {
         cerr << "Source or target airport not found." << endl;
         return {};
     }
@@ -412,8 +492,8 @@ vector<Airport> Manager::findShortestPath(const string &u, const string &v) {
         }
     }
 
-    vector<Airport> path;
-    Vertex* current = targetAirport;
+    vector<Airport*> path;
+    Vertex* current = targetAirportPerCode;
 
     while (current != nullptr) {
         path.insert(path.begin(), current->getInfo());
@@ -425,7 +505,7 @@ vector<Airport> Manager::findShortestPath(const string &u, const string &v) {
 
 bool excludeCountries(Vertex* v, vector<string> &countries) {
     for (const auto& country : countries) {
-        if (v->getInfo().getCountry() == country) {
+        if (v->getInfo()->getCountry() == country) {
             return true;
         }
     }
@@ -454,14 +534,14 @@ double Manager::getDistance(const string &u, const string &v) {
     double dist = 0.0;
 
     while (it != p.end()) {
-        auto source = connections.findVertex(getAirport(it->getCode()));
+        auto source = connections.findVertex(getAirportPerCode((*it)->getCode()));
 
         if (source) {
             auto nextIt = std::next(it);
 
             if (nextIt != p.end()) {
                 for (auto &edge : source->getAdj()) {
-                    if (edge.getDest()->getInfo().getCode() == nextIt->getCode()) {
+                    if (edge.getDest()->getInfo()->getCode() == (*nextIt)->getCode()) {
                         dist += edge.getWeight();
                         break;
                     }
@@ -478,12 +558,12 @@ double Manager::getDistance(const string &u, const string &v) {
     return dist;
 }
 
-vector<Airport> Manager::scheduleTripMinDistance(const string &u, const string &v, vector<string> & visit) {
+vector<Airport*> Manager::scheduleTripMinDistance(const string &u, const string &v, vector<string> & visit) {
     for (auto node : connections.getVertexSet()) {
         node->setVisited(false);
     }
 
-    vector<Airport> res;
+    vector<Airport*> res;
 
     visit.push_back(v);
     string first = u;
@@ -509,8 +589,8 @@ vector<Airport> Manager::scheduleTripMinDistance(const string &u, const string &
     return res;
 }
 
-vector<Airport> Manager::scheduleTripMinConnection(const string &u, const string &v, vector<string>& visit) {
-    vector<Airport> path;
+vector<Airport*> Manager::scheduleTripMinConnection(const string &u, const string &v, vector<string>& visit) {
+    vector<Airport*> path;
 
 
     visit.push_back(v);
@@ -532,7 +612,7 @@ vector<Airport> Manager::scheduleTripMinConnection(const string &u, const string
     return path;
 }
 
-vector<Airport> Manager::findShortestPathExcludeCountries(const string &u, const string &v, vector<string> &countries) {
+vector<Airport*> Manager::findShortestPathExcludeCountries(const string &u, const string &v, vector<string> &countries) {
     unordered_map<Vertex*, int> distances;
     for (auto &node : connections.getVertexSet()) {
         distances[node] = numeric_limits<int>::max();
@@ -544,18 +624,18 @@ vector<Airport> Manager::findShortestPathExcludeCountries(const string &u, const
         }
     }
 
-    auto depart = connections.findVertex(getAirport(u));
-    auto arrival = connections.findVertex(getAirport(v));
+    auto depart = connections.findVertex(getAirportPerCode(u));
+    auto arrival = connections.findVertex(getAirportPerCode(v));
 
 
     priority_queue<pair<int, Vertex*>, vector<pair<int, Vertex*>>, greater<>> pq;
 
 
-    Vertex* sourceAirport = connections.findVertex(getAirport(u));
-    Vertex* targetAirport = connections.findVertex(getAirport(v));
+    Vertex* sourceAirport = connections.findVertex(getAirportPerCode(u));
+    Vertex* targetAirportPerCode = connections.findVertex(getAirportPerCode(v));
 
 
-    if (!sourceAirport || !targetAirport) {
+    if (!sourceAirport || !targetAirportPerCode) {
         cerr << "Source or target airport not found." << endl;
         return {};
     }
@@ -591,8 +671,8 @@ vector<Airport> Manager::findShortestPathExcludeCountries(const string &u, const
         }
     }
 
-    vector<Airport> path;
-    Vertex* current = targetAirport;
+    vector<Airport*> path;
+    Vertex* current = targetAirportPerCode;
 
     while (current != nullptr) {
         path.insert(path.begin(), current->getInfo());
@@ -602,7 +682,7 @@ vector<Airport> Manager::findShortestPathExcludeCountries(const string &u, const
     return path;
 }
 
-vector<Airport> Manager::findMinConnectionsExcludeCountries(const string &s, const string &t, vector<string> & countries) {
+vector<Airport*> Manager::findMinConnectionsExcludeCountries(const string &s, const string &t, vector<string> & countries) {
     for (auto node : connections.getVertexSet()) {
         if (excludeCountries(node, countries)) {
             node->setVisited(true);
@@ -612,10 +692,10 @@ vector<Airport> Manager::findMinConnectionsExcludeCountries(const string &s, con
         }
     }
 
-    auto first = connections.findVertex(getAirport(s));
-    auto last = connections.findVertex(getAirport(t));
+    auto first = connections.findVertex(getAirportPerCode(s));
+    auto last = connections.findVertex(getAirportPerCode(t));
 
-    vector<Airport> path;
+    vector<Airport*> path;
 
     queue<Vertex*> q;
     unordered_map<Vertex*, Vertex*> parent;
@@ -654,7 +734,7 @@ vector<Airport> Manager::findMinConnectionsExcludeCountries(const string &s, con
 unordered_map<string, int> Manager::outFlightsPerAirport(const string &s) {
     unordered_map<string, int> res;
 
-    auto airport = connections.findVertex(getAirport(s));
+    auto airport = connections.findVertex(getAirportPerCode(s));
 
     for (auto &a : airport->getAdj()) {
         auto flights = a.getAirlines();
@@ -676,7 +756,7 @@ unordered_map<string, int> Manager::outFlightsPerAirport(const string &s) {
 unordered_map<string, int> Manager::inFlightsPerAirport(const string &d) {
     unordered_map<string, int> res;
 
-    auto airport = connections.findVertex(getAirport(d));
+    auto airport = connections.findVertex(getAirportPerCode(d));
 
     for (auto &node : connections.getVertexSet()) {
         if (node == airport) continue;
@@ -700,37 +780,8 @@ unordered_map<string, int> Manager::inFlightsPerAirport(const string &d) {
     return res;
 }
 
-vector<Airport*> Manager::getAiportsPerCity(const string& city) {
-    auto it = cityAirports.find(city);
 
-    if (it != cityAirports.end()) return it->second;
 
-    return {};
-}
 
-unordered_set<string> Manager::getCitiesPerCountry(const string& c) {
-    auto it = countryCities.find(c);
 
-    if (it != countryCities.end()) return it->second;
-
-    return {};
-}
-
-vector<Airport*> Manager::getAirportsPerCountry(const string &c) {
-    auto cities = this->getCitiesPerCountry(c);
-
-    vector<Airport*> res;
-
-    if (!cities.empty()) {
-        for (auto &city : cities) {
-            auto air = this->getAiportsPerCity(city);
-
-            if (!air.empty()) {
-                res.insert(res.end(), make_move_iterator(air.begin()), make_move_iterator(air.end()));
-            }
-        }
-    }
-
-    return res;
-}
 

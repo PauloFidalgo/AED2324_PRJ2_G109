@@ -19,7 +19,6 @@ private:
     unordered_map<string, unordered_set<string>> countryCities;
     void readFlights(Graph &g);
 public:
-    Parser();
     ~Parser();
     void readAirlines();
     Graph getGraph();
