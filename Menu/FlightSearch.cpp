@@ -16,11 +16,11 @@ using namespace std;
 FlightSearch::FlightSearch(): isSelectingFrom(true){}
 
 void FlightSearch::displayMenu() {
-    const std::string origin = isSelectingFrom ? "From" : "To";
+    const std::string origin = isSelectingFrom ? "From" : "  To";
     cout << endl;
     cout << "________________________________________________________________________________________________________" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|      "<< origin << "                     Search by:                                                               |" << endl;
+    cout << "|      "<< origin << "                     Search by:                                                             |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                     1 - Code                                                         |" << endl;
     cout << "|                                     2 - Airport name                                                 |" << endl;
