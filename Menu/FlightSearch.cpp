@@ -6,8 +6,10 @@
 #include <iostream>
 #include <string>
 #include "FilterState.h"
+#include "CoordinatesFilterState.h"
 
 FilterState filterState;
+CoordinatesFilterState coordinatesFilterState;
 
 
 using namespace std;
@@ -39,7 +41,7 @@ State *FlightSearch::handleInput() {
 
     switch (userInput) {
         case 1:
-            std::cout << "Code for " << (isSelectingFrom ? "From" : "To") << ": ";
+            std::cout << "Code " << (isSelectingFrom ? "From" : "To") << ": ";
             if (isSelectingFrom) {
                 std::cin >> from;
                 isSelectingFrom = false;
@@ -53,14 +55,46 @@ State *FlightSearch::handleInput() {
                 return &filterState;
             }
         case 2:
-            std::cout << "Enter airport name: ";
-            break;
+            std::cout << "Airport Name " << (isSelectingFrom ? "From" : "To") << ": ";
+            if (isSelectingFrom) {
+                std::cin >> from;
+                isSelectingFrom = false;
+                return this;
+            } else {
+                std::cin >> to;
+                isSelectingFrom = true;
+                filterState.setFrom(from);
+                filterState.setTo(to);
+
+                return &filterState;
+            }
         case 3:
-            std::cout << "Enter country: ";
-            break;
+            std::cout << "Country " << (isSelectingFrom ? "From" : "To") << ": ";
+            if (isSelectingFrom) {
+                std::cin >> from;
+                isSelectingFrom = false;
+                return this;
+            } else {
+                std::cin >> to;
+                isSelectingFrom = true;
+                filterState.setFrom(from);
+                filterState.setTo(to);
+
+                return &filterState;
+            }
         case 4:
-            std::cout << "Enter coordinates: ";
-            break;
+            std::cout << "Coordinates " << (isSelectingFrom ? "From" : "To") << ": ";
+            if (isSelectingFrom) {
+                std::cin >> from;
+                isSelectingFrom = false;
+                return this;
+            } else {
+                std::cin >> to;
+                isSelectingFrom = true;
+                coordinatesFilterState.setX(stoi(from));
+                coordinatesFilterState.setY(stoi(to));
+                return &coordinatesFilterState;
+            }
         case 0:
             if(!State::stateHistory.empty()){
                 State* previousState = State::stateHistory.top();
@@ -77,7 +111,6 @@ State *FlightSearch::handleInput() {
             std:: cout << " Invalid choice. try again"<< std::endl;
             return this;
     }
-    return nullptr;
 }
 
 const std::string &FlightSearch::getTo() const {
@@ -86,4 +119,12 @@ const std::string &FlightSearch::getTo() const {
 
 const std::string &FlightSearch::getFrom() const {
     return from;
+}
+
+const int &FlightSearch::getX() const {
+    return x;
+}
+
+const int &FlightSearch::getY() const {
+    return y;
 }

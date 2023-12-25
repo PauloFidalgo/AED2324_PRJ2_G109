@@ -31,4 +31,6 @@ add_executable(AED2324_PRJ2_G109
         Menu/ChooseTypeOfAirportState.cpp
         Menu/FilterState.h
         Menu/FilterState.cpp
+        Menu/CoordinatesFilterState.h
+        Menu/CoordinatesFilterState.cpp
 )

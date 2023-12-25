@@ -13,6 +13,8 @@ private:
     bool isSelectingFrom;
     string from;
     string to;
+    double x;
+    double y;
 
 public:
     FlightSearch();
@@ -22,6 +24,9 @@ public:
 
     const std::string& getFrom() const;
     const std::string& getTo() const;
+    const int& getX() const;
+    const int& getY() const;
+
 };
 
 
