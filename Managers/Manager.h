@@ -25,6 +25,8 @@ private:
     unordered_map<string, Airport*> airports;
     unordered_map<string, vector<Airport*>> cityAirports;
     unordered_map<string, unordered_set<string>> countryCities;
+    unordered_map<string, Airport*> airportsByName;
+    unordered_map<string, Airline*> airlinesByName;
     Graph connections;
 
 public:
@@ -33,14 +35,13 @@ public:
     unordered_map<string, Airline*> getAirlines();
     unordered_map<string, Airport*> getAirports();
     Airport* getAirportPerCode(const string &code) const;
-    Airline* getAirlinePerCode(const string &code) const;
+    Airline* getAirlinePerCode(const std::string &code) const;
     vector<Vertex*> airportsAtDistanceK(const string &source, int k);
     void dfsVisit(Vertex *v, Vertex *t, vector<Airport> &flights);
     bool hasPath(Vertex *v, Vertex *t, vector<Airport> &flights);
     vector<Airport> pathExists(Airport *d, Airport *t);
     vector<Airport> getPath(Airport *source, Airport *destination);
     vector<Vertex*> airportsAtDistanceK(Airport *source, int k);
-    void articulationPoints();
     void dfsApp(Vertex *v, stack<Airport> &s, vector<Airport> &res, int &i);
     Airport* getClosestAirport(const double &x, const double &y);
     vector<Airport*> getAiportsPerCoordinatesRange(const double &x, const double &y, const int &range);
@@ -50,9 +51,9 @@ public:
     vector<Airport*> getAirportsPerCountry(const string &c);
     vector<vector<Airport*>> scc();
     bool hasConnection(const string &s, const string &t);
-    vector<Airport*> getAiportsPerCity(const string& city);
+    vector<Airport*> getAiportsPerCity(const string& city) const;
     bool dfsVisitBool(Vertex *v, Vertex *t);
-    vector<Airport> hasFlightAirline(Airport *source, Airport *target, vector<Airline*> &setOfAirlines);
+    vector<Airport*> hasFlightAirline(Airport *source, Airport *target, vector<Airline*> &setOfAirlines);
     void dfsScc(Vertex *v, stack<Airport*> &s, vector<vector<Airport*>> &res, int &i);
     vector<vector<Airport*>> pathMaximumConnectionFlights(const string& startAirport, const string& destination, int maxFlights);
     void DFS(Vertex* current, Vertex* destination, int maxFlights, vector<Airport*>& currentPath, vector<vector<Airport*>>& allPaths);
@@ -97,7 +98,7 @@ public:
 
     void diameterPairs() const;
 
-    void findComponentDiameterPairs(Vertex *origin, vector<pair<Airport, Airport>> &result, int &i) const;
+    void findComponentDiameterPairs(Vertex *origin, vector<pair<Airport*, Airport*>> &result, int &i) const;
 
     void getTopKGreatestTrafficAirport(int k) const;
 
