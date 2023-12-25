@@ -3,12 +3,12 @@
 //
 
 #include "MainMenuState.h"
-#include "FlightSearch.h"
+#include "FlightSearchState.h"
 #include <iostream>
 #include "../Managers/Manager.h"
 using namespace std;
 
-FlightSearch flightSearchState;
+FlightSearchState flightSearchState;
 
 
 void MainMenuState::displayMenu() {

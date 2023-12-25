@@ -2,13 +2,13 @@
 // Created by Paulo Fidalgo on 24/12/2023.
 //
 
-#ifndef AED2324_PRJ2_G109_FLIGHTSEARCH_H
-#define AED2324_PRJ2_G109_FLIGHTSEARCH_H
+#ifndef AED2324_PRJ2_G109_FLIGHTSEARCHSTATE_H
+#define AED2324_PRJ2_G109_FLIGHTSEARCHSTATE_H
 
 
 #include "State.h"
 
-class FlightSearch : public State{
+class FlightSearchState : public State{
 private:
     bool isSelectingFrom;
     string from;
@@ -17,7 +17,7 @@ private:
     double y;
 
 public:
-    FlightSearch();
+    FlightSearchState();
 
     void displayMenu() override;
     State* handleInput() override;
@@ -30,4 +30,4 @@ public:
 };
 
 
-#endif //AED2324_PRJ2_G109_FLIGHTSEARCH_H
+#endif //AED2324_PRJ2_G109_FLIGHTSEARCHSTATE_H

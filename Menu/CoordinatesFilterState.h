@@ -9,8 +9,8 @@
 
 class CoordinatesFilterState : public State{
 private:
-    int x;
-    int y;
+    double x;
+    double y;
 public:
     // Constructor
     CoordinatesFilterState();

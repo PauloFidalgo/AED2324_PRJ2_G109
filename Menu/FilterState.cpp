@@ -4,7 +4,7 @@
 
 #include "FilterState.h"
 #include "iostream"
-#include "FlightSearch.h"
+#include "FlightSearchState.h"
 
 using namespace std;
 

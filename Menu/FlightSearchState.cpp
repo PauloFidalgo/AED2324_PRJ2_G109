@@ -2,7 +2,7 @@
 // Created by Paulo Fidalgo on 24/12/2023.
 //
 
-#include "FlightSearch.h"
+#include "FlightSearchState.h"
 #include <iostream>
 #include <string>
 #include "FilterState.h"
@@ -15,9 +15,9 @@ CoordinatesFilterState coordinatesFilterState;
 using namespace std;
 
 
-FlightSearch::FlightSearch(): isSelectingFrom(true){}
+FlightSearchState::FlightSearchState(): isSelectingFrom(true){}
 
-void FlightSearch::displayMenu() {
+void FlightSearchState::displayMenu() {
     const std::string origin = isSelectingFrom ? "From" : "  To";
     cout << endl;
     cout << "________________________________________________________________________________________________________" << endl;
@@ -34,7 +34,7 @@ void FlightSearch::displayMenu() {
     cout << "--------------------------------------------------------------------------------------------------------" << endl;
 }
 
-State *FlightSearch::handleInput() {
+State *FlightSearchState::handleInput() {
     int userInput;
     std::cout << "Enter your choice: ";
     std::cin >> userInput;
@@ -83,22 +83,20 @@ State *FlightSearch::handleInput() {
                 return &filterState;
             }
         case 4:
-            std::cout << "Coordinates " << (isSelectingFrom ? "From" : "To") << ": ";
-            if (isSelectingFrom) {
-                std::cin >> from;
-                isSelectingFrom = false;
-                return this;
-            } else {
-                std::cin >> to;
-                isSelectingFrom = true;
-                coordinatesFilterState.setX(stoi(from));
-                coordinatesFilterState.setY(stoi(to));
+                std::cout << "Select x: ";
+                std::cin >> x;
+                std::cout << "Select y: ";
+                std::cin >> y;
+
+                coordinatesFilterState.setX(x);
+                coordinatesFilterState.setY(y);
                 return &coordinatesFilterState;
-            }
+
         case 0:
             if(!State::stateHistory.empty()){
                 State* previousState = State::stateHistory.top();
                 State::stateHistory.pop();
+                isSelectingFrom = true;
                 return previousState;
             }
             else {
@@ -113,18 +111,18 @@ State *FlightSearch::handleInput() {
     }
 }
 
-const std::string &FlightSearch::getTo() const {
+const std::string &FlightSearchState::getTo() const {
     return to;
 }
 
-const std::string &FlightSearch::getFrom() const {
+const std::string &FlightSearchState::getFrom() const {
     return from;
 }
 
-const int &FlightSearch::getX() const {
+const int &FlightSearchState::getX() const {
     return x;
 }
 
-const int &FlightSearch::getY() const {
+const int &FlightSearchState::getY() const {
     return y;
 }
