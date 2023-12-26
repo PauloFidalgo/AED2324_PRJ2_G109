@@ -195,12 +195,7 @@ unordered_map<string, unordered_set<string>> Parser::getCountryCities() {
 
 
 Parser::~Parser() {
-    for(auto &elem : airports) {
-        delete elem.second;
-    }
-    for (auto &elem : airlines) {
-        delete elem.second;
-    }
+
 }
 
 std::unordered_map<std::string, Airport *> Parser::getAirportsByName() {

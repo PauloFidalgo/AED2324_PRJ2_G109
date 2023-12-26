@@ -8,7 +8,7 @@ int main() {
     Manager m;
     //m.getNumAirportsAndFlights();
     //m.getNumFlightsAndAirlines("HGU");
-    m.getNumFlightsPerCity("Mount Hagen");
+    //m.getNumFlightsPerCity("Mount Hagen");
     //m.getNumFlightsPerAirline("TAP");
     //m.getCountriesCanFlyToAirport("JFK");
     //m.getCountriesCanFlyToCity("New York");
@@ -25,6 +25,8 @@ int main() {
     //m.listAiportsPerCountry("China");
     //m.searchAirlinesByName("Ry");
     //m.printAirportInfo("RYR");
-    m.printAirlineInfo("RYR");
+    //m.printAirlineInfo("RYR");
+    //m.getTopKGreatestTrafficCity(40);
+    //m.getTopKGreatestTrafficCountry(6);
     return 0;
 }

@@ -35,4 +35,6 @@ add_executable(AED2324_PRJ2_G109
         Menu/FilterSearch.h
         Menu/FilterMinimization.cpp
         Menu/FilterMinimization.h
+        Viewer/Viewer.cpp
+        Viewer/Viewer.h
 )
