@@ -13,7 +13,9 @@ int main() {
 
     //auto pt = m.bfsMinConnections(m.getAirportPerCode("MAG"), m.getAirportPerCode("DMK"));
 
-    auto res = m.scheduleTripMinConnection(m.getAirportPerCode("OPO"), m.getAirportPerCode("FAO"), {m.getAirportPerCode("DUB"), m.getAirportPerCode("MEX"), m.getAirportPerCode("LIS")});
+    vector<string> porst = {"London"};
+
+    auto res = m.scheduleTripMinConnectionCities(m.getAirportPerCode("OPO"), m.getAirportPerCode("LIS"), porst);
 
     for (auto v : res) {
         cout << "Path : ";
