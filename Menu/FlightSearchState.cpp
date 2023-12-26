@@ -110,19 +110,3 @@ State *FlightSearchState::handleInput() {
             return this;
     }
 }
-
-const std::string &FlightSearchState::getTo() const {
-    return to;
-}
-
-const std::string &FlightSearchState::getFrom() const {
-    return from;
-}
-
-const double &FlightSearchState::getX() const {
-    return x;
-}
-
-const double &FlightSearchState::getY() const {
-    return y;
-}

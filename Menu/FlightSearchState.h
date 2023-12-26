@@ -22,11 +22,6 @@ public:
     void displayMenu() override;
     State* handleInput() override;
 
-    const std::string& getFrom() const;
-    const std::string& getTo() const;
-    const double & getX() const;
-    const double & getY() const;
-
 };
 
 

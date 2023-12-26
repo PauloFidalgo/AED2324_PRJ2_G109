@@ -10,6 +10,7 @@
 class State {
 protected:
     static std:: stack<State*> stateHistory;
+    static std:: stack<State*> statisticsHistory;
     Manager manager;
 
 public:

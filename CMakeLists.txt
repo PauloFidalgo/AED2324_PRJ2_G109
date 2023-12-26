@@ -33,4 +33,11 @@ add_executable(AED2324_PRJ2_G109
         Menu/FilterState.cpp
         Menu/CoordinatesFilterState.h
         Menu/CoordinatesFilterState.cpp
+        Menu/StatisticsStateCode.h
+        Menu/StatisticsStateCode.cpp
+        Menu/StatisticsStateName.h
+        Menu/StatisticsStateName.cpp
+        Menu/StatisticsStateCity.cpp
+        Menu/StatiscsStateAirline.h
+        Menu/StatiscsStateAirline.cpp
 )

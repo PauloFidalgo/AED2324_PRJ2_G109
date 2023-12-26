@@ -22,10 +22,6 @@ public:
     void displayMenu() override;
     State * handleInput() override;
 
-    double getX() const;
-
-    double getY() const;
-
 };
 
 

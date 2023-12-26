@@ -5,10 +5,11 @@
 #include "MainMenuState.h"
 #include "FlightSearchState.h"
 #include <iostream>
-#include "../Managers/Manager.h"
+#include "StatisticsStateCode.h"
 using namespace std;
 
 FlightSearchState flightSearchState;
+StatisticsStateCode statisticsStateCode;
 
 
 void MainMenuState::displayMenu() {
@@ -18,12 +19,12 @@ void MainMenuState::displayMenu() {
     cout << "|                                                                                                          |" << endl;
     cout << "|                                                                      |                                   |" << endl;
     cout << "|                                                                      |                                   |" << endl;
-    cout << "|            1. Flight Search                                    --====|====--                             |" << endl;
-    cout << "|            2. Information                                            |                                   |" << endl;
-    cout << "|            3. Statistics                                        .-         -.                            |" << endl;
+    cout << "|                                                                --====|====--                             |" << endl;
+    cout << "|                                                                      |                                   |" << endl;
+    cout << "|                                                                 .-         -.                            |" << endl;
     cout << "|                                                                .'_________'.                             |" << endl;
-    cout << "|                                                              /_/_|__|__|_   _                            |" << endl;
-    cout << "|                                                             ;'-._       _.-';                            |" << endl;
+    cout << "|            1. Flight Search                                  /_/_|__|__|_   _                            |" << endl;
+    cout << "|            2. Statistics                                    ;'-._       _.-';                            |" << endl;
     cout << "|                                        ,--------------------|    `-. .-'    |--------------------,       |" << endl;
     cout << "|                                        ``  --..__    ___   ;       '       ;   ___    __..--  ``         |" << endl;
     cout << "|                                                  `  -//     .._               /_..//     -  `            |" << endl;
@@ -46,8 +47,8 @@ State * MainMenuState::handleInput() {
             State::stateHistory.push(this);
             return &flightSearchState;
         case 2:
-            std::cout << " PorksState" << std::endl;
-            break;
+            State::stateHistory.push(this);
+            return &statisticsStateCode;
         case -1:
             exit(0);
         default:
