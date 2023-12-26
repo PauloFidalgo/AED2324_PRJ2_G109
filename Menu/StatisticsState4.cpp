@@ -2,25 +2,24 @@
 // Created by Wagner Pedrosa on 26/12/2023.
 //
 
-#include "StatiscsStateAirline.h"
+#include "StatisticsState4.h"
 #include "iostream"
 
 using namespace std;
 
-void StatiscsStateAirline::displayMenu() {
+void StatisticsState4::displayMenu() {
 
     cout << endl;
     cout << "________________________________________________________________________________________________________" << endl;
     cout << "|   98 - previous page                                                                                 |" << endl;
-    cout << "|                                       Statistics by airline :                                        |" << endl;
+    cout << "|                                       Statistics by airport :                                        |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                                     1 - Nº flights by code                                           |" << endl;
-    cout << "|                                     2 - Nº flights by name                                           |" << endl;
-    cout << "|                                     3 - Avoid passing through 1 or more country's                    |" << endl;
-    cout << "|                                     4 - Pass trough 1 or more country's                              |" << endl;
-    cout << "|                                     5 - Minimize the number of distinct airlines                     |" << endl;
-    cout << "|                                     6 - Distance Travelled                                           |" << endl;
-    cout << "|                                                                                                      |" << endl;
+    cout << "|                                     1 - Top K Greatest Traffic Airport                               |" << endl;
+    cout << "|                                     2 - Top K Greatest Traffic Airport Per Country                   |" << endl;
+    cout << "|                                     3 - Airports by country                                          |" << endl;
+    cout << "|                                     4 - Airport Info                                                 |" << endl;
+    cout << "|                                     5 - Airline Info                                                 |" << endl;
+    cout << "|                                     6 - Out flights                                                  |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|  0 - Main Menu                                                                                       |" << endl;
     cout << "| -1 - Exit                                                                                            |" << endl;
@@ -28,7 +27,7 @@ void StatiscsStateAirline::displayMenu() {
 
 }
 
-State* StatiscsStateAirline::handleInput() {
+State* StatisticsState4::handleInput() {
     int userInput;
     std::cout << "Enter your choice: ";
     std::cin >> userInput;
@@ -36,20 +35,37 @@ State* StatiscsStateAirline::handleInput() {
     switch (userInput) {
         case 1:
             cout << "Airline Code: ";
-            cin >> airline;
-            manager.getNumFlightsPerAirline(this->airline);
+            cin >> distance;
+            manager.getTopKGreatestTrafficAirport(this->distance);
             return this;
         case 2:
-            cout << "Airline Name: ";
-            cin >> airline;
-            manager.getNumFlightsPerAirlineByName(this->airline);
+            cout << "Country Name: ";
+            cin >> airport;
+            cout << "K: ";
+            cin >> distance;
+            manager.getTopKGreatestTrafficAirportPerCountry(this->distance,airport);
             return this;
         case 3:
-            std::cout << "Country" << std::endl;
-            break;
+            cout << "Country Name: ";
+            cin >> airport;
+            manager.listAiportsPerCountry(airport);
+            return this;
         case 4:
-            std::cout << "Coordinates" << std::endl;
-            break;
+            cout << "Airport Code: ";
+            cin >> airport;
+            manager.printAirportInfo(this->airport);
+            return this;
+        case 5:
+            cout << "Airline Code: ";
+            cin >> airport;
+            manager.printAirlineInfo(this->airport);
+            return this;
+        case 6:
+            cout << "Airport Code: ";
+            cin >> airport;
+            manager.getOutFlights(this->airport);
+            return this;
+
         case 98:
             if(!State::statisticsHistory.empty()){
                 State* previousState = State::statisticsHistory.top();

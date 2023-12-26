@@ -2,14 +2,14 @@
 // Created by Wagner Pedrosa on 26/12/2023.
 //
 
-#include "StatisticsStateName.h"
+#include "StatisticsState2.h"
 #include "StatisticsStateCity.h"
 #include "iostream"
 
 using namespace std;
 StatisticsStateCity statisticsStateCity;
 
-void StatisticsStateName::displayMenu() {
+void StatisticsState2::displayMenu() {
 
     cout << endl;
     cout << "________________________________________________________________________________________________________" << endl;
@@ -17,10 +17,10 @@ void StatisticsStateName::displayMenu() {
     cout << "|                                        Statistics by name :                                          |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                     1 - Nº flights and Airlines                                      |" << endl;
-    cout << "|                                     2 - include 1 or more airlines                                   |" << endl;
-    cout << "|                                     3 - Avoid passing through 1 or more country's                    |" << endl;
-    cout << "|                                     4 - Pass trough 1 or more country's                              |" << endl;
-    cout << "|                                     5 - Minimize the number of distinct airlines                     |" << endl;
+    cout << "|                                     2 - Nª flights per Airline                                       |" << endl;
+    cout << "|                                     3 - Nº country's                                                 |" << endl;
+    cout << "|                                     4 - Get destinations distance 1                                  |" << endl;
+    cout << "|                                     5 - Get destinations                                             |" << endl;
     cout << "|                                     6 - Distance Travelled                                           |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                                                                                      |" << endl;
@@ -29,7 +29,7 @@ void StatisticsStateName::displayMenu() {
     cout << "--------------------------------------------------------------------------------------------------------" << endl;
 }
 
-State* StatisticsStateName::handleInput() {
+State* StatisticsState2::handleInput() {
     int userInput;
     std::cout << "Enter your choice: ";
     std::cin >> userInput;
@@ -41,14 +41,32 @@ State* StatisticsStateName::handleInput() {
             manager.getNumFlightsAndAirlinesByName(this->name);
             return this;
         case 2:
-            std::cout << "Name" << std::endl;
-            break;
+            cout << "Airline Name: ";
+            cin >> name;
+            manager.getNumFlightsPerAirlineByName(this->name);
+            return this;
         case 3:
-            std::cout << "Country" << std::endl;
-            break;
+            cout << "Airport Name: ";
+            cin >> name;
+            manager.getCountriesCanFlyToAirportByName(this->name);
+            return this;
         case 4:
-            std::cout << "Coordinates" << std::endl;
-            break;
+            cout << "Airport Name: ";
+            cin >> name;
+            manager.getDestinationsDistance1ByName(this->name);
+            return this;
+        case 5:
+            cout << "Airport Name: ";
+            cin >> name;
+            manager.getDestinantionsByName(this->name);
+            return this;
+        case 6:
+            cout << "Airport Name: ";
+            cin >> name;
+            cout << "Distance: ";
+            cin >> distance;
+            manager.getDestinantionsUntilDistanceK(name,distance);
+            return this;
         case 0:
             if(!State::stateHistory.empty()){
                 State* previousState = State::stateHistory.top();

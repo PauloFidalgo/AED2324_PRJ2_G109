@@ -2,14 +2,14 @@
 // Created by Wagner Pedrosa on 26/12/2023.
 //
 
-#include "StatisticsStateCode.h"
-#include "StatisticsStateName.h"
+#include "StatisticsState1.h"
+#include "StatisticsState2.h"
 #include "iostream"
 
 using namespace std;
-StatisticsStateName statisticsStateName;
+StatisticsState2 statisticsStateName;
 
-void StatisticsStateCode::displayMenu() {
+void StatisticsState1::displayMenu() {
 
     cout << endl;
     cout << "________________________________________________________________________________________________________" << endl;
@@ -17,11 +17,11 @@ void StatisticsStateCode::displayMenu() {
     cout << "|                                       Statistics by code :                                           |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                     1 - Nº flights and Airlines                                      |" << endl;
-    cout << "|                                     2 - include 1 or more airlines                                   |" << endl;
-    cout << "|                                     3 - Avoid passing through 1 or more country's                    |" << endl;
-    cout << "|                                     4 - Pass trough 1 or more country's                              |" << endl;
-    cout << "|                                     5 - Minimize the number of distinct airlines                     |" << endl;
-    cout << "|                                     6 - Distance Travelled                                           |" << endl;
+    cout << "|                                     2 - Nº flights per Airlines                                      |" << endl;
+    cout << "|                                     3 - Nº country's                                                 |" << endl;
+    cout << "|                                     4 - Get destinations distance 1                                  |" << endl;
+    cout << "|                                     5 - Get destinations                                             |" << endl;
+    cout << "|                                     6 - Get destinations until certain distance                      |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|  0 - Main Menu                                                                                       |" << endl;
@@ -29,7 +29,7 @@ void StatisticsStateCode::displayMenu() {
     cout << "--------------------------------------------------------------------------------------------------------" << endl;
 }
 
-State* StatisticsStateCode::handleInput() {
+State* StatisticsState1::handleInput() {
     int userInput;
     std::cout << "Enter your choice: ";
     std::cin >> userInput;
@@ -41,14 +41,32 @@ State* StatisticsStateCode::handleInput() {
             manager.getNumFlightsAndAirlines(this->code);
             return this;
         case 2:
-            std::cout << "Name" << std::endl;
-            break;
+            cout << "Airline Code: ";
+            cin >> code;
+            manager.getNumFlightsPerAirline(this->code);
+            return this;
         case 3:
-            std::cout << "Country" << std::endl;
-            break;
+            cout << "Airport Code: ";
+            cin >> code;
+            manager.getCountriesCanFlyToAirport(this->code);
+            return this;
         case 4:
-            std::cout << "Coordinates" << std::endl;
-            break;
+            cout << "Airport Code: ";
+            cin >> code;
+            manager.getDestinantionsDistance1(this->code);
+            return this;
+        case 5:
+            cout << "Airport Code: ";
+            cin >> code;
+            manager.getDestinantions(this->code);
+            return this;
+        case 6:
+            cout << "Airport Code: ";
+            cin >> code;
+            cout << "Distance: ";
+            cin >> distance;
+            manager.getDestinantionsUntilDistanceK(this->code,this->distance);
+            return this;
         case 0:
             if(!State::stateHistory.empty()){
                 State* previousState = State::stateHistory.top();

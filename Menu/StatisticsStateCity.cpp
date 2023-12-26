@@ -3,12 +3,12 @@
 //
 
 #include "StatisticsStateCity.h"
-#include "StatiscsStateAirline.h"
+#include "StatisticsState3.h"
 #include "iostream"
 
 using namespace std;
 
-StatiscsStateAirline statiscsStateAirline;
+StatisticsState3 statiscsStateAirline;
 
 void StatisticsStateCity::displayMenu() {
 
@@ -18,11 +18,7 @@ void StatisticsStateCity::displayMenu() {
     cout << "|                                       Statistics by city :                                           |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                     1 - Nº flights                                                   |" << endl;
-    cout << "|                                     2 - include 1 or more airlines                                   |" << endl;
-    cout << "|                                     3 - Avoid passing through 1 or more country's                    |" << endl;
-    cout << "|                                     4 - Pass trough 1 or more country's                              |" << endl;
-    cout << "|                                     5 - Minimize the number of distinct airlines                     |" << endl;
-    cout << "|                                     6 - Distance Travelled                                           |" << endl;
+    cout << "|                                     2 - Country's that can fly to                                    |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|  0 - Main Menu                                                                                       |" << endl;
@@ -43,7 +39,9 @@ State* StatisticsStateCity::handleInput() {
             manager.getNumFlightsPerCity(this->city);
             return this;
         case 2:
-            std::cout << "Name" << std::endl;
+            cout << "Airport city: ";
+            cin >> city;
+            manager.getCountriesCanFlyToCity(this->city);
             break;
         case 3:
             std::cout << "Country" << std::endl;

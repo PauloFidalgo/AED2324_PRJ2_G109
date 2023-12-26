@@ -5,11 +5,11 @@
 #include "MainMenuState.h"
 #include "FlightSearchState.h"
 #include <iostream>
-#include "StatisticsStateCode.h"
+#include "StatisticsState1.h"
 using namespace std;
 
 FlightSearchState flightSearchState;
-StatisticsStateCode statisticsStateCode;
+StatisticsState1 statisticsStateCode;
 
 
 void MainMenuState::displayMenu() {
