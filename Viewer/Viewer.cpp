@@ -227,7 +227,7 @@ void Viewer::printDiameterPairs(const vector<pair<Airport, Airport>> &result, co
 
 }
 
-void Viewer::printAirportGreatestTraffic(vector<Airport *> airportsByTraffic, const int &nameSize) {
+void Viewer::printAirportGreatestTraffic(const vector<Airport *> &airportsByTraffic, const int &nameSize) {
     int space1 = nameSize + 8 > 10 ? nameSize + 8 : 10;
     int lenAirportsLabel = (space1 - 8) / 2;
     int lenFAirportsLabel = (space1 - 8) % 2 == 0 ? lenAirportsLabel : lenAirportsLabel + 1;
@@ -245,7 +245,7 @@ void Viewer::printAirportGreatestTraffic(vector<Airport *> airportsByTraffic, co
     }
 }
 
-void Viewer::printCityGreatestTraffic(vector<pair<string, int>> citiesByTraffic, const int &nameSize) {
+void Viewer::printCityGreatestTraffic(const vector<pair<string, int>> &citiesByTraffic, const int &nameSize) {
     int space1 = nameSize + 8;
     int lenCitiesLabel = (space1 - 6) / 2;
     int lenFCitiesLabel = (space1 - 6) % 2 == 0 ? lenCitiesLabel : lenCitiesLabel + 1;
@@ -260,7 +260,7 @@ void Viewer::printCityGreatestTraffic(vector<pair<string, int>> citiesByTraffic,
     }
 }
 
-void Viewer::printCountryGreatestTraffic(vector<pair<string, int>> countriesByTraffic, const int &nameSize) {
+void Viewer::printCountryGreatestTraffic(const vector<pair<string, int>> &countriesByTraffic, const int &nameSize) {
     int space1 = nameSize + 11;
     int lenCountriesLabel = (space1 - 9) / 2;
     int lenFCountriesLabel = (space1 - 9) % 2 == 0 ? lenCountriesLabel : lenCountriesLabel + 1;
@@ -273,4 +273,148 @@ void Viewer::printCountryGreatestTraffic(vector<pair<string, int>> countriesByTr
         cout << "| Country: " << elem.first << string(space1 - 10 - elem.first.length(), ' ') << '|' << string(lenNumFlights, ' ') << elem.second << string (lenFNumFlights, ' ') << '|' << endl;
         cout << string(space1 + 2, '-') << "--------------------" << endl;
     }
+}
+
+void Viewer::printTopKAirportsAirlineTravelsTo(const vector<pair<pair<string, string>, int>> &airports, const int &nameSize) {
+    int space1 = nameSize + 8 > 10 ? nameSize + 8 : 10;
+    int lenAirportsLabel = (space1 - 8) / 2;
+    int lenFAirportsLabel = (space1 - 8) % 2 == 0 ? lenAirportsLabel : lenAirportsLabel + 1;
+    cout << string(space1 + 2, '-') << "--------------------" << endl;
+    cout << '|' << string(lenAirportsLabel, ' ') << "Airports" << string (lenFAirportsLabel, ' ') << "| Number of flights |" << endl;
+    cout << string(space1 + 2, '-') << "--------------------" << endl;
+    for (auto& elem : airports) {
+        int numFlights = elem.second;
+        int lenNumFlights = (19 - to_string(numFlights).length()) / 2;
+        int lenFNumFlights = (19 - to_string(numFlights).length()) % 2 == 0 ? lenNumFlights : lenNumFlights+ 1;
+        cout << "| Code: " << elem.first.first << string(space1 - 10, ' ') << "|                   |" << endl;
+        cout << '|' << string(space1, ' ') << '|' << string(lenNumFlights, ' ') << numFlights << string (lenFNumFlights, ' ') << '|' << endl;
+        cout << "| Name: " << elem.first.second << string(space1 - 8 - elem.first.second.length(), ' ') <<" |                   |" << endl;
+        cout << string(space1 + 2, '-') << "--------------------" << endl;
+    }
+}
+
+void Viewer::printTopKAirportsWithMoreAirlines(const vector<pair<int, pair<string, string>>> &airports, const int &nameSize) {
+    int space1 = nameSize + 8 > 10 ? nameSize + 8 : 10;
+    int lenAirportsLabel = (space1 - 8) / 2;
+    int lenFAirportsLabel = (space1 - 8) % 2 == 0 ? lenAirportsLabel : lenAirportsLabel + 1;
+    cout << string(space1 + 2, '-') << "--------------------" << endl;
+    cout << '|' << string(lenAirportsLabel, ' ') << "Airports" << string (lenFAirportsLabel, ' ') << "| Number of airlines |" << endl;
+    cout << string(space1 + 2, '-') << "--------------------" << endl;
+    for (auto& elem : airports) {
+        int numFlights = elem.first;
+        int lenNumFlights = (20 - to_string(numFlights).length()) / 2;
+        int lenFNumFlights = (20 - to_string(numFlights).length()) % 2 == 0 ? lenNumFlights : lenNumFlights+ 1;
+        cout << "| Code: " << elem.second.first << string(space1 - 10, ' ') << "|                   |" << endl;
+        cout << '|' << string(space1, ' ') << '|' << string(lenNumFlights, ' ') << numFlights << string (lenFNumFlights, ' ') << '|' << endl;
+        cout << "| Name: " << elem.second.second << string(space1 - 8 - elem.second.second.length(), ' ') <<" |                   |" << endl;
+        cout << string(space1 + 2, '-') << "--------------------" << endl;
+    }
+}
+
+void Viewer::printTopKAirlinesThatTravelToAnAirport(const vector<pair<pair<string, string>, int>> &airports, const int &nameSize) {
+    int space1 = nameSize + 8 > 10 ? nameSize + 8 : 10;
+    int lenAirportsLabel = (space1 - 8) / 2;
+    int lenFAirportsLabel = (space1 - 8) % 2 == 0 ? lenAirportsLabel : lenAirportsLabel + 1;
+    cout << string(space1 + 2, '-') << "--------------------" << endl;
+    cout << '|' << string(lenAirportsLabel, ' ') << "Airlines" << string (lenFAirportsLabel, ' ') << "| Number of flights |" << endl;
+    cout << string(space1 + 2, '-') << "--------------------" << endl;
+    for (auto& elem : airports) {
+        int numFlights = elem.second;
+        int lenNumFlights = (19 - to_string(numFlights).length()) / 2;
+        int lenFNumFlights = (19 - to_string(numFlights).length()) % 2 == 0 ? lenNumFlights : lenNumFlights+ 1;
+        cout << "| Code: " << elem.first.first << string(space1 - 10, ' ') << "|                   |" << endl;
+        cout << '|' << string(space1, ' ') << '|' << string(lenNumFlights, ' ') << numFlights << string (lenFNumFlights, ' ') << '|' << endl;
+        cout << "| Name: " << elem.first.second << string(space1 - 8 - elem.first.second.length(), ' ') <<" |                   |" << endl;
+        cout << string(space1 + 2, '-') << "--------------------" << endl;
+    }
+}
+
+void Viewer::printAirlinesPerAirport(const set<Airline *> &airlines, const int &nameSize) {
+    int space = nameSize + 8 > 10 ? nameSize + 8 : 10;
+    int lenAirlinesLabel = (space - 8) / 2;
+    int lenFAirlinesLabel= (space - 8) % 2 == 0 ? lenAirlinesLabel : lenAirlinesLabel+ 1;
+    cout << string(space + 2, '-') << endl;
+    cout << '|' << string(lenAirlinesLabel, ' ') << "Airlines" << string(lenFAirlinesLabel, ' ') << '|' << endl;
+    cout << string(space + 2, '-') << endl;
+    for (auto &elem : airlines) {
+        cout << "| Code: " << elem->getCode() << string(space - 10, ' ') << '|' << endl;
+        cout << "| Name: " << elem->getName() << string(space - 7 - elem->getName().length(), ' ') << '|' << endl;
+        cout << string(space + 2, '-') << endl;
+    }
+}
+
+void Viewer::printListAirportsPerCountry(const vector<Airport *> &airports, const int &nameSize, const string &country) {
+    int space = nameSize + 8 > 40 ? nameSize + 8 : 40;
+    int lenEssentialAirportsLabel = (space - 12 - country.length()) / 2;
+    int lenFEssentialAirportsLabel = (space - 12 - country.length()) % 2 == 0 ? lenEssentialAirportsLabel : lenEssentialAirportsLabel + 1;
+    cout << string(space + 2, '-') << endl;
+    cout << '|' << string(lenEssentialAirportsLabel, ' ') << "Airports in " << country << string(lenFEssentialAirportsLabel, ' ') << '|' << endl;
+    cout << string(space + 2, '-') << endl;
+    for (auto &elem : airports) {
+        cout << "| Code: " << elem->getCode() << string(space - 10, ' ') << '|' << endl;
+        cout << "| Name: " << elem->getName() << string(space - 7 - elem->getName().length(), ' ') << '|' << endl;
+        cout << string(space + 2, '-') << endl;
+    }
+}
+
+void Viewer::printSearchAirports(const vector<Airport *> &airports, const int &nameSize, const string &airportName) {
+    if (airports.empty()) {
+        cout << "No airports with the name " << airportName << " were found." << endl;
+        return;
+    }
+    int space = nameSize + 8 > 10 ? nameSize + 8 : 10;
+    int lenAirportsLabel = (space - 8) / 2;
+    int lenFAirportsLabel = (space - 8) % 2 == 0 ? lenAirportsLabel : lenAirportsLabel + 1;
+    cout << string(space + 2, '-') << endl;
+    cout << '|' << string(lenAirportsLabel, ' ') << "Airports" << string(lenFAirportsLabel, ' ') << '|' << endl;
+    cout << string(space + 2, '-') << endl;
+    for (auto &elem : airports) {
+        cout << "| Code: " << elem->getCode() << string(space - 10, ' ') << '|' << endl;
+        cout << "| Name: " << elem->getName() << string(space - 7 - elem->getName().length(), ' ') << '|' << endl;
+        cout << string(space + 2, '-') << endl;
+    }
+}
+
+void Viewer::printSearchAirlines(const vector<Airline *> &airlines, const int &nameSize, const string &airlineName) {
+    if (airlines.empty()) {
+        cout << "No airlines with the name " << airlineName << " were found." << endl;
+        return;
+    }
+    int space = nameSize + 8 > 10 ? nameSize + 8 : 10;
+    int lenAirlinesLabel = (space - 8) / 2;
+    int lenFAirlinesLabel = (space - 8) % 2 == 0 ? lenAirlinesLabel : lenAirlinesLabel + 1;
+    cout << string(space + 2, '-') << endl;
+    cout << '|' << string(lenAirlinesLabel, ' ') << "AirLines" << string(lenFAirlinesLabel, ' ') << '|' << endl;
+    cout << string(space + 2, '-') << endl;
+    for (auto &elem : airlines) {
+        cout << "| Code: " << elem->getCode() << string(space - 10, ' ') << '|' << endl;
+        cout << "| Name: " << elem->getName() << string(space - 7 - elem->getName().length(), ' ') << '|' << endl;
+        cout << string(space + 2, '-') << endl;
+    }
+}
+
+void Viewer::printAirportInfo(Airport *airport) {
+    int nameLength = airport->getName().length();
+    int space = nameLength + 8 > 41 ? nameLength + 8 : 41;
+    cout << string(space + 2, '-') << endl;
+    cout << "| Code: " << airport->getCode() << string(space - 10, ' ') << '|' << endl;
+    cout << "| Name: " << airport->getName() << string(space - 7 - nameLength, ' ') << '|' << endl;
+    cout << "| City: " << airport->getCity() << string(space - 7 - airport->getCity().length(), ' ') << '|' << endl;
+    cout << "| Country: " << airport->getCountry() << string(space - 10 - airport->getCountry().length(), ' ') << '|' << endl;
+    cout << "| Coordinates: " << '(' << to_string(airport->getLatitude()) << ", " << to_string(airport->getLongitude()) << ')' << string(space - 18 - to_string(airport->getLatitude()).length() - to_string(airport->getLongitude()).length(), ' ') << '|' << endl;
+    cout << "| Number of Departures: " << airport->getNumFlightsOut() << string(space - 23 - to_string(airport->getNumFlightsOut()).length(), ' ') << '|' << endl;
+    cout << "| Number of Arrivals: " << airport->getNumFlightsIn() << string(space - 21 - to_string(airport->getNumFlightsIn()).length(), ' ') << '|' << endl;
+    cout << string(space + 2, '-') << endl;
+}
+
+void Viewer::printAirlineInfo(Airline *airline) {
+    int nameLength = airline->getName().length();
+    int space = nameLength + 8 > 27 ? nameLength + 8 : 27;
+    cout << string(space + 2, '-') << endl;
+    cout << "| Code: " << airline->getCode() << string(space - 10, ' ') << '|' << endl;
+    cout << "| Name: " << airline->getName() << string(space - 7 - nameLength, ' ') << '|' << endl;
+    cout << "| Callsign: " << airline->getCallsign() << string(space - 11 - airline->getCallsign().length(), ' ') << '|' << endl;
+    cout << "| Country: " << airline->getCountry() << string(space - 10 - airline->getCountry().length(), ' ') << '|' << endl;
+    cout << "| Number of Flights: " << airline->getNumFlights() << string(space - 20 - to_string(airline->getNumFlights()).length(), ' ') << '|' << endl;
+    cout << string(space + 2, '-') << endl;
 }

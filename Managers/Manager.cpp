@@ -1277,8 +1277,9 @@ void Manager::getTopKGreatestTrafficCountry(int k, const bool& asc) const {
 void Manager::getTopKGreatestTrafficAirportPerCity(int k, const string &city, const bool& asc) const {
     auto comparator = asc ? comparatorAirportAsc : comparatorAirportDesc;
     set<Airport *, decltype(comparator)> airportsByTraffic(comparator);
-    for (auto& elem : airports) {
-        if (elem.second->getCountry() == city) airportsByTraffic.insert(elem.second);
+    vector<Airport *> airportsPerCity = getAirportsPerCity(city);
+    for (auto& elem : airportsPerCity) {
+        airportsByTraffic.insert(elem);
     }
     int nameSize = 0;
     vector<Airport *> air;
@@ -1294,8 +1295,9 @@ void Manager::getTopKGreatestTrafficAirportPerCity(int k, const string &city, co
 void Manager::getTopKGreatestTrafficAirportPerCountry(int k, const string &country, const bool& asc) const {
     auto comparator = asc ? comparatorAirportAsc : comparatorAirportDesc;
     set<Airport *, decltype(comparator)> airportsByTraffic(comparator);
-    for (auto& elem : airports) {
-        if (elem.second->getCountry() == country) airportsByTraffic.insert(elem.second);
+    vector<Airport *> airportsPerCountry = getAirportsPerCountry(country);
+    for (auto& elem : airportsPerCountry) {
+        airportsByTraffic.insert(elem);
     }
     int nameSize = 0;
     vector<Airport *> air;
@@ -1409,15 +1411,107 @@ void Manager::getTopKGreatestTrafficAirlinePerCountry(int k, const string &count
 }
 
 void Manager::getTopKAirportsAirlineTravelsTo(int k, Airline *airline, const bool& asc) const {
+    int nameSize = 0;
     map<pair<string, string>, int> airportNumFlights;
     for (auto &elem : connections.getVertexSet()) {
         for (auto &edge : elem->getAdj()) {
-            if (edge.getAirlines().find(airline) != edge.getAirlines().end()) {
+            if (edge.hasAirline(airline)) {
+                if (edge.getDest()->getInfo().getName().length() > nameSize) nameSize = edge.getDest()->getInfo().getName().length();
                 airportNumFlights[{edge.getDest()->getInfo().getCode(),edge.getDest()->getInfo().getName()}]++;
             }
         }
     }
+    vector<pair<pair<string,string>,int>> vec(airportNumFlights.begin(), airportNumFlights.end());
+    if(asc) std::sort(vec.begin(), vec.end(), [](const auto& a, const auto& b) {if(a.second == b.second) return a.first.second < b.first.second; return a.second > b.second;});
+    else std::sort(vec.begin(), vec.end(), [](const auto& a, const auto& b) {if(a.second == b.second) return a.first.second < b.first.second; return a.second > b.second;});
+    if (k > vec.size()) k = vec.size();
+    vector<pair<pair<string,string>,int>> res;
+    auto it = vec.begin();
+    while (k != 0) {
+        res.push_back(*it);
+        it++;
+        k--;
+    }
+    Viewer::printTopKAirportsAirlineTravelsTo(res, nameSize);
+
 }
+
+void Manager::getTopKAirportsWithMoreAirlines(int k, const bool& asc) const {
+    set<pair<int, pair<string,string>>> airportNumAirlines;
+    for (auto& elem : connections.getVertexSet()) {
+        set<Airline *> air;
+        for (auto &edge : elem->getAdj()) {
+            for (auto airline : edge.getAirlines()) {
+                air.insert(airline);
+            }
+        }
+        airportNumAirlines.insert({air.size(), {elem->getInfo().getCode(), elem->getInfo().getName()}});
+    }
+    vector<pair<int,pair<string,string>>> res;
+    int nameSize = 0;
+    if (k > airportNumAirlines.size()) k = airportNumAirlines.size();
+    if (asc) {
+        auto it = airportNumAirlines.rbegin();
+        while (k!= 0) {
+            if (it->second.second.length() > nameSize) nameSize = it->second.second.length();
+            res.push_back(*it);
+            it++;
+            k--;
+        }
+    }
+    else {
+        auto it = airportNumAirlines.begin();
+        while (k!= 0) {
+            if (it->second.second.length() > nameSize) nameSize = it->second.second.length();
+            res.push_back(*it);
+            it++;
+            k--;
+        }
+    }
+    Viewer::printTopKAirportsWithMoreAirlines(res,nameSize);
+}
+
+void Manager::getTopKAirlinesThatFlyMoreToAnAirport(int k, Airport *airport, const bool& asc) const {
+    int nameSize = 0;
+    map<pair<string, string>, int> airlineNumFlightsToAirport;
+    for (auto &elem : connections.getVertexSet()) {
+        for (auto &edge : elem->getAdj()) {
+            if (edge.getDest()->getInfo() == *airport) {
+                for(auto &airline : edge.getAirlines()) {
+                    airlineNumFlightsToAirport[{airline->getCode(), airline->getName()}]++;
+                }
+            }
+        }
+    }
+    vector<pair<pair<string,string>,int>> vec(airlineNumFlightsToAirport.begin(), airlineNumFlightsToAirport.end());
+    if(asc) std::sort(vec.begin(), vec.end(), [](const auto& a, const auto& b) {if(a.second == b.second) return a.first.second < b.first.second; return a.second > b.second;});
+    else std::sort(vec.begin(), vec.end(), [](const auto& a, const auto& b) {if(a.second == b.second) return a.first.second < b.first.second; return a.second > b.second;});
+    if (k > vec.size()) k = vec.size();
+    vector<pair<pair<string,string>,int>> res;
+    auto it = vec.begin();
+    while (k != 0) {
+        res.push_back(*it);
+        it++;
+        k--;
+    }
+    Viewer::printTopKAirlinesThatTravelToAnAirport(res, nameSize);
+}
+
+void Manager::listAirlinesPerAirport(Airport *airport) {
+    auto air = connections.findVertex(airport);
+    set<Airline *> airlinesInAirport;
+    for (auto& edge : air->getAdj()) {
+        for (auto &airline : edge.getAirlines()) {
+            airlinesInAirport.insert(airline);
+        }
+    }
+    int nameSize = 0;
+    for (auto & elem : airlinesInAirport) {
+        if (elem->getName().length() > nameSize) nameSize = elem->getName().length();
+    }
+    Viewer::printAirlinesPerAirport(airlinesInAirport, nameSize);
+}
+
 
 void Manager::listAiportsPerCountry(const string &country) const{
 
@@ -1429,17 +1523,7 @@ void Manager::listAiportsPerCountry(const string &country) const{
             res.push_back(elem.second);
         }
     }
-    int space = maxLengthName + 8 > 40 ? maxLengthName + 8 : 40;
-    int lenEssentialAirportsLabel = (space - 12 - country.length()) / 2;
-    int lenFEssentialAirportsLabel = (space - 12 - country.length()) % 2 == 0 ? lenEssentialAirportsLabel : lenEssentialAirportsLabel + 1;
-    cout << string(space + 2, '-') << endl;
-    cout << '|' << string(lenEssentialAirportsLabel, ' ') << "Airports in " << country << string(lenFEssentialAirportsLabel, ' ') << '|' << endl;
-    cout << string(space + 2, '-') << endl;
-    for (auto &elem : res) {
-        cout << "| Code: " << elem->getCode() << string(space - 10, ' ') << '|' << endl;
-        cout << "| Name: " << elem->getName() << string(space - 7 - elem->getName().length(), ' ') << '|' << endl;
-        cout << string(space + 2, '-') << endl;
-    }
+    Viewer::printListAirportsPerCountry(res, maxLengthName, country);
 }
 string nameToLower(const string& word) {
     string res;
@@ -1462,21 +1546,7 @@ void Manager::searchAirportsByName(const string &airportName) {
             res.push_back(airport.second);
         }
     }
-    if (res.empty()) {
-        cout << "No airports with the name " << airportName << " were found." << endl;
-        return;
-    }
-    int space = maxLengthName + 8 > 10 ? maxLengthName + 8 : 10;
-    int lenAirportsLabel = (space - 8) / 2;
-    int lenFAirportsLabel = (space - 8) % 2 == 0 ? lenAirportsLabel : lenAirportsLabel + 1;
-    cout << string(space + 2, '-') << endl;
-    cout << '|' << string(lenAirportsLabel, ' ') << "Airports" << string(lenAirportsLabel, ' ') << '|' << endl;
-    cout << string(space + 2, '-') << endl;
-    for (auto &elem : res) {
-        cout << "| Code: " << elem->getCode() << string(space - 10, ' ') << '|' << endl;
-        cout << "| Name: " << elem->getName() << string(space - 7 - elem->getName().length(), ' ') << '|' << endl;
-        cout << string(space + 2, '-') << endl;
-    }
+    Viewer::printSearchAirports(res,maxLengthName,airportName);
 }
 
 void Manager::searchAirlinesByName(const string &airlineName) {
@@ -1492,48 +1562,14 @@ void Manager::searchAirlinesByName(const string &airlineName) {
             res.push_back(airline.second);
         }
     }
-    if (res.empty()) {
-        cout << "No airlines with the name " << airlineName << " were found." << endl;
-        return;
-    }
-    int space = maxLengthName + 8 > 10 ? maxLengthName + 8 : 10;
-    int lenAirlinesLabel = (space - 8) / 2;
-    int lenFAirlinesLabel = (space - 8) % 2 == 0 ? lenAirlinesLabel : lenAirlinesLabel + 1;
-    cout << string(space + 2, '-') << endl;
-    cout << '|' << string(lenAirlinesLabel, ' ') << "AirLines" << string(lenFAirlinesLabel, ' ') << '|' << endl;
-    cout << string(space + 2, '-') << endl;
-    for (auto &elem : res) {
-        cout << "| Code: " << elem->getCode() << string(space - 10, ' ') << '|' << endl;
-        cout << "| Name: " << elem->getName() << string(space - 7 - elem->getName().length(), ' ') << '|' << endl;
-        cout << string(space + 2, '-') << endl;
-    }
+    Viewer::printSearchAirlines(res,maxLengthName,airlineName);
 }
 
-void Manager::printAirportInfo(const string& airportCode) {
-    auto airport = airports.find(airportCode);
-    int nameLength = airport->second->getName().length();
-    int space = nameLength + 8 > 41 ? nameLength + 8 : 41;
-    cout << string(space + 2, '-') << endl;
-    cout << "| Code: " << airportCode << string(space - 10, ' ') << '|' << endl;
-    cout << "| Name: " << airport->second->getName() << string(space - 7 - nameLength, ' ') << '|' << endl;
-    cout << "| City: " << airport->second->getCity() << string(space - 7 - airport->second->getCity().length(), ' ') << '|' << endl;
-    cout << "| Country: " << airport->second->getCountry() << string(space - 10 - airport->second->getCountry().length(), ' ') << '|' << endl;
-    cout << "| Coordinates: " << '(' << to_string(airport->second->getLatitude()) << ", " << to_string(airport->second->getLongitude()) << ')' << string(space - 18 - to_string(airport->second->getLatitude()).length() - to_string(airport->second->getLongitude()).length(), ' ') << '|' << endl;
-    cout << "| Number of Departures: " << airport->second->getNumFlightsOut() << string(space - 23 - to_string(airport->second->getNumFlightsOut()).length(), ' ') << '|' << endl;
-    cout << "| Number of Arrivals: " << airport->second->getNumFlightsIn() << string(space - 21 - to_string(airport->second->getNumFlightsIn()).length(), ' ') << '|' << endl;
-    cout << string(space + 2, '-') << endl;
+void Manager::printAirportInfo(Airport *airport) {
+    Viewer::printAirportInfo(airport);
 }
 
-void Manager::printAirlineInfo(const string& airlineCode) {
-    auto airline = airlines.find(airlineCode);
-    int nameLength = airline->second->getName().length();
-    int space = nameLength + 8 > 27 ? nameLength + 8 : 27;
-    cout << string(space + 2, '-') << endl;
-    cout << "| Code: " << airlineCode << string(space - 10, ' ') << '|' << endl;
-    cout << "| Name: " << airline->second->getName() << string(space - 7 - nameLength, ' ') << '|' << endl;
-    cout << "| Callsign: " << airline->second->getCallsign() << string(space - 11 - airline->second->getCallsign().length(), ' ') << '|' << endl;
-    cout << "| Country: " << airline->second->getCountry() << string(space - 10 - airline->second->getCountry().length(), ' ') << '|' << endl;
-    cout << "| Number of Flights: " << airline->second->getNumFlights() << string(space - 20 - to_string(airline->second->getNumFlights()).length(), ' ') << '|' << endl;
-    cout << string(space + 2, '-') << endl;
+void Manager::printAirlineInfo(Airline *airline) {
+    Viewer::printAirlineInfo(airline);
 }
 

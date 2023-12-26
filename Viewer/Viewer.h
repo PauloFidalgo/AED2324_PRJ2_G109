@@ -12,6 +12,7 @@
 #include <vector>
 #include <set>
 #include "../DataModel/Airport.h"
+#include "../DataModel/Airline.h"
 
 using namespace std;
 
@@ -30,9 +31,18 @@ public:
     static void printCityDestinations(const string& city, const int &numAirports, const int &numCities, const int &numCountries);
     static void printCountryDestinations(const string &country, const int &numAirports, const int &numCities, const int &numCountries);
     static void printDiameterPairs(const vector<pair<Airport, Airport>>& result, const int &maxDiameter);
-    static void printAirportGreatestTraffic(vector<Airport *> airportsByTraffic, const int& nameSize);
-    static void printCityGreatestTraffic(vector<pair<string, int>> citiesByTraffic, const int& nameSize);
-    static void printCountryGreatestTraffic(vector<pair<string, int>> countriesByTraffic, const int& nameSize);
+    static void printAirportGreatestTraffic(const vector<Airport *> &airportsByTraffic, const int& nameSize);
+    static void printCityGreatestTraffic(const vector<pair<string, int>> &citiesByTraffic, const int& nameSize);
+    static void printCountryGreatestTraffic(const vector<pair<string, int>> &countriesByTraffic, const int& nameSize);
+    static void printTopKAirportsAirlineTravelsTo(const vector<pair<pair<string,string>,int>> &airports, const int &nameSize);
+    static void printTopKAirportsWithMoreAirlines(const vector<pair<int, pair<string,string>>> &airports, const int &nameSize);
+    static void printTopKAirlinesThatTravelToAnAirport (const vector<pair<pair<string,string>,int>> &airports, const int &nameSize);
+    static void printAirlinesPerAirport (const set<Airline *> &airlines, const int& nameSize);
+    static void printListAirportsPerCountry(const vector<Airport *> &airports, const int &nameSize, const string &country);
+    static void printSearchAirports(const vector<Airport *> &airports, const int &nameSize, const string &airportName);
+    static void printSearchAirlines(const vector<Airline *> &airlines, const int &nameSize, const string &airlineName);
+    static void printAirportInfo(Airport *airport);
+    static void printAirlineInfo(Airline *airline);
 };
 
 

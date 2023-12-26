@@ -108,13 +108,9 @@ public:
     void getTopKGreatestTrafficAirlinePerCountry(int k, const string &country, const bool& asc = false) const;
 
     void getTopKAirportsAirlineTravelsTo(int k, Airline *airline, const bool& asc = false) const;
-
-    //top k airports com para onde voa uma companhia x;
-    //top k airports com mais e menos companhias diferentes;
-    //top k companhias que voam mais para um aeroporto x (racio entre voos para o aeroporto e voos totais); absoluto ou relativo
-    //listar ailines por aeroporto
-
-
+    void getTopKAirportsWithMoreAirlines(int k, const bool& asc = false) const;
+    void getTopKAirlinesThatFlyMoreToAnAirport(int k, Airport *airport, const bool& asc = false) const;
+    //falta ratio
 
     void listAiportsPerCountry(const string &country) const;
 
@@ -122,11 +118,11 @@ public:
 
     void searchAirlinesByName(const string &airlineName);
 
-    void printAirportInfo(const string &airportCode);
+    static void printAirportInfo(Airport *airport);
 
-    void printAirlineInfo(const string &airlineCode);
+    static void printAirlineInfo(Airline *airline);
 
-
+    void listAirlinesPerAirport(Airport *airport);
 };
 
 
