@@ -13,8 +13,6 @@ private:
 public:
     void displayMenu() override;
     State * handleInput() override;
-    string* getValidCity();
-    string* getValidCountry();
 };
 
 extern StatisticsState3 statisticsState3;

@@ -128,7 +128,7 @@ double haversine(double lat1, double lon1, double lat2, double lon2) {
     return rad * c;
 }
 
-vector<Airport*> Manager::getAiportsPerCoordinatesRange(const double &x, const double &y, const int &range) {
+vector<Airport*> Manager::getAirportsPerCoordinatesRange(const double &x, const double &y, const int &range) {
     double dist;
     vector<Airport*> res;
     for (auto &airport : connections.getVertexSet()) {

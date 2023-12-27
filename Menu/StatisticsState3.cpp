@@ -64,14 +64,16 @@ State* StatisticsState3::handleInput() {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
             case 1: {
-                string *country = this->getValidCountry();
-                manager.getCountryDestinantions(country);
+                string country = getValidCountry();
+                vector<Airport*> airports = this->getValidAirportsPerCountry();
+                manager.getCountryDestinantions(airports,country);
                 return this;
             }
             case 2: {
-                string* city = getValidCity();
-                int distance = getvalidkCityK();
-                manager.getCityDestinantionsUntilDistanceK(city,distance);
+                string city = getValidCity();
+                vector<Airport*> airports = this->getValidAirportsPerCity();
+                int dist = this->getValidCityK();
+                manager.getCityDestinantionsUntilDistanceK(airports,city,dist);
                 return this;
             }
             case 3: {

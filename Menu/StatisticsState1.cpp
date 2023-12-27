@@ -73,12 +73,14 @@ State* StatisticsState1::handleInput() {
                 }
                 case 4: {
                     string city = getValidCity();
-                    manager.getCityDestinationsDistance1(city);
+                    vector<Airport*> airports = manager.getAirportsPerCity(city);
+                    manager.getCityDestinationsDistance1(airports,city);
                     return this;
                 }
                 case 5: {
-                    string *country = getValidCountry();
-                    manager.getCountryDestinationsDistance1(country);
+                    string country = getValidCountry();
+                    auto airports = manager.getAirportsPerCountry(country);
+                    manager.getCountryDestinationsDistance1(airports,country);
                     return this;
                 }
                 case 6: {

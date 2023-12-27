@@ -82,7 +82,8 @@ State* StatisticsState2::handleInput() {
             }
             case 5: {
                 string city = this->getValidCity();
-                manager.getCityDestinantions(city);
+                vector<Airport*> airports = manager.getAirportsPerCity(city);
+                manager.getCityDestinantions(airports,city);
                 return this;
             }
             case 6:

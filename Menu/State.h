@@ -26,7 +26,7 @@ public:
     Airport* getValidAirport();
     Airline* getValidAirline();
     string getValidCity();
-    string* getValidCountry();
+    string getValidCountry();
     int getValidAirportK();
     Airport* getValidAirportPerCoordinates();
 

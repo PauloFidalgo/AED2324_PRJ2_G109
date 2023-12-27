@@ -42,7 +42,7 @@ public:
     Airport* getAirportPerName(const string &name) const;
     Airline* getAirlinePerName(const std::string &name) const;
     vector<Airport> getPath(Airport *source, Airport *destination);
-    vector<Airport*> getAiportsPerCoordinatesRange(const double &x, const double &y, const int &range);
+    vector<Airport*> getAirportsPerCoordinatesRange(const double &x, const double &y, const int &range);
     vector<vector<Airport*>> findMinConnectionsExcludeAirports(Airport* s, Airport* t, vector<Airport*> &air);
     vector<vector<Airport*>> findMinConnectionsExcludeCities(Airport* s, Airport* t, vector<string> &cities);
     vector<vector<Airport*>> bfsMinConnectionsExcludeAirports(Airport* s, Airport* t, const vector<Airport*> &exclude);
@@ -57,18 +57,19 @@ public:
     bool validateCityName(const std::string &name) const;
     bool validateCountryName(const std::string &name) const;
     vector<vector<Airport*>> bfsMinConnections1(Airport* s, Airport* t);
-
+    bool hasConnection(Airport* s, Airport* t);
+    void dfsApp(Vertex *v, stack<Airport*> &s, vector<Airport*> &res, int &i);
     vector<Vertex*> airportsAtDistanceK(const string &source, int k);
     vector<vector<Airport*>> scheduleTripMinConnectionCities(Airport* u, Airport* v, vector<string>& visit);
     void dfsVisit(Vertex *v, Vertex *t, vector<Airport> &flights);
     bool hasPath(Vertex *v, Vertex *t, vector<Airport> &flights);
     vector<Airport> pathExists(Airport *d, Airport *t);
-
+    void findComponentDiameterPairs(Vertex *origin, vector<pair<Airport*, Airport*>> &result, int &i) const;
     vector<Vertex*> airportsAtDistanceK(Airport *source, int k);
     void dfsApp(Vertex *v, stack<Airport> &s, vector<Airport> &res, int &i);
     unordered_set<string> getCitiesPerCountry(const string& c) const;
     vector<Airport*> getAirportsPerCountry(const string &c) const;
-    vector<vector<Airport>> scc();
+    vector<vector<Airport*>> scc();
     bool hasConnection(const string &s, const string &t);
     vector<Airport*> getAirportsPerCity(const string& city) const;
     bool dfsVisitBool(Vertex *v, Vertex *t);

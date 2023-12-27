@@ -64,7 +64,7 @@ string State::getValidCity() {
     return city;
 }
 
-string* State::getValidCountry() {
+string State::getValidCountry() {
 
     do {
         cout << "Country: ";
@@ -76,7 +76,7 @@ string* State::getValidCountry() {
             cout << "Country doesn't exist. Try again." << endl;
         }
     } while (!manager.validateCountryName(code));
-    return &code;
+    return code;
 }
 
 int State::getValidAirportK() {
@@ -168,7 +168,7 @@ vector<Airport*> State::getAirportsRange(int x){
         cout << "Longitude: ";
         cin >> longitude;
 
-        airports = manager.getAiportsPerCoordinatesRange(latitude,longitude,x);
+        airports = manager.getAirportsPerCoordinatesRange(latitude, longitude, x);
         if (airports.empty()) {
             cout << "Airport doesn't exist. Try again." << endl;
         }
