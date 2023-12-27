@@ -108,8 +108,10 @@ Airport* State::getValidAirportPerCoordinates(){
     Airport* airport;
     double latitude, longitude;
     do {
-        cout << "Airport Coordinates: ";
-        cin >> latitude;
+        cout << "Latitude: ";
+        cin >> latitude ;
+        cout << endl;
+        cout << "Longitude: ";
         cin >> longitude;
         airport = manager.getClosestAirport(latitude,longitude);
         if (!airport) {
@@ -123,11 +125,11 @@ vector<Airport*> State::getValidAirportsPerCity(){
     vector<Airport*> airports;
 
     do {
-        cout << "Airport Coordinates: ";
+        cout << "City: ";
         cin >> name;
         airports = manager.validateCity(name);
         if (airports.empty()) {
-            cout << "Airport doesn't exist. Try again." << endl;
+            cout << "City doesn't exist. Try again." << endl;
         }
     } while (airports.empty());
     return airports;
@@ -137,11 +139,11 @@ vector<Airport*> State::getValidAirportsPerCountry(){
     vector<Airport*> airports;
 
     do {
-        cout << "Airport Coordinates: ";
+        cout << "Country: ";
         cin >> name;
         airports = manager.validateCountry(name);
         if (airports.empty()) {
-            cout << "Airport doesn't exist. Try again." << endl;
+            cout << "Country doesn't exist. Try again." << endl;
         }
     } while (airports.empty());
     return airports;
@@ -152,8 +154,10 @@ vector<Airport*> State::getAirportsRange(int x){
     vector<Airport*> airports;
     double longitude, latitude;
     do {
-        cout << "Airport Coordinates: ";
+        cout << "Latitude: ";
         cin >> latitude ;
+        cout << endl;
+        cout << "Longitude: ";
         cin >> longitude;
 
         airports = manager.getAiportsPerCoordinatesRange(latitude,longitude,x);

@@ -8,16 +8,21 @@
 
 using namespace std;
 
-FilterState::FilterState()
-        : from(""), to("") {}
-
-void FilterState::setFrom(const std::string& from) {
-    this->from = from;
+void FilterState::setFrom( Airport* fromAirport) {
+    this->fromAirport = fromAirport;
 }
 
-void FilterState::setTo(const std::string& to) {
-    this->to = to;
+void FilterState::setTo( Airport* toAirport) {
+    this->toAirport = toAirport;
 }
+void FilterState::setFrom( vector<Airport*> fromAirports) {
+    this->fromAirports = fromAirports;
+}
+
+void FilterState::setTo( vector<Airport*> toAirports) {
+    this->toAirports = toAirports;
+}
+
 
 void FilterState::displayMenu() {
 

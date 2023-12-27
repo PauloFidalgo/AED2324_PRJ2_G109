@@ -7,18 +7,26 @@
 #include "State.h"
 class FilterState: public State {
 private:
-    string from;
-    string to;
+    Airport* fromAirport;
+    Airport* toAirport;
+    vector<Airport*> fromAirports;
+    vector<Airport*> toAirports;
 public:
     // Constructor
     FilterState();
 
     // Setters
-    void setFrom(const std::string& from);
-    void setTo(const std::string& to);
+    void setFrom( Airport* fromAirport);
+    void setTo( Airport* toAirport);
+    void setFrom( vector<Airport*> fromAirports);
+    void setTo( vector<Airport*> toAirports);
 
     void displayMenu() override;
     State * handleInput() override;
+
+    const vector<Airport *> &getToAirports() const;
+
+    void setToAirports(const vector<Airport *> &toAirports);
 };
 
 

@@ -15,6 +15,10 @@ private:
     string to;
     double x;
     double y;
+    Airport* fromCode;
+    Airport* toCode;
+    vector<Airport*> fromAirports;
+    vector<Airport*> toAirports;
 
 public:
     FlightSearchState();

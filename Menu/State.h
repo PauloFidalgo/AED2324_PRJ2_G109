@@ -33,6 +33,10 @@ public:
     Airport* getValidAirportPerCoordinates();
 
     vector<Airport *> getValidAirportsPerCity();
+
+    vector<Airport *> getValidAirportsPerCountry();
+
+    vector<Airport *> getAirportsRange(int x);
 };
 
 
