@@ -134,17 +134,7 @@ void Manager::articulationPoints() {
     for (auto& elem : res) {
         if (elem.getName().length() > maxLengthName) maxLengthName = elem.getName().length();
     }
-    int space = maxLengthName + 8 > 35 ? maxLengthName + 8 : 35;
-    int lenEssentialAirportsLabel = (space - 33) / 2;
-    int lenFEssentialAirportsLabel = (space - 33) % 2 == 0 ? lenEssentialAirportsLabel : lenEssentialAirportsLabel + 1;
-    cout << string(space + 2, '-') << endl;
-    cout << '|' << string(lenEssentialAirportsLabel, ' ') << "Essential Airports to the network" << string(lenFEssentialAirportsLabel, ' ') << '|' << endl;
-    cout << string(space + 2, '-') << endl;
-    for (auto &elem : res) {
-        cout << "| Code: " << elem.getCode() << string(space - 10, ' ') << '|' << endl;
-        cout << "| Name: " << elem.getName() << string(space - 7 - elem.getName().length(), ' ') << '|' << endl;
-        cout << string(space + 2, '-') << endl;
-    }
+    Viewer::printArticulationPoints(res, maxLengthName);
 }
 
 void Manager::dfsApp(Vertex *v, stack<Airport> &s, vector<Airport> &res, int &i) {
@@ -1200,7 +1190,7 @@ void Manager::getTopKGreatestTrafficAirport(int k, const bool &bars, const bool&
         k--;
         if (k == 0) break;
     }
-    if (bars) Viewer::printAiportGreatestTrafficBars(air, asc);
+    if (bars) Viewer::printAirportGreatestTrafficBars(air, asc);
     else Viewer::printAirportGreatestTraffic(air, nameSize);
 }
 
@@ -1287,7 +1277,7 @@ void Manager::getTopKGreatestTrafficAirportPerCity(int k, const vector<Airport *
         k--;
         if (k == 0) break;
     }
-    if (bars) Viewer::printAiportGreatestTrafficBars(air, asc);
+    if (bars) Viewer::printAirportGreatestTrafficBars(air, asc);
     else Viewer::printAirportGreatestTraffic(air, nameSize);
 }
 
@@ -1305,7 +1295,7 @@ void Manager::getTopKGreatestTrafficAirportPerCountry(int k, const vector<Airpor
         k--;
         if (k == 0) break;
     }
-    if (bars) Viewer::printAiportGreatestTrafficBars(air, asc);
+    if (bars) Viewer::printAirportGreatestTrafficBars(air, asc);
     else Viewer::printAirportGreatestTraffic(air, nameSize);
 }
 

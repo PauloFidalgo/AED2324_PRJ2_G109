@@ -406,7 +406,7 @@ void Viewer::printAirlineGreatestTraffic(const vector<Airline *> &airlinesByTraf
 }
 
 
-void Viewer::printAiportGreatestTrafficBars(const vector<Airport *> &airportsByTraffic, const bool &asc = false) {
+void Viewer::printAirportGreatestTrafficBars(const vector<Airport *> &airportsByTraffic, const bool &asc = false) {
     if (!airportsByTraffic.empty()) {
         float size;
         if (!asc) size = airportsByTraffic.front()->getNumFlightsIn() + airportsByTraffic.front()->getNumFlightsOut();
@@ -508,5 +508,20 @@ void Viewer::printTopKVectorBars(const vector<pair<pair<string, string>, int>> &
         }
     }
 }
+
+void Viewer::printArticulationPoints(const vector<Airport> res, const int &nameSize) {
+    int space = nameSize + 8 > 35 ? nameSize + 8 : 35;
+    int lenEssentialAirportsLabel = (space - 33) / 2;
+    int lenFEssentialAirportsLabel = (space - 33) % 2 == 0 ? lenEssentialAirportsLabel : lenEssentialAirportsLabel + 1;
+    cout << string(space + 2, '-') << endl;
+    cout << '|' << string(lenEssentialAirportsLabel, ' ') << "Essential Airports to the network" << string(lenFEssentialAirportsLabel, ' ') << '|' << endl;
+    cout << string(space + 2, '-') << endl;
+    for (auto &elem : res) {
+        cout << "| Code: " << elem.getCode() << string(space - 10, ' ') << '|' << endl;
+        cout << "| Name: " << elem.getName() << string(space - 7 - elem.getName().length(), ' ') << '|' << endl;
+        cout << string(space + 2, '-') << endl;
+    }
+}
+
 
 
