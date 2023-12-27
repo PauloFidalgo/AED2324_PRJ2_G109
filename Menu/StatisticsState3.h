@@ -8,8 +8,6 @@
 
 class StatisticsState3: public State {
 private:
-    string airline;
-    int distance;
     string userInputStr;
     int userInput;
 public:
@@ -17,7 +15,6 @@ public:
     State * handleInput() override;
     string* getValidCity();
     string* getValidCountry();
-    int* getValidKForAirport();
 };
 
 extern StatisticsState3 statisticsState3;

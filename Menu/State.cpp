@@ -90,6 +90,28 @@ int State::getValidAirportK() {
     return distance;
 }
 
+int State::getValidAirlineK() {
+    do {
+        cout << "K : ";
+        cin >> distance;
+        if (distance < 0 or distance > manager.getAirlines().size()) {
+            cout << "K doesn't exist. Try again." << endl;
+        }
+    } while (distance < 0 or distance > manager.getAirlines().size());
+    return distance;
+}
+
+int State::getValidCityK() {
+    do {
+        cout << "K : ";
+        cin >> distance;
+        if (distance < 0 or distance > manager.getCitys().size()) {
+            cout << "K doesn't exist. Try again." << endl;
+        }
+    } while (distance < 0 or distance > manager.getAirports().size());
+    return distance;
+}
+
 Airport* State::getValidAirportPerCoordinates(){
     Airport* airport;
     double latitude, longitude;

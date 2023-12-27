@@ -82,7 +82,7 @@ State* StatisticsState4::handleInput() {
                 return this;
             case 6:
                 statisticsState1.getValidAirportCode();
-                manager.getOutFlights(this->airport);
+                manager.
                 return this;
             default:
                 std::cout << " Invalid choice. try again" << std::endl;

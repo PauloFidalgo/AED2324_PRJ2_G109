@@ -34,6 +34,7 @@ public:
     Manager();
     unordered_map<string, Airline*> getAirlines();
     unordered_map<string, Airport*> getAirports();
+
     Airport* getAirportPerCode(const string &code) const;
     vector<Airport*> validateCountry(const string &country) const;
     vector<Airport*> validateCity(const string &city) const;

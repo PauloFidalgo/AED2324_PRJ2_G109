@@ -68,8 +68,8 @@ State* StatisticsState2::handleInput() {
                 return this;
             }
             case 2: {
-                Airline* airline = getValidAirline();
-                manager.getNumFlightsPerAirline(airline);
+                Airport* airport = getValidAirport();
+                manager.getAirportDestinantionsDistance1(airport);
                 return this;
             }
             case 3:
@@ -77,13 +77,12 @@ State* StatisticsState2::handleInput() {
                 return this;
             case 4: {
                 Airport* airport = getValidAirport();
-                manager.getNumFlightsAndAirlines(airport);
+                manager.getAirportDestinantions(airport);
                 return this;
             }
             case 5: {
-                Airport* start = getValidAirport();
-                Airport* end = getValidAirport();
-                manager.getNumStops(start, end);
+                string city = this->getValidCity();
+                manager.getCityDestinantions(city);
                 return this;
             }
             case 6:

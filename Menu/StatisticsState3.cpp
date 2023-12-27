@@ -63,31 +63,36 @@ State* StatisticsState3::handleInput() {
     } else {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
-            case 1:
-                manager.articulationPoints();
+            case 1: {
+                string *country = this->getValidCountry();
+                manager.getCountryDestinantions(country);
                 return this;
-            case 2:
-                getValidCity();
-                manager.getNumFlightsPerCity(this->airline);
+            }
+            case 2: {
+                string* city = getValidCity();
+                int distance = getvalidkCityK();
+                manager.getCityDestinantionsUntilDistanceK(city,distance);
                 return this;
-            case 3:
-                getValidCity();
-                manager.getCountriesCanFlyToCity(this->airline);
+            }
+            case 3: {
+                string *city = getValidCity();
+                manager.getCountriesCanFlyToCity(city);
                 return this;
+            }
             case 4:
                 manager.diameterPairs();
                 return this;
-            case 5:
-                cout << "K: ";
-                cin >> distance;
+            case 5: {
+                int distance = getValidAirlineK();
                 manager.getTopKGreatestTrafficAirline(this->distance);
                 return this;
-            case 6:
-                getValidCountry();
-                cout << "K: ";
-                cin >> distance;
-                manager.getTopKGreatestTrafficAirlinePerCountry(this->distance, this->airline);
+            }
+            case 6: {
+                string *country = getValidCountry();
+                int distance = getValidAirlineK();
+                manager.getTopKGreatestTrafficAirlinePerCountry(distance, country);
                 return this;
+            }
             default:
                 std::cout << " Invalid choice. try again" << std::endl;
                 return this;
@@ -95,24 +100,26 @@ State* StatisticsState3::handleInput() {
     }
 }
 string *StatisticsState3::getValidCity() {
+    string input;
     do {
         cout << "City : ";
-        cin >> airline;
-        if (!manager.validateCityName(airline)) {
+        cin >> input;
+        if (!manager.validateCityName(input)) {
             cout << "City doesn't exist. Try again." << endl;
         }
-    } while (!manager.validateCityName(airline));
-    return &airline;
+    } while (!manager.validateCityName(input));
+    return &input;
 }
 
 string *StatisticsState3::getValidCountry() {
+    string input;
     do {
         cout << "Country : ";
-        cin >> airline;
-        if (!manager.validateCountryName(airline)) {
+        cin >> input;
+        if (!manager.validateCountryName(input)) {
             cout << "Country doesn't exist. Try again." << endl;
         }
-    } while (!manager.validateCountryName(airline));
-    return &airline;
+    } while (!manager.validateCountryName(input));
+    return &input;
 }
 

@@ -25,6 +25,7 @@ void StatisticsState1::displayMenu() {
     cout << "|                                     6. Get destinations until certain distance                       |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                                                                                      |" << endl;
+    cout << "|                                                                                                      |" << endl;
     cout << "| back - Main Menu                                                                                     |" << endl;
     cout << "| exit - Exit                                                                                          |" << endl;
     cout << "--------------------------------------------------------------------------------------------------------" << endl;
