@@ -204,10 +204,10 @@ void Viewer::printCountryDestinations(const string &country, const int &numAirpo
     cout << "---------------------------------" << string(space + 1, '-') << endl;
 }
 
-void Viewer::printDiameterPairs(const vector<pair<Airport, Airport>> &result, const int &maxDiameter) {
+void Viewer::printDiameterPairs(const vector<pair<Airport*, Airport*>> &result, const int &maxDiameter) {
     int maxNameLength = 0;
     for (auto& elem : result) {
-        int maxLength = max(elem.first.getName().length(), elem.second.getName().length());
+        int maxLength = max(elem.first->getName().length(), elem.second->getName().length());
         if (maxLength > maxNameLength) maxNameLength = maxLength;
     }
     int space = maxNameLength + 8 > 22 ? maxNameLength + 8 : 22;
@@ -219,8 +219,8 @@ void Viewer::printDiameterPairs(const vector<pair<Airport, Airport>> &result, co
     cout << '|' << string(lenSourceAirportsLabel, ' ') << "Source Airports" << string (lenFSourceAirportsLabel, ' ') << "| " << string(lenDestAirportsLabel, ' ') << "Destination Airports" << string(lenFDestAirportsLabel, ' ') << '|' << endl;
     cout << string(space * 2 + 3, '-') << endl;
     for (auto& elem : result) {
-        cout << "| Code: " << elem.first.getCode() << string(space - 10, ' ') << "| Code: " << elem.second.getCode() << string(space - 10, ' ') << '|' << endl;
-        cout << "| Name: " << elem.first.getName() << string(space - 7 - elem.first.getName().length(), ' ') << "| Name: " << elem.second.getName() << string(space - 7 - elem.second.getName().length(), ' ') << '|' << endl;
+        cout << "| Code: " << elem.first->getCode() << string(space - 10, ' ') << "| Code: " << elem.second->getCode() << string(space - 10, ' ') << '|' << endl;
+        cout << "| Name: " << elem.first->getName() << string(space - 7 - elem.first->getName().length(), ' ') << "| Name: " << elem.second->getName() << string(space - 7 - elem.second->getName().length(), ' ') << '|' << endl;
         cout << string(space * 2 + 3, '-') << endl;
     }
     cout << "The maximum trip between two airports has " << maxDiameter << " stops." << endl;
