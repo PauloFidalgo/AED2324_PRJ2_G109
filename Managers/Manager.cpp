@@ -454,7 +454,7 @@ void Manager::getNumFlightsAndAirlines(Airport *airport) const {
     Viewer::printNumFlightsOutAndAirlines(airport->getCode(), airport->getName(), numFlights, numAirlines);
 }
 
-void Manager::getNumFlightsPerCity(const string &city) const {
+void Manager::getNumFlightsPerCity(const string city) const {
     int numFlights = 0;
     vector<Airport*> air = getAirportsPerCity(city);
     for (auto& elem : air) {

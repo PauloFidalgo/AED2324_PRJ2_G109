@@ -55,31 +55,37 @@ State* StatisticsState1::handleInput() {
     {
             istringstream(userInputStr) >> userInput;
             switch (userInput) {
-                case 1:
-                    getValidAirportCode();
+                case 1: {
+                    Airport *airport = getValidAirport();
                     manager.getNumFlightsAndAirlines(airport);
                     return this;
-                case 2:
-                    getValidAirlineCode();
+                }
+                case 2: {
+                    Airline *airline = getValidAirline();
                     manager.getNumFlightsPerAirline(airline);
                     return this;
-                case 3:
-                    getValidAirportCode();
+                }
+                case 3: {
+                    Airport *airport = getValidAirport();
                     manager.getCountriesCanFlyToAirport(airport);
                     return this;
-                case 4:
-                    getValidCity();
-                    manager.getCityDestinationsDistance1(code);
+                }
+                case 4: {
+                    string city = getValidCity();
+                    manager.getCityDestinationsDistance1(city);
                     return this;
-                case 5:
-                    getValidCountry();
-                    manager.getCountryDestinationsDistance1(code);
+                }
+                case 5: {
+                    string *country = getValidCountry();
+                    manager.getCountryDestinationsDistance1(country);
                     return this;
-                case 6:
-                    getValidAirportCode();
-                    getValidAirportK();
-                    manager.getAirportDestinantionsUntilDistanceK(airport,distance);
+                }
+                case 6: {
+                    Airport *airport = getValidAirport();
+                    int distance = getValidAirportK();
+                    manager.getAirportDestinantionsUntilDistanceK(airport, distance);
                     return this;
+                }
                 default:
                     std::cout << " Invalid choice. try again" << std::endl;
                     return this;

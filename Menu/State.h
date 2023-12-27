@@ -25,9 +25,9 @@ public:
     virtual ~State();
     Airport* getValidAirport();
     Airline* getValidAirline();
-    string* getValidCity();
+    string getValidCity();
     string* getValidCountry();
-    int* getValidAirportK();
+    int getValidAirportK();
     Airport* getValidAirportPerCoordinates();
 
     vector<Airport *> getValidAirportsPerCity();

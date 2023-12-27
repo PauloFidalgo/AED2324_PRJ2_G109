@@ -51,17 +51,17 @@ Airline* State::getValidAirline() {
     return (airlineCode) ? airlineCode : airlineName;
 }
 
-string* State::getValidCity() {
-
+string State::getValidCity() {
+    string city;
     do {
         cout << "City: ";
-        cin >> code;
+        cin >> city;
 
-        if (!manager.validateCityName(code)) {
+        if (!manager.validateCityName(city)) {
             cout << "City doesn't exist. Try again." << endl;
         }
-    } while (!manager.validateCityName(code));
-    return &code;
+    } while (!manager.validateCityName(city));
+    return city;
 }
 
 string* State::getValidCountry() {
@@ -79,7 +79,7 @@ string* State::getValidCountry() {
     return &code;
 }
 
-int *State::getValidAirportK() {
+int State::getValidAirportK() {
     do {
         cout << "K : ";
         cin >> distance;
@@ -87,7 +87,7 @@ int *State::getValidAirportK() {
             cout << "K doesn't exist. Try again." << endl;
         }
     } while (distance < 0 or distance > manager.getAirports().size());
-    return &distance;
+    return distance;
 }
 
 Airport* State::getValidAirportPerCoordinates(){

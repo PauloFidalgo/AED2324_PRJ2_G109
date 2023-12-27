@@ -8,10 +8,6 @@
 
 class StatisticsState2: public State {
 private:
-    string name;
-    int distance;
-    Airport* airport;
-    Airline* airline;
     string userInputStr;
     int userInput;
 public:

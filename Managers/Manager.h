@@ -143,6 +143,8 @@ public:
     static void printAirlineInfo(Airline *airline);
 
     void listAirlinesPerAirport(Airport *airport);
+
+    vector<Airport *> articulationPoints();
 };
 
 

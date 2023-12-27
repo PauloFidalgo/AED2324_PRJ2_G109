@@ -21,10 +21,10 @@ void StatisticsState2::displayMenu() {
     cout << "|                                                                                                      |" << endl;
     cout << "|                                     1. Nº flights and Airlines                                       |" << endl;
     cout << "|                                     2. Nª flights per Airline                                        |" << endl;
-    cout << "|                                     3. Nº country's                                                  |" << endl;
-    cout << "|                                     4. Get destinations distance 1                                   |" << endl;
-    cout << "|                                     5. Get destinations                                              |" << endl;
-    cout << "|                                     6. Distance Travelled                                            |" << endl;
+    cout << "|                                     3. Nº Airports And Flights                                       |" << endl;
+    cout << "|                                     4. Nº Flights And Airlines                                       |" << endl;
+    cout << "|                                     5. Nº stops                                                      |" << endl;
+    cout << "|                                     6. Articulation points                                           |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|  back - Main Menu                                                                                    |" << endl;
     cout << "|  exit - Exit                                                                                         |" << endl;
@@ -62,30 +62,32 @@ State* StatisticsState2::handleInput() {
     } else {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
-            case 1:
-                getValidCity();
-                manager.getNumFlightsPerCity(code);
+            case 1: {
+                string city = getValidCity();
+                manager.getNumFlightsPerCity(city);
                 return this;
-            case 2:
-                getValidAirlineName();
+            }
+            case 2: {
+                Airline* airline = getValidAirline();
                 manager.getNumFlightsPerAirline(airline);
                 return this;
+            }
             case 3:
                 manager.getNumAirportsAndFlights();
                 return this;
-            case 4:
-                getValidAirportName();
-                manager.getNumFlightsAndAirlines();
+            case 4: {
+                Airport* airport = getValidAirport();
+                manager.getNumFlightsAndAirlines(airport);
                 return this;
-            case 5:
-                getValidAirportName();
-                manager.getNumStops();
+            }
+            case 5: {
+                Airport* start = getValidAirport();
+                Airport* end = getValidAirport();
+                manager.getNumStops(start, end);
                 return this;
+            }
             case 6:
-                statisticsState1.getValidAirportCode();
-                cout << "Distance: ";
-                cin >> distance;
-                manager.get(name, distance);
+                manager.articulationPoints();
                 return this;
             default:
                 std::cout << " Invalid choice. try again" << std::endl;
