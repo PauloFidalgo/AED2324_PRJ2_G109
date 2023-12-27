@@ -263,6 +263,15 @@ void Manager::dfsApp(Vertex *v, stack<Airport*> &s, vector<Airport*> &res, int &
     s.pop();
 }
 
+bool hasAirline(Edge &e, const unordered_set<Airline*> &air) {
+    for (auto &airline : air) {
+        if (e.hasAirline(airline)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool hasAirline(Edge &e, const vector<Airline*> &air) {
     for (auto &airline : air) {
         if (e.hasAirline(airline)) {
@@ -701,7 +710,7 @@ vector<vector<Airport*>> Manager::bfsMinConnections(Airport* s, Airport* t) {
     return result;
 }
 
-vector<vector<Airport*>> Manager::bfsMinConnectionsExcludeAirports(Airport* s, Airport* t, const vector<Airport*> &exclude, const unordered_set<Airline*> &airlinesToExclude) {
+vector<vector<Airport*>> Manager::bfsMinConnectionsExcludeAirports(Airport* s, Airport* t, const vector<Airport*> &exclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines) {
     for (auto node : connections.getVertexSet()) {
         node->setVisited(false);
     }
@@ -734,19 +743,23 @@ vector<vector<Airport*>> Manager::bfsMinConnectionsExcludeAirports(Airport* s, A
             for (Edge& flight : current->getAdj()) {
                 Vertex* neighbor = flight.getDest();
 
-            if (airlinesToExclude.empty() || hasOtherAirline(flight,airlinesToExclude)) {
-                if (!neighbor->isVisited()) {
-                    q.push(neighbor);
-                    parent[neighbor] = current;
-                    neighbor->setVisited(true);
+                if (flyOnlyAirlines.empty()) {
+                    if (flyOnlyAirlines.empty() && (airlinesToExclude.empty() || hasOtherAirline(flight,airlinesToExclude)) || (!flyOnlyAirlines.empty() &&
+                            hasAirline(flight, flyOnlyAirlines))) {
+                        if (!neighbor->isVisited()) {
+                            q.push(neighbor);
+                            parent[neighbor] = current;
+                            neighbor->setVisited(true);
 
-                    if (neighbor == last) {
-                        found = true;
-                        neighbor->setVisited(false);
-                        res.push_back(current);
+                            if (neighbor == last) {
+                                found = true;
+                                neighbor->setVisited(false);
+                                res.push_back(current);
+                            }
+                        }
                     }
                 }
-            }
+
             }
         }
         if (found) break;
@@ -948,7 +961,7 @@ vector<vector<Airport*>> Manager::scheduleTripMinConnectionCities(Airport* u, Ai
     vector<vector<Airport*>> aux;
 
     for (auto& vec : visits) {
-        auto next = scheduleTripMinConnectionAirports(u, v, vec, {}, {});
+        auto next = scheduleTripMinConnectionAirports(u, v, vec, {}, {}, {});
         auto it = next.begin();
 
         if (first || it->size() <= min) {
@@ -1003,7 +1016,7 @@ vector<vector<Airport*>> Manager::scheduleTripMinConnectionCountries(Airport* u,
     vector<vector<Airport*>> aux;
 
     for (auto& vec : visits) {
-        auto next = scheduleTripMinConnectionAirports(u, v, vec, {}, {});
+        auto next = scheduleTripMinConnectionAirports(u, v, vec, {}, {}, {});
         auto it = next.begin();
 
         if (first || it->size() <= min) {
@@ -1023,7 +1036,7 @@ vector<vector<Airport*>> Manager::scheduleTripMinConnectionCountries(Airport* u,
     return res;
 }
 
-vector<vector<Airport*>> Manager::scheduleTripMinConnectionAirports(Airport* u, Airport* v, const vector<Airport*>& visit, const vector<Airport*> &exclude, const unordered_set<Airline*> &airlinesToExclude) {
+vector<vector<Airport*>> Manager::scheduleTripMinConnectionAirports(Airport* u, Airport* v, const vector<Airport*>& visit, const vector<Airport*> &exclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines) {
     vector<vector<Airport*>> path;
 
     auto start = u;
@@ -1031,7 +1044,7 @@ vector<vector<Airport*>> Manager::scheduleTripMinConnectionAirports(Airport* u, 
 
     for (auto &code : visit) {
 
-        vector<vector<Airport*>> currentPaths = bfsMinConnectionsExcludeAirports(start, code, exclude, airlinesToExclude);
+        vector<vector<Airport*>> currentPaths = bfsMinConnectionsExcludeAirports(start, code, exclude, airlinesToExclude, flyOnlyAirlines);
 
         if (!first) {
             vector<vector<Airport *>> re;
@@ -1060,7 +1073,7 @@ vector<vector<Airport*>> Manager::scheduleTripMinConnectionAirports(Airport* u, 
         start = code;
     }
 
-    vector<vector<Airport*>> lastLeg = bfsMinConnectionsExcludeAirports(start, v, exclude, airlinesToExclude);
+    vector<vector<Airport*>> lastLeg = bfsMinConnectionsExcludeAirports(start, v, exclude, airlinesToExclude, flyOnlyAirlines);
 
     vector<vector<Airport *>> re;
     for (auto &pa: path) {
@@ -1341,21 +1354,22 @@ vector<vector<Airport*>> Manager::findMinConnectionsExcludeAirports(Airport* s, 
     return result;
 }
 
-vector<vector<Airport*>> Manager::manageFlightSearchFromMenu(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, vector<Airport*> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude) {
+vector<vector<Airport*>> Manager::manageFlightSearchFromMenu(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, vector<Airport*> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
     vector<vector<Airport*>> res;
 
     for (auto &from : source) {
         for (auto &to : destination) {
+
             if (!cityCountry.empty()) {
                 for (auto vis : cityCountry) {
                     airporsToVisit.push_back(vis);
-                    auto next = scheduleTripMinConnectionAirports(from, to, airporsToVisit, airportsToExclude, airlinesToExclude);
+                    auto next = scheduleTripMinConnectionAirports(from, to, airporsToVisit, airportsToExclude, airlinesToExclude, flyOnlyAirlines);
                     airporsToVisit.pop_back();
                     res.insert(res.end(), next.begin(), next.end());
                 }
             }
             else {
-                auto next = scheduleTripMinConnectionAirports(from, to, airporsToVisit, airportsToExclude, airlinesToExclude);
+                auto next = scheduleTripMinConnectionAirports(from, to, airporsToVisit, airportsToExclude, airlinesToExclude, flyOnlyAirlines);
                 res.insert(res.end(), next.begin(), next.end());
             }
         }
