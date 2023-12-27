@@ -121,12 +121,12 @@ void FilterState::includeAirlines() {
 }
 
 void FilterState::includeCountrys() {
-    vector<string*> includedCountrys;
+    vector<string> includedCountrys;
 
     while (true) {
-        string* country = getValidCountry();
+        string country = getValidCountry();
 
-        if (country == nullptr) {
+        if (country == "") {
             break;
         }
 
@@ -134,13 +134,14 @@ void FilterState::includeCountrys() {
     }
 }
 
+
 void FilterState::excludeCountrys() {
-    vector<string*> excludeCountrys;
+    vector<string> excludeCountrys;
 
     while (true) {
-        string* country = getValidCountry();
+        string country = getValidCountry();
 
-        if (country == nullptr) {
+        if (country == "") {
             break;
         }
 
