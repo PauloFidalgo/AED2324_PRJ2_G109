@@ -51,10 +51,10 @@ State* FilterState::handleInput() {
 
     switch (userInput) {
         case 1:
-            manager.getNumFlightsAndAirlines(this->from);
-            return this;
+            this->excludeAirlines();
+            break;
         case 2:
-            std::cout << "Name" << std::endl;
+            this->includeAirlines();
             break;
         case 3:
             std::cout << "Country" << std::endl;
@@ -79,4 +79,35 @@ State* FilterState::handleInput() {
             return this;
     }
     return nullptr;
+}
+
+
+
+void FilterState::excludeAirlines() {
+    std::vector<Airline*> excludedAirlines;
+
+    while (true) {
+        Airline* airline = getValidAirline();
+
+        if (!airline) {
+            break;
+        }
+
+        excludedAirlines.push_back(airline);
+    }
+}
+
+
+void FilterState::includeAirlines() {
+    std::vector<Airline*> includedAirlines;
+
+    while (true) {
+        Airline* airline = getValidAirline();
+
+        if (airline == nullptr) {
+            break;
+        }
+
+        includedAirlines.push_back(airline);
+    }
 }

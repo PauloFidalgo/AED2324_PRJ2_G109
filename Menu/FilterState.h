@@ -11,6 +11,7 @@ private:
     Airport* toAirport;
     vector<Airport*> fromAirports;
     vector<Airport*> toAirports;
+    vector<Airline*> airlines;
 public:
     // Constructor
     FilterState();
@@ -27,6 +28,12 @@ public:
     const vector<Airport *> &getToAirports() const;
 
     void setToAirports(const vector<Airport *> &toAirports);
+
+    Airline *getInputAirlines();
+
+    void includeAirlines();
+
+    void excludeAirlines();
 };
 
 

@@ -23,13 +23,11 @@ public:
     virtual void displayMenu() = 0;
     virtual State* handleInput() = 0;
     virtual ~State();
-    Airport* getValidAirportCode();
-    Airline* getValidAirlineCode();
+    Airport* getValidAirport();
+    Airline* getValidAirline();
     string* getValidCity();
     string* getValidCountry();
     int* getValidAirportK();
-    Airport* getValidAirportName();
-    Airline* getValidAirlineName();
     Airport* getValidAirportPerCoordinates();
 
     vector<Airport *> getValidAirportsPerCity();

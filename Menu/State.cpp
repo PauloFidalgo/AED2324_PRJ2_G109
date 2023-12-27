@@ -18,55 +18,37 @@ State::~State() {
     }
 }
 
-Airport* State::getValidAirportCode() {
-    Airport* airport;
+Airport* State::getValidAirport() {
+    Airport* airportCode;
+    Airport* airportName;
     do {
-        cout << "Airport code: ";
+        cout << "Airport: ";
         cin >> code;
-        airport = manager.getAirportPerCode(code);
-        if (!airport) {
+        airportCode = manager.getAirportPerCode(code);
+        airportName = manager.getAirportPerName(code);
+        if (!airportCode and !airportName) {
             cout << "Airport doesn't exist. Try again." << endl;
         }
-    } while (!airport);
-    return airport;
+    } while (!!airportCode and !airportName);
+    return (airportCode) ? airportCode : airportName;
 }
-Airport* State::getValidAirportName() {
-    Airport* airport;
+
+Airline* State::getValidAirline() {
+    Airline* airlineCode;
+    Airline* airlineName;
     do {
-        cout << "Airport Name: ";
-        cin >> name;
-        airport = manager.getAirportPerName(name);
-        if (!airport) {
+        cout << "Airline: ";
+        cin >> code;
+        if(code == "done"){
+            return nullptr;
+        }
+        airlineCode = manager.getAirlinePerCode(code);
+        airlineName = manager.getAirlinePerName(code);
+        if (!airlineCode and !airlineName) {
             cout << "Airport doesn't exist. Try again." << endl;
         }
-    } while (!airport);
-    return airport;
-}
-
-Airline* State::getValidAirlineCode() {
-    Airline* airline;
-    do {
-        cout << "Airline code: ";
-        cin >> code;
-        airline = manager.getAirlinePerCode(code);
-        if (!airline) {
-            cout << "Airline doesn't exist. Try again." << endl;
-        }
-    } while (!airline);
-    return airline;
-}
-
-Airline* State::getValidAirlineName() {
-    Airline* airline;
-    do {
-        cout << "Airline code: ";
-        cin >> name;
-        airline = manager.getAirlinePerCode(name);
-        if (!airline) {
-            cout << "Airline doesn't exist. Try again." << endl;
-        }
-    } while (!airline);
-    return airline;
+    } while (airlineCode != nullptr and airlineName == nullptr);
+    return (airlineCode) ? airlineCode : airlineName;
 }
 
 string* State::getValidCity() {
@@ -74,6 +56,7 @@ string* State::getValidCity() {
     do {
         cout << "City: ";
         cin >> code;
+
         if (!manager.validateCityName(code)) {
             cout << "City doesn't exist. Try again." << endl;
         }
