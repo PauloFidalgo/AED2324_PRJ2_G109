@@ -20,11 +20,7 @@ private:
 public:
     void displayMenu() override;
     State * handleInput() override;
-    Airport* getValidAirportCode();
-    Airline* getValidAirlineCode();
-    string* getValidCity();
-    string* getValidCountry();
-    int* getValidAirportK();
+
 };
 
 extern StatisticsState1 statisticsState1;

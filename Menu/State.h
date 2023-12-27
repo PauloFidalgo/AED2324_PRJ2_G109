@@ -12,12 +12,27 @@ protected:
     static std:: stack<State*> stateHistory;
     static std:: stack<State*> statisticsHistory;
     Manager manager;
+    string code;
+    int distance;
+    string userInputStr;
+    int userInput;
+    string name;
 
 public:
     State();
     virtual void displayMenu() = 0;
     virtual State* handleInput() = 0;
     virtual ~State();
+    Airport* getValidAirportCode();
+    Airline* getValidAirlineCode();
+    string* getValidCity();
+    string* getValidCountry();
+    int* getValidAirportK();
+    Airport* getValidAirportName();
+    Airline* getValidAirlineName();
+    Airport* getValidAirportPerCoordinates();
+
+    vector<Airport *> getValidAirportsPerCity();
 };
 
 

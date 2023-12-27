@@ -63,59 +63,34 @@ State* StatisticsState2::handleInput() {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
             case 1:
-                getValidAirportName();
-                manager.getNumFlightsAndAirlinesByName(this->name);
+                getValidCity();
+                manager.getNumFlightsPerCity(code);
                 return this;
             case 2:
                 getValidAirlineName();
-                manager.getNumFlightsPerAirlineByName(this->name);
+                manager.getNumFlightsPerAirline(airline);
                 return this;
             case 3:
-                getValidAirportName();
-                manager.getCountriesCanFlyToAirportByName(this->name);
+                manager.getNumAirportsAndFlights();
                 return this;
             case 4:
                 getValidAirportName();
-                manager.getDestinationsDistance1ByName(this->name);
+                manager.getNumFlightsAndAirlines();
                 return this;
             case 5:
                 getValidAirportName();
-                manager.getDestinantionsByName(this->name);
+                manager.getNumStops();
                 return this;
             case 6:
                 statisticsState1.getValidAirportCode();
                 cout << "Distance: ";
                 cin >> distance;
-                manager.getDestinantionsUntilDistanceK(name, distance);
+                manager.get(name, distance);
                 return this;
             default:
                 std::cout << " Invalid choice. try again" << std::endl;
                 return this;
         }
     }
-}
-
-Airport* StatisticsState2::getValidAirportName() {
-    do {
-        cout << "Airport code: ";
-        cin >> name;
-        airport = manager.getAirportPerName(name);
-        if (!airport) {
-            cout << "Airport doesn't exist. Try again." << endl;
-        }
-    } while (!airport);
-    return airport;
-}
-
-Airline* StatisticsState2::getValidAirlineName() {
-    do {
-        cout << "Airline code: ";
-        cin >> name;
-        airline = manager.getAirlinePerName(name);
-        if (!airline) {
-            cout << "Airline doesn't exist. Try again." << endl;
-        }
-    } while (!airline);
-    return airline;
 }
 

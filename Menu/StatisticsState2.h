@@ -17,8 +17,7 @@ private:
 public:
     void displayMenu() override;
     State * handleInput() override;
-    Airport* getValidAirportName();
-    Airline* getValidAirlineName();
+
 };
 
 extern StatisticsState2 statisticsState2;
