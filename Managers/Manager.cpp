@@ -1901,7 +1901,7 @@ void Manager::getTopKGreatestTrafficAirline(int k, const bool &bars, const bool&
 
 }
 
-void Manager::getTopKGreatestTrafficAirlinePerCountry(int k, const vector<Airline *> &airlinesCountry, const bool &bars, const bool& asc) const {
+void Manager::getTopKGreatestTrafficAirlinePerCountry(int k, const unordered_set<Airline *> &airlinesCountry, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorAirlineAsc : comparatorAirlineDesc;
     set<Airline *, decltype(comparator)> airlinesByTraffic(comparator);
     for (auto& elem : airlinesCountry) {

@@ -91,7 +91,8 @@ State* StatisticsState3::handleInput() {
 
             }
             case 6: {
-                vector<Airline*> airlines = manager.getAirlinesPerCountry();
+                auto country = getValidCountry();
+                unordered_set<Airline*> airlines = manager.getAirlinesPerCountry(country);
                 int distance = getValidAirlineK();
                 manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,false,false);
                 return this;

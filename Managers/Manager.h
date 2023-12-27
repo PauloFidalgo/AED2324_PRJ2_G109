@@ -129,7 +129,7 @@ public:
     void getTopKGreatestTrafficCityPerCountry(int k, pair<string, set<string>> *selectedCountryCities, const bool &bars = false, const bool& asc = false) const;
 
     void getTopKGreatestTrafficAirline(int k, const bool &bars = false, const bool& asc = false) const;
-    void getTopKGreatestTrafficAirlinePerCountry(int k, const vector<Airline *> &airlinesCountry, const bool &bars = false, const bool& asc = false) const;
+    void getTopKGreatestTrafficAirlinePerCountry(int k, const unordered_set<Airline *> &airlinesCountry, const bool &bars = false, const bool& asc = false) const;
 
     void getTopKAirportsAirlineTravelsTo(int k, Airline *airline, const bool &bars = false, const bool& asc = false) const;
     void getTopKAirportsWithMoreAirlines(int k, const bool &bars = false, const bool& asc = false) const;
