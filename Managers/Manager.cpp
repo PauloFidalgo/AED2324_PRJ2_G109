@@ -4,7 +4,6 @@
 
 #include "Manager.h"
 #include <iostream>
-#include "Manager.h"
 #include <unordered_map>
 #include <algorithm>
 #include <limits>
@@ -738,7 +737,6 @@ vector<vector<Airport*>> Manager::bfsMinConnectionsExcludeAirports(Airport* s, A
                 }
             }
         }
-
         if (found) break;
     }
 
@@ -1061,10 +1059,8 @@ vector<vector<Airport*>> Manager::scheduleTripMinConnectionAirports(Airport* u, 
             re.push_back(aux);
         }
     }
-    path.clear();
-    path.insert(path.end(), re.begin(), re.end());
 
-    return path;
+    return re;
 }
 
 vector<Airport*> Manager::findShortestPathExcludeCountries(Airport* u, Airport* v, vector<string> &countries) {
@@ -1333,14 +1329,23 @@ vector<vector<Airport*>> Manager::findMinConnectionsExcludeAirports(Airport* s, 
     return result;
 }
 
-vector<vector<Airport*>> Manager::manageFlightSearchFromMenu(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, vector<Airport*> &airportsToExclude) {
+vector<vector<Airport*>> Manager::manageFlightSearchFromMenu(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, vector<Airport*> &cityCountry, vector<Airport*> &airportsToExclude) {
     vector<vector<Airport*>> res;
 
     for (auto &from : source) {
         for (auto &to : destination) {
-            auto next = scheduleTripMinConnectionAirports(from, to, airporsToVisit, airportsToExclude);
-
-            res.insert(res.end(), next.begin(), next.end());
+            if (!cityCountry.empty()) {
+                for (auto vis : cityCountry) {
+                    airporsToVisit.push_back(vis);
+                    auto next = scheduleTripMinConnectionAirports(from, to, airporsToVisit, airportsToExclude);
+                    airporsToVisit.pop_back();
+                    res.insert(res.end(), next.begin(), next.end());
+                }
+            }
+            else {
+                auto next = scheduleTripMinConnectionAirports(from, to, airporsToVisit, airportsToExclude);
+                res.insert(res.end(), next.begin(), next.end());
+            }
         }
     }
     return res;

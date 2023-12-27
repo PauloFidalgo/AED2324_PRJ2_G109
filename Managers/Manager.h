@@ -76,7 +76,7 @@ public:
     vector<Airport*> findShortestPath(Airport* u, Airport* v);
     vector<Airport*> findShortestPathExcludeCountries(Airport* u, Airport* v, vector<string> &countries);
 
-    vector<vector<Airport*>> manageFlightSearchFromMenu(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, vector<Airport*> &airportsToExclude);
+    vector<vector<Airport*>> manageFlightSearchFromMenu(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit,vector<Airport*> &cityCountry, vector<Airport*> &airportsToExclude);
     vector<vector<Airport*>> scheduleTripMinConnectionAirports(Airport* u, Airport* v, const vector<Airport*>& visit, const vector<Airport*> &exclude);
     vector<vector<Airport*>> scheduleTripMinConnectionCountries(Airport* u, Airport* v, vector<string> &visit);
     vector<Airport*> scheduleTripMinDistance(Airport* u, Airport* v, vector<Airport*> & visit);

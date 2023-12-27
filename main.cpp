@@ -7,19 +7,32 @@
 int main() {
     Manager m;
 
-        int i = m.getNumStops(m.getAirportPerCode("OPO"), m.getAirportPerCode("DMK"));
-
-    cout << i << endl;
-
-    //auto pt = m.bfsMinConnections(m.getAirportPerCode("MAG"), m.getAirportPerCode("DMK"));
-
     vector<string> porst = {"London"};
 
-    auto res = m.scheduleTripMinConnectionCities(m.getAirportPerCode("OPO"), m.getAirportPerCode("LIS"), porst);
+    //auto res = m.scheduleTripMinConnectionCities(m.getAirportPerCode("OPO"), m.getAirportPerCode("LIS"), porst);
 
-    for (auto v : res) {
+    vector<Airport*> porks = {m.getAirportPerCode("OPO")};
+    vector<Airport*> pork = {m.getAirportPerCode("LIS")};
+    vector<Airport*> por = {m.getAiportsPerCity("Johannesburg")};
+    vector<Airport*> nul = {};
+    vector<Airport*> nul2 = {m.getAirportPerCode("GRU"), m.getAirportPerCode("FRA"), m.getAirportPerCode("MUC")};
+
+    auto mo = m.manageFlightSearchFromMenu(porks, pork, nul, por, nul2);
+
+    /*
+    for (auto &v : res) {
         cout << "Path : ";
-        for (auto p : v) {
+        for (auto p: v) {
+            cout << p->getCode() << " ";
+        }
+        cout << endl;
+    }*/
+
+    cout << "___________________________________" << endl;
+
+    for (auto &v : mo) {
+        cout << "Path : ";
+        for (auto p: v) {
             cout << p->getCode() << " ";
         }
         cout << endl;
