@@ -16,8 +16,9 @@ int main() {
     vector<Airport*> por = {m.getAiportsPerCity("Johannesburg")};
     vector<Airport*> nul = {};
     vector<Airport*> nul2 = {m.getAirportPerCode("GRU"), m.getAirportPerCode("FRA"), m.getAirportPerCode("MUC")};
+    unordered_set<Airline*> nul24 = {};
 
-    auto mo = m.manageFlightSearchFromMenu(porks, pork, nul, por, nul2);
+    auto mo = m.manageFlightSearchFromMenu(porks, pork, nul, por, nul2, nul24);
 
     /*
     for (auto &v : res) {

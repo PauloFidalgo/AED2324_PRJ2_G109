@@ -19,6 +19,7 @@ private:
     unordered_map<string, unordered_set<string>> countryCities;
     unordered_map<std::string, Airport*> airportsByName;
     unordered_map<std::string, Airline*> airlinesByName;
+    unordered_map<std::string, unordered_set<Airline*>> airlinesCountry;
     void readFlights(Graph &g);
 public:
     //~Parser();
@@ -31,6 +32,7 @@ public:
     unordered_map<string, unordered_set<string>> getCountryCities();
     Airline* getAirline(const string &airline);
     std::unordered_map<std::string, Airport*> getAirportsByName();
+    std::unordered_map<std::string, unordered_set<Airline*>> getAirlinesCountry();
     std::unordered_map<std::string, Airline*> getAirlinesByName();
 };
 
