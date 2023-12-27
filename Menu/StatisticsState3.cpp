@@ -90,14 +90,13 @@ State* StatisticsState3::handleInput() {
                 return this;
 
             }
-            /*
             case 6: {
                 vector<Airline*> airlines = manager.getAirlinesPerCountry();
                 int distance = getValidAirlineK();
                 manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,false,false);
                 return this;
             }
-             */
+
             default:
                 std::cout << " Invalid choice. try again" << std::endl;
                 return this;
