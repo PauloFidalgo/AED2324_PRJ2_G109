@@ -1403,7 +1403,7 @@ void Manager::getTopKAirportsAirlineTravelsTo(int k, Airline *airline, const boo
     }
     vector<pair<pair<string,string>,int>> vec(airportNumFlights.begin(), airportNumFlights.end());
     if(asc) std::sort(vec.begin(), vec.end(), [](const auto& a, const auto& b) {if(a.second == b.second) return a.first.second < b.first.second; return a.second > b.second;});
-    else std::sort(vec.begin(), vec.end(), [](const auto& a, const auto& b) {if(a.second == b.second) return a.first.second < b.first.second; return a.second > b.second;});
+    else std::sort(vec.begin(), vec.end(), [](const auto& a, const auto& b) {if(a.second == b.second) return a.first.second < b.first.second; return a.second < b.second;});
     if (k > vec.size()) k = vec.size();
     vector<pair<pair<string,string>,int>> res;
     auto it = vec.begin();
@@ -1467,7 +1467,7 @@ void Manager::getTopKAirlinesThatFlyMoreToAnAirport(int k, Airport *airport, con
     }
     vector<pair<pair<string,string>,int>> vec(airlineNumFlightsToAirport.begin(), airlineNumFlightsToAirport.end());
     if(asc) std::sort(vec.begin(), vec.end(), [](const auto& a, const auto& b) {if(a.second == b.second) return a.first.second < b.first.second; return a.second > b.second;});
-    else std::sort(vec.begin(), vec.end(), [](const auto& a, const auto& b) {if(a.second == b.second) return a.first.second < b.first.second; return a.second > b.second;});
+    else std::sort(vec.begin(), vec.end(), [](const auto& a, const auto& b) {if(a.second == b.second) return a.first.second < b.first.second; return a.second < b.second;});
     if (k > vec.size()) k = vec.size();
     vector<pair<pair<string,string>,int>> res;
     auto it = vec.begin();
@@ -1479,6 +1479,8 @@ void Manager::getTopKAirlinesThatFlyMoreToAnAirport(int k, Airport *airport, con
     if (bars) Viewer::printTopKVectorBars(res, asc);
     else Viewer::printTopKVector(res, "Airlines", "Number of flights", nameSize);
 }
+
+
 
 void Manager::listAirlinesPerAirport(Airport *airport) {
     auto air = connections.findVertex(airport);
@@ -1551,4 +1553,6 @@ void Manager::printAirportInfo(Airport *airport) {
 void Manager::printAirlineInfo(Airline *airline) {
     Viewer::printAirlineInfo(airline);
 }
+
+
 
