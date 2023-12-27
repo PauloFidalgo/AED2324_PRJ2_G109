@@ -26,7 +26,7 @@ protected:
     bool removeEdgeTo(Vertex *d);
 public:
     Vertex(Airport* in);
-    Airport getInfo() const;
+    Airport* getInfo() const;
     void setInfo(const Airport &in);
     int getLow() const;
     int getNum() const;

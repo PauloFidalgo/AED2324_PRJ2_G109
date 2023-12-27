@@ -73,7 +73,7 @@ void Parser::readFlights(Graph &g) {
                 if (source != nullptr){
                     if (source->hasFlight(dest->second)) {
                         for (auto &edge : source->getAdj()) {
-                            if (edge.getDest()->getInfo() == *dest->second) {
+                            if (edge.getDest()->getInfo() == dest->second) {
                                 if (air != nullptr) {
                                     edge.addAirline(air);
                                 }
@@ -193,7 +193,7 @@ unordered_map<string, unordered_set<string>> Parser::getCountryCities() {
     return countryCities;
 }
 
-
+/*
 Parser::~Parser() {
     for(auto &elem : airports) {
         delete elem.second;
@@ -201,7 +201,7 @@ Parser::~Parser() {
     for (auto &elem : airlines) {
         delete elem.second;
     }
-}
+}*/
 
 std::unordered_map<std::string, Airport *> Parser::getAirportsByName() {
     return airportsByName;
@@ -210,5 +210,3 @@ std::unordered_map<std::string, Airport *> Parser::getAirportsByName() {
 std::unordered_map<std::string, Airline *> Parser::getAirlinesByName() {
     return airlinesByName;
 }
-
-

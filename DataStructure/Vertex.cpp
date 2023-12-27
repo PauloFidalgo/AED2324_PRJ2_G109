@@ -7,8 +7,8 @@
 Vertex::Vertex(Airport* in): airport(in) {}
 
 
-Airport Vertex::getInfo() const {
-    return *airport;
+Airport* Vertex::getInfo() const {
+    return airport;
 }
 
 void Vertex::setInfo(const Airport &in) {

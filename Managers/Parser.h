@@ -21,7 +21,7 @@ private:
     unordered_map<std::string, Airline*> airlinesByName;
     void readFlights(Graph &g);
 public:
-    ~Parser();
+    //~Parser();
     void readAirlines();
     Graph getGraph();
     static double haversine(double lat1, double lon1, double lat2, double lon2);
