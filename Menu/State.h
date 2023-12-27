@@ -35,6 +35,9 @@ public:
     vector<Airport *> getValidAirportsPerCountry();
 
     vector<Airport *> getAirportsRange(int x);
+    vector<Airport*> getValidAirports();
+    unordered_set<Airline*> getValidAirlines();
+    unordered_set<Airline*> getValidAirlinePerCountry();
 
     int getValidCityK();
 
