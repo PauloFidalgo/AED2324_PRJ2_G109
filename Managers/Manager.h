@@ -81,38 +81,38 @@ public:
     void getCountriesCanFlyToCity(const string &city) const;
 
     void getAirportDestinantionsDistance1(Airport *airport) const;
-    void getCityDestinationsDistance1(const string& city) const;
-    void getCountryDestinationsDistance1(const string& country) const;
+    void getCityDestinationsDistance1(vector<Airport *> air, const string& city) const;
+    void getCountryDestinationsDistance1(vector<Airport *> air, const string& country) const;
 
     void getAirportDestinantions(Airport *airport) const;
-    void getCityDestinantions(const string& city) const;
-    void getCountryDestinantions(const string& country) const;
+    void getCityDestinantions(const vector<Airport *> &airportsCity, const string& city) const;
+    void getCountryDestinantions(const vector<Airport *> &airportsCountry, const string& country) const;
 
     void getAirportDestinantionsUntilDistanceK(Airport *airport, const int &k) const;
-    void getCityDestinantionsUntilDistanceK(const string& city, const int &k) const;
-    void getCountryDestinantionsUntilDistanceK(const string &country, const int &k) const;
+    void getCityDestinantionsUntilDistanceK(const vector<Airport *> &airportsCity, const string& city, const int &k) const;
+    void getCountryDestinantionsUntilDistanceK(const vector<Airport *> &airportsCountry, const string& country, const int &k) const;
 
     void diameterPairs() const;
 
     void findComponentDiameterPairs(Vertex *origin, vector<pair<Airport, Airport>> &result, int &i) const;
 
-    void getTopKGreatestTrafficAirport(int k, const bool& asc = false) const;
-    void getTopKGreatestTrafficCity(int k, const bool& asc = false) const;
-    void getTopKGreatestTrafficCountry(int k, const bool& asc = false) const;
+    void getTopKGreatestTrafficAirport(int k, const bool &bars = false, const bool& asc = false) const;
+    void getTopKGreatestTrafficCity(int k, const bool &bars = false, const bool& asc = false) const;
+    void getTopKGreatestTrafficCountry(int k, const bool &bars = false, const bool& asc = false) const;
 
-    void getTopKGreatestTrafficAirportPerCity(int k, const string &city, const bool& asc = false) const;
-    void getTopKGreatestTrafficAirportPerCountry(int k, const string &country, const bool& asc = false) const;
-    void getTopKGreatestTrafficCityPerCountry(int k, const string &country, const bool& asc = false) const;
+    void getTopKGreatestTrafficAirportPerCity(int k, const vector<Airport *> &airportsPerCity, const bool &bars = false, const bool& asc = false) const;
+    void getTopKGreatestTrafficAirportPerCountry(int k, const vector<Airport *> &airportsPerCountry, const bool &bars = false, const bool& asc = false) const;
+    void getTopKGreatestTrafficCityPerCountry(int k, pair<string, set<string>> *selectedCountryCities, const bool &bars = false, const bool& asc = false) const;
 
-    void getTopKGreatestTrafficAirline(int k, const bool& asc = false) const;
-    void getTopKGreatestTrafficAirlinePerCountry(int k, const string &country, const bool& asc = false) const;
+    void getTopKGreatestTrafficAirline(int k, const bool &bars = false, const bool& asc = false) const;
+    void getTopKGreatestTrafficAirlinePerCountry(int k, const vector<Airline *> &airlinesCountry, const bool &bars = false, const bool& asc = false) const;
 
-    void getTopKAirportsAirlineTravelsTo(int k, Airline *airline, const bool& asc = false) const;
-    void getTopKAirportsWithMoreAirlines(int k, const bool& asc = false) const;
-    void getTopKAirlinesThatFlyMoreToAnAirport(int k, Airport *airport, const bool& asc = false) const;
+    void getTopKAirportsAirlineTravelsTo(int k, Airline *airline, const bool &bars = false, const bool& asc = false) const;
+    void getTopKAirportsWithMoreAirlines(int k, const bool &bars = false, const bool& asc = false) const;
+    void getTopKAirlinesThatFlyMoreToAnAirport(int k, Airport *airport, const bool &bars = false, const bool& asc = false) const;
     //falta ratio
 
-    void listAiportsPerCountry(const string &country) const;
+    void listAiportsPerCountry(const vector<Airport *> &airportsCountry, const string &country) const;
 
     void searchAirportsByName(const string &airportName);
 
@@ -123,6 +123,7 @@ public:
     static void printAirlineInfo(Airline *airline);
 
     void listAirlinesPerAirport(Airport *airport);
+
 };
 
 

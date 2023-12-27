@@ -35,17 +35,22 @@ public:
     static void printStats(const vector<Airport *> &airportsByTraffic, const int& nameSize);
 
     static void printAirportGreatestTraffic(const vector<Airport *> &airportsByTraffic, const int& nameSize);
+    static void printAirlineGreatestTraffic(const vector<Airline *> &airlinesByTraffic, const int& nameSize);
     static void printCityGreatestTraffic(const vector<pair<string, int>> &citiesByTraffic, const int& nameSize);
     static void printCountryGreatestTraffic(const vector<pair<string, int>> &countriesByTraffic, const int& nameSize);
-    static void printTopKAirportsAirlineTravelsTo(const vector<pair<pair<string,string>,int>> &airports, const int &nameSize);
-    static void printTopKAirportsWithMoreAirlines(const vector<pair<int, pair<string,string>>> &airports, const int &nameSize);
-    static void printTopKAirlinesThatTravelToAnAirport (const vector<pair<pair<string,string>,int>> &airports, const int &nameSize);
+    static void printTopKVector(const vector<pair<pair<string, string>, int>> &airports,const string &label1, const string &label2, const int &nameSize);
     static void printAirlinesPerAirport (const set<Airline *> &airlines, const int& nameSize);
     static void printListAirportsPerCountry(const vector<Airport *> &airports, const int &nameSize, const string &country);
     static void printSearchAirports(const vector<Airport *> &airports, const int &nameSize, const string &airportName);
     static void printSearchAirlines(const vector<Airline *> &airlines, const int &nameSize, const string &airlineName);
     static void printAirportInfo(Airport *airport);
     static void printAirlineInfo(Airline *airline);
+
+    static void printTopKAirportVector(const vector<Airport *> &airports, const string &label1, const string &label2,const int &nameSize);
+    static void printTopKAirlineVector(const vector<Airline *> &airlines, const string &label1, const string &label2,const int &nameSize);
+
+    static void printAiportGreatestTrafficBars(const vector<Airport *> &airportsByTraffic, const bool &asc);
+    static void printAirlineGreatestTrafficBars(const vector<Airline *> &airlinesByTraffic, const bool &asc);
 };
 
 

@@ -28,5 +28,6 @@ int main() {
     //m.printAirlineInfo("RYR");
     //m.getTopKGreatestTrafficCity(40);
     //m.getTopKGreatestTrafficCountry(6);
+    m.getTopKGreatestTrafficAirport(4000);
     return 0;
 }
