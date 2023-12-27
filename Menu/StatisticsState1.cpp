@@ -57,23 +57,23 @@ State* StatisticsState1::handleInput() {
             switch (userInput) {
                 case 1:
                     getValidAirportCode();
-                    manager.getNumFlightsAndAirlines(this->code);
+                    manager.getNumFlightsAndAirlines(airport);
                     return this;
                 case 2:
                     getValidAirlineCode();
-                    manager.getNumFlightsPerAirline(this->code);
+                    manager.getNumFlightsPerAirline(airline);
                     return this;
                 case 3:
                     getValidAirportCode();
-                    manager.getCountriesCanFlyToAirport(this->code);
+                    manager.getCountriesCanFlyToAirport(airport);
                     return this;
                 case 4:
                     getValidAirportCode();
-                    manager.getDestinantionsDistance1(this->code);
+                    manager.getDestinantionsDistance1(airport);
                     return this;
                 case 5:
                     getValidAirportCode();
-                    manager.getDestinantions(this->code);
+                    manager.getDestinantions(airport);
                     return this;
                 case 6:
                     getValidAirportCode();
@@ -88,24 +88,28 @@ State* StatisticsState1::handleInput() {
         }
     }
 
-string* StatisticsState1::getValidAirportCode() {
+Airport* StatisticsState1::getValidAirportCode() {
+
     do {
         cout << "Airport code: ";
         cin >> code;
-        if (!manager.getConnections().findVertex(manager.getAirport(code))) {
+        airport = manager.getAirportPerCode(code);
+        if (!airport) {
             cout << "Airport doesn't exist. Try again." << endl;
         }
-    } while (!manager.getConnections().findVertex(manager.getAirport(code)));
-    return &code;
+    } while (!airport);
+    return airport;
 }
 
-string* StatisticsState1::getValidAirlineCode() {
+Airline* StatisticsState1::getValidAirlineCode() {
+
     do {
         cout << "Airline code: ";
         cin >> code;
-        if (manager.getAirlines().find(code) == manager.getAirlines().end()) {
+        airline = manager.getAirlinePerCode(code);
+        if (!airline) {
             cout << "Airline doesn't exist. Try again." << endl;
         }
-    } while (manager.getAirlines().find(code) == manager.getAirlines().end());
-    return &code;
+    } while (!airline);
+    return airline;
 }
