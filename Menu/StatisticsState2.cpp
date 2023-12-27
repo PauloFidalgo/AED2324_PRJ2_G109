@@ -17,12 +17,12 @@ void StatisticsState2::displayMenu() {
     cout << "|       98 - previous page                                                        99 - next page       |" << endl;
     cout << "|                                        Statistics by name :                                          |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                                     1 - Nº flights and Airlines                                      |" << endl;
-    cout << "|                                     2 - Nª flights per Airline                                       |" << endl;
-    cout << "|                                     3 - Nº country's                                                 |" << endl;
-    cout << "|                                     4 - Get destinations distance 1                                  |" << endl;
-    cout << "|                                     5 - Get destinations                                             |" << endl;
-    cout << "|                                     6 - Distance Travelled                                           |" << endl;
+    cout << "|                                     1. Nº flights and Airlines                                       |" << endl;
+    cout << "|                                     2. Nª flights per Airline                                        |" << endl;
+    cout << "|                                     3. Nº country's                                                  |" << endl;
+    cout << "|                                     4. Get destinations distance 1                                   |" << endl;
+    cout << "|                                     5. Get destinations                                              |" << endl;
+    cout << "|                                     6. Distance Travelled                                            |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|  0 - Main Menu                                                                                       |" << endl;

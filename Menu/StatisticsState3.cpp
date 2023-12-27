@@ -16,12 +16,12 @@ void StatisticsState3::displayMenu() {
     cout << "|   98 - previous page                                                           99 - next page        |" << endl;
     cout << "|                                       Statistics by airline :                                        |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                                     1 - Articulation Points                                          |" << endl;
-    cout << "|                                     2 - Nº Flights per city                                          |" << endl;
-    cout << "|                                     3 - Countries that have flies to a specific city                 |" << endl;
-    cout << "|                                     4 - Diameter Pairs                                               |" << endl;
-    cout << "|                                     5 - Top k greatest traffic airline                               |" << endl;
-    cout << "|                                     6 - Top k greatest traffic airline per country                   |" << endl;
+    cout << "|                                     1. Articulation Points                                           |" << endl;
+    cout << "|                                     2. Nº Flights per city                                           |" << endl;
+    cout << "|                                     3. Countries that have flies to a specific city                  |" << endl;
+    cout << "|                                     4. Diameter Pairs                                                |" << endl;
+    cout << "|                                     5. Top k greatest traffic airline                                |" << endl;
+    cout << "|                                     6. Top k greatest traffic airline per country                    |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                                                                                      |" << endl;
