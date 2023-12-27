@@ -48,7 +48,7 @@ public:
     static void printAiportGreatestTrafficBars(const vector<Airport *> &airportsByTraffic, const bool &asc);
     static void printAirlineGreatestTrafficBars(const vector<Airline *> &airlinesByTraffic, const bool &asc);
     static void printCityOrCountryGreatestTrafficBars(const vector<pair<string, int>> &traffic, const int &nameSize, const bool &asc);
-    static void printTopKVectorBars(const vector<pair<pair<string, string>, int>> &airports, const bool &asc);
+    static void printTopKVectorBars(const vector<pair<pair<string, string>, int>> &airportsOrAirlines, const bool &asc);
 };
 
 

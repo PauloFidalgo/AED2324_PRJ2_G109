@@ -484,7 +484,7 @@ void Viewer::printCityOrCountryGreatestTrafficBars(const vector<pair<string, int
     }
 }
 
-void printTopKVectorBars(const vector<pair<pair<string, string>, int>> &airportsOrAirlines, const bool &asc) {
+void Viewer::printTopKVectorBars(const vector<pair<pair<string, string>, int>> &airportsOrAirlines, const bool &asc) {
     if (!airportsOrAirlines.empty()) {
         float size;
         if (!asc) size = airportsOrAirlines.front().second;
