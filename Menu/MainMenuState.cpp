@@ -33,7 +33,7 @@ void MainMenuState::displayMenu() {
     cout << "|                                                       `  `        ``---``        `  `                    |" << endl;
     cout << "|                                                                                                          |" << endl;
     cout << "|                                                                                                          |" << endl;
-    cout << "|    exit - Quit                                                                                           |" << endl;
+    cout << "|    exit - Exit                                                                                           |" << endl;
     cout << "-----------------------------------------------------------------------------------------------------------" << endl;
 
 }

@@ -10,6 +10,8 @@ class StatisticsState2: public State {
 private:
     string name;
     int distance;
+    string userInputStr;
+    int userInput;
 public:
     void displayMenu() override;
     State * handleInput() override;

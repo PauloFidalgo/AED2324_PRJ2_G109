@@ -10,6 +10,8 @@ class StatisticsState4 : public State {
 private:
     string airport;
     int distance;
+    string userInputStr;
+    int userInput;
 
 public:
     void displayMenu() override;
