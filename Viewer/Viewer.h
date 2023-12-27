@@ -31,6 +31,9 @@ public:
     static void printCityDestinations(const string& city, const int &numAirports, const int &numCities, const int &numCountries);
     static void printCountryDestinations(const string &country, const int &numAirports, const int &numCities, const int &numCountries);
     static void printDiameterPairs(const vector<pair<Airport, Airport>>& result, const int &maxDiameter);
+
+    static void printStats(const vector<Airport *> &airportsByTraffic, const int& nameSize);
+
     static void printAirportGreatestTraffic(const vector<Airport *> &airportsByTraffic, const int& nameSize);
     static void printCityGreatestTraffic(const vector<pair<string, int>> &citiesByTraffic, const int& nameSize);
     static void printCountryGreatestTraffic(const vector<pair<string, int>> &countriesByTraffic, const int& nameSize);

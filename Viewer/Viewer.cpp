@@ -418,3 +418,4 @@ void Viewer::printAirlineInfo(Airline *airline) {
     cout << "| Number of Flights: " << airline->getNumFlights() << string(space - 20 - to_string(airline->getNumFlights()).length(), ' ') << '|' << endl;
     cout << string(space + 2, '-') << endl;
 }
+
