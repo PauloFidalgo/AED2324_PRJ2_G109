@@ -41,4 +41,10 @@ add_executable(AED2324_PRJ2_G109
         Menu/StatisticsState3.cpp
         Menu/StatisticsState4.h
         Menu/StatisticsState4.cpp
+        Menu/FilterSearch.cpp
+        Menu/FilterSearch.h
+        Menu/FilterMinimization.cpp
+        Menu/FilterMinimization.h
+        Viewer/Viewer.cpp
+        Viewer/Viewer.h
 )
