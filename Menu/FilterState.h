@@ -34,6 +34,10 @@ public:
     void includeAirlines();
 
     void excludeAirlines();
+
+    void includeCountrys();
+
+    void excludeCountrys();
 };
 
 

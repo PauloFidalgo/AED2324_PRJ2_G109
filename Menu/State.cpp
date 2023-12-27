@@ -69,6 +69,9 @@ string* State::getValidCountry() {
     do {
         cout << "Country: ";
         cin >> code;
+        if(code == "done"){
+            return nullptr;
+        }
         if (!manager.validateCountryName(code)) {
             cout << "Country doesn't exist. Try again." << endl;
         }

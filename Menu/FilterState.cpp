@@ -57,10 +57,18 @@ State* FilterState::handleInput() {
             this->includeAirlines();
             break;
         case 3:
-            std::cout << "Country" << std::endl;
+            this->excludeCountrys();
             break;
         case 4:
-            std::cout << "Coordinates" << std::endl;
+            this->includeCountrys();
+            break;
+        case 5:
+            
+            break;
+        case 6:
+
+            break;
+        case 7:
             break;
         case 0:
             if(!State::stateHistory.empty()){
@@ -84,7 +92,7 @@ State* FilterState::handleInput() {
 
 
 void FilterState::excludeAirlines() {
-    std::vector<Airline*> excludedAirlines;
+    vector<Airline*> excludedAirlines;
 
     while (true) {
         Airline* airline = getValidAirline();
@@ -99,7 +107,7 @@ void FilterState::excludeAirlines() {
 
 
 void FilterState::includeAirlines() {
-    std::vector<Airline*> includedAirlines;
+    vector<Airline*> includedAirlines;
 
     while (true) {
         Airline* airline = getValidAirline();
@@ -109,5 +117,33 @@ void FilterState::includeAirlines() {
         }
 
         includedAirlines.push_back(airline);
+    }
+}
+
+void FilterState::includeCountrys() {
+    vector<string*> includedCountrys;
+
+    while (true) {
+        string* country = getValidCountry();
+
+        if (country == nullptr) {
+            break;
+        }
+
+        includedCountrys.push_back(country);
+    }
+}
+
+void FilterState::excludeCountrys() {
+    vector<string*> excludeCountrys;
+
+    while (true) {
+        string* country = getValidCountry();
+
+        if (country == nullptr) {
+            break;
+        }
+
+        excludeCountrys.push_back(country);
     }
 }
