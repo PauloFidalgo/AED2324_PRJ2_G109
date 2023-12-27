@@ -98,10 +98,10 @@ string *StatisticsState3::getValidCity() {
     do {
         cout << "City : ";
         cin >> airline;
-        if (manager.getCityAirports().find(airline) == manager.getCityAirports().end()) {
+        if (!manager.validateCityName(airline)) {
             cout << "City doesn't exist. Try again." << endl;
         }
-    } while (manager.getCityAirports().find(airline) == manager.getCityAirports().end());
+    } while (!manager.validateCityName(airline));
     return &airline;
 }
 
@@ -109,20 +109,10 @@ string *StatisticsState3::getValidCountry() {
     do {
         cout << "Country : ";
         cin >> airline;
-        if (manager.getCountryCities().find(airline) == manager.getCountryCities().end()) {
+        if (!manager.validateCountryName(airline)) {
             cout << "Country doesn't exist. Try again." << endl;
         }
-    } while (manager.getCountryCities().find(airline) == manager.getCountryCities().end());
+    } while (!manager.validateCountryName(airline));
     return &airline;
 }
 
-int *StatisticsState3::getValidKForAirport() {
-    do {
-        cout << "K : ";
-        cin >> distance;
-        if (distance < 0 ) {
-            cout << "Country doesn't exist. Try again." << endl;
-        }
-    } while (manager.getCountryCities().find(airline) == manager.getCountryCities().end());
-    return &distance;
-}

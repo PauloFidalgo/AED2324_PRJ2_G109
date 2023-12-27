@@ -95,25 +95,27 @@ State* StatisticsState2::handleInput() {
     }
 }
 
-string* StatisticsState2::getValidAirportName() {
+Airport* StatisticsState2::getValidAirportName() {
     do {
         cout << "Airport code: ";
         cin >> name;
-        if (manager.getAirportsByName().find(name) == manager.getAirportsByName().end()) {
+        airport = manager.getAirportPerName(name);
+        if (!airport) {
             cout << "Airport doesn't exist. Try again." << endl;
         }
-    } while (manager.getAirportsByName().find(name) == manager.getAirportsByName().end());
-    return &name;
+    } while (!airport);
+    return airport;
 }
 
-string* StatisticsState2::getValidAirlineName() {
+Airline* StatisticsState2::getValidAirlineName() {
     do {
         cout << "Airline code: ";
         cin >> name;
-        if (manager.getAirlinesByName().find(name) == manager.getAirlinesByName().end()) {
+        airline = manager.getAirlinePerName(name);
+        if (!airline) {
             cout << "Airline doesn't exist. Try again." << endl;
         }
-    } while (manager.getAirlinesByName().find(name) == manager.getAirlinesByName().end());
-    return &name;
+    } while (!airline);
+    return airline;
 }
 

@@ -53,6 +53,8 @@ public:
     double getDistance(Airport* u, Airport* v);
     double getTripDistance(const vector<Airport*> &trip);
     int getNumStops(Airport* s, Airport* t);
+    bool validateCityName(const std::string &name) const;
+    bool validateCountryName(const std::string &name) const;
     vector<vector<Airport*>> bfsMinConnections1(Airport* s, Airport* t);
 
     vector<Vertex*> airportsAtDistanceK(const string &source, int k);

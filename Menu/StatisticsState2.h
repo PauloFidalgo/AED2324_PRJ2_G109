@@ -10,13 +10,15 @@ class StatisticsState2: public State {
 private:
     string name;
     int distance;
+    Airport* airport;
+    Airline* airline;
     string userInputStr;
     int userInput;
 public:
     void displayMenu() override;
     State * handleInput() override;
-    string* getValidAirportName();
-    string* getValidAirlineName();
+    Airport* getValidAirportName();
+    Airline* getValidAirlineName();
 };
 
 extern StatisticsState2 statisticsState2;

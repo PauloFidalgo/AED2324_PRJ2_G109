@@ -46,6 +46,24 @@ Airport* Manager::getAirportPerName(const std::string &name) const {
 
     return nullptr;
 }
+bool Manager::validateCityName(const std::string &name) const {
+    auto it = cityAirports.find(name);
+
+    if (it != cityAirports.end()) {
+        return true;
+    }
+
+    return false;
+}
+bool Manager::validateCountryName(const std::string &name) const {
+    auto it = countryCities.find(name);
+
+    if (it != countryCities.end()) {
+        return true;
+    }
+
+    return false;
+}
 
 Airline* Manager::getAirlinePerCode(const std::string &code) const {
     auto it = airlines.find(code);
