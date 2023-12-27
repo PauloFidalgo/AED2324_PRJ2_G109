@@ -20,10 +20,6 @@ private:
     vector<Airport*> fromAirports;
     vector<Airport*> toAirports;
 
-    vector<Airport*> airportsToVisit;
-    vector<Airport*> cityCountry;
-    vector<Airport*> AirportsToExclude;
-
 
 public:
     FlightSearchState();

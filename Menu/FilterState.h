@@ -12,6 +12,17 @@ private:
     vector<Airport*> fromAirports;
     vector<Airport*> toAirports;
     vector<Airline*> airlines;
+
+    vector<Airport*> airportsToVisit;
+    vector<Airport*> cityCountry;
+    vector<Airport*> AirportsToExclude;
+
+    unordered_set<Airline*> excludedAirlines;
+    unordered_set<Airline*> includedAirlines;
+    vector<Airport*> excludedAirports;
+    vector<Airport*> includedAirports;
+    vector<string> includedCountries;
+    vector<string> excludedCountries;
 public:
     // Constructor
     FilterState();
@@ -24,7 +35,7 @@ public:
 
     void displayMenu() override;
     State * handleInput() override;
-
+    void excludeAirlinesPerCountry();
     const vector<Airport *> &getToAirports() const;
 
     void setToAirports(const vector<Airport *> &toAirports);
@@ -35,9 +46,15 @@ public:
 
     void excludeAirlines();
 
-    void includeCountrys();
+    void includeCountries();
 
-    void excludeCountrys();
+    void excludeCountries();
+
+    void excludeAirports();
+
+    void includeAirports();
+    void includeCities();
+    void excludeCities();
 };
 
 
