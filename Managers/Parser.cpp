@@ -33,6 +33,7 @@ void Parser::readAirlines() {
             auto* airline = new Airline(code, name, callsign, country);
             air.insert({code, airline});
             airByName.insert({name, airline});
+            airlinesCountry[country].insert(airline);
         }
 
         iff.close();
@@ -180,6 +181,10 @@ unordered_map<string, vector<Airport*>> Parser::getCityAirports() {
     return cityAirports;
 }
 
+unordered_map<string, unordered_set<Airline*>> Parser::getAirlinesCountry() {
+    return airlinesCountry;
+}
+
 Airline* Parser::getAirline(const std::string &airline) {
     auto it = airlines.find(airline);
 
@@ -193,15 +198,6 @@ unordered_map<string, unordered_set<string>> Parser::getCountryCities() {
     return countryCities;
 }
 
-/*
-Parser::~Parser() {
-    for(auto &elem : airports) {
-        delete elem.second;
-    }
-    for (auto &elem : airlines) {
-        delete elem.second;
-    }
-}*/
 
 std::unordered_map<std::string, Airport *> Parser::getAirportsByName() {
     return airportsByName;
