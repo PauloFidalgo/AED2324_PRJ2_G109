@@ -68,18 +68,17 @@ State* StatisticsState1::handleInput() {
                     manager.getCountriesCanFlyToAirport(airport);
                     return this;
                 case 4:
-                    getValidAirportCode();
-                    manager.getDestinantionsDistance1(airport);
+                    getValidCity();
+                    manager.getCityDestinationsDistance1(code);
                     return this;
                 case 5:
-                    getValidAirportCode();
-                    manager.getDestinantions(airport);
+                    getValidCountry();
+                    manager.getCountryDestinationsDistance1(code);
                     return this;
                 case 6:
                     getValidAirportCode();
-                    cout << "Distance: ";
-                    cin >> distance;
-                    manager.getDestinantionsUntilDistanceK(this->code, this->distance);
+                    getValidAirportK();
+                    manager.getAirportDestinantionsUntilDistanceK(airport,distance);
                     return this;
                 default:
                     std::cout << " Invalid choice. try again" << std::endl;
@@ -112,4 +111,39 @@ Airline* StatisticsState1::getValidAirlineCode() {
         }
     } while (!airline);
     return airline;
+}
+
+string* StatisticsState1::getValidCity() {
+
+    do {
+        cout << "Airline code: ";
+        cin >> code;
+        if (!manager.validateCityName(code)) {
+            cout << "Airline doesn't exist. Try again." << endl;
+        }
+    } while (!manager.validateCityName(code));
+    return &code;
+}
+
+string* StatisticsState1::getValidCountry() {
+
+    do {
+        cout << "Airline code: ";
+        cin >> code;
+        if (!manager.validateCountryName(code)) {
+            cout << "Airline doesn't exist. Try again." << endl;
+        }
+    } while (!manager.validateCountryName(code));
+    return &code;
+}
+
+int *StatisticsState1::getValidAirportK() {
+    do {
+        cout << "K : ";
+        cin >> distance;
+        if (distance < 0 or distance > manager.getAirports().size()) {
+            cout << "Country doesn't exist. Try again." << endl;
+        }
+    } while (distance < 0 or distance > manager.getAirports().size());
+    return &distance;
 }
