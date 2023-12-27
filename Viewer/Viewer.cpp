@@ -455,6 +455,58 @@ void Viewer::printAirlineGreatestTrafficBars(const vector<Airline *> &airlinesBy
         }
     }
 }
+void Viewer::printCityOrCountryGreatestTrafficBars(const vector<pair<string, int>> &traffic, const int& nameSize, const bool &asc) {
+    if (!traffic.empty()) {
+        float size;
+        if (!asc) size = traffic.front().second;
+        else size = traffic.back().second;
 
+        int space = nameSize + 2;
+        cout << string(space, ' ') << '|' << endl;
+        for (auto& elem : traffic) {
+            int numFlights = elem.second;
+            int lenBar = (numFlights / size) * 120;
+            int lenName = (space - elem.first.length()) / 2;
+            int lenFName = (space - elem.first.length()) % 2 == 0 ? lenName : lenName + 1;
+            if (lenBar == 0) {
+                cout << string(space, ' ') << '|' << endl;
+                cout << string(lenName, ' ') << elem.first << string(lenFName, ' ') << '|' << endl;
+                cout << string(space, ' ') << '|' << endl;
+                cout << string(space, ' ') << '|' << endl;
+            }
+            else {
+                cout << string(space, ' ') << '|' << string(lenBar, '-') << endl;
+                cout << string(lenName, ' ') << elem.first << string(lenFName, ' ') << '|' << string(lenBar - 1, ' ') << "| " << numFlights << endl;
+                cout << string(space, ' ') << '|' << string(lenBar, '-') << endl;
+                cout << string(space, ' ') << '|' << endl;
+            }
+        }
+    }
+}
+
+void printTopKVectorBars(const vector<pair<pair<string, string>, int>> &airportsOrAirlines, const bool &asc) {
+    if (!airportsOrAirlines.empty()) {
+        float size;
+        if (!asc) size = airportsOrAirlines.front().second;
+        else size = airportsOrAirlines.back().second;
+        cout << "     |" << endl;
+        for (auto& elem : airportsOrAirlines) {
+            int numFlights = elem.second;
+            int lenBar = (numFlights / size) * 120;
+            if (lenBar == 0) {
+                cout << "     |" << endl;
+                cout << ' ' << elem.first.first << " |" << endl;
+                cout << "     |" << endl;
+                cout << "     |" << endl;
+            }
+            else {
+                cout << "     |" << string(lenBar, '-') << endl;
+                cout << ' ' << elem.first.first << " |" << string(lenBar - 1, ' ') << "| " << numFlights << endl;
+                cout << "     |" << string(lenBar, '-') << endl;
+                cout << "     |" << endl;
+            }
+        }
+    }
+}
 
 

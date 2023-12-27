@@ -1244,7 +1244,8 @@ void Manager::getTopKGreatestTrafficCity(int k, const bool &bars, const bool& as
         k--;
         if (k == 0) break;
     }
-    Viewer::printCityGreatestTraffic(cities, nameSize);
+    if (bars) Viewer::printCityOrCountryGreatestTrafficBars(cities,nameSize,asc);
+    else Viewer::printCityGreatestTraffic(cities, nameSize);
 }
 
 void Manager::getTopKGreatestTrafficCountry(int k, const bool &bars, const bool& asc) const {
@@ -1268,7 +1269,8 @@ void Manager::getTopKGreatestTrafficCountry(int k, const bool &bars, const bool&
         k--;
         if (k == 0) break;
     }
-    Viewer::printCountryGreatestTraffic(countries, nameSize);
+    if (bars) Viewer::printCityOrCountryGreatestTrafficBars(countries,nameSize,asc);
+    else Viewer::printCountryGreatestTraffic(countries, nameSize);
 }
 
 void Manager::getTopKGreatestTrafficAirportPerCity(int k, const vector<Airport *> &airportsPerCity, const bool &bars, const bool& asc) const {
@@ -1326,7 +1328,8 @@ void Manager::getTopKGreatestTrafficCityPerCountry(int k,pair<string, set<string
         k--;
         if (k == 0) break;
     }
-    Viewer::printCityGreatestTraffic(cities, nameSize);
+    if (bars) Viewer::printCityOrCountryGreatestTrafficBars(cities,nameSize,asc);
+    else Viewer::printCityGreatestTraffic(cities, nameSize);
 }
 
 auto comparatorAirlineDesc = [](Airline *a, Airline *b) {
@@ -1409,7 +1412,8 @@ void Manager::getTopKAirportsAirlineTravelsTo(int k, Airline *airline, const boo
         it++;
         k--;
     }
-    Viewer::printTopKVector(res,"Airports", "Number of Flights", nameSize);
+    if (bars) Viewer::printTopKVectorBars(res, asc);
+    else Viewer::printTopKVector(res,"Airports", "Number of Flights", nameSize);
 
 }
 
@@ -1445,7 +1449,8 @@ void Manager::getTopKAirportsWithMoreAirlines(int k, const bool &bars, const boo
             k--;
         }
     }
-    Viewer::printTopKVector(res,"Airports", "Number of Airlines", nameSize);
+    if (bars) Viewer::printTopKVectorBars(res, asc);
+    else Viewer::printTopKVector(res,"Airports", "Number of Airlines", nameSize);
 }
 
 void Manager::getTopKAirlinesThatFlyMoreToAnAirport(int k, Airport *airport, const bool &bars, const bool& asc) const {
@@ -1471,7 +1476,8 @@ void Manager::getTopKAirlinesThatFlyMoreToAnAirport(int k, Airport *airport, con
         it++;
         k--;
     }
-    Viewer::printTopKVector(res, "Airlines", "Number of flights", nameSize);
+    if (bars) Viewer::printTopKVectorBars(res, asc);
+    else Viewer::printTopKVector(res, "Airlines", "Number of flights", nameSize);
 }
 
 void Manager::listAirlinesPerAirport(Airport *airport) {
