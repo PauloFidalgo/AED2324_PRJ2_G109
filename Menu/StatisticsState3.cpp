@@ -77,7 +77,7 @@ State* StatisticsState3::handleInput() {
                 return this;
             }
             case 3: {
-                string *city = getValidCity();
+                string city = getValidCity();
                 manager.getCountriesCanFlyToCity(city);
                 return this;
             }
@@ -85,43 +85,22 @@ State* StatisticsState3::handleInput() {
                 manager.diameterPairs();
                 return this;
             case 5: {
-                int distance = getValidAirlineK();
-                manager.getTopKGreatestTrafficAirline(this->distance);
+                int k = getValidAirlineK();
+                manager.getTopKGreatestTrafficAirline(k);
                 return this;
+
             }
+            /*
             case 6: {
-                string *country = getValidCountry();
+                vector<Airline*> airlines = manager.getAirlinesPerCountry();
                 int distance = getValidAirlineK();
-                manager.getTopKGreatestTrafficAirlinePerCountry(distance, country);
+                manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,false,false);
                 return this;
             }
+             */
             default:
                 std::cout << " Invalid choice. try again" << std::endl;
                 return this;
         }
     }
 }
-string *StatisticsState3::getValidCity() {
-    string input;
-    do {
-        cout << "City : ";
-        cin >> input;
-        if (!manager.validateCityName(input)) {
-            cout << "City doesn't exist. Try again." << endl;
-        }
-    } while (!manager.validateCityName(input));
-    return &input;
-}
-
-string *StatisticsState3::getValidCountry() {
-    string input;
-    do {
-        cout << "Country : ";
-        cin >> input;
-        if (!manager.validateCountryName(input)) {
-            cout << "Country doesn't exist. Try again." << endl;
-        }
-    } while (!manager.validateCountryName(input));
-    return &input;
-}
-

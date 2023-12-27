@@ -468,7 +468,7 @@ void Manager::getNumFlightsPerAirline(Airline *airline) const {
     int numFlights = airline->getNumFlights();
     Viewer::printNumFlightsPerAirline(airline->getCode(), airline->getName(), numFlights);
 }
-
+/*
 void Manager::getCountriesCanFlyToAirport(Airport *airport) const {
     vector<Edge> edges = getOutFlights(airport->getCode());
     set<string> countries;
@@ -478,7 +478,7 @@ void Manager::getCountriesCanFlyToAirport(Airport *airport) const {
     int numCountries = countries.size();
     Viewer::printCountriesAirportCanFlyTo(airport->getCode(), airport->getName(), numCountries);
 }
-
+*/
 
 void Manager::getCountriesCanFlyToCity(const string &city) const {
     set<string> countries;
