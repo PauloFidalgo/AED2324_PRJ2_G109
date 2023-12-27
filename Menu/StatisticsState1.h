@@ -12,10 +12,14 @@ private:
     string code;
     int distance;
 
+    string userInputStr;
+    int userInput;
 public:
     void displayMenu() override;
     State * handleInput() override;
+    string* getValidAirportCode();
+    string* getValidAirlineCode();
 };
 
-
+extern StatisticsState1 statisticsState1;
 #endif //AED2324_PRJ2_G109_STATISTICSSTATE1_H

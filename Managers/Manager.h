@@ -25,17 +25,21 @@ private:
     unordered_map<string, Airport*> airports;
     unordered_map<string, vector<Airport*>> cityAirports;
     unordered_map<string, unordered_set<string>> countryCities;
-    unordered_map<std::string, Airport*> airportsByName;
-    unordered_map<std::string, Airline*> airlinesByName;
+    unordered_map<string, Airport*> airportsByName;
+    unordered_map<string, Airline*> airlinesByName;
     Graph connections;
 
 public:
     Manager();
     Graph getG() {return connections;}
-    unordered_map<string, Airline*> getAirlines();
-    unordered_map<string, Airport*> getAirports();
+    unordered_map<string, Airline*>& getAirlines();
+    unordered_map<string, Airport*>& getAirports();
     Airport* getAirport(const string &code) const;
     Airline* getAirline(const string &code) const;
+    unordered_map<std::string, Airport*>& getAirportsByName();
+    unordered_map<std::string, Airline*>& getAirlinesByName();
+    unordered_map<std::string, std::vector<Airport*>>& getCityAirports();
+    unordered_map<string, unordered_set<string>>& getCountryCities();
     vector<Vertex*> airportsAtDistanceK(const string &source, int k);
     void dfsVisit(Vertex *v, Vertex *t, vector<Airport> &flights);
     bool hasPath(Vertex *v, Vertex *t, vector<Airport> &flights);
@@ -123,6 +127,10 @@ public:
     void printAirportInfo(const string &airportCode);
 
     void printAirlineInfo(const string &airlineCode);
+
+    Graph getConnections();
+
+
     
 };
 

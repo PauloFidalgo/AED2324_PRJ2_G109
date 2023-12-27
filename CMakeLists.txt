@@ -37,7 +37,6 @@ add_executable(AED2324_PRJ2_G109
         Menu/StatisticsState1.cpp
         Menu/StatisticsState2.h
         Menu/StatisticsState2.cpp
-        Menu/StatisticsStateCity.cpp
         Menu/StatisticsState3.h
         Menu/StatisticsState3.cpp
         Menu/StatisticsState4.h

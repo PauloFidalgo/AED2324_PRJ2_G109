@@ -3,12 +3,13 @@
 //
 
 #include "StatisticsState2.h"
-#include "StatisticsStateCity.h"
+#include "StatisticsState1.h"
+#include "StatisticsState3.h"
 #include "iostream"
 
 using namespace std;
-StatisticsStateCity statisticsStateCity;
 
+StatisticsState2 statisticsState2;
 void StatisticsState2::displayMenu() {
 
     cout << endl;
@@ -36,33 +37,27 @@ State* StatisticsState2::handleInput() {
 
     switch (userInput) {
         case 1:
-            cout << "Airport name: ";
-            cin >> name;
+            getValidAirportName();
             manager.getNumFlightsAndAirlinesByName(this->name);
             return this;
         case 2:
-            cout << "Airline Name: ";
-            cin >> name;
+            getValidAirlineName();
             manager.getNumFlightsPerAirlineByName(this->name);
             return this;
         case 3:
-            cout << "Airport Name: ";
-            cin >> name;
+            getValidAirportName();
             manager.getCountriesCanFlyToAirportByName(this->name);
             return this;
         case 4:
-            cout << "Airport Name: ";
-            cin >> name;
+            getValidAirportName();
             manager.getDestinationsDistance1ByName(this->name);
             return this;
         case 5:
-            cout << "Airport Name: ";
-            cin >> name;
+            getValidAirportName();
             manager.getDestinantionsByName(this->name);
             return this;
         case 6:
-            cout << "Airport Name: ";
-            cin >> name;
+            statisticsState1.getValidAirportCode();
             cout << "Distance: ";
             cin >> distance;
             manager.getDestinantionsUntilDistanceK(name,distance);
@@ -85,12 +80,34 @@ State* StatisticsState2::handleInput() {
             }
         case 99:
             State::statisticsHistory.push(this);
-            return &statisticsStateCity;
+            return &statisticsState3;
         case -1:
             exit(0);
         default:
             std:: cout << " Invalid choice. try again"<< std::endl;
             return this;
     }
-    return nullptr;
 }
+
+string* StatisticsState2::getValidAirportName() {
+    do {
+        cout << "Airport code: ";
+        cin >> name;
+        if (manager.getAirportsByName().find(name) == manager.getAirportsByName().end()) {
+            cout << "Airport doesn't exist. Try again." << endl;
+        }
+    } while (manager.getAirportsByName().find(name) == manager.getAirportsByName().end());
+    return &name;
+}
+
+string* StatisticsState2::getValidAirlineName() {
+    do {
+        cout << "Airline code: ";
+        cin >> name;
+        if (manager.getAirlinesByName().find(name) == manager.getAirlinesByName().end()) {
+            cout << "Airline doesn't exist. Try again." << endl;
+        }
+    } while (manager.getAirlinesByName().find(name) == manager.getAirlinesByName().end());
+    return &name;
+}
+

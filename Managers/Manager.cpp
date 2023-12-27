@@ -19,12 +19,24 @@ Manager::Manager() {
     this->airlinesByName = parser.getAirlinesByName();
 }
 
-unordered_map<std::string, Airline*> Manager::getAirlines() {
+unordered_map<std::string, Airline*>& Manager::getAirlines() {
     return this->airlines;
 }
 
-unordered_map<string, Airport*> Manager::getAirports() {
+unordered_map<string, Airport*>& Manager::getAirports() {
     return this->airports;
+}
+unordered_map<std::string, Airport*>& Manager::getAirportsByName(){
+    return this->airportsByName;
+}
+unordered_map<std::string, Airline*>& Manager::getAirlinesByName(){
+    return this->airlinesByName;
+}
+unordered_map<std::string, std::vector<Airport*>>& Manager::getCityAirports(){
+    return this->cityAirports;
+}
+unordered_map<string, unordered_set<string>>& Manager::getCountryCities(){
+    return this->countryCities;
 }
 
 Airport* Manager::getAirport(const std::string &code) const {
@@ -1544,3 +1556,6 @@ void Manager::printAirlineInfo(const string& airlineCode) {
     cout << string(space + 2, '-') << endl;
 }
 
+Graph Manager::getConnections() {
+    return connections;
+}

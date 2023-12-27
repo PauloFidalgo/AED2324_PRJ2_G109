@@ -13,7 +13,9 @@ private:
 public:
     void displayMenu() override;
     State * handleInput() override;
+    string* getValidAirportName();
+    string* getValidAirlineName();
 };
 
-
+extern StatisticsState2 statisticsState2;
 #endif //AED2324_PRJ2_G109_STATISTICSSTATE2_H

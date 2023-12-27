@@ -16,5 +16,6 @@ public:
     State * handleInput() override;
 };
 
+extern StatisticsState4 statisticsState4;
 
 #endif //AED2324_PRJ2_G109_STATISTICSSTATE4_H

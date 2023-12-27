@@ -1,11 +1,13 @@
 //
 // Created by Wagner Pedrosa on 26/12/2023.
 //
-
+#include "StatisticsState1.h"
 #include "StatisticsState4.h"
+#include "StatisticsState3.h"
 #include "iostream"
 
 using namespace std;
+StatisticsState4 statisticsState4;
 
 void StatisticsState4::displayMenu() {
 
@@ -34,35 +36,30 @@ State* StatisticsState4::handleInput() {
 
     switch (userInput) {
         case 1:
-            cout << "Airline Code: ";
+            cout << "K: ";
             cin >> distance;
             manager.getTopKGreatestTrafficAirport(this->distance);
             return this;
         case 2:
-            cout << "Country Name: ";
-            cin >> airport;
+            statisticsState3.getValidCountry();
             cout << "K: ";
             cin >> distance;
             manager.getTopKGreatestTrafficAirportPerCountry(this->distance,airport);
             return this;
         case 3:
-            cout << "Country Name: ";
-            cin >> airport;
+            statisticsState3.getValidCountry();
             manager.listAiportsPerCountry(airport);
             return this;
         case 4:
-            cout << "Airport Code: ";
-            cin >> airport;
+            statisticsState1.getValidAirportCode();
             manager.printAirportInfo(this->airport);
             return this;
         case 5:
-            cout << "Airline Code: ";
-            cin >> airport;
+            statisticsState1.getValidAirlineCode();
             manager.printAirlineInfo(this->airport);
             return this;
         case 6:
-            cout << "Airport Code: ";
-            cin >> airport;
+            statisticsState1.getValidAirportCode();
             manager.getOutFlights(this->airport);
             return this;
 
@@ -88,5 +85,4 @@ State* StatisticsState4::handleInput() {
             std:: cout << " Invalid choice. try again"<< std::endl;
             return this;
     }
-    return nullptr;
 }

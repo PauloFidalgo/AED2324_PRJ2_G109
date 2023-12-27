@@ -7,7 +7,7 @@
 #include "iostream"
 
 using namespace std;
-StatisticsState4 statisticsStateAirport;
+StatisticsState3 statisticsState3;
 
 void StatisticsState3::displayMenu() {
 
@@ -41,13 +41,11 @@ State* StatisticsState3::handleInput() {
             manager.articulationPoints();
             return this;
         case 2:
-            cout << "Airline Name: ";
-            cin >> airline;
+            getValidCity();
             manager.getNumFlightsPerCity(this->airline);
             return this;
         case 3:
-            cout << "City Name: ";
-            cin >> airline;
+            getValidCity();
             manager.getCountriesCanFlyToCity(this->airline);
             return this;
         case 4:
@@ -59,8 +57,7 @@ State* StatisticsState3::handleInput() {
             manager.getTopKGreatestTrafficAirline(this->distance);
             return this;
         case 6:
-            cout << "Airline Name: ";
-            cin >> airline;
+            getValidCountry();
             cout << "K: ";
             cin >> distance;
             manager.getTopKGreatestTrafficAirlinePerCountry(this->distance,this->airline);
@@ -73,7 +70,7 @@ State* StatisticsState3::handleInput() {
             }
         case 99:
             State::statisticsHistory.push(this);
-            return &statisticsStateAirport;
+            return &statisticsState4;
         case 0:
             if(!State::stateHistory.empty()){
                 State* previousState = State::stateHistory.top();
@@ -90,5 +87,26 @@ State* StatisticsState3::handleInput() {
             std:: cout << " Invalid choice. try again"<< std::endl;
             return this;
     }
-    return nullptr;
+}
+
+string *StatisticsState3::getValidCity() {
+    do {
+        cout << "City : ";
+        cin >> airline;
+        if (manager.getCityAirports().find(airline) == manager.getCityAirports().end()) {
+            cout << "City doesn't exist. Try again." << endl;
+        }
+    } while (manager.getCityAirports().find(airline) == manager.getCityAirports().end());
+    return &airline;
+}
+
+string *StatisticsState3::getValidCountry() {
+    do {
+        cout << "Country : ";
+        cin >> airline;
+        if (manager.getCountryCities().find(airline) == manager.getCountryCities().end()) {
+            cout << "Country doesn't exist. Try again." << endl;
+        }
+    } while (manager.getCountryCities().find(airline) == manager.getCountryCities().end());
+    return &airline;
 }

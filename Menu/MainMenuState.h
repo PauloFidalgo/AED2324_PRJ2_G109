@@ -8,6 +8,10 @@
 
 
 class MainMenuState : public State{
+private:
+    string userInputStr;
+    int userInput;
+
 public:
     void displayMenu() override;
     State * handleInput() override;
