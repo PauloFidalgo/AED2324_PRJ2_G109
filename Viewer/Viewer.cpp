@@ -2,6 +2,7 @@
 // Created by nelson on 25-12-2023.
 //
 
+#include <iomanip>
 #include "Viewer.h"
 
 void Viewer::printNumAirportsNumFlights(const int &numAirports, const int &numFlights) {
@@ -522,6 +523,55 @@ void Viewer::printArticulationPoints(const vector<Airport> res, const int &nameS
         cout << string(space + 2, '-') << endl;
     }
 }
+
+void Viewer::printTopKVectorBarsRatio(const vector<pair<Airline *, double>> &airlines, const bool &asc) {
+    if (!airlines.empty()) {
+        float size;
+        if (!asc) size = airlines.front().second;
+        else size = airlines.back().second;
+        cout << "     |" << endl;
+        for (auto& elem : airlines) {
+            double numFlights = elem.second;
+            int lenBar = (numFlights / size) * 120;
+            if (lenBar == 0) {
+                cout << "     |" << endl;
+                cout << ' ' << elem.first->getCode() << " |" << endl;
+                cout << "     |" << endl;
+                cout << "     |" << endl;
+            }
+            else {
+                cout << "     |" << string(lenBar, '-') << endl;
+                cout << fixed << setprecision(2) << ' ' << elem.first->getCode() << " |" << string(lenBar - 1, ' ') << "| " << numFlights << '%' << endl;
+                cout << "     |" << string(lenBar, '-') << endl;
+                cout << "     |" << endl;
+            }
+        }
+    }
+}
+
+void Viewer::printTopKVectorRatio(const vector<pair<Airline *, double>> &airlines, const string &label1, const string &label2, const int &nameSize) {
+    int space1 = nameSize + 8 > label1.length() + 2 ? nameSize + 8 : label1.length() + 2;
+    int lenLabel1 = (space1 - label1.length()) / 2;
+    int lenFLabel1 = (space1 - label1.length()) % 2 == 0 ? lenLabel1 : lenLabel1 + 1;
+    int space2 = label2.length() + 2 > 7 ? label2.length() + 2 : 7;
+    int lenLabel2 = (space2 - label2.length()) / 2;
+    int lenFLabel2 = (space2 - label2.length()) % 2 == 0 ? lenLabel2 : lenLabel2 + 1;
+    cout << string(space1 + space2 + 2, '-') << endl;
+    cout << '|' << string(lenLabel1, ' ') << label1 << string (lenFLabel1, ' ') << '|' << string(lenLabel2, ' ') << label2 << string(lenFLabel2, ' ') << '|' << endl;
+    cout << string(space1 + space2 + 3, '-') << endl;
+    for (auto& elem : airlines) {
+        double numFlights = elem.second;
+        int aux = numFlights >= 10 ? 5 : 4;
+        int lenNum = (space2 - to_string(numFlights).length()) / 2;
+        int lenFNum = (space2 - to_string(numFlights).length()) % 2 == 0 ? lenNum : lenNum + 1;
+        cout << "| Code: " << elem.first->getCode() << string(space1 - 10, ' ') << '|' << string(space2, ' ') << '|' << endl;
+        cout << fixed << setprecision(2) << '|' << string(space1, ' ') << '|' << string(lenNum , ' ') << numFlights << string (lenFNum, ' ') << '|' << endl;
+        cout << "| Name: " << elem.first->getName() << string(space1 - 7 - elem.first->getName().length(), ' ') << '|' << string(space2, ' ') << '|' << endl;
+        cout << string(space1 + space2 + 3, '-') << endl;
+    }
+}
+
+
 
 
 

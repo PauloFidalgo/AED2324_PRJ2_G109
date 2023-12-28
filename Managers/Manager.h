@@ -110,6 +110,7 @@ public:
     void getTopKAirportsAirlineTravelsTo(int k, Airline *airline, const bool &bars = false, const bool& asc = false) const;
     void getTopKAirportsWithMoreAirlines(int k, const bool &bars = false, const bool& asc = false) const;
     void getTopKAirlinesThatFlyMoreToAnAirport(int k, Airport *airport, const bool &bars = false, const bool& asc = false) const;
+    void getTopKAirlinesThatFlyMoreToAnAirportRatio(int k, Airport *airport, const bool &bars = false, const bool& asc = false) const;
     //falta ratio
 
     void listAiportsPerCountry(const vector<Airport *> &airportsCountry, const string &country) const;
@@ -124,6 +125,7 @@ public:
     static void printAirlineInfo(Airline *airline);
 
     void listAirlinesPerAirport(Airport *airport);
+
 
 };
 
