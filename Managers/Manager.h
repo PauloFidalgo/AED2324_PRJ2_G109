@@ -35,7 +35,6 @@ public:
     Manager();
     unordered_map<string, Airline*> getAirlines();
     unordered_map<string, Airport*> getAirports();
-
     Airport* getAirportPerCode(const string &code) const;
     vector<Airport*> validateCountry(const string &country) const;
     unordered_set<Airline*> getAirlinesPerCountry(const string& country);
@@ -51,8 +50,8 @@ public:
     vector<Airport*> minimizeDistace(Airport* u, Airport* v, const vector<Airport*> &excludedAirports, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines);
     Airport* getClosestAirport(const double &x, const double &y);
     unordered_set<string> getCitiesPerCountry(const string& c);
-    vector<Airport*> getAirportsPerCountry(const string &c);
-    vector<Airport*> getAiportsPerCity(const string& city) const;
+    vector<Airport*> getAirportsPerCountry(const string &c) const;
+    vector<Airport*> getAirportsPerCity(const string& city) const;
     vector<Edge> getOutFlights(Airport* airport) const;
     double getDistance(Airport* u, Airport* v);
     double getTripDistance(const vector<Airport*> &trip);
@@ -67,9 +66,14 @@ public:
     void dfsVisit(Vertex *v, Vertex *t, vector<Airport> &flights);
     bool hasPath(Vertex *v, Vertex *t, vector<Airport> &flights);
     vector<Airport> pathExists(Airport *d, Airport *t);
-    void findComponentDiameterPairs(Vertex *origin, vector<pair<Airport*, Airport*>> &result, int &i) const;
+
     vector<Vertex*> airportsAtDistanceK(Airport *source, int k);
+    void articulationPoints();
     void dfsApp(Vertex *v, stack<Airport> &s, vector<Airport> &res, int &i);
+
+    void dfsApp(Vertex *v, stack<Airport*> &s, vector<Airport*> &res, int &i);
+    vector<vector<Airport*>> scc();
+    bool hasConnection(Airport* s, Airport* t);
     unordered_set<string> getCitiesPerCountry(const string& c) const;
     vector<Airport*> getAirportsPerCountry(const string &c) const;
     vector<vector<Airport*>> scc();
@@ -83,9 +87,9 @@ public:
     vector<Airport*> findShortestPath(Airport* u, Airport* v);
     vector<Airport*> scheduleTripMinDistance(Airport* &source, Airport* &destination, vector<Airport*> &airporsToVisit, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines);
     vector<Airport*> findShortestPathExcludeCountries(Airport* u, Airport* v, vector<string> &countries);
-    vector<vector<Airport*>> manageFlightSearchFromMenuMinDistance(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines);
+    void manageFlightSearchFromMenuMinDistance(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines);
     vector<Airport*> findShortestPathExclude(Airport* u, Airport* v, vector<Airport*> &airpExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines);
-    vector<vector<Airport*>> manageFlightSearchFromMenu(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines);
+    void manageFlightSearchFromMenu(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines);
     vector<vector<Airport*>> scheduleTripMinConnectionAirports(Airport* u, Airport* v, const vector<Airport*>& visit, const vector<Airport*> &exclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines);
     vector<vector<Airport*>> scheduleTripMinConnectionCountries(Airport* u, Airport* v, vector<string> &visit);
     vector<Airport*> scheduleTripMinDistance(Airport* u, Airport* v, vector<Airport*> & visit);
@@ -99,6 +103,7 @@ public:
 
     void getNumFlightsAndAirlines(Airport *airport) const;
 
+    void getNumFlightsPerCity(const string &city) const;
 
     void getNumFlightsPerAirline(Airline *airline) const;
 
@@ -133,12 +138,16 @@ public:
     void getTopKGreatestTrafficAirline(int k, const bool &bars = false, const bool& asc = false) const;
     void getTopKGreatestTrafficAirlinePerCountry(int k, const unordered_set<Airline *> &airlinesCountry, const bool &bars = false, const bool& asc = false) const;
 
+    void getTopKCountriesWithMoreAirlines(int k, const bool &bars = false, const bool& asc = false) const;
+
     void getTopKAirportsAirlineTravelsTo(int k, Airline *airline, const bool &bars = false, const bool& asc = false) const;
     void getTopKAirportsWithMoreAirlines(int k, const bool &bars = false, const bool& asc = false) const;
     void getTopKAirlinesThatFlyMoreToAnAirport(int k, Airport *airport, const bool &bars = false, const bool& asc = false) const;
-    //falta ratio
+    void getTopKAirlinesThatFlyMoreToAnAirportRatio(int k, Airport *airport, const bool &bars = false, const bool& asc = false) const;
 
-    void listAiportsPerCountry(const vector<Airport *> &airportsCountry, const string &country) const;
+    void listAirportsPerCountryCity(const vector<Airport *> &airportsCountry, const string &countryCity) const;
+
+
 
     void searchAirportsByName(const string &airportName);
 
@@ -150,8 +159,7 @@ public:
 
     void listAirlinesPerAirport(Airport *airport);
 
-    vector<Airport *> articulationPoints();
-};
+    };
 
 
 #endif //AED2324_PRJ2_G109_MANAGER_H
