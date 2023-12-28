@@ -17,7 +17,7 @@ void StatisticsState4::displayMenu() {
 
     cout << endl;
     cout << "________________________________________________________________________________________________________" << endl;
-    cout << "|   previous - previous page                                                                           |" << endl;
+    cout << "|   previous - previous page                                                   next - next page        |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                             Statistics:                                              |" << endl;
     cout << "|                                                                                                      |" << endl;
@@ -29,7 +29,7 @@ void StatisticsState4::displayMenu() {
     cout << "|                                     6. Airports per Country                                          |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "| back - Main Menu                                                                                     |" << endl;
-    cout << "| exit - Exit                                                                                          |" << endl;
+    cout << "| exit - Exit                                                                              page - 4    |" << endl;
     cout << "--------------------------------------------------------------------------------------------------------" << endl;
 
 }
@@ -70,25 +70,11 @@ State* StatisticsState4::handleInput() {
                 return this;
             }
             case 2: {
-                // verificar se ele vai ao barstate e dps volta para aqui
-                // GREATEST
-                string country = getValidCountry();
-                vector<Airport *> airports = manager.getAirportsPerCountry(country);
-                int dist = getValidAirportK();
-                statisticsHistory.push(this);
-
-                State *nextState = barsState.handleInput();
-
-                if (nextState == this) {
-                    if (barsState.shouldUseGraphicBar()) {
-                        manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, true, true);
-                    } else {
-                        manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, false, true);
-                    }
-                    return this;
-                } else {
-                    return nextState;
-                }
+                auto airports = getValidAirports();
+                barsState.displayMenu();
+                barsState.handleInput();
+                auto bars =barsState.shouldUseGraphicBar();
+                manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, true, true);
             }
             case 3: {
                 //LOWEST

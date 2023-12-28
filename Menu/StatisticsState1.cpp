@@ -26,8 +26,8 @@ void StatisticsState1::displayMenu() {
     cout << "|                                                                                                      |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "| back - Main Menu                                                                                     |" << endl;
-    cout << "| exit - Exit                                                                                          |" << endl;
+    cout << "|  back - Main Menu                                                                                    |" << endl;
+    cout << "|  exit - Exit                                                                              page - 1   |" << endl;
     cout << "--------------------------------------------------------------------------------------------------------" << endl;
 }
 

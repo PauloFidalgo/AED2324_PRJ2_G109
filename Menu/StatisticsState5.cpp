@@ -27,7 +27,7 @@ void StatisticsState5::displayMenu() {
     cout << "|                                     6. Airports per Country                                          |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "| back - Main Menu                                                                                     |" << endl;
-    cout << "| exit - Exit                                                                                          |" << endl;
+    cout << "| exit - Exit                                                                              page - 5    |" << endl;
     cout << "--------------------------------------------------------------------------------------------------------" << endl;
 
 }
@@ -85,7 +85,6 @@ State* StatisticsState5::handleInput() {
                 barsState.displayMenu();
                 barsState.handleInput();
                 auto bars =barsState.shouldUseGraphicBar();
-                cout << bars << endl;
                 manager.getTopKGreatestTrafficCity(k,bars,false);
                 return this;
             }

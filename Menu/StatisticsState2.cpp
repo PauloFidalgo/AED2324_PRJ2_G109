@@ -27,7 +27,7 @@ void StatisticsState2::displayMenu() {
     cout << "|                                     6. Articulation points                                           |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|  back - Main Menu                                                                                    |" << endl;
-    cout << "|  exit - Exit                                                                                         |" << endl;
+    cout << "|  exit - Exit                                                                              page - 2   |" << endl;
     cout << "--------------------------------------------------------------------------------------------------------" << endl;
 }
 
