@@ -158,7 +158,6 @@ public:
 
 
     unordered_set<string> getCitiesPerCountry(const string &c) const;
-    vector<Airport *> articulationPoints();
 };
 
 

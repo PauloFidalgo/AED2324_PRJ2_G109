@@ -36,6 +36,37 @@ Airport* State::getValidAirport() {
     return (airportCode) ? airportCode : airportName;
 }
 
+Airport* State::getValidSingleAirport() {
+    Airport* airportCode;
+    Airport* airportName;
+
+    do {
+        cout << "Airport: ";
+        cin >> code;
+        airportCode = manager.getAirportPerCode(code);
+        airportName = manager.getAirportPerName(code);
+
+        if (!airportCode && !airportName) {
+            cout << "Airport doesn't exist. Try again." << endl;
+        }
+    } while (!airportCode && !airportName);
+
+    return (airportCode) ? airportCode : airportName;
+}
+Airline* State::getValidSingleAirline() {
+    Airline* airlineCode;
+    Airline* airlineName;
+    do {
+        cout << "Airline: ";
+        cin >> code;
+        airlineCode = manager.getAirlinePerCode(code);
+        airlineName = manager.getAirlinePerName(code);
+        if (!airlineCode && !airlineName) {
+            cout << "Airline doesn't exist. Try again." << endl;
+        }
+    } while (!airlineCode && !airlineName);
+    return (airlineCode) ? airlineCode : airlineName;
+}
 Airline* State::getValidAirline() {
     Airline* airlineCode;
     Airline* airlineName;

@@ -57,17 +57,17 @@ State* StatisticsState1::handleInput() {
             istringstream(userInputStr) >> userInput;
             switch (userInput) {
                 case 1: {
-                    Airport *airport = getValidAirport();
+                    Airport *airport = getValidSingleAirport();
                     manager.getNumFlightsAndAirlines(airport);
                     return this;
                 }
                 case 2: {
-                    Airline *airline = getValidAirline();
+                    Airline *airline = getValidSingleAirline();
                     manager.getNumFlightsPerAirline(airline);
                     return this;
                 }
                 case 3: {
-                    Airport *airport = getValidAirport();
+                    Airport *airport = getValidSingleAirport();
                     manager.getCountriesCanFlyToAirport(airport);
                     return this;
                 }
@@ -84,7 +84,7 @@ State* StatisticsState1::handleInput() {
                     return this;
                 }
                 case 6: {
-                    Airport *airport = getValidAirport();
+                    Airport *airport = getValidSingleAirport();
                     int distance = getValidAirportK();
                     manager.getAirportDestinantionsUntilDistanceK(airport, distance);
                     return this;
