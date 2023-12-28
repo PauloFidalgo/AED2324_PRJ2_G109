@@ -144,10 +144,13 @@ void FilterState::includeAirports() {
 
 void FilterState::includeCountries() {
     if ( cityCountry.empty() ){
-        cityCountry = this->getValidAirportsPerCountry();
+        cityCountry = this->getValidAirportsPerCountries();
     } else {
-        auto aux = this->getValidAirportsPerCountry();
-        cityCountry.insert(cityCountry.end(),aux.begin(),aux.end());
+        auto aux = this->getValidAirportsPerCountries();
+        int size = cityCountry.size();
+        for(auto& x : aux){
+            cityCountry.insert({size + x.first,x.second});
+        }
     }
 }
 
@@ -164,10 +167,13 @@ void FilterState::excludeCountries() {
 
 void FilterState::includeCities() {
     if ( cityCountry.empty() ){
-        cityCountry = this->getValidAirportsPerCity();
+        cityCountry = this->getValidAirportsPerCities();
     } else {
-        auto aux = this->getValidAirportsPerCity();
-        cityCountry.insert(cityCountry.end(),aux.begin(),aux.end());
+        auto aux = this->getValidAirportsPerCities();
+        int size = cityCountry.size();
+        for(auto& x : aux){
+            cityCountry.insert({size + x.first,x.second});
+        }
     }
 }
 

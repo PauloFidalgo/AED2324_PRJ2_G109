@@ -30,10 +30,11 @@ public:
     int getValidAirportK();
     Airport* getValidAirportPerCoordinates();
 
-    vector<Airport *> getValidAirportsPerCity();
+    map<int,vector<Airport*>> getValidAirportsPerCities();
 
-    vector<Airport *> getValidAirportsPerCountry();
-
+    map<int,vector<Airport*>> getValidAirportsPerCountries();
+    vector<Airport*> getValidAirportsPerCity();
+    vector<Airport*> getValidAirportsPerCountry();
     vector<Airport *> getAirportsRange(int x);
     vector<Airport*> getValidAirports();
     unordered_set<Airline*> getValidAirlines();

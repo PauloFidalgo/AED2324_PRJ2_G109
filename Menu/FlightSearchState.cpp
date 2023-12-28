@@ -10,7 +10,6 @@
 #include "CoordinatesFilterState.h"
 
 FilterState filterState;
-CoordinatesFilterState coordinatesFilterState;
 
 
 using namespace std;

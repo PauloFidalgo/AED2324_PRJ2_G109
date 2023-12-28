@@ -16,7 +16,7 @@ private:
     vector<Airline*> airlines;
 
     vector<Airport*> airportsToVisit;
-    vector<Airport*> cityCountry;
+    map<int,vector<Airport*>> cityCountry;
     vector<Airport*> AirportsToExclude;
 
     unordered_set<Airline*> excludedAirlines;
