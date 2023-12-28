@@ -19,11 +19,11 @@ void StatisticsState2::displayMenu() {
     cout << "|                                                                                                      |" << endl;
     cout << "|                                           Statistics:                                                |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                                     1. Nº flights and Airlines                                       |" << endl;
-    cout << "|                                     2. Nª flights per Airline                                        |" << endl;
-    cout << "|                                     3. Nº Airports And Flights                                       |" << endl;
-    cout << "|                                     4. Nº Flights And Airlines                                       |" << endl;
-    cout << "|                                     5. Nº stops                                                      |" << endl;
+    cout << "|                                     1. Nº flights per city                                           |" << endl;
+    cout << "|                                     2. Airports Destinations Distance 1                              |" << endl;
+    cout << "|                                     3. Nº Airports and Flights                                       |" << endl;
+    cout << "|                                     4. Airport Destinations                                          |" << endl;
+    cout << "|                                     5. City Destinations                                             |" << endl;
     cout << "|                                     6. Articulation points                                           |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|  back - Main Menu                                                                                    |" << endl;
@@ -64,7 +64,7 @@ State* StatisticsState2::handleInput() {
         switch (userInput) {
             case 1: {
                 string city = getValidCity();
-                manager.getNumFlightsPerCity(city);
+                //manager.getNumFlightsPerCity(city);
                 return this;
             }
             case 2: {

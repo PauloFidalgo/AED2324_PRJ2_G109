@@ -7,7 +7,9 @@
 #include "FlightSearchState.h"
 
 using namespace std;
+FilterState::FilterState() {
 
+}
 void FilterState::setFrom( Airport* fromAirport) {
     this->fromAirport = fromAirport;
 }

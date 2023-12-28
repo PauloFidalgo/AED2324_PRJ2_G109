@@ -93,13 +93,12 @@ public:
     vector<vector<Airport*>> findMinConnectionsExcludeCountries(Airport* s, Airport* t, vector<string> &countries);
     unordered_map<string, int> outFlightsPerAirport(Airport* s);
     unordered_map<string, int> inFlightsPerAirport(Airport *d);
-    void getNumFlightsPerCity(const string city) const;
+
     //--------------------------------------------------------------------------------------------------
     void getNumAirportsAndFlights() const;
 
     void getNumFlightsAndAirlines(Airport *airport) const;
 
-    void getNumFlightsPerCity(const string &city) const;
 
     void getNumFlightsPerAirline(Airline *airline) const;
 

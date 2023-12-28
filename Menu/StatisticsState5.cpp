@@ -1,19 +1,17 @@
 //
-// Created by Wagner Pedrosa on 26/12/2023.
+// Created by Wagner Pedrosa on 28/12/2023.
 //
-#include "StatisticsState1.h"
-#include "StatisticsState4.h"
-#include "StatisticsState3.h"
+
 #include "StatisticsState5.h"
 #include "BarsState.h"
 #include "iostream"
 #include "sstream"
 
 using namespace std;
-StatisticsState4 statisticsState4;
+StatisticsState5 statisticsState5;
 
 
-void StatisticsState4::displayMenu() {
+void StatisticsState5::displayMenu() {
 
     cout << endl;
     cout << "________________________________________________________________________________________________________" << endl;
@@ -34,7 +32,7 @@ void StatisticsState4::displayMenu() {
 
 }
 
-State* StatisticsState4::handleInput() {
+State* StatisticsState5::handleInput() {
     cout << "Enter your choice: ";
     cin >> userInputStr;
 
@@ -55,67 +53,55 @@ State* StatisticsState4::handleInput() {
             return previousState;
         }
     }
-    if (userInputStr == "next") {
-        State::statisticsHistory.push(this);
-        return &statisticsState5;
-    }
     if (userInputStr == "exit") {
         exit(0);
     } else {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
             case 1: {
-                auto dist = this->getValidAirportK();
-                manager.getTopKGreatestTrafficAirport(dist);
+                auto airport = getValidAirports();
+                auto city = getValidCity();
+                auto dist = this->getValidCityK();
+                manager.getCityDestinantionsUntilDistanceK(airport,city,dist);
                 return this;
             }
             case 2: {
-                // verificar se ele vai ao barstate e dps volta para aqui
-                // GREATEST
-                string country = getValidCountry();
-                vector<Airport *> airports = manager.getAirportsPerCountry(country);
-                int dist = getValidAirportK();
-                statisticsHistory.push(this);
-
-                State *nextState = barsState.handleInput();
-
-                if (nextState == this) {
-                    if (barsState.shouldUseGraphicBar()) {
-                        manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, true, true);
-                    } else {
-                        manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, false, true);
-                    }
-                    return this;
-                } else {
-                    return nextState;
-                }
-            }
-            case 3: {
-                //LOWEST
-                string country = getValidCountry();
-                vector<Airport *> airports = manager.getAirportsPerCountry(country);
-                int dist = getValidAirportK();
-
-                manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, false, false);
+                auto airport = getValidAirports();
+                auto country = getValidCountry();
+                auto dist = this->getValidCountryK();
+                manager.getCountryDestinantionsUntilDistanceK(airport,country,dist);
                 return this;
             }
+            case 3: {
+                auto k = getValidCityK();
+                barsState.displayMenu();
+                barsState.handleInput();
+                auto bars =barsState.shouldUseGraphicBar();
+                manager.getTopKGreatestTrafficCity(k,bars,true);
+
+            }
             case 4: {
-                string country = getValidCountry();
-                Airport* airport = manager.getAirportPerName(country);
-                Manager::printAirportInfo(airport);
+                auto k = getValidCityK();
+                barsState.displayMenu();
+                barsState.handleInput();
+                auto bars =barsState.shouldUseGraphicBar();
+                cout << bars << endl;
+                manager.getTopKGreatestTrafficCity(k,bars,false);
                 return this;
             }
             case 5: {
-                string name = getValidCountry();
-                Airline *airline = manager.getAirlinePerName(name);
-                Manager::printAirlineInfo(airline);
-                return this;
+                auto k = getValidCountryK();
+                barsState.displayMenu();
+                barsState.handleInput();
+                auto bars =barsState.shouldUseGraphicBar();
+                manager.getTopKGreatestTrafficCountry(k,bars,true);
             }
             case 6: {
-                string country = getValidCountry();
-                auto airports = manager.getAirportsPerCountry(country);
-                manager.listAiportsPerCountry(airports, country);
-                return this;
+                auto k = getValidCountryK();
+                barsState.displayMenu();
+                barsState.handleInput();
+                auto bars =barsState.shouldUseGraphicBar();
+                manager.getTopKGreatestTrafficCountry(k,bars,false);
             }
             default:
                 std::cout << " Invalid choice. try again" << std::endl;

@@ -108,9 +108,23 @@ int State::getValidCityK() {
     do {
         cout << "K : ";
         cin >> distance;
-        if (distance < 0 or distance > manager.getairportsperc().size()) {
+    /*    if (distance < 0 or distance > manager.getairportsperc().size()) {
             cout << "K doesn't exist. Try again." << endl;
         }
+        */
+    } while (distance < 0 or distance > manager.getAirports().size());
+    return distance;
+}
+
+int State::getValidCountryK(){
+    do {
+        cout << "K : ";
+        cin >> distance;
+        /*
+            if (distance < 0 or distance > manager.getCountries().size()) {
+                cout << "K doesn't exist. Try again." << endl;
+            }
+            */
     } while (distance < 0 or distance > manager.getAirports().size());
     return distance;
 }
@@ -158,21 +172,20 @@ map<int,vector<Airport*>> State::getValidAirportsPerCities(){
 
 vector<Airport*> State::getValidAirportsPerCity(){
    vector<Airport*> airports;
+    vector<Airport*> aux;
     bool in = true;
     while (in) {
-        vector<Airport*> aux;
         do {
             cout << "City( ok to confirm ): ";
             cin >> name;
-            if (code == "ok") {
-                in = false;
-                break;
+            if (name == "ok") {
+                return airports;
             }
             aux = manager.validateCity(name);
-            if (aux.empty()) {
+            if (aux.empty() or in == false) {
                 cout << "City doesn't exist. Try again." << endl;
             }
-        } while (aux.empty());
+        } while (aux.empty() or in == false);
         airports.insert(airports.end(),aux.begin(),aux.end());
     }
     return airports;
@@ -187,7 +200,7 @@ map<int,vector<Airport*>> State::getValidAirportsPerCountries() {
         do {
             cout << "Country( ok to confirm ): ";
             cin >> name;
-            if (code == "ok") {
+            if (name == "ok") {
                 in = false;
                 break;
             }
@@ -210,7 +223,7 @@ vector<Airport*> State::getValidAirportsPerCountry() {
         do {
             cout << "Country( ok to confirm ): ";
             cin >> name;
-            if (code == "ok") {
+            if (name == "ok") {
                 in = false;
                 break;
             }
@@ -253,7 +266,7 @@ vector<Airport*> State::getValidAirports() {
         do {
             cout << "Airport ( ok to confirm ): ";
             cin >> name;
-            if (code == "ok") {
+            if (name == "ok") {
                 in = false;
                 break;
             }
@@ -281,7 +294,7 @@ unordered_set<Airline*> State::getValidAirlines() {
         do {
             cout << "Airline ( ok to confirm ): ";
             cin >> name;
-            if (code == "ok") {
+            if (name == "ok") {
                 in = false;
                 break;
             }
@@ -309,7 +322,7 @@ unordered_set<Airline*> State::getValidAirlinePerCountry() {
         do {
             cout << "Country ( ok to confirm ): ";
             cin >> name;
-            if (code == "ok") {
+            if (name == "ok") {
                 in = false;
                 break;
             }

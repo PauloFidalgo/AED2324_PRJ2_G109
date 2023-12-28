@@ -19,10 +19,10 @@ void StatisticsState1::displayMenu() {
     cout << "|                                                                                                      |" << endl;
     cout << "|                                     1. Nº flights and Airlines                                       |" << endl;
     cout << "|                                     2. Nº flights per Airlines                                       |" << endl;
-    cout << "|                                     3. Nº country's                                                  |" << endl;
-    cout << "|                                     4. Get destinations distance 1                                   |" << endl;
-    cout << "|                                     5. Get destinations                                              |" << endl;
-    cout << "|                                     6. Get destinations until certain distance                       |" << endl;
+    cout << "|                                     3. Nº country's that can fly to a specific airport               |" << endl;
+    cout << "|                                     4. Get City destinations distance 1                              |" << endl;
+    cout << "|                                     5. Get Country destinations distance 1                           |" << endl;
+    cout << "|                                     6. Get Airport destinations until certain distance               |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                                                                                      |" << endl;

@@ -18,9 +18,9 @@ void StatisticsState3::displayMenu() {
     cout << "|                                                                                                      |" << endl;
     cout << "|                                          Statistics:                                                 |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                                     1. Articulation Points                                           |" << endl;
-    cout << "|                                     2. Nº Flights per city                                           |" << endl;
-    cout << "|                                     3. Countries that have flies to a specific city                  |" << endl;
+    cout << "|                                     1. Country Destinations                                          |" << endl;
+    cout << "|                                     2. City Destinations until specific Distance                     |" << endl;
+    cout << "|                                     3. Countries that can fly to certain city                        |" << endl;
     cout << "|                                     4. Diameter Pairs                                                |" << endl;
     cout << "|                                     5. Top k greatest traffic airline                                |" << endl;
     cout << "|                                     6. Top k greatest traffic airline per country                    |" << endl;

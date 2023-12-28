@@ -47,5 +47,7 @@ add_executable(AED2324_PRJ2_G109
         Menu/BarsState.cpp
         Menu/BarsState.h
         Menu/BarsState.cpp
+        Menu/StatisticsState5.h
+        Menu/StatisticsState5.cpp
 
 )

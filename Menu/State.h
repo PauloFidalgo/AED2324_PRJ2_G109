@@ -41,7 +41,7 @@ public:
     unordered_set<Airline*> getValidAirlinePerCountry();
 
     int getValidCityK();
-
+    int getValidCountryK();
     int getValidAirlineK();
 };
 
