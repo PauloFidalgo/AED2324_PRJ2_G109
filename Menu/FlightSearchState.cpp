@@ -25,8 +25,8 @@ void FlightSearchState::displayMenu() {
     cout << "|                                                                                                      |" << endl;
     cout << "|      "<< origin << "                     Search by:                                                  |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                                     1 - Code                                                         |" << endl;
-    cout << "|                                     2 - Airport name                                                 |" << endl;
+    cout << "|                                     1 - Airline                                                      |" << endl;
+    cout << "|                                     2 - Airport                                                      |" << endl;
     cout << "|                                     3 - City                                                         |" << endl;
     cout << "|                                     4 - Country                                                      |" << endl;
     cout << "|                                     5 - Coordinates ( Closest Airport )                              |" << endl;
@@ -59,21 +59,20 @@ State *FlightSearchState::handleInput() {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
             case 1:
-                std::cout << "Code " << (isSelectingFrom ? "From" : "To") << ": ";
+                std::cout << "Airline code or name " << (isSelectingFrom ? "From" : "To") << ": ";
                 if (isSelectingFrom) {
-                    fromCode = this->getValidAirport();
+                    fromArline = this->getValidAirline();
+                    filterState.getFromAirline().insert(fromArline);
                     isSelectingFrom = false;
                     return this;
                 } else {
-                    toCode = this->getValidAirport();
+                    fromArline = this->getValidAirline();
+                    filterState.getToAirline().insert(toAirline);
                     isSelectingFrom = true;
-                    filterState.setFrom(fromCode);
-                    filterState.setTo(toCode);
-
                     return &filterState;
                 }
             case 2:
-                std::cout << "Airport Name " << (isSelectingFrom ? "From" : "To") << ": ";
+                std::cout << "Airport code or name " << (isSelectingFrom ? "From" : "To") << ": ";
                 if (isSelectingFrom) {
                     fromCode = this->getValidAirport();
                     isSelectingFrom = false;

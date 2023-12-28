@@ -17,6 +17,8 @@ private:
     double y;
     Airport* fromCode;
     Airport* toCode;
+    Airline* fromArline;
+    Airline* toAirline;
     vector<Airport*> fromAirports;
     vector<Airport*> toAirports;
 

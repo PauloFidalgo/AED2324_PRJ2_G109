@@ -11,6 +11,8 @@ private:
     Airport* toAirport;
     vector<Airport*> fromAirports;
     vector<Airport*> toAirports;
+    unordered_set<Airline*> fromAirlines;
+    unordered_set<Airline*> toAirlines;
     vector<Airline*> airlines;
 
     vector<Airport*> airportsToVisit;
@@ -32,7 +34,9 @@ public:
     void setTo( Airport* toAirport);
     void setFrom( vector<Airport*> fromAirports);
     void setTo( vector<Airport*> toAirports);
-
+    unordered_set<Airline*>& getToAirline();
+    vector<Airport*>& getFromAirports();
+    unordered_set<Airline*>& getFromAirline();
     void displayMenu() override;
     State * handleInput() override;
     void excludeAirlinesPerCountry();
@@ -55,6 +59,7 @@ public:
     void includeAirports();
     void includeCities();
     void excludeCities();
+
 };
 
 

@@ -29,21 +29,15 @@ void FilterState::displayMenu() {
     cout << endl;
     cout << "________________________________________________________________________________________________________" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                                           Filters :                                                  |" << endl;
+    cout << "|                                            Filters :                                                 |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                                     1 - exclude 1 or more airlines                                   |" << endl;
-    cout << "|                                     2 - include 1 or more airlines                                   |" << endl;
-    cout << "|                                     3 - exclude 1 or more country                                    |" << endl;
-    cout << "|                                     4 - include 1 or more country                                    |" << endl;
-    cout << "|                                     5 - exclude 1 or more city                                       |" << endl;
-    cout << "|                                     6 - include 1 or more city                                       |" << endl;
-    cout << "|                                     7 - exclude 1 or more airports                                   |" << endl;
-    cout << "|                                     8 - include 1 or more airports                                   |" << endl;
-    cout << "|                                     3 - Avoid passing through 1 or more country's                    |" << endl;
-    cout << "|                                     4 - Pass trough 1 or more country's                              |" << endl;
-    cout << "|                                     5 - Minimize the number of distinct airlines                     |" << endl;
-    cout << "|                                     6 - Distance Travelled                                           |" << endl;
-    cout << "|                                     7 - Minimize Stops                                               |" << endl;
+    cout << "|      1 - exclude 1 or more airlines                    8 - include 1 or more airports                |" << endl;
+    cout << "|      2 - include 1 or more airlines                    9 - Avoid passing through 1 or more country's |" << endl;
+    cout << "|      3 - exclude 1 or more country                     10 - Pass trough 1 or more country's          |" << endl;
+    cout << "|      4 - include 1 or more country                     11 - Minimize the number of distinct airlines |" << endl;
+    cout << "|      5 - exclude 1 or more city                        12 - Distance Travelled                       |" << endl;
+    cout << "|      6 - include 1 or more city                        13 - Minimize Stops                           |" << endl;
+    cout << "|      7 - exclude 1 or more airports                                                                  |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|  0 - Go back                                                                                         |" << endl;
     cout << "| -1 - Exit                                                                                            |" << endl;
@@ -67,14 +61,22 @@ State* FilterState::handleInput() {
             break;
         case 4:
             this->includeCountries();
-            break
+            break;
         case 5:
-
             break;
         case 6:
-
             break;
         case 7:
+            break;
+        case 8:
+            break;
+        case 9:
+            excludeCountries();
+            break;
+        case 10:
+            this->includeCountries();
+            break;
+        case 13:
             manager.manageFlightSearchFromMenu(this->toAirports,this->fromAirports,airportsToVisit,cityCountry,excludedAirports,excludedAirlines,includedAirlines);
             break;
         case 0:
@@ -177,4 +179,15 @@ void FilterState::excludeCities() {
         auto aux = this->getValidAirportsPerCity();
         excludedAirports.insert(excludedAirports.end(),aux.begin(),aux.end());
     }
+}
+
+ vector<Airport*>& FilterState::getFromAirports() {
+    return fromAirports;
+}
+
+unordered_set<Airline*>& FilterState::getFromAirline() {
+    return fromAirlines;
+}
+unordered_set<Airline*>& FilterState::getToAirline() {
+    return toAirlines;
 }
