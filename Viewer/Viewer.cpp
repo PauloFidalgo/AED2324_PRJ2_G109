@@ -580,14 +580,14 @@ void Viewer::printTopKVectorRatio(const vector<pair<Airline *, double>> &airline
     int space2 = label2.length() + 2 > 7 ? label2.length() + 2 : 7;
     int lenLabel2 = (space2 - label2.length()) / 2;
     int lenFLabel2 = (space2 - label2.length()) % 2 == 0 ? lenLabel2 : lenLabel2 + 1;
-    cout << string(space1 + space2 + 2, '-') << endl;
+    cout << string(space1 + space2 + 3, '-') << endl;
     cout << '|' << string(lenLabel1, ' ') << label1 << string (lenFLabel1, ' ') << '|' << string(lenLabel2, ' ') << label2 << string(lenFLabel2, ' ') << '|' << endl;
     cout << string(space1 + space2 + 3, '-') << endl;
     for (auto& elem : airlines) {
         double numFlights = elem.second;
         int aux = numFlights >= 10 ? 5 : 4;
-        int lenNum = (space2 - to_string(numFlights).length()) / 2;
-        int lenFNum = (space2 - to_string(numFlights).length()) % 2 == 0 ? lenNum : lenNum + 1;
+        int lenNum = (space2 - aux) / 2;
+        int lenFNum = (space2 - aux) % 2 == 0 ? lenNum : lenNum + 1;
         cout << "| Code: " << elem.first->getCode() << string(space1 - 10, ' ') << '|' << string(space2, ' ') << '|' << endl;
         cout << fixed << setprecision(2) << '|' << string(space1, ' ') << '|' << string(lenNum , ' ') << numFlights << string (lenFNum, ' ') << '|' << endl;
         cout << "| Name: " << elem.first->getName() << string(space1 - 7 - elem.first->getName().length(), ' ') << '|' << string(space2, ' ') << '|' << endl;
