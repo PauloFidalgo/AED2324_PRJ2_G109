@@ -29,6 +29,7 @@ int main() {
     //m.getTopKGreatestTrafficCity(40);
     //m.getTopKGreatestTrafficCountry(6);
     //m.getTopKGreatestTrafficAirport(4000);
-    m.getTopKGreatestTrafficCountry(6,true, true);
+    m.getTopKGreatestTrafficCity(6);
+    m.getTopKCountriesWithMoreAirlines(6);
     return 0;
 }

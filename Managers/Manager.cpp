@@ -1307,7 +1307,7 @@ unordered_set<string> Manager::getCitiesPerCountry(const string& c) const {
     return {};
 }
 
-vector<Airport*> Manager::getAirportsPerCountry(const string &c) {
+vector<Airport*> Manager::getAirportsPerCountry(const string &c) const {
     auto cities = this->getCitiesPerCountry(c);
 
     vector<Airport*> res;
@@ -1750,7 +1750,7 @@ void Manager::getTopKGreatestTrafficCity(int k, const bool &bars, const bool& as
         if (k == 0) break;
     }
     if (bars) Viewer::printCityOrCountryGreatestTrafficBars(cities,nameSize,asc);
-    else Viewer::printCityGreatestTraffic(cities, nameSize);
+    else Viewer::printCountryCityStats(cities, "Cities", "Number of flights", nameSize);
 }
 
 void Manager::getTopKGreatestTrafficCountry(int k, const bool &bars, const bool& asc) const {
@@ -1775,7 +1775,7 @@ void Manager::getTopKGreatestTrafficCountry(int k, const bool &bars, const bool&
         if (k == 0) break;
     }
     if (bars) Viewer::printCityOrCountryGreatestTrafficBars(countries,nameSize,asc);
-    else Viewer::printCountryGreatestTraffic(countries, nameSize);
+    else Viewer::printCountryCityStats(countries, "Countries", "Number of flights", nameSize);
 }
 
 void Manager::getTopKGreatestTrafficAirportPerCity(int k, const vector<Airport *> &airportsPerCity, const bool &bars, const bool& asc) const {
@@ -1834,7 +1834,7 @@ void Manager::getTopKGreatestTrafficCityPerCountry(int k,pair<string, set<string
         if (k == 0) break;
     }
     if (bars) Viewer::printCityOrCountryGreatestTrafficBars(cities,nameSize,asc);
-    else Viewer::printCityGreatestTraffic(cities, nameSize);
+    else Viewer::printCountryCityStats(cities, "Cities", "Number of flights", nameSize);
 }
 
 auto comparatorAirlineDesc = [](Airline *a, Airline *b) {
@@ -2119,6 +2119,39 @@ void Manager::listAiportsPerCountry(const vector<Airline *> &airportsCountry, co
     }
     Viewer::printListAirlinesPerCountry(res, maxLengthName, country);
 }
+
+void Manager::getTopKCountriesWithMoreAirlines(int k, const bool &bars, const bool &asc) const {
+    map<string,set<Airline *>> countriesNumAirlines;
+    for (auto &elem : connections.getVertexSet()) {
+        set<Airline *> air;
+        for (auto &edge : elem->getAdj()) {
+            for (auto &airline : edge.getAirlines()) {
+                air.insert(airline);
+            }
+        }
+        countriesNumAirlines[elem->getInfo()->getCountry()].insert(air.begin(), air.end());
+    }
+    vector<pair<string, int>> vec;
+    for (auto &elem : countriesNumAirlines) {
+        vec.emplace_back(elem.first, elem.second.size());
+    }
+    if(asc) std::sort(vec.begin(), vec.end(), [](const auto& a, const auto& b) {if(a.second == b.second) return a.first < b.first; return a.second < b.second;});
+    else std::sort(vec.begin(), vec.end(), [](const auto& a, const auto& b) {if(a.second == b.second) return a.first < b.first; return a.second > b.second;});
+    if (k > vec.size()) k = vec.size();
+    vector<pair<string, int>> res;
+    auto it = vec.begin();
+    int nameSize = 0;
+    while (k != 0) {
+        if (it->first.length() > nameSize) nameSize = it->first.length();
+        res.emplace_back(*it);
+        it++;
+        k--;
+    }
+    if (bars) Viewer::printCityOrCountryGreatestTrafficBars(res, nameSize, asc);
+    else Viewer::printCountryCityStats(res, "Countries", "Number of airlines", nameSize);
+}
+
+
 
 
 

@@ -49,7 +49,7 @@ public:
     vector<vector<Airport*>> bfsMinConnectionsExcludeAirports(Airport* s, Airport* t, const vector<Airport*> &exclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines);
     Airport* getClosestAirport(const double &x, const double &y);
     unordered_set<string> getCitiesPerCountry(const string& c);
-    vector<Airport*> getAirportsPerCountry(const string &c);
+    vector<Airport*> getAirportsPerCountry(const string &c) const;
     vector<Airport*> getAirportsPerCity(const string& city) const;
     vector<Edge> getOutFlights(Airport* airport) const;
     double getDistance(Airport* u, Airport* v);
@@ -126,6 +126,8 @@ public:
 
     void getTopKGreatestTrafficAirline(int k, const bool &bars = false, const bool& asc = false) const;
     void getTopKGreatestTrafficAirlinePerCountry(int k, const vector<Airline *> &airlinesCountry, const bool &bars = false, const bool& asc = false) const;
+
+    void getTopKCountriesWithMoreAirlines(int k, const bool &bars = false, const bool& asc = false) const;
 
     void getTopKAirportsAirlineTravelsTo(int k, Airline *airline, const bool &bars = false, const bool& asc = false) const;
     void getTopKAirportsWithMoreAirlines(int k, const bool &bars = false, const bool& asc = false) const;

@@ -247,33 +247,23 @@ void Viewer::printAirportGreatestTraffic(const vector<Airport *> &airportsByTraf
     }
 }
 
-void Viewer::printCityGreatestTraffic(const vector<pair<string, int>> &citiesByTraffic, const int &nameSize) {
-    int space1 = nameSize + 8;
-    int lenCitiesLabel = (space1 - 6) / 2;
-    int lenFCitiesLabel = (space1 - 6) % 2 == 0 ? lenCitiesLabel : lenCitiesLabel + 1;
-    cout << string(space1 + 2, '-') << "--------------------" << endl;
-    cout << '|' << string(lenCitiesLabel, ' ') << "Cities" << string (lenFCitiesLabel, ' ') << "| Number of flights |" << endl;
-    cout << string(space1 + 2, '-') << "--------------------" << endl;
-    for (auto& elem : citiesByTraffic) {
-        int lenNumFlights = (19 - to_string(elem.second).length()) / 2;
-        int lenFNumFlights = (19 - to_string(elem.second).length()) % 2 == 0 ? lenNumFlights : lenNumFlights+ 1;
-        cout << "| City: " << elem.first << string(space1 - 7 - elem.first.length(), ' ') << '|' << string(lenNumFlights, ' ') << elem.second << string (lenFNumFlights, ' ') << '|' << endl;
-        cout << string(space1 + 2, '-') << "--------------------" << endl;
-    }
-}
+void Viewer::printCountryCityStats(const vector<pair<string, int>> &countriesByTraffic,const string &label1, const string &label2, const int &nameSize) {
+    string label3 = label1 == "Countries" ? "| Country: " : "| City: ";
+    int space1 = nameSize + label3.length() > label1.length() + 2 ? nameSize + label3.length() : label1.length() + 2;
+    int lenLabel1 = (space1 - label1.length()) / 2;
+    int lenFLabel1 = (space1 - label1.length()) % 2 == 0 ? lenLabel1 : lenLabel1 + 1;
+    int space2 = label2.length() + 2 > 7 ? label2.length() + 2 : 7;
+    int lenLabel2 = (space2 - label2.length()) / 2;
+    int lenFLabel2 = (space2 - label2.length()) % 2 == 0 ? lenLabel2 : lenLabel2 + 1;
+    cout << string(space1 + space2 + 3, '-') << endl;
+    cout << '|' << string(lenLabel1, ' ') << label1 << string (lenFLabel1, ' ') << '|' << string(lenLabel2, ' ') << label2 << string(lenFLabel2, ' ') << '|' << endl;
+    cout << string(space1 + space2 + 3, '-') << endl;
 
-void Viewer::printCountryGreatestTraffic(const vector<pair<string, int>> &countriesByTraffic, const int &nameSize) {
-    int space1 = nameSize + 11;
-    int lenCountriesLabel = (space1 - 9) / 2;
-    int lenFCountriesLabel = (space1 - 9) % 2 == 0 ? lenCountriesLabel : lenCountriesLabel + 1;
-    cout << string(space1 + 2, '-') << "--------------------" << endl;
-    cout << '|' << string(lenCountriesLabel, ' ') << "Countries" << string (lenFCountriesLabel, ' ') << "| Number of flights |" << endl;
-    cout << string(space1 + 2, '-') << "--------------------" << endl;
     for (auto& elem : countriesByTraffic) {
-        int lenNumFlights = (19 - to_string(elem.second).length()) / 2;
-        int lenFNumFlights = (19 - to_string(elem.second).length()) % 2 == 0 ? lenNumFlights : lenNumFlights+ 1;
-        cout << "| Country: " << elem.first << string(space1 - 10 - elem.first.length(), ' ') << '|' << string(lenNumFlights, ' ') << elem.second << string (lenFNumFlights, ' ') << '|' << endl;
-        cout << string(space1 + 2, '-') << "--------------------" << endl;
+        int lenNum = (space2 - to_string(elem.second).length()) / 2;
+        int lenFNum = (space2 - to_string(elem.second).length()) % 2 == 0 ? lenNum : lenNum + 1;
+        cout << label3 << elem.first << string(space1 - (label3.length() - 1) - elem.first.length(), ' ') << '|' << string(lenNum, ' ') << elem.second << string (lenFNum, ' ') << '|' << endl;
+        cout << string(space1 + space2 + 3, '-') << endl;
     }
 }
 
@@ -284,7 +274,7 @@ void Viewer::printTopKVector(const vector<pair<Airport *, int>> &airports,const 
     int space2 = label2.length() + 2 > 7 ? label2.length() + 2 : 7;
     int lenLabel2 = (space2 - label2.length()) / 2;
     int lenFLabel2 = (space2 - label2.length()) % 2 == 0 ? lenLabel2 : lenLabel2 + 1;
-    cout << string(space1 + space2 + 2, '-') << endl;
+    cout << string(space1 + space2 + 3, '-') << endl;
     cout << '|' << string(lenLabel1, ' ') << label1 << string (lenFLabel1, ' ') << '|' << string(lenLabel2, ' ') << label2 << string(lenFLabel2, ' ') << '|' << endl;
     cout << string(space1 + space2 + 3, '-') << endl;
     for (auto& elem : airports) {
