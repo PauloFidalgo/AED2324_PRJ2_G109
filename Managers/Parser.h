@@ -19,9 +19,10 @@ private:
     unordered_map<string, unordered_set<string>> countryCities;
     unordered_map<std::string, Airport*> airportsByName;
     unordered_map<std::string, Airline*> airlinesByName;
+    unordered_map<std::string, unordered_set<Airline*>> airlinesCountry;
     void readFlights(Graph &g);
 public:
-    ~Parser();
+    //~Parser();
     void readAirlines();
     Graph getGraph();
     static double haversine(double lat1, double lon1, double lat2, double lon2);
@@ -31,6 +32,7 @@ public:
     unordered_map<string, unordered_set<string>> getCountryCities();
     Airline* getAirline(const string &airline);
     std::unordered_map<std::string, Airport*> getAirportsByName();
+    std::unordered_map<std::string, unordered_set<Airline*>> getAirlinesCountry();
     std::unordered_map<std::string, Airline*> getAirlinesByName();
 };
 

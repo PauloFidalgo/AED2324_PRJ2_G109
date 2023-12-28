@@ -33,6 +33,7 @@ void Parser::readAirlines() {
             auto* airline = new Airline(code, name, callsign, country);
             air.insert({code, airline});
             airByName.insert({name, airline});
+            airlinesCountry[country].insert(airline);
         }
 
         iff.close();
@@ -73,7 +74,7 @@ void Parser::readFlights(Graph &g) {
                 if (source != nullptr){
                     if (source->hasFlight(dest->second)) {
                         for (auto &edge : source->getAdj()) {
-                            if (edge.getDest()->getInfo() == *dest->second) {
+                            if (edge.getDest()->getInfo() == dest->second) {
                                 if (air != nullptr) {
                                     edge.addAirline(air);
                                 }
@@ -180,6 +181,10 @@ unordered_map<string, vector<Airport*>> Parser::getCityAirports() {
     return cityAirports;
 }
 
+unordered_map<string, unordered_set<Airline*>> Parser::getAirlinesCountry() {
+    return airlinesCountry;
+}
+
 Airline* Parser::getAirline(const std::string &airline) {
     auto it = airlines.find(airline);
 
@@ -194,10 +199,6 @@ unordered_map<string, unordered_set<string>> Parser::getCountryCities() {
 }
 
 
-Parser::~Parser() {
-
-}
-
 std::unordered_map<std::string, Airport *> Parser::getAirportsByName() {
     return airportsByName;
 }
@@ -205,5 +206,3 @@ std::unordered_map<std::string, Airport *> Parser::getAirportsByName() {
 std::unordered_map<std::string, Airline *> Parser::getAirlinesByName() {
     return airlinesByName;
 }
-
-
