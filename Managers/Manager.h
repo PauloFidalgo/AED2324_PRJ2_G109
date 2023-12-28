@@ -50,7 +50,7 @@ public:
     Airport* getClosestAirport(const double &x, const double &y);
     unordered_set<string> getCitiesPerCountry(const string& c);
     vector<Airport*> getAirportsPerCountry(const string &c);
-    vector<Airport*> getAiportsPerCity(const string& city) const;
+    vector<Airport*> getAirportsPerCity(const string& city) const;
     vector<Edge> getOutFlights(Airport* airport) const;
     double getDistance(Airport* u, Airport* v);
     double getTripDistance(const vector<Airport*> &trip);
@@ -67,8 +67,6 @@ public:
     void articulationPoints();
     void dfsApp(Vertex *v, stack<Airport> &s, vector<Airport> &res, int &i);
 
-
-    vector<Airport*> articulationPoints();
     void dfsApp(Vertex *v, stack<Airport*> &s, vector<Airport*> &res, int &i);
     vector<vector<Airport*>> scc();
     bool hasConnection(Airport* s, Airport* t);
@@ -149,6 +147,7 @@ public:
     void listAirlinesPerAirport(Airport *airport);
 
 
+    unordered_set<string> getCitiesPerCountry(const string &c) const;
 };
 
 

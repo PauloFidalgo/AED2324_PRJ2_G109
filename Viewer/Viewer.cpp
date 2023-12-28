@@ -205,10 +205,10 @@ void Viewer::printCountryDestinations(const string &country, const int &numAirpo
     cout << "---------------------------------" << string(space + 1, '-') << endl;
 }
 
-void Viewer::printDiameterPairs(const vector<pair<Airport, Airport>> &result, const int &maxDiameter) {
+void Viewer::printDiameterPairs(const vector<pair<Airport *, Airport *>> &result, const int &maxDiameter) {
     int maxNameLength = 0;
     for (auto& elem : result) {
-        int maxLength = max(elem.first.getName().length(), elem.second.getName().length());
+        int maxLength = max(elem.first->getName().length(), elem.second->getName().length());
         if (maxLength > maxNameLength) maxNameLength = maxLength;
     }
     int space = maxNameLength + 8 > 22 ? maxNameLength + 8 : 22;
@@ -220,8 +220,8 @@ void Viewer::printDiameterPairs(const vector<pair<Airport, Airport>> &result, co
     cout << '|' << string(lenSourceAirportsLabel, ' ') << "Source Airports" << string (lenFSourceAirportsLabel, ' ') << "| " << string(lenDestAirportsLabel, ' ') << "Destination Airports" << string(lenFDestAirportsLabel, ' ') << '|' << endl;
     cout << string(space * 2 + 3, '-') << endl;
     for (auto& elem : result) {
-        cout << "| Code: " << elem.first.getCode() << string(space - 10, ' ') << "| Code: " << elem.second.getCode() << string(space - 10, ' ') << '|' << endl;
-        cout << "| Name: " << elem.first.getName() << string(space - 7 - elem.first.getName().length(), ' ') << "| Name: " << elem.second.getName() << string(space - 7 - elem.second.getName().length(), ' ') << '|' << endl;
+        cout << "| Code: " << elem.first->getCode() << string(space - 10, ' ') << "| Code: " << elem.second->getCode() << string(space - 10, ' ') << '|' << endl;
+        cout << "| Name: " << elem.first->getName() << string(space - 7 - elem.first->getName().length(), ' ') << "| Name: " << elem.second->getName() << string(space - 7 - elem.second->getName().length(), ' ') << '|' << endl;
         cout << string(space * 2 + 3, '-') << endl;
     }
     cout << "The maximum trip between two airports has " << maxDiameter << " stops." << endl;
@@ -534,7 +534,7 @@ void Viewer::printTopKVectorBars(const vector<pair<Airline *, int>> &airportsOrA
     }
 }
 
-void Viewer::printArticulationPoints(const vector<Airport> res, const int &nameSize) {
+void Viewer::printArticulationPoints(const vector<Airport *> res, const int &nameSize) {
     int space = nameSize + 8 > 35 ? nameSize + 8 : 35;
     int lenEssentialAirportsLabel = (space - 33) / 2;
     int lenFEssentialAirportsLabel = (space - 33) % 2 == 0 ? lenEssentialAirportsLabel : lenEssentialAirportsLabel + 1;
@@ -542,8 +542,8 @@ void Viewer::printArticulationPoints(const vector<Airport> res, const int &nameS
     cout << '|' << string(lenEssentialAirportsLabel, ' ') << "Essential Airports to the network" << string(lenFEssentialAirportsLabel, ' ') << '|' << endl;
     cout << string(space + 2, '-') << endl;
     for (auto &elem : res) {
-        cout << "| Code: " << elem.getCode() << string(space - 10, ' ') << '|' << endl;
-        cout << "| Name: " << elem.getName() << string(space - 7 - elem.getName().length(), ' ') << '|' << endl;
+        cout << "| Code: " << elem->getCode() << string(space - 10, ' ') << '|' << endl;
+        cout << "| Name: " << elem->getName() << string(space - 7 - elem->getName().length(), ' ') << '|' << endl;
         cout << string(space + 2, '-') << endl;
     }
 }
