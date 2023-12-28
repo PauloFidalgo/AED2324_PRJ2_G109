@@ -1896,27 +1896,23 @@ void Manager::getTopKGreatestTrafficAirlinePerCountry(int k, const vector<Airlin
 }
 
 void Manager::getTopKAirportsAirlineTravelsTo(int k, Airline *airline, const bool &bars, const bool& asc) const {
-    int nameSize = 0;
     map<Airport *, int> airportNumFlights;
     for (auto &elem : connections.getVertexSet()) {
         for (auto &edge : elem->getAdj()) {
             if (edge.hasAirline(airline)) {
-                if (edge.getDest()->getInfo()->getName().length() > nameSize) nameSize = edge.getDest()->getInfo()->getName().length();
                 airportNumFlights[edge.getDest()->getInfo()]++;
             }
         }
     }
-    vector<pair<Airport *,int>> vec;
-    for (auto & elem : airportNumFlights) {
-        if (elem.first->getName().length() > nameSize) nameSize = elem.first->getName().length();
-        vec.emplace_back(elem);
-    }
+    vector<pair<Airport *,int>> vec(airportNumFlights.begin(), airportNumFlights.end());
     if(asc) std::sort(vec.begin(), vec.end(), [](const auto& a, const auto& b) {if(a.second == b.second) return a.first->getName() < b.first->getName(); return a.second < b.second;});
     else std::sort(vec.begin(), vec.end(), [](const auto& a, const auto& b) {if(a.second == b.second) return a.first->getName() < b.first->getName(); return a.second > b.second;});
     if (k > vec.size()) k = vec.size();
     vector<pair<Airport *,int>> res;
     auto it = vec.begin();
+    int nameSize = 0;
     while (k != 0) {
+        if (it->first->getName().length() > nameSize) it->first->getName().length();
         res.push_back(*it);
         it++;
         k--;
@@ -1927,7 +1923,7 @@ void Manager::getTopKAirportsAirlineTravelsTo(int k, Airline *airline, const boo
 }
 
 void Manager::getTopKAirportsWithMoreAirlines(int k, const bool &bars, const bool& asc) const {
-    set<pair<int, Airport *>> airportNumAirlines;
+    vector<pair<Airport *, int>> airportNumAirlines;
     for (auto& elem : connections.getVertexSet()) {
         set<Airline *> air;
         for (auto &edge : elem->getAdj()) {
@@ -1935,35 +1931,26 @@ void Manager::getTopKAirportsWithMoreAirlines(int k, const bool &bars, const boo
                 air.insert(airline);
             }
         }
-        airportNumAirlines.insert({air.size(), elem->getInfo()});
+        airportNumAirlines.emplace_back(elem->getInfo(), air.size());
     }
-    vector<pair<Airport *, int>> res;
-    int nameSize = 0;
+    if(asc) std::sort(airportNumAirlines.begin(), airportNumAirlines.end(), [](const auto& a, const auto& b) {if(a.second == b.second) return a.first->getName() < b.first->getName(); return a.second < b.second;});
+    else std::sort(airportNumAirlines.begin(), airportNumAirlines.end(), [](const auto& a, const auto& b) {if(a.second == b.second) return a.first->getName() < b.first->getName(); return a.second > b.second;});
     if (k > airportNumAirlines.size()) k = airportNumAirlines.size();
-    if (asc) {
-        auto it = airportNumAirlines.rbegin();
-        while (k!= 0) {
-            if (it->second->getName().length() > nameSize) nameSize = it->second->getName().length();
-            res.emplace_back(it->second, it->first);
-            it++;
-            k--;
-        }
-    }
-    else {
-        auto it = airportNumAirlines.begin();
-        while (k!= 0) {
-            if (it->second->getName().length() > nameSize) nameSize = it->second->getName().length();
-            res.emplace_back(it->second, it->first);
-            it++;
-            k--;
-        }
+    vector<pair<Airport *,int>> res;
+    auto it = airportNumAirlines.begin();
+    int nameSize = 0;
+    while (k != 0) {
+        if (it->first->getName().length() > nameSize) nameSize = it->first->getName().length();
+        res.push_back(*it);
+        it++;
+        k--;
     }
     if (bars) Viewer::printTopKVectorBars(res, asc);
+
     else Viewer::printTopKVector(res,"Airports", "Number of Airlines", nameSize);
 }
 
 void Manager::getTopKAirlinesThatFlyMoreToAnAirport(int k, Airport *airport, const bool &bars, const bool& asc) const {
-    int nameSize = 0;
     map<Airline *, int> airlineNumFlightsToAirport;
     for (auto &elem : connections.getVertexSet()) {
         for (auto &edge : elem->getAdj()) {
@@ -1980,7 +1967,9 @@ void Manager::getTopKAirlinesThatFlyMoreToAnAirport(int k, Airport *airport, con
     if (k > vec.size()) k = vec.size();
     vector<pair<Airline *,int>> res;
     auto it = vec.begin();
+    int nameSize = 0;
     while (k != 0) {
+        if (it->first->getName().length() > nameSize) nameSize = it->first->getName().length();
         res.push_back(*it);
         it++;
         k--;
@@ -2075,19 +2064,16 @@ void Manager::getTopKAirlinesThatFlyMoreToAnAirportRatio(int k, Airport *airport
             }
         }
     }
-    int nameSize = 0;
-    vector<pair<Airline *,double>> vec;
-    for (auto &elem : airlineNumFlightsToAirport) {
-        if (elem.first->getName().length() > nameSize) nameSize = elem.first->getName().length();
-        vec.emplace_back(elem.first, (static_cast<double>(elem.second) / airport->getNumFlightsIn()) * 100);
-    }
+    vector<pair<Airline *,double>> vec(airlineNumFlightsToAirport.begin(), airlineNumFlightsToAirport.end());
     if(asc) std::sort(vec.begin(), vec.end(), [](const auto& a, const auto& b) {if(a.second == b.second) return a.first->getName() < b.first->getName(); return a.second < b.second;});
     else std::sort(vec.begin(), vec.end(), [](const auto& a, const auto& b) {if(a.second == b.second) return a.first->getName() < b.first->getName(); return a.second > b.second;});
     if (k > vec.size()) k = vec.size();
     vector<pair<Airline *,double>> res;
     auto it = vec.begin();
+    int nameSize = 0;
     while (k != 0) {
-        res.push_back(*it);
+        if (it->first->getName().length() > nameSize) it->first->getName().length();
+        res.emplace_back(*it);
         it++;
         k--;
     }
