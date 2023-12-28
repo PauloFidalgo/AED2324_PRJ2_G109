@@ -312,14 +312,28 @@ void Viewer::printAirlinesPerAirport(const set<Airline *> &airlines, const int &
     }
 }
 
-void Viewer::printListAirportsPerCountry(const vector<Airport *> &airports, const int &nameSize, const string &country) {
+void Viewer::printListAirportsPerCountryCity(const vector<Airport *> &airports, const int &nameSize, const string &countryCity) {
+    int space = nameSize + 8 > 40 ? nameSize + 8 : 40;
+    int lenEssentialAirportsLabel = (space - 12 - countryCity.length()) / 2;
+    int lenFEssentialAirportsLabel = (space - 12 - countryCity.length()) % 2 == 0 ? lenEssentialAirportsLabel : lenEssentialAirportsLabel + 1;
+    cout << string(space + 2, '-') << endl;
+    cout << '|' << string(lenEssentialAirportsLabel, ' ') << "Airports in " << countryCity << string(lenFEssentialAirportsLabel, ' ') << '|' << endl;
+    cout << string(space + 2, '-') << endl;
+    for (auto &elem : airports) {
+        cout << "| Code: " << elem->getCode() << string(space - 10, ' ') << '|' << endl;
+        cout << "| Name: " << elem->getName() << string(space - 7 - elem->getName().length(), ' ') << '|' << endl;
+        cout << string(space + 2, '-') << endl;
+    }
+}
+
+void Viewer::printListAirlinesPerCountry(const vector<Airline *> &airlines, const int &nameSize, const string &country) {
     int space = nameSize + 8 > 40 ? nameSize + 8 : 40;
     int lenEssentialAirportsLabel = (space - 12 - country.length()) / 2;
     int lenFEssentialAirportsLabel = (space - 12 - country.length()) % 2 == 0 ? lenEssentialAirportsLabel : lenEssentialAirportsLabel + 1;
     cout << string(space + 2, '-') << endl;
-    cout << '|' << string(lenEssentialAirportsLabel, ' ') << "Airports in " << country << string(lenFEssentialAirportsLabel, ' ') << '|' << endl;
+    cout << '|' << string(lenEssentialAirportsLabel, ' ') << "Airlines in " << country << string(lenFEssentialAirportsLabel, ' ') << '|' << endl;
     cout << string(space + 2, '-') << endl;
-    for (auto &elem : airports) {
+    for (auto &elem : airlines) {
         cout << "| Code: " << elem->getCode() << string(space - 10, ' ') << '|' << endl;
         cout << "| Name: " << elem->getName() << string(space - 7 - elem->getName().length(), ' ') << '|' << endl;
         cout << string(space + 2, '-') << endl;

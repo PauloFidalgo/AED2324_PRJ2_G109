@@ -1996,13 +1996,13 @@ void Manager::listAirlinesPerAirport(Airport *airport) {
 }
 
 
-void Manager::listAiportsPerCountry(const vector<Airport *> &airportsCountry, const string &country) const{
+void Manager::listAiportsPerCountryCity(const vector<Airport *> &airportsCountry, const string &countryCity) const{
     int maxLengthName = 0;
     vector<Airport *> res;
     for (auto& elem : airportsCountry) {
         if (elem->getName().length() > maxLengthName) maxLengthName = elem->getName().length();
     }
-    Viewer::printListAirportsPerCountry(res, maxLengthName, country);
+    Viewer::printListAirportsPerCountryCity(res, maxLengthName, countryCity);
 }
 
 string nameToLower(const string& word) {
@@ -2109,6 +2109,15 @@ unordered_set<Airline*> Manager::getAirlinesPerCountry(const string& country) {
     if (it != countryAirlines.end()) return it->second;
 
     return {};
+}
+
+void Manager::listAiportsPerCountry(const vector<Airline *> &airportsCountry, const string &country) const {
+    int maxLengthName = 0;
+    vector<Airline *> res;
+    for (auto& elem : airportsCountry) {
+        if (elem->getName().length() > maxLengthName) maxLengthName = elem->getName().length();
+    }
+    Viewer::printListAirlinesPerCountry(res, maxLengthName, country);
 }
 
 

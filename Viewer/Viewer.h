@@ -38,7 +38,8 @@ public:
     static void printCityGreatestTraffic(const vector<pair<string, int>> &citiesByTraffic, const int& nameSize);
     static void printCountryGreatestTraffic(const vector<pair<string, int>> &countriesByTraffic, const int& nameSize);
     static void printAirlinesPerAirport (const set<Airline *> &airlines, const int& nameSize);
-    static void printListAirportsPerCountry(const vector<Airport *> &airports, const int &nameSize, const string &country);
+    static void printListAirportsPerCountryCity(const vector<Airport *> &airports, const int &nameSize, const string &countryCity);
+    static void printListAirlinesPerCountry(const vector<Airline *> &airlines, const int &nameSize, const string &country);
     static void printSearchAirports(const vector<Airport *> &airports, const int &nameSize, const string &airportName);
     static void printSearchAirlines(const vector<Airline *> &airlines, const int &nameSize, const string &airlineName);
     static void printAirportInfo(Airport *airport);
@@ -54,6 +55,8 @@ public:
     static void printTopKVectorBars(const vector<pair<Airline *, int>> &airportsOrAirlines, const bool &asc);
     static void printTopKVectorRatio(const vector<pair<Airline *, double>> &airlines,const string &label1, const string &label2, const int &nameSize);
     static void printTopKVectorBarsRatio(const vector<pair<Airline *, double>> &airlines, const bool &asc);
+
+
 };
 
 
