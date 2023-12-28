@@ -620,6 +620,45 @@ void Viewer::printTopKVector(const vector<pair<Airline *, int>> &airlines, const
     }
 }
 
+void Viewer::printFlightOptions(const vector<vector<Airport *>> &flights) {
+    int numAirports = 0;
+    int nameSize = 0;
+    for (auto &elem : flights) {
+        if (elem.size() > numAirports) numAirports = elem.size();
+        for(auto &airport : elem) {
+            if (airport->getName().length() > nameSize) nameSize = airport->getName().length();
+        }
+    }
+    int space1 = nameSize + 8;
+    int totalSpace = (space1 + 1) * numAirports - 1;
+    int lenLabel = (totalSpace - 14) / 2;
+    int lenFLabel = (totalSpace - 14) % 2 == 0 ? lenLabel : lenLabel + 1;
+    cout << string(totalSpace + 2, '-');
+    cout << '|' << string(lenLabel, ' ') << "Flight Options" << string(lenFLabel, ' ') << '|' << endl;
+    cout << string(totalSpace + 2, '-');
+    for (auto &elem : flights) {
+        int aux = numAirports;
+        for (auto& airport : elem) {
+            cout << "| Code: " << airport->getName() << string(space1 - 10, ' ');
+            aux--;
+        }
+        while (aux != 0) {
+            cout << '|' << string (space1, ' ');
+            aux--;
+        }
+        cout << '|' << endl;
+        aux = numAirports;
+        for (auto& airport : elem) {
+            cout << "| Name: " << airport->getName() << string(space1 - 7 - airport->getName().length(), ' ');
+        }
+        while (aux != 0) {
+            cout << '|' << string (space1, ' ');
+            aux--;
+        }
+        cout << '|' << endl;
+    }
+}
+
 
 
 
