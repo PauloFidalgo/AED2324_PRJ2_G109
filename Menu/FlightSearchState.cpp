@@ -22,14 +22,13 @@ void FlightSearchState::displayMenu() {
     cout << "|                                                                                                      |" << endl;
     cout << "|      "<< origin << "                     Search by:                                                  |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                                     1 - Airline                                                      |" << endl;
-    cout << "|                                     2 - Airport                                                      |" << endl;
-    cout << "|                                     3 - City                                                         |" << endl;
-    cout << "|                                     4 - Country                                                      |" << endl;
-    cout << "|                                     5 - Coordinates ( Closest Airport )                              |" << endl;
-    cout << "|                                     6 - Coordinates ( 25 Km Range )                                  |" << endl;
-    cout << "|                                     7 - Coordinates ( 50 Km Range )                                  |" << endl;
-    cout << "|                                     8 - Coordinates ( 100 Km Range )                                 |" << endl;
+    cout << "|                                     1 - Airport                                                      |" << endl;
+    cout << "|                                     2 - City                                                         |" << endl;
+    cout << "|                                     3 - Country                                                      |" << endl;
+    cout << "|                                     4 - Coordinates ( Closest Airport )                              |" << endl;
+    cout << "|                                     5 - Coordinates ( 25 Km Range )                                  |" << endl;
+    cout << "|                                     6 - Coordinates ( 50 Km Range )                                  |" << endl;
+    cout << "|                                     7 - Coordinates ( 100 Km Range )                                 |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "| back - Go back                                                                                       |" << endl;
     cout << "| exit - Exit                                                                                          |" << endl;
@@ -56,29 +55,20 @@ State *FlightSearchState::handleInput() {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
             case 1:
-                std::cout << "Airline code or name " << (isSelectingFrom ? "From" : "To") << ": ";
-                if (isSelectingFrom) {
-                    fromArline = this->getValidAirline();
-                    isSelectingFrom = false;
-                    return this;
-                } else {
-                    fromArline = this->getValidAirline();
-                    auto* f = new FilterState(fromAirports, toAirports);
-                    return f;
-                }
-            case 2:
                 std::cout << "Airport code or name " << (isSelectingFrom ? "From" : "To") << ": ";
                 if (isSelectingFrom) {
                     fromCode = this->getValidAirport();
+                    fromAirports.push_back(fromCode);
                     isSelectingFrom = false;
                     return this;
                 } else {
                     fromCode = this->getValidAirport();
+                    toAirports.push_back(fromCode);
                     isSelectingFrom = true;
                     auto* f = new FilterState(fromAirports, toAirports);
                     return f;
                 }
-            case 3:
+            case 2:
                 std::cout << "City Name " << (isSelectingFrom ? "From" : "To") << ": ";
                 if (isSelectingFrom) {
                     fromAirports = this->getValidAirportsPerCity();
@@ -90,7 +80,7 @@ State *FlightSearchState::handleInput() {
                     auto* f = new FilterState(fromAirports, toAirports);
                     return f;
                 }
-            case 4:
+            case 3:
                 std::cout << "Country Name " << (isSelectingFrom ? "From" : "To") << ": ";
                 if (isSelectingFrom) {
                     fromAirports = this->getValidAirportsPerCountry();
@@ -102,7 +92,7 @@ State *FlightSearchState::handleInput() {
                     auto* f = new FilterState(fromAirports, toAirports);
                     return f;
                 }
-            case 5:
+            case 4:
                 std::cout << "Coordinates " << (isSelectingFrom ? "From" : "To") << ": ";
                 if (isSelectingFrom) {
                     fromCode = this->getValidAirportPerCoordinates();
@@ -114,7 +104,7 @@ State *FlightSearchState::handleInput() {
                     auto* f = new FilterState(fromAirports, toAirports);
                     return f;
                 }
-            case 6:
+            case 5:
                 std::cout << "Coordinates " << (isSelectingFrom ? "From" : "To") << ": ";
                 if (isSelectingFrom) {
                     fromAirports = this->getAirportsRange(25);
@@ -126,7 +116,7 @@ State *FlightSearchState::handleInput() {
                     auto* f = new FilterState(fromAirports, toAirports);
                     return f;
                 }
-            case 7:
+            case 6:
                 std::cout << "Coordinates " << (isSelectingFrom ? "From" : "To") << ": ";
                 if (isSelectingFrom) {
                     fromAirports = this->getAirportsRange(50);
@@ -138,7 +128,7 @@ State *FlightSearchState::handleInput() {
                     auto* f = new FilterState(fromAirports, toAirports);
                     return f;
                 }
-            case 8:
+            case 7:
                 std::cout << "Coordinates " << (isSelectingFrom ? "From" : "To") << ": ";
                 if (isSelectingFrom) {
                     fromAirports = this->getAirportsRange(100);
