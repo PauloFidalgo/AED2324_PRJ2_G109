@@ -1,7 +1,6 @@
 //
 // Created by Paulo Fidalgo on 30/11/2023.
 //
-
 #include "Manager.h"
 #include <iostream>
 #include <unordered_map>
@@ -174,6 +173,7 @@ bool Manager::dfsVisitBool(Vertex *v, Vertex *t) {
     }
     return false;
 }
+
 
 vector<Vertex*> Manager::airportsAtDistanceK(const string &source, int k) {
     for (auto &airport : connections.getVertexSet()) {
@@ -1452,33 +1452,37 @@ void allCombinations(map<int, vector<Airport*>>& cityCountry, vector<vector<Airp
 }
 
 void Manager::manageFlightSearchFromMenu(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
-    vector<vector<Airport *>> res;
-    vector<vector<Airport *>> trip;
+    vector<vector<Airport*>> res;
+    vector<vector<Airport*>> trip;
 
     if (!cityCountry.empty()) allCombinations(cityCountry, trip);
 
 
-    for (auto &from: source) {
-        for (auto &to: destination) {
+    for (auto &from : source) {
+        for (auto &to : destination) {
 
             if (!cityCountry.empty()) {
-                for (auto vis: trip) {
+                for (auto vis : trip) {
                     airporsToVisit.insert(airporsToVisit.end(), vis.begin(), vis.end());
-                    auto next = scheduleTripMinConnectionAirports(from, to, airporsToVisit, airportsToExclude,
-                                                                  airlinesToExclude, flyOnlyAirlines);
+                    auto next = scheduleTripMinConnectionAirports(from, to, airporsToVisit, airportsToExclude, airlinesToExclude, flyOnlyAirlines);
 
                     for (int i = 0; i < vis.size(); i++) airporsToVisit.pop_back();
 
                     res.insert(res.end(), next.begin(), next.end());
                 }
-            } else {
-                auto next = scheduleTripMinConnectionAirports(from, to, airporsToVisit, airportsToExclude,
-                                                              airlinesToExclude, flyOnlyAirlines);
+            }
+            else {
+                auto next = scheduleTripMinConnectionAirports(from, to, airporsToVisit, airportsToExclude, airlinesToExclude, flyOnlyAirlines);
                 res.insert(res.end(), next.begin(), next.end());
             }
         }
     }
+<<<<<<<<< Temporary merge branch 1
     Viewer::printFlightOptions(res);
+=========
+    
+    return res;
+>>>>>>>>> Temporary merge branch 2
 }
 
 void Manager::manageFlightSearchFromMenuMinDistance(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
@@ -1556,6 +1560,14 @@ unordered_map<string, int> Manager::inFlightsPerAirport(Airport* d) {
         }
     }
     return res;
+}
+
+vector<Airport*> Manager::getAirportsPerCity(const string& city) const {
+    auto it = cityAirports.find(city);
+
+    if (it != cityAirports.end()) return it->second;
+
+    return {};
 }
 
 unordered_set<string> Manager::getCitiesPerCountry(const string& c) const {
@@ -1918,6 +1930,7 @@ void Manager::findComponentDiameterPairs(Vertex *origin, vector<pair<Airport*, A
     }
 }
 
+
 void Manager::diameterPairs() const {
     vector<pair<Airport*, Airport*>> result;
     int maxDiameter = 0;
@@ -1925,7 +1938,6 @@ void Manager::diameterPairs() const {
     for (auto &elem : connections.getVertexSet()) {
         findComponentDiameterPairs(elem, result, maxDiameter);
     }
-
     Viewer::printDiameterPairs(result, maxDiameter);
 }
 auto comparatorAirportDesc = [](Airport *a, Airport *b) {
@@ -2160,7 +2172,12 @@ void Manager::getTopKAirportsAirlineTravelsTo(int k, Airline *airline, const boo
     for (auto &elem : connections.getVertexSet()) {
         for (auto &edge : elem->getAdj()) {
             if (edge.hasAirline(airline)) {
+<<<<<<<<< Temporary merge branch 1
                 airportNumFlights[edge.getDest()->getInfo()]++;
+=========
+                if (edge.getDest()->getInfo()->getName().length() > nameSize) nameSize = edge.getDest()->getInfo()->getName().length();
+                airportNumFlights[{edge.getDest()->getInfo()->getCode(),edge.getDest()->getInfo()->getName()}]++;
+>>>>>>>>> Temporary merge branch 2
             }
         }
     }
@@ -2264,6 +2281,7 @@ void Manager::listAirportsPerCountryCity(const vector<Airport *> &airportsCountr
     }
     Viewer::printListAirportsPerCountryCity(res, maxLengthName, countryCity);
 }
+
 string nameToLower(const string& word) {
     string res;
     for (auto& ch : word) {
