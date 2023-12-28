@@ -602,7 +602,7 @@ void Viewer::printTopKVector(const vector<pair<Airline *, int>> &airlines, const
     int space2 = label2.length() + 2 > 7 ? label2.length() + 2 : 7;
     int lenLabel2 = (space2 - label2.length()) / 2;
     int lenFLabel2 = (space2 - label2.length()) % 2 == 0 ? lenLabel2 : lenLabel2 + 1;
-    cout << string(space1 + space2 + 2, '-') << endl;
+    cout << string(space1 + space2 + 3, '-') << endl;
     cout << '|' << string(lenLabel1, ' ') << label1 << string (lenFLabel1, ' ') << '|' << string(lenLabel2, ' ') << label2 << string(lenFLabel2, ' ') << '|' << endl;
     cout << string(space1 + space2 + 3, '-') << endl;
     for (auto& elem : airlines) {
