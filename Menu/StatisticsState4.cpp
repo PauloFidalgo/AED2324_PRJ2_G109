@@ -71,18 +71,20 @@ State* StatisticsState4::handleInput() {
             }
             case 2: {
                 auto airports = getValidAirports();
+                auto dist = getValidAirportK();
                 barsState.displayMenu();
                 barsState.handleInput();
                 auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, true, true);
+                manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, bars, true);
+                return this;
             }
             case 3: {
-                //LOWEST
-                string country = getValidCountry();
-                vector<Airport *> airports = manager.getAirportsPerCountry(country);
-                int dist = getValidAirportK();
-
-                manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, false, false);
+                auto airports = getValidAirports();
+                auto dist = getValidAirportK();
+                barsState.displayMenu();
+                barsState.handleInput();
+                auto bars =barsState.shouldUseGraphicBar();
+                manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, bars, false);
                 return this;
             }
             case 4: {
