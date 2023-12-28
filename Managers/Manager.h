@@ -137,9 +137,8 @@ public:
     void getTopKAirlinesThatFlyMoreToAnAirport(int k, Airport *airport, const bool &bars = false, const bool& asc = false) const;
     void getTopKAirlinesThatFlyMoreToAnAirportRatio(int k, Airport *airport, const bool &bars = false, const bool& asc = false) const;
 
-    void listAiportsPerCountryCity(const vector<Airport *> &airportsCountry, const string &countryCity) const;
+    void listAirportsPerCountryCity(const vector<Airport *> &airportsCountry, const string &countryCity) const;
 
-    void listAiportsPerCountry(const vector<Airline *> &airportsCountry, const string &country) const;
 
 
     void searchAirportsByName(const string &airportName);
