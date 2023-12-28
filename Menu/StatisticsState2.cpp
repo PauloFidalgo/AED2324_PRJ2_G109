@@ -64,11 +64,11 @@ State* StatisticsState2::handleInput() {
         switch (userInput) {
             case 1: {
                 string city = getValidCity();
-                //manager.getNumFlightsPerCity(city);
+                manager.getNumFlightsPerCity(city);
                 return this;
             }
             case 2: {
-                Airport* airport = getValidAirport();
+                Airport* airport = getValidSingleAirport();
                 manager.getAirportDestinantionsDistance1(airport);
                 return this;
             }
@@ -76,7 +76,7 @@ State* StatisticsState2::handleInput() {
                 manager.getNumAirportsAndFlights();
                 return this;
             case 4: {
-                Airport* airport = getValidAirport();
+                Airport* airport = getValidSingleAirport();
                 manager.getAirportDestinantions(airport);
                 return this;
             }
