@@ -37,7 +37,6 @@ public:
     static void printAirlineGreatestTraffic(const vector<Airline *> &airlinesByTraffic, const int& nameSize);
     static void printCityGreatestTraffic(const vector<pair<string, int>> &citiesByTraffic, const int& nameSize);
     static void printCountryGreatestTraffic(const vector<pair<string, int>> &countriesByTraffic, const int& nameSize);
-    static void printTopKVector(const vector<pair<pair<string, string>, int>> &airports,const string &label1, const string &label2, const int &nameSize);
     static void printAirlinesPerAirport (const set<Airline *> &airlines, const int& nameSize);
     static void printListAirportsPerCountry(const vector<Airport *> &airports, const int &nameSize, const string &country);
     static void printSearchAirports(const vector<Airport *> &airports, const int &nameSize, const string &airportName);
@@ -48,8 +47,11 @@ public:
     static void printAirportGreatestTrafficBars(const vector<Airport *> &airportsByTraffic, const bool &asc);
     static void printAirlineGreatestTrafficBars(const vector<Airline *> &airlinesByTraffic, const bool &asc);
     static void printCityOrCountryGreatestTrafficBars(const vector<pair<string, int>> &traffic, const int &nameSize, const bool &asc);
-    static void printTopKVectorBars(const vector<pair<pair<string, string>, int>> &airportsOrAirlines, const bool &asc);
 
+    static void printTopKVector(const vector<pair<Airport *, int>> &airports,const string &label1, const string &label2, const int &nameSize);
+    static void printTopKVector(const vector<pair<Airline *, int>> &airlines,const string &label1, const string &label2, const int &nameSize);
+    static void printTopKVectorBars(const vector<pair<Airport *, int>> &airportsOrAirlines, const bool &asc);
+    static void printTopKVectorBars(const vector<pair<Airline *, int>> &airportsOrAirlines, const bool &asc);
     static void printTopKVectorRatio(const vector<pair<Airline *, double>> &airlines,const string &label1, const string &label2, const int &nameSize);
     static void printTopKVectorBarsRatio(const vector<pair<Airline *, double>> &airlines, const bool &asc);
 };
