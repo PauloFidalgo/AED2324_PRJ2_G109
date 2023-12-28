@@ -80,7 +80,7 @@ State* FilterState::handleInput() {
             break;
         case 13:
             manager.manageFlightSearchFromMenu(this->toAirports,this->fromAirports,airportsToVisit,cityCountry,excludedAirports,excludedAirlines,includedAirlines);
-            break;
+            return this;
         case 0:
             if(!State::stateHistory.empty()){
                 State* previousState = State::stateHistory.top();

@@ -626,8 +626,9 @@ vector<vector<Airport*>> Manager::bfsMinConnectionsExcludeAirports(Airport* s, A
         airport->setVisited(true);
     }
 
-    auto first = connections.findVertex(s);
-    auto last = connections.findVertex(t);
+
+    auto first = connections.findVertex(airports[s->getCode()]);
+    auto last = connections.findVertex(airports[t->getCode()]);
 
     queue<Vertex*> q;
     unordered_map<Vertex*, Vertex*> parent;
@@ -1078,6 +1079,8 @@ vector<vector<Airport*>> Manager::scheduleTripMinConnectionAirports(Airport* u, 
 
     vector<vector<Airport*>> lastLeg = bfsMinConnectionsExcludeAirports(start, v, exclude, airlinesToExclude, flyOnlyAirlines);
 
+    if (path.empty()) return lastLeg;
+
     vector<vector<Airport *>> re;
     for (auto &pa: path) {
         for (auto &trip: lastLeg) {
@@ -1465,7 +1468,8 @@ void allCombinations(map<int, vector<Airport*>>& cityCountry, vector<vector<Airp
 vector<vector<Airport*>> Manager::manageFlightSearchFromMenu(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
     vector<vector<Airport*>> res;
     vector<vector<Airport*>> trip;
-    allCombinations(cityCountry, trip);
+
+    if (!cityCountry.empty()) allCombinations(cityCountry, trip);
 
 
     for (auto &from : source) {
@@ -1487,6 +1491,7 @@ vector<vector<Airport*>> Manager::manageFlightSearchFromMenu(vector<Airport*> &s
             }
         }
     }
+    
     return res;
 }
 

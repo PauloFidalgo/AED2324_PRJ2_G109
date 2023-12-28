@@ -74,6 +74,7 @@ State* StatisticsState4::handleInput() {
                 barsState.displayMenu();
                 barsState.handleInput();
                 auto bars =barsState.shouldUseGraphicBar();
+                int dist = getValidAirportK();
                 manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, true, true);
             }
             case 3: {
