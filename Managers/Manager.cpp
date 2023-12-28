@@ -1429,7 +1429,7 @@ void allCombinations(map<int, vector<Airport*>>& cityCountry, vector<vector<Airp
     combinationalHelper(it, next, cityCountry, res, path);
 }
 
-vector<vector<Airport*>> Manager::manageFlightSearchFromMenu(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
+void Manager::manageFlightSearchFromMenu(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
     vector<vector<Airport*>> res;
     vector<vector<Airport*>> trip;
     allCombinations(cityCountry, trip);
@@ -1454,10 +1454,10 @@ vector<vector<Airport*>> Manager::manageFlightSearchFromMenu(vector<Airport*> &s
             }
         }
     }
-    return res;
+    Viewer::printFlightOptions(res);
 }
 
-vector<vector<Airport*>> Manager::manageFlightSearchFromMenuMinDistance(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
+void Manager::manageFlightSearchFromMenuMinDistance(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
     vector<vector<Airport*>> res;
     vector<vector<Airport*>> trip;
     allCombinations(cityCountry, trip);
@@ -1482,7 +1482,7 @@ vector<vector<Airport*>> Manager::manageFlightSearchFromMenuMinDistance(vector<A
             }
         }
     }
-    return res;
+    Viewer::printFlightOptions(res);
 }
 
 unordered_map<string, int> Manager::outFlightsPerAirport(Airport* s) {
