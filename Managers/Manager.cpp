@@ -779,6 +779,76 @@ vector<vector<Airport*>> Manager::bfsMinConnectionsExcludeAirports(Airport* s, A
     return result;
 }
 
+vector<Airport*> Manager::minimizeDistace(Airport* u, Airport* v, const vector<Airport*> &excludedAirports, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines) {
+    unordered_map<Vertex*, int> distances;
+    for (Vertex* vertex : connections.getVertexSet()) {
+        distances[vertex] = numeric_limits<int>::max();
+        vertex->setVisited(false);
+    }
+
+    for (auto air : excludedAirports) {
+        connections.findVertex(air)->setVisited(true);
+    }
+
+    priority_queue<pair<int, Vertex*>, vector<pair<int, Vertex*>>, greater<>> pq;
+
+
+    Vertex* sourceAirport = connections.findVertex(u);
+    Vertex* targetAirportPerCode = connections.findVertex(v);
+
+
+    if (!sourceAirport || !targetAirportPerCode) {
+        cerr << "Source or target airport not found." << endl;
+        return {};
+    }
+
+    distances[sourceAirport] = 0;
+    pq.emplace(0, sourceAirport);
+
+    unordered_map<Vertex*, Vertex*> parent;
+
+    while (!pq.empty()) {
+        Vertex* current = pq.top().second;
+        int currentDistance = pq.top().first;
+        pq.pop();
+
+        if (currentDistance > distances[current]) {
+            continue;
+        }
+
+        for (Edge& flight : current->getAdj()) {
+            Vertex* neighbor = flight.getDest();
+
+            if (flyOnlyAirlines.empty()) {
+                if (flyOnlyAirlines.empty() && (airlinesToExclude.empty() || hasOtherAirline(flight,airlinesToExclude)) || (!flyOnlyAirlines.empty() &&
+                hasAirline(flight, flyOnlyAirlines))) {
+                    if (!neighbor->isVisited()) {
+                        int weight = flight.getWeight();
+
+                        int newDistance = currentDistance + weight;
+
+                        if (newDistance < distances[neighbor]) {
+                            distances[neighbor] = newDistance;
+                            pq.emplace(newDistance, neighbor);
+                            parent[neighbor] = current;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    vector<Airport*> path;
+    Vertex* current = targetAirportPerCode;
+
+    while (current != nullptr) {
+        path.insert(path.begin(), current->getInfo());
+        current = parent[current];
+    }
+
+    return path;
+}
+
 
 vector<Airport*> Manager::findShortestPath(Airport* u, Airport* v) {
     unordered_map<Vertex*, int> distances;
@@ -921,6 +991,33 @@ vector<Airport*> Manager::scheduleTripMinDistance(Airport* u, Airport* v, vector
     for (auto &c : min_dist) {
         if (std::find(res.begin(), res.end(),c) == res.end())
         res.push_back(c);
+    }
+
+    return res;
+}
+
+vector<Airport*> Manager::scheduleTripMinDistance(Airport* &source, Airport* &destination, vector<Airport*> &airporsToVisit, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
+
+    vector<Airport*> res;
+
+    auto first = source;
+
+    for (auto &country : airporsToVisit) {
+        auto min_dist = findShortestPathExclude(first, country, airportsToExclude, airlinesToExclude, flyOnlyAirlines);
+
+        for (auto &c : min_dist) {
+            if (std::find(res.begin(), res.end(),c) == res.end())
+                res.push_back(c);
+        }
+
+        first = country;
+    }
+
+    auto min_dist = findShortestPathExclude(first, destination, airportsToExclude, airlinesToExclude, flyOnlyAirlines);
+
+    for (auto &c : min_dist) {
+        if (std::find(res.begin(), res.end(),c) == res.end())
+            res.push_back(c);
     }
 
     return res;
@@ -1159,6 +1256,83 @@ vector<Airport*> Manager::findShortestPathExcludeCountries(Airport* u, Airport* 
     return path;
 }
 
+vector<Airport*> Manager::findShortestPathExclude(Airport* u, Airport* v, vector<Airport*> &airpExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
+    unordered_map<Vertex*, int> distances;
+
+    for (auto &node : connections.getVertexSet()) {
+        distances[node] = numeric_limits<int>::max();
+        node->setVisited(false);
+    }
+
+    for (auto a : airpExclude)
+    {
+        auto p = connections.findVertex(a);
+        p->setVisited(true);
+    }
+
+    auto depart = connections.findVertex(u);
+    auto arrival = connections.findVertex(v);
+
+
+    priority_queue<pair<int, Vertex*>, vector<pair<int, Vertex*>>, greater<>> pq;
+
+
+    Vertex* sourceAirport = connections.findVertex(u);
+    Vertex* targetAirportPerCode = connections.findVertex(v);
+
+
+    if (!sourceAirport || !targetAirportPerCode) {
+        cerr << "Source or target airport not found." << endl;
+        return {};
+    }
+
+    distances[sourceAirport] = 0;
+    pq.emplace(0, sourceAirport);
+
+    unordered_map<Vertex*, Vertex*> parent;
+
+    while (!pq.empty()) {
+        Vertex* current = pq.top().second;
+        int currentDistance = pq.top().first;
+        pq.pop();
+
+        if (currentDistance > distances[current]) {
+            continue;
+        }
+
+        for (Edge& flight : current->getAdj()) {
+            Vertex* neighbor = flight.getDest();
+
+            if (flyOnlyAirlines.empty()) {
+                if (flyOnlyAirlines.empty() && (airlinesToExclude.empty() || hasOtherAirline(flight,airlinesToExclude)) || (!flyOnlyAirlines.empty() &&
+                                                                                                                            hasAirline(flight, flyOnlyAirlines))) {
+                    if (!neighbor->isVisited()) {
+                        int weight = flight.getWeight();
+
+                        int newDistance = currentDistance + weight;
+
+                        if (newDistance < distances[neighbor]) {
+                            distances[neighbor] = newDistance;
+                            pq.emplace(newDistance, neighbor);
+                            parent[neighbor] = current;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    vector<Airport*> path;
+    Vertex* current = targetAirportPerCode;
+
+    while (current != nullptr) {
+        path.insert(path.begin(), current->getInfo());
+        current = parent[current];
+    }
+
+    return path;
+}
+
 vector<vector<Airport*>> Manager::findMinConnectionsExcludeCountries(Airport* s, Airport* t, vector<string> &countries) {
     for (auto node : connections.getVertexSet()) {
         if (excludeCountries(node, countries)) {
@@ -1354,23 +1528,84 @@ vector<vector<Airport*>> Manager::findMinConnectionsExcludeAirports(Airport* s, 
     return result;
 }
 
-vector<vector<Airport*>> Manager::manageFlightSearchFromMenu(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, vector<Airport*> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
+void combinationalHelper(map<int, vector<Airport*>>::iterator &current, map<int, vector<Airport*>>::iterator &next, map<int, vector<Airport*>>& cityCountry, vector<vector<Airport*>>& res, vector<Airport*>& path) {
+
+    if (next == cityCountry.end()) {
+        for (auto &po : current->second) {
+            path.push_back(po);
+            res.push_back(path);
+            path.pop_back();
+        }
+    }
+    else {
+        auto nnext = cityCountry.find(next->first);
+        nnext++;
+        for (auto &po : current->second) {
+            path.push_back(po);
+            combinationalHelper(next, nnext, cityCountry, res, path);
+            path.pop_back();
+        }
+    }
+}
+
+
+void allCombinations(map<int, vector<Airport*>>& cityCountry, vector<vector<Airport*>>& res) {
+    vector<Airport*> path;
+    auto it = cityCountry.begin();
+    auto next = std::next(it);
+    combinationalHelper(it, next, cityCountry, res, path);
+}
+
+vector<vector<Airport*>> Manager::manageFlightSearchFromMenu(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
     vector<vector<Airport*>> res;
+    vector<vector<Airport*>> trip;
+    allCombinations(cityCountry, trip);
+
 
     for (auto &from : source) {
         for (auto &to : destination) {
 
             if (!cityCountry.empty()) {
-                for (auto vis : cityCountry) {
-                    airporsToVisit.push_back(vis);
+                for (auto vis : trip) {
+                    airporsToVisit.insert(airporsToVisit.end(), vis.begin(), vis.end());
                     auto next = scheduleTripMinConnectionAirports(from, to, airporsToVisit, airportsToExclude, airlinesToExclude, flyOnlyAirlines);
-                    airporsToVisit.pop_back();
+
+                    for (int i = 0; i < vis.size(); i++) airporsToVisit.pop_back();
+
                     res.insert(res.end(), next.begin(), next.end());
                 }
             }
             else {
                 auto next = scheduleTripMinConnectionAirports(from, to, airporsToVisit, airportsToExclude, airlinesToExclude, flyOnlyAirlines);
                 res.insert(res.end(), next.begin(), next.end());
+            }
+        }
+    }
+    return res;
+}
+
+vector<vector<Airport*>> Manager::manageFlightSearchFromMenuMinDistance(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
+    vector<vector<Airport*>> res;
+    vector<vector<Airport*>> trip;
+    allCombinations(cityCountry, trip);
+
+
+    for (auto &from : source) {
+        for (auto &to : destination) {
+
+            if (!cityCountry.empty()) {
+                for (auto vis : trip) {
+                    airporsToVisit.insert(airporsToVisit.end(), vis.begin(), vis.end());
+                    auto next = scheduleTripMinDistance(from, to, airporsToVisit, airportsToExclude, airlinesToExclude, flyOnlyAirlines);
+
+                    for (int i = 0; i < vis.size(); i++) airporsToVisit.pop_back();
+
+                    res.push_back(next);
+                }
+            }
+            else {
+                auto next = scheduleTripMinDistance(from, to, airporsToVisit, airportsToExclude, airlinesToExclude, flyOnlyAirlines);
+                res.push_back(next);
             }
         }
     }

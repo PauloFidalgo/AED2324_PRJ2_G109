@@ -13,12 +13,18 @@ int main() {
 
     vector<Airport*> porks = {m.getAirportPerCode("OPO")};
     vector<Airport*> pork = {m.getAirportPerCode("LIS")};
-    vector<Airport*> por = {m.getAiportsPerCity("Johannesburg")};
+    vector<Airport*> por = {m.getAiportsPerCity("Madrid")};
+    vector<Airport*> por2 = {m.getAiportsPerCity("Brussels")};
+    vector<Airport*> por3 = {m.getAirportsPerCountry("Germany")};
+    map<int, vector<Airport*>> re;
+    re.insert({1, por});
+    re.insert({2, por2});
+    re.insert({3, por3});
     vector<Airport*> nul = {};
     vector<Airport*> nul2 = {m.getAirportPerCode("GRU"), m.getAirportPerCode("FRA"), m.getAirportPerCode("MUC")};
     unordered_set<Airline*> nul24 = {};
 
-    auto mo = m.manageFlightSearchFromMenu(porks, pork, nul, por, nul2, nul24);
+    auto mo = m.manageFlightSearchFromMenu(porks, pork, nul, re, nul2, nul24, nul24);
 
     /*
     for (auto &v : res) {
