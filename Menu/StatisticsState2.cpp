@@ -63,7 +63,7 @@ State* StatisticsState2::handleInput() {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
             case 1: {
-                string city = getValidCity();
+                string city = getValidSingleCity();
                 manager.getNumFlightsPerCity(city);
                 return this;
             }
@@ -81,7 +81,7 @@ State* StatisticsState2::handleInput() {
                 return this;
             }
             case 5: {
-                string city = this->getValidCity();
+                string city = getValidSingleCity();
                 vector<Airport*> airports = manager.getAirportsPerCity(city);
                 manager.getCityDestinantions(airports,city);
                 return this;

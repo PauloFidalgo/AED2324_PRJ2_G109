@@ -100,26 +100,9 @@ State* StatisticsState4::handleInput() {
                 return this;
             }
             case 6: {
-                string answer;
-                cout << "Do you want the airports per country or city? ";
-                cin >> answer;
-                if(answer == "country"){
-                    string country = getValidCountry();
-                    auto airports = manager.getAirportsPerCountry(country);
-                    manager.listAirportsPerCountryCity(airports,country) ;
-                }
-                else{
-                    if(answer == "city"){
-                        string city = getValidCity();
-                        auto airports = manager.getAirportsPerCity(city);
-                        manager.listAirportsPerCountryCity(airports,city) ;
-                    }
-                    else{
-                        cout<< "Can only be country or city. Try again";
-                        return this;
-                    }
-                }
-
+                string country = getValidCountry();
+                auto airports = manager.getAirportsPerCountry(country);
+                manager.listAirportsPerCountryCity(airports, country);
                 return this;
             }
             default:

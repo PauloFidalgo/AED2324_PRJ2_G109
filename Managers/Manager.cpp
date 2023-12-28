@@ -1,6 +1,7 @@
 //
 // Created by Paulo Fidalgo on 30/11/2023.
 //
+
 #include "Manager.h"
 #include <iostream>
 #include <unordered_map>
@@ -86,7 +87,25 @@ Airline* Manager::getAirlinePerName(const std::string &name) const {
     return nullptr;
 }
 
-vector<Airport*> Manager::getAirportsPerCity(const string& city) const {
+vector<Airport*> Manager::getAirportsPerCountry(const string &c) {
+    auto cities = this->getCitiesPerCountry(c);
+
+    vector<Airport*> res;
+
+    if (!cities.empty()) {
+        for (auto &city : cities) {
+            auto air = this->getAirportsPerCity(city);
+
+            if (!air.empty()) {
+                res.insert(res.end(), make_move_iterator(air.begin()), make_move_iterator(air.end()));
+            }
+        }
+    }
+
+    return res;
+}
+
+vector<Airport*> Manager::getAiportsPerCity(const string& city) const {
     auto it = cityAirports.find(city);
 
     if (it != cityAirports.end()) return it->second;
@@ -467,7 +486,6 @@ void Manager::getNumFlightsPerCity(const string &city) const {
     }
     Viewer::printNumFlightsPerCity(city, numFlights);
 }
-
 
 void Manager::getNumFlightsPerAirline(Airline *airline) const {
     int numFlights = airline->getNumFlights();
@@ -1473,18 +1491,13 @@ void Manager::manageFlightSearchFromMenu(vector<Airport*> &source, vector<Airpor
             }
         }
     }
-<<<<<<<<< Temporary merge branch 1
     Viewer::printFlightOptions(res);
-=========
-    
-    return res;
->>>>>>>>> Temporary merge branch 2
 }
 
 void Manager::manageFlightSearchFromMenuMinDistance(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
     vector<vector<Airport*>> res;
     vector<vector<Airport*>> trip;
-    allCombinations(cityCountry, trip);
+    if (!cityCountry.empty()) allCombinations(cityCountry, trip);
 
 
     for (auto &from : source) {
@@ -2168,12 +2181,7 @@ void Manager::getTopKAirportsAirlineTravelsTo(int k, Airline *airline, const boo
     for (auto &elem : connections.getVertexSet()) {
         for (auto &edge : elem->getAdj()) {
             if (edge.hasAirline(airline)) {
-<<<<<<<<< Temporary merge branch 1
                 airportNumFlights[edge.getDest()->getInfo()]++;
-=========
-                if (edge.getDest()->getInfo()->getName().length() > nameSize) nameSize = edge.getDest()->getInfo()->getName().length();
-                airportNumFlights[{edge.getDest()->getInfo()->getCode(),edge.getDest()->getInfo()->getName()}]++;
->>>>>>>>> Temporary merge branch 2
             }
         }
     }

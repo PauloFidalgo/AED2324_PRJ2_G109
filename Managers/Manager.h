@@ -35,7 +35,6 @@ public:
     Manager();
     unordered_map<string, Airline*> getAirlines();
     unordered_map<string, Airport*> getAirports();
-
     Airport* getAirportPerCode(const string &code) const;
     vector<Airport*> validateCountry(const string &country) const;
     unordered_set<Airline*> getAirlinesPerCountry(const string& country);
@@ -67,14 +66,16 @@ public:
     void dfsVisit(Vertex *v, Vertex *t, vector<Airport> &flights);
     bool hasPath(Vertex *v, Vertex *t, vector<Airport> &flights);
     vector<Airport> pathExists(Airport *d, Airport *t);
-    void findComponentDiameterPairs(Vertex *origin, vector<pair<Airport*, Airport*>> &result, int &i) const;
+
     vector<Vertex*> airportsAtDistanceK(Airport *source, int k);
     void articulationPoints();
     void dfsApp(Vertex *v, stack<Airport> &s, vector<Airport> &res, int &i);
-
+    vector<Airport*> getAirportsPerCountry(const string &c);
+    vector<Airport*> getAiportsPerCity(const string& city) const;
 
     vector<vector<Airport*>> scc();
-
+    unordered_set<string> getCitiesPerCountry(const string& c) const;
+    bool hasConnection(const string &s, const string &t);
     bool dfsVisitBool(Vertex *v, Vertex *t);
     vector<Airport*> hasFlightAirline(Airport *source, Airport *target, vector<Airline*> &setOfAirlines);
     void dfsScc(Vertex *v, stack<Airport*> &s, vector<vector<Airport*>> &res, int &i);
@@ -103,7 +104,6 @@ public:
 
     void getNumFlightsPerAirline(Airline *airline) const;
 
-
     void getCountriesCanFlyToAirport(Airport *airport) const;
 
     void getCountriesCanFlyToCity(const string &city) const;
@@ -122,7 +122,7 @@ public:
 
     void diameterPairs() const;
 
-    void findComponentDiameterPairs(Vertex *origin, vector<pair<Airport, Airport>> &result, int &i) const;
+    void findComponentDiameterPairs(Vertex *origin, vector<pair<Airport*, Airport*>> &result, int &i) const;
 
     void getTopKGreatestTrafficAirport(int k, const bool &bars = false, const bool& asc = false) const;
     void getTopKGreatestTrafficCity(int k, const bool &bars = false, const bool& asc = false) const;
@@ -156,9 +156,7 @@ public:
 
     void listAirlinesPerAirport(Airport *airport);
 
-
-    unordered_set<string> getCitiesPerCountry(const string &c) const;
-};
+    };
 
 
 #endif //AED2324_PRJ2_G109_MANAGER_H

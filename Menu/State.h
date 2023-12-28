@@ -29,9 +29,10 @@ public:
     string getValidCountry();
     int getValidAirportK();
     Airport* getValidAirportPerCoordinates();
-    Airline* getValidSingleAirline();
+    Airport* getValidSingleAirport();
     map<int,vector<Airport*>> getValidAirportsPerCities();
-
+    string getValidSingleCountry();
+    string getValidSingleCity();
     map<int,vector<Airport*>> getValidAirportsPerCountries();
     vector<Airport*> getValidAirportsPerCity();
     vector<Airport*> getValidAirportsPerCountry();
@@ -44,7 +45,7 @@ public:
     int getValidCountryK();
     int getValidAirlineK();
 
-    Airport *getValidSingleAirport();
+    Airline *getValidSingleAirline();
 };
 
 
