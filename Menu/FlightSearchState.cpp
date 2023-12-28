@@ -9,8 +9,6 @@
 #include <sstream>
 #include "CoordinatesFilterState.h"
 
-FilterState filterState;
-
 
 using namespace std;
 
@@ -61,14 +59,12 @@ State *FlightSearchState::handleInput() {
                 std::cout << "Airline code or name " << (isSelectingFrom ? "From" : "To") << ": ";
                 if (isSelectingFrom) {
                     fromArline = this->getValidAirline();
-                    filterState.getFromAirline().insert(fromArline);
                     isSelectingFrom = false;
                     return this;
                 } else {
                     fromArline = this->getValidAirline();
-                    filterState.getToAirline().insert(toAirline);
-                    isSelectingFrom = true;
-                    return &filterState;
+                    auto* f = new FilterState(fromAirports, toAirports);
+                    return f;
                 }
             case 2:
                 std::cout << "Airport code or name " << (isSelectingFrom ? "From" : "To") << ": ";
@@ -79,10 +75,8 @@ State *FlightSearchState::handleInput() {
                 } else {
                     fromCode = this->getValidAirport();
                     isSelectingFrom = true;
-                    filterState.setFrom(fromCode);
-                    filterState.setTo(toCode);
-
-                    return &filterState;
+                    auto* f = new FilterState(fromAirports, toAirports);
+                    return f;
                 }
             case 3:
                 std::cout << "City Name " << (isSelectingFrom ? "From" : "To") << ": ";
@@ -93,10 +87,8 @@ State *FlightSearchState::handleInput() {
                 } else {
                     toAirports = this->getValidAirportsPerCity();
                     isSelectingFrom = true;
-                    filterState.setFrom(fromCode);
-                    filterState.setTo(toCode);
-
-                    return &filterState;
+                    auto* f = new FilterState(fromAirports, toAirports);
+                    return f;
                 }
             case 4:
                 std::cout << "Country Name " << (isSelectingFrom ? "From" : "To") << ": ";
@@ -107,10 +99,8 @@ State *FlightSearchState::handleInput() {
                 } else {
                     toAirports = this->getValidAirportsPerCountry();
                     isSelectingFrom = true;
-                    filterState.setFrom(fromAirports);
-                    filterState.setTo(toAirports);
-
-                    return &filterState;
+                    auto* f = new FilterState(fromAirports, toAirports);
+                    return f;
                 }
             case 5:
                 std::cout << "Coordinates " << (isSelectingFrom ? "From" : "To") << ": ";
@@ -121,10 +111,8 @@ State *FlightSearchState::handleInput() {
                 } else {
                     toCode = this->getValidAirportPerCoordinates();
                     isSelectingFrom = true;
-                    filterState.setFrom(fromCode);
-                    filterState.setTo(toCode);
-
-                    return &filterState;
+                    auto* f = new FilterState(fromAirports, toAirports);
+                    return f;
                 }
             case 6:
                 std::cout << "Coordinates " << (isSelectingFrom ? "From" : "To") << ": ";
@@ -135,10 +123,8 @@ State *FlightSearchState::handleInput() {
                 } else {
                     toAirports = this->getAirportsRange(25);
                     isSelectingFrom = true;
-                    filterState.setFrom(fromAirports);
-                    filterState.setTo(toAirports);
-
-                    return &filterState;
+                    auto* f = new FilterState(fromAirports, toAirports);
+                    return f;
                 }
             case 7:
                 std::cout << "Coordinates " << (isSelectingFrom ? "From" : "To") << ": ";
@@ -149,10 +135,8 @@ State *FlightSearchState::handleInput() {
                 } else {
                     toAirports = this->getAirportsRange(50);
                     isSelectingFrom = true;
-                    filterState.setFrom(fromAirports);
-                    filterState.setTo(toAirports);
-
-                    return &filterState;
+                    auto* f = new FilterState(fromAirports, toAirports);
+                    return f;
                 }
             case 8:
                 std::cout << "Coordinates " << (isSelectingFrom ? "From" : "To") << ": ";
@@ -163,10 +147,8 @@ State *FlightSearchState::handleInput() {
                 } else {
                     toAirports = this->getAirportsRange(100);
                     isSelectingFrom = true;
-                    filterState.setFrom(fromAirports);
-                    filterState.setTo(toAirports);
-
-                    return &filterState;
+                    auto* f = new FilterState(fromAirports, toAirports);
+                    return f;
                 }
             case 0:
                 if (!State::stateHistory.empty()) {

@@ -7,8 +7,9 @@
 #include "FlightSearchState.h"
 
 using namespace std;
-FilterState::FilterState() {
-
+FilterState::FilterState(vector<Airport*> &from, vector<Airport*> &to) {
+    fromAirports = from;
+    toAirports = to;
 }
 void FilterState::setFrom( Airport* fromAirport) {
     this->fromAirport = fromAirport;

@@ -70,15 +70,12 @@ public:
     vector<Vertex*> airportsAtDistanceK(Airport *source, int k);
     void articulationPoints();
     void dfsApp(Vertex *v, stack<Airport> &s, vector<Airport> &res, int &i);
+    vector<Airport*> getAirportsPerCountry(const string &c);
+    vector<Airport*> getAiportsPerCity(const string& city) const;
 
-    void dfsApp(Vertex *v, stack<Airport*> &s, vector<Airport*> &res, int &i);
     vector<vector<Airport*>> scc();
-    bool hasConnection(Airport* s, Airport* t);
     unordered_set<string> getCitiesPerCountry(const string& c) const;
-    vector<Airport*> getAirportsPerCountry(const string &c) const;
-    vector<vector<Airport*>> scc();
     bool hasConnection(const string &s, const string &t);
-    vector<Airport*> getAirportsPerCity(const string& city) const;
     bool dfsVisitBool(Vertex *v, Vertex *t);
     vector<Airport*> hasFlightAirline(Airport *source, Airport *target, vector<Airline*> &setOfAirlines);
     void dfsScc(Vertex *v, stack<Airport*> &s, vector<vector<Airport*>> &res, int &i);
@@ -125,7 +122,7 @@ public:
 
     void diameterPairs() const;
 
-    void findComponentDiameterPairs(Vertex *origin, vector<pair<Airport, Airport>> &result, int &i) const;
+    void findComponentDiameterPairs(Vertex *origin, vector<pair<Airport*, Airport*>> &result, int &i) const;
 
     void getTopKGreatestTrafficAirport(int k, const bool &bars = false, const bool& asc = false) const;
     void getTopKGreatestTrafficCity(int k, const bool &bars = false, const bool& asc = false) const;

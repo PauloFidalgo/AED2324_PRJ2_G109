@@ -94,7 +94,7 @@ vector<Airport*> Manager::getAirportsPerCountry(const string &c) {
 
     if (!cities.empty()) {
         for (auto &city : cities) {
-            auto air = this->getAiportsPerCity(city);
+            auto air = this->getAirportsPerCity(city);
 
             if (!air.empty()) {
                 res.insert(res.end(), make_move_iterator(air.begin()), make_move_iterator(air.end()));

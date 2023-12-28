@@ -102,7 +102,7 @@ State* StatisticsState4::handleInput() {
             case 6: {
                 string country = getValidCountry();
                 auto airports = manager.getAirportsPerCountry(country);
-                manager.listAiportsPerCountry(airports, country);
+                manager.listAirportsPerCountryCity(airports, country);
                 return this;
             }
             default:

@@ -27,7 +27,7 @@ private:
     vector<string> excludedCountries;
 public:
     // Constructor
-    FilterState();
+    FilterState(vector<Airport*> &from, vector<Airport*> &to);
 
     // Setters
     void setFrom( Airport* fromAirport);
