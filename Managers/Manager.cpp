@@ -1183,15 +1183,11 @@ vector<Airport*> Manager::findShortestPathExclude(Airport* u, Airport* v, vector
         p->setVisited(true);
     }
 
-    auto depart = connections.findVertex(u);
-    auto arrival = connections.findVertex(v);
+    auto sourceAirport = connections.findVertex(getAirportPerCode(u->getCode()));
+    auto targetAirportPerCode = connections.findVertex(getAirportPerCode(v->getCode()));
 
 
     priority_queue<pair<int, Vertex*>, vector<pair<int, Vertex*>>, greater<>> pq;
-
-
-    Vertex* sourceAirport = connections.findVertex(u);
-    Vertex* targetAirportPerCode = connections.findVertex(v);
 
 
     if (!sourceAirport || !targetAirportPerCode) {

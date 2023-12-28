@@ -24,15 +24,13 @@ Airport* State::getValidAirport() {
     do {
         cout << "Airport: ";
         cin >> code;
-        if(code == "done"){
-            return nullptr;
-        }
         airportCode = manager.getAirportPerCode(code);
         airportName = manager.getAirportPerName(code);
+
         if (!airportCode and !airportName) {
             cout << "Airport doesn't exist. Try again." << endl;
         }
-    } while (!!airportCode and !airportName);
+    } while (!airportCode && !airportName);
     return (airportCode) ? airportCode : airportName;
 }
 

@@ -79,8 +79,23 @@ State* FilterState::handleInput() {
         case 10:
             this->includeCountries();
             break;
+        case 12:
+            manager.manageFlightSearchFromMenuMinDistance(this->toAirports,this->fromAirports,airportsToVisit,cityCountry,excludedAirports,excludedAirlines,includedAirlines);
+            toAirports.clear();
+            fromAirports.clear();
+            airportsToVisit.clear();
+            cityCountry.clear();
+            excludedAirports.clear();
+            includedAirlines.clear();
+            return this;
         case 13:
             manager.manageFlightSearchFromMenu(this->toAirports,this->fromAirports,airportsToVisit,cityCountry,excludedAirports,excludedAirlines,includedAirlines);
+            toAirports.clear();
+            fromAirports.clear();
+            airportsToVisit.clear();
+            cityCountry.clear();
+            excludedAirports.clear();
+            includedAirlines.clear();
             return this;
         case 0:
             if(!State::stateHistory.empty()){
