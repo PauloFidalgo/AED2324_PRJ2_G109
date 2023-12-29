@@ -39,23 +39,26 @@ Airport* State::getValidAirport() {
     }
 }
 
+
 Airport* State::getValidSingleAirport() {
     Airport* airportCode;
     Airport* airportName;
+
     do {
-        cout << "Airport ( type ok when done ): ";
+        cout << "Airport: ";
         cin >> code;
-        if(code == "ok"){
-            return nullptr;
-        }
+
         airportCode = manager.getAirportPerCode(code);
         airportName = manager.getAirportPerName(code);
-        if (!airportCode and !airportName) {
+
+        if (!airportCode && !airportName) {
             cout << "Airport doesn't exist. Try again." << endl;
         }
-    } while (airportCode != nullptr and airportName == nullptr);
+    } while (!airportCode && !airportName);
+
     return (airportCode) ? airportCode : airportName;
 }
+
 
 Airline* State::getValidAirline() {
     Airline *airlineCode;
@@ -92,7 +95,7 @@ Airline* State::getValidSingleAirline() {
     return (airlineCode) ? airlineCode : airlineName;
 }
 
-string State::getValidSingleCity() {
+string State::getValidCity() {
     string city;
     while (code != "ok") {
         do {
@@ -109,12 +112,11 @@ string State::getValidSingleCity() {
     }
 }
 
-string State::getValidCity() {
+string State::getValidSingleCity() {
     string city;
     do {
         cout << "City: ";
         cin >> city;
-
         if (!manager.validateCityName(city)) {
             cout << "City doesn't exist. Try again." << endl;
         }
@@ -127,9 +129,6 @@ string State::getValidSingleCountry() {
     do {
         cout << "Country: ";
         cin >> code;
-        if(code == "done"){
-            return "";
-        }
         if (!manager.validateCountryName(code)) {
             cout << "Country doesn't exist. Try again." << endl;
         }
