@@ -621,6 +621,11 @@ void Viewer::printTopKVector(const vector<pair<Airline *, int>> &airlines, const
 }
 
 void Viewer::printFlightOptions(const vector<vector<Airport *>> &flights) {
+    if (flights.empty()) {
+        cout << "There are no flight meeting that criteria" << endl;
+        return;
+    }
+
     vector<vector<Airport *>> sortedFlights = flights;
     std::sort(sortedFlights.begin(), sortedFlights.end(), [](const auto& a, const auto& b) {return a.size() < b.size();});
     int numAirports = sortedFlights.back().size();

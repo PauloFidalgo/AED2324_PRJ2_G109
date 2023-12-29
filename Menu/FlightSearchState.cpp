@@ -66,8 +66,8 @@ State *FlightSearchState::handleInput() {
                 } else {
                     fromCode = this->getValidSingleAirport();
                     toAirports.push_back(fromCode);
-                    isSelectingFrom = true;
                     validateToAirports();
+                    isSelectingFrom = true;
                     if (!fromAirports.empty() && !toAirports.empty()) {
                         auto* f = new FilterState(fromAirports, toAirports);
                         return f;
@@ -208,6 +208,18 @@ State *FlightSearchState::handleInput() {
 void FlightSearchState::validateToAirports() {
     vector<Airport*> res;
 
+    if (fromAirports.size() == 1 && toAirports.size() == 1) {
+        auto it = fromAirports.begin();
+        auto n = toAirports.begin();
+
+        Airport* a = *it;
+        Airport* b = *n;
+
+        if (a->getCode() == b->getCode()) {
+            toAirports = {};
+        }
+    }
+    /*
     for (auto &t : toAirports) {
         bool found = false;
         for (auto &f : fromAirports) {
@@ -215,5 +227,5 @@ void FlightSearchState::validateToAirports() {
         }
         if (!found) res.push_back(t);
     }
-    toAirports = res;
+    toAirports = res;*/
 }
