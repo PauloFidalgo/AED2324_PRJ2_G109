@@ -1,22 +1,21 @@
 //
-// Created by Wagner Pedrosa on 28/12/2023.
+// Created by Wagner Pedrosa on 29/12/2023.
 //
 
-#include "StatisticsState5.h"
-#include "StatisticsState6.h"
+#include "StatisticsState7.h"
 #include "BarsState.h"
 #include "iostream"
 #include "sstream"
 
 using namespace std;
-StatisticsState5 statisticsState5;
+StatisticsState7 statisticsState7;
 
 
-void StatisticsState5::displayMenu() {
+void StatisticsState7::displayMenu() {
 
     cout << endl;
     cout << "________________________________________________________________________________________________________" << endl;
-    cout << "|   previous - previous page                                                   next - next page        |" << endl;
+    cout << "|   previous - previous page                                                                           |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                             Statistics:                                              |" << endl;
     cout << "|                                                                                                      |" << endl;
@@ -28,12 +27,12 @@ void StatisticsState5::displayMenu() {
     cout << "|                                     6. Airports per Country                                          |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "| back - Main Menu                                                                                     |" << endl;
-    cout << "| exit - Exit                                                                              page - 5    |" << endl;
+    cout << "| exit - Exit                                                                              page - 7    |" << endl;
     cout << "--------------------------------------------------------------------------------------------------------" << endl;
 
 }
 
-State* StatisticsState5::handleInput() {
+State* StatisticsState7::handleInput() {
     cout << "Enter your choice: ";
     cin >> userInputStr;
 
@@ -54,62 +53,60 @@ State* StatisticsState5::handleInput() {
             return previousState;
         }
     }
-    if (userInputStr == "next") {
-        State::statisticsHistory.push(this);
-        return &statisticsState6;
-    }
     if (userInputStr == "exit") {
         exit(0);
     } else {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
             case 1: {
-                auto airport = getValidAirports();
-                auto country = getValidCountry();
-                auto dist = this->getValidCountryK();
-                manager.getCountryDestinantionsUntilDistanceK(airport,country,dist);
+                auto airline = getValidSingleAirline();
+                auto k = getValidAirportK();
+                barsState.displayMenu();
+                barsState.handleInput();
+                auto bars =barsState.shouldUseGraphicBar();
+                manager.getTopKAirportsAirlineTravelsTo(k,airline,bars,true);
                 return this;
             }
             case 2: {
-                auto k = getValidCityK();
+                auto airline = getValidSingleAirline();
+                auto k = getValidAirportK();
                 barsState.displayMenu();
                 barsState.handleInput();
                 auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKGreatestTrafficCity(k,bars,true);
+                manager.getTopKAirportsAirlineTravelsTo(k,airline,bars, false);
                 return this;
-
             }
             case 3: {
-                auto k = getValidCityK();
+                auto k = getValidAirportK();
                 barsState.displayMenu();
                 barsState.handleInput();
                 auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKGreatestTrafficCity(k,bars,false);
+                manager.getTopKAirportsWithMoreAirlines(k,bars,true);
                 return this;
             }
             case 4: {
-                auto k = getValidCityK();
+                auto k = getValidAirportK();
                 barsState.displayMenu();
                 barsState.handleInput();
                 auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKGreatestTrafficCity(k,bars,false);
+                manager.getTopKAirportsWithMoreAirlines(k,bars,false);
                 return this;
             }
             case 5: {
-                auto k = getValidCountryK();
+                auto airport = getValidSingleAirport();
+                auto k = getValidAirportK();
                 barsState.displayMenu();
                 barsState.handleInput();
                 auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKGreatestTrafficCountry(k,bars,true);
-                return this;
+                manager.getTopKAirlinesThatFlyMoreToAnAirport(k,airport,bars, true);
             }
             case 6: {
-                auto k = getValidCountryK();
+                auto airport = getValidSingleAirport();
+                auto k = getValidAirportK();
                 barsState.displayMenu();
                 barsState.handleInput();
                 auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKGreatestTrafficCountry(k,bars,false);
-                return this;
+                manager.getTopKAirlinesThatFlyMoreToAnAirport(k,airport,bars, false);
             }
             default:
                 std::cout << " Invalid choice. try again" << std::endl;

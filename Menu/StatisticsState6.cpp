@@ -3,6 +3,7 @@
 //
 
 #include "StatisticsState6.h"
+#include "StatisticsState7.h"
 #include "BarsState.h"
 #include "iostream"
 #include "sstream"
@@ -15,7 +16,7 @@ void StatisticsState6::displayMenu() {
 
     cout << endl;
     cout << "________________________________________________________________________________________________________" << endl;
-    cout << "|   previous - previous page                                                                           |" << endl;
+    cout << "|   previous - previous page                                                   next - next page        |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                             Statistics:                                              |" << endl;
     cout << "|                                                                                                      |" << endl;
@@ -53,35 +54,68 @@ State* StatisticsState6::handleInput() {
             return previousState;
         }
     }
+    if(userInputStr == "next"){
+        State::statisticsHistory.push(this);
+        return &statisticsState7;
+    }
     if (userInputStr == "exit") {
         exit(0);
     } else {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
             case 1: {
-                auto airports = getValidAirports();
                 auto city = getValidCity();
+                auto airports = manager.getAirportsPerCity(city);
+                auto k = getValidAirportK();
                 barsState.displayMenu();
                 barsState.handleInput();
                 auto bars =barsState.shouldUseGraphicBar();
-                //manager.getTopKGreatestTrafficAirportPerCity();
+                manager.getTopKGreatestTrafficAirportPerCity(k,airports,bars,true);
                 return this;
             }
             case 2: {
-
+                auto city = getValidCity();
+                auto airports = manager.getAirportsPerCity(city);
+                auto k = getValidAirportK();
+                barsState.displayMenu();
+                barsState.handleInput();
+                auto bars =barsState.shouldUseGraphicBar();
+                manager.getTopKGreatestTrafficAirportPerCity(k,airports,bars,false);
+                return this;
             }
             case 3: {
-
-
+                auto country = getValidSingleCountry();
+                auto countryCities = manager.getCitiesPerCountry(country);
+                auto k = getValidCountryK();
+                barsState.displayMenu();
+                barsState.handleInput();
+                auto bars =barsState.shouldUseGraphicBar();
+                manager.getTopKGreatestTrafficCityPerCountry(k,countryCities,bars,true);
+                return this;
             }
             case 4: {
-
+                auto country = getValidSingleCountry();
+                auto countryCities = manager.getCitiesPerCountry(country);
+                auto k = getValidCountryK();
+                barsState.displayMenu();
+                barsState.handleInput();
+                auto bars =barsState.shouldUseGraphicBar();
+                manager.getTopKGreatestTrafficCityPerCountry(k,countryCities,bars,false);
+                return this;
             }
             case 5: {
-
+                auto k = getValidCountryK();
+                barsState.displayMenu();
+                barsState.handleInput();
+                auto bars =barsState.shouldUseGraphicBar();
+                manager.getTopKCountriesWithMoreAirlines(k,bars, true);
             }
             case 6: {
-
+                auto k = getValidCountryK();
+                barsState.displayMenu();
+                barsState.handleInput();
+                auto bars =barsState.shouldUseGraphicBar();
+                manager.getTopKCountriesWithMoreAirlines(k,bars, false);
             }
             default:
                 std::cout << " Invalid choice. try again" << std::endl;

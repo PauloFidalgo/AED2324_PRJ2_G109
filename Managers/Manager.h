@@ -68,7 +68,6 @@ public:
     vector<Airport> pathExists(Airport *d, Airport *t);
 
     vector<Vertex*> airportsAtDistanceK(Airport *source, int k);
-    void articulationPoints();
     void dfsApp(Vertex *v, stack<Airport> &s, vector<Airport> &res, int &i);
     vector<Airport*> getAirportsPerCountry(const string &c);
     vector<Airport*> getAiportsPerCity(const string& city) const;
@@ -96,64 +95,42 @@ public:
     unordered_map<string, int> inFlightsPerAirport(Airport *d);
 
     //--------------------------------------------------------------------------------------------------
+    void articulationPoints();
     void getNumAirportsAndFlights() const;
-
     void getNumFlightsAndAirlines(Airport *airport) const;
-
     void getNumFlightsPerCity(const string &city) const;
-
     void getNumFlightsPerAirline(Airline *airline) const;
-
     void getCountriesCanFlyToAirport(Airport *airport) const;
-
     void getCountriesCanFlyToCity(const string &city) const;
-
     void getAirportDestinantionsDistance1(Airport *airport) const;
     void getCityDestinationsDistance1(vector<Airport *> air, const string& city) const;
     void getCountryDestinationsDistance1(vector<Airport *> air, const string& country) const;
-
     void getAirportDestinantions(Airport *airport) const;
     void getCityDestinantions(const vector<Airport *> &airportsCity, const string& city) const;
     void getCountryDestinantions(const vector<Airport *> &airportsCountry, const string& country) const;
-
     void getAirportDestinantionsUntilDistanceK(Airport *airport, const int &k) const;
     void getCityDestinantionsUntilDistanceK(const vector<Airport *> &airportsCity, const string& city, const int &k) const;
     void getCountryDestinantionsUntilDistanceK(const vector<Airport *> &airportsCountry, const string& country, const int &k) const;
-
     void diameterPairs() const;
-
     void findComponentDiameterPairs(Vertex *origin, vector<pair<Airport*, Airport*>> &result, int &i) const;
-
     void getTopKGreatestTrafficAirport(int k, const bool &bars = false, const bool& asc = false) const;
     void getTopKGreatestTrafficCity(int k, const bool &bars = false, const bool& asc = false) const;
     void getTopKGreatestTrafficCountry(int k, const bool &bars = false, const bool& asc = false) const;
-
     void getTopKGreatestTrafficAirportPerCity(int k, const vector<Airport *> &airportsPerCity, const bool &bars = false, const bool& asc = false) const;
     void getTopKGreatestTrafficAirportPerCountry(int k, const vector<Airport *> &airportsPerCountry, const bool &bars = false, const bool& asc = false) const;
-    void getTopKGreatestTrafficCityPerCountry(int k, pair<string, set<string>> *selectedCountryCities, const bool &bars = false, const bool& asc = false) const;
-
+    void getTopKGreatestTrafficCityPerCountry(int k,const unordered_set<string>& selectedCountryCities, const bool &bars, const bool& asc) const;
     void getTopKGreatestTrafficAirline(int k, const bool &bars = false, const bool& asc = false) const;
     void getTopKGreatestTrafficAirlinePerCountry(int k, const unordered_set<Airline *> &airlinesCountry, const bool &bars = false, const bool& asc = false) const;
-
     void getTopKCountriesWithMoreAirlines(int k, const bool &bars = false, const bool& asc = false) const;
-
     void getTopKAirportsAirlineTravelsTo(int k, Airline *airline, const bool &bars = false, const bool& asc = false) const;
     void getTopKAirportsWithMoreAirlines(int k, const bool &bars = false, const bool& asc = false) const;
     void getTopKAirlinesThatFlyMoreToAnAirport(int k, Airport *airport, const bool &bars = false, const bool& asc = false) const;
     void getTopKAirlinesThatFlyMoreToAnAirportRatio(int k, Airport *airport, const bool &bars = false, const bool& asc = false) const;
-
     void listAirportsPerCountryCity(const vector<Airport *> &airportsCountry, const string &countryCity) const;
-
-
-
     void searchAirportsByName(const string &airportName);
-
     void searchAirlinesByName(const string &airlineName);
-
     static void printAirportInfo(Airport *airport);
-
     static void printAirlineInfo(Airline *airline);
-
     void listAirlinesPerAirport(Airport *airport);
 
     };

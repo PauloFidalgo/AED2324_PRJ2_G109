@@ -1,5 +1,5 @@
 #include "State.h"
-
+#include "StatisticsState1.h"
 std::stack<State*> State::stateHistory;
 std::stack<State*> State::statisticsHistory;
 
