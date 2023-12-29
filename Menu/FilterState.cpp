@@ -11,36 +11,24 @@ FilterState::FilterState(vector<Airport*> &from, vector<Airport*> &to) {
     fromAirports = from;
     toAirports = to;
 }
-void FilterState::setFrom( Airport* fromAirport) {
-    this->fromAirport = fromAirport;
-}
-
-void FilterState::setTo( Airport* toAirport) {
-    this->toAirport = toAirport;
-}
-void FilterState::setFrom( vector<Airport*> fromAirports) {
-    this->fromAirports = fromAirports;
-}
-
-void FilterState::setTo( vector<Airport*> toAirports) {
-    this->toAirports = toAirports;
-}
-
 
 void FilterState::displayMenu() {
 
     cout << endl;
     cout << "________________________________________________________________________________________________________" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                                            Filters :                                                 |" << endl;
+    cout << "|        Filters:                                        Search:                                       |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|      1 - exclude 1 or more airlines                    8 - include 1 or more airports                |" << endl;
-    cout << "|      2 - include 1 or more airlines                    9 - Avoid passing through 1 or more country's |" << endl;
-    cout << "|      3 - exclude 1 or more country                     10 - Pass trough 1 or more country's          |" << endl;
-    cout << "|      4 - include 1 or more country                     11 - Minimize the number of distinct airlines |" << endl;
-    cout << "|      5 - exclude 1 or more city                        12 - Distance Travelled                       |" << endl;
-    cout << "|      6 - include 1 or more city                        13 - Minimize Stops                           |" << endl;
-    cout << "|      7 - exclude 1 or more airports                                                                  |" << endl;
+    cout << "|        1 - Exclude 1 or more Airlines                  11 - Minimize Number of Distinct Airlines     |" << endl;
+    cout << "|        2 - Include 1 or more Airlines                  12 - Distance Travelled                       |" << endl;
+    cout << "|        3 - Exclude 1 or more Airlines Per Country      13 - Minimize Stops                           |" << endl;
+    cout << "|        4 - Include 1 or more Airlines Per Country                                                    |" << endl;
+    cout << "|        5 - Exclude 1 or more Airports                                                                |" << endl;
+    cout << "|        6 - Include 1 or more Airports                                                                |" << endl;
+    cout << "|        7 - Exclude 1 or more Cities                                                                  |" << endl;
+    cout << "|        8 - Include 1 or more Cities                                                                  |" << endl;
+    cout << "|        9 - Exclude 1 or more Countries                                                               |" << endl;
+    cout << "|        10 - Include 1 or more Countries                                                              |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|  0 - Go back                                                                                         |" << endl;
     cout << "| -1 - Exit                                                                                            |" << endl;
@@ -55,45 +43,52 @@ State* FilterState::handleInput() {
     switch (userInput) {
         case 1:
             this->excludeAirlines();
-            break;
+            return this;
         case 2:
             this->includeAirlines();
-            break;
+            return this;
         case 3:
-            excludeCountries();
-            break;
+            this->excludeAirlinesPerCountry();
+            return this;
         case 4:
-            this->includeCountries();
-            break;
+            this->includeAirlinesPerCountry();
+            return this;
         case 5:
-            break;
+            this->excludeAirports();
+            return this;
         case 6:
-            break;
+            this->includeAirports();
+            return this;
         case 7:
-            break;
+            this->excludeCities();
+            return this;
         case 8:
-            break;
+            this->includeCities();
+            return this;
         case 9:
-            excludeCountries();
-            break;
+            this->excludeCountries();
+            return this;
         case 10:
             this->includeCountries();
-            break;
+            return this;
+        case 11:
+            // Min Different airlines
+            return this;
         case 12:
-            manager.manageFlightSearchFromMenuMinDistance(this->fromAirports,this->toAirports,airportsToVisit,cityCountry,excludedAirports,excludedAirlines,includedAirlines);
+            manager.manageFlightSearchFromMenuMinDistance(fromAirports,toAirports,includedAirports,cityCountry,excludedAirports,excludedAirlines,includedAirlines);
             toAirports.clear();
             fromAirports.clear();
-            airportsToVisit.clear();
+            includedAirports.clear();
             cityCountry.clear();
             excludedAirports.clear();
             includedAirlines.clear();
             while (stateHistory.size() != 1) stateHistory.pop();
             return stateHistory.top();
         case 13:
-            manager.manageFlightSearchFromMenu(this->fromAirports,this->toAirports,airportsToVisit,cityCountry,excludedAirports,excludedAirlines,includedAirlines);
+            manager.manageFlightSearchFromMenu(fromAirports,toAirports,includedAirports,cityCountry,excludedAirports,excludedAirlines,includedAirlines);
             toAirports.clear();
             fromAirports.clear();
-            airportsToVisit.clear();
+            includedAirports.clear();
             cityCountry.clear();
             excludedAirports.clear();
             includedAirlines.clear();
@@ -115,105 +110,248 @@ State* FilterState::handleInput() {
             std:: cout << " Invalid choice. try again"<< std::endl;
             return this;
     }
-    return nullptr;
 }
 
 
 
 void FilterState::excludeAirlines() {
-    if ( excludedAirlines.empty() ){
-        excludedAirlines = this->getValidAirlines();
-    } else {
-        auto aux = this->getValidAirlines();
+    auto aux = this->getValidAirlines();
+    if ( excludedAirlines.empty() && !aux.empty()){
+        excludedAirlines = aux;
+    } else if (!aux.empty()) {
         excludedAirlines.insert(aux.begin(),aux.end());
     }
+    verifyExcludedAirlines();
 }
 
 void FilterState::excludeAirlinesPerCountry() {
-    if ( excludedAirlines.empty() ){
-        excludedAirlines = this->getValidAirlinePerCountry();
-    } else {
-        auto aux = this->getValidAirlinePerCountry();
-        excludedAirlines.insert(aux.begin(),aux.end());
+    auto aux = this->getValidAirlinePerCountry();
+    if ( excludedAirlines.empty() && !aux.empty()){
+        excludedAirlines = aux;
+    } else if (!aux.empty()) {
+        for (auto &i : aux) {
+            excludedAirlines.insert(i);
+        }
     }
+    verifyExcludedAirlines();
+}
+
+void FilterState::includeAirlinesPerCountry() {
+    auto aux = this->getValidAirlinePerCountry();
+    if ( includedAirlines.empty() && !aux.empty()){
+        includedAirlines = aux;
+    } else if (!aux.empty()) {
+        for (auto &i : aux) {
+            includedAirlines.insert(i);
+        }
+    }
+    verifyIncludedAirlines();
 }
 
 
 void FilterState::includeAirlines() {
-    if ( includedAirlines.empty() ){
-        includedAirlines = this->getValidAirlines();
-    } else {
-        auto aux = this->getValidAirlines();
-        includedAirlines.insert(aux.begin(),aux.end());
+    auto aux = this->getValidAirlines();
+    if ( includedAirlines.empty() && !aux.empty()){
+        includedAirlines = aux;
+    } else if (!aux.empty()) {
+        for (auto &i : aux) {
+            includedAirlines.insert(i);
+        }
     }
+    verifyIncludedAirlines();
 }
 
 void FilterState::excludeAirports() {
-    if ( excludedAirports.empty() ){
-        excludedAirports = this->getValidAirports();
-    } else {
-        auto aux = this->getValidAirports();
+    auto aux = this->getValidAirports();
+    if ( excludedAirports.empty() && !aux.empty()){
+        excludedAirports = aux;
+    } else if (!aux.empty()) {
         excludedAirports.insert(excludedAirports.end(),aux.begin(),aux.end());
     }
+    verifyExcludeAirports();
 }
 
 
 void FilterState::includeAirports() {
-    includedAirports = this->getValidAirports();
+    auto aux = this->getValidAirports();
+    if (includedAirports.empty() && !aux.empty()) {
+        includedAirports = aux;
+    }
+    else if (!aux.empty()) {
+        includedAirports.insert(includedAirports.end(), aux.begin(), aux.end());
+    }
+    verifyIncludedAirports();
 }
 
 void FilterState::includeCountries() {
-    if ( cityCountry.empty() ){
-        cityCountry = this->getValidAirportsPerCountries();
-    } else {
-        auto aux = this->getValidAirportsPerCountries();
+    auto aux = this->getValidAirportsPerCountries();
+    if ( cityCountry.empty() && !aux.empty()){
+        cityCountry = aux;
+    } else if (!aux.empty()) {
         int size = cityCountry.size();
         for(auto& x : aux){
             cityCountry.insert({size + x.first,x.second});
         }
     }
+    verifyVisitCountryCity();
 }
 
 
 void FilterState::excludeCountries() {
-
-    if ( excludedAirports.empty() ){
-        excludedAirports = this->getValidAirportsPerCountry();
-    } else {
-        auto aux = this->getValidAirportsPerCountry();
+    auto aux = this->getValidAirportsPerCountry();
+    if ( excludedAirports.empty() && !aux.empty()){
+        excludedAirports = aux;
+    } else if (!aux.empty()) {
         excludedAirports.insert(excludedAirports.end(),aux.begin(),aux.end());
     }
+    verifyExcludeAirports();
 }
 
 void FilterState::includeCities() {
-    if ( cityCountry.empty() ){
-        cityCountry = this->getValidAirportsPerCities();
-    } else {
-        auto aux = this->getValidAirportsPerCities();
+    auto aux = this->getValidAirportsPerCities();
+    if ( cityCountry.empty() && !aux.empty()){
+        cityCountry = aux;
+    } else if (!aux.empty()) {
         int size = cityCountry.size();
         for(auto& x : aux){
             cityCountry.insert({size + x.first,x.second});
         }
     }
+    verifyVisitCountryCity();
 }
 
 
 void FilterState::excludeCities() {
-    if ( excludedAirports.empty() ){
-        excludedAirports = this->getValidAirportsPerCity();
-    } else {
-        auto aux = this->getValidAirportsPerCity();
+    auto aux = this->getValidAirportsPerCity();
+    if ( excludedAirports.empty() && !aux.empty()){
+        excludedAirports = aux;
+    } else if (!aux.empty()) {
         excludedAirports.insert(excludedAirports.end(),aux.begin(),aux.end());
+    }
+    verifyExcludeAirports();
+}
+
+void FilterState::verifyExcludeAirports() {
+    vector<Airport*> res;
+
+    for (auto &it : excludedAirports) {
+        bool found = false;
+        for (auto &i : includedAirports) {
+            if (i->getCode() == it->getCode()) found = true;
+        }
+        if (!found) res.push_back(it);
+    }
+    vector<Airport*> aux;
+    for (auto &it : res) {
+        bool found = false;
+        for (auto &i : fromAirports) {
+            if (i->getCode() == it->getCode()) found = true;
+        }
+        if (!found) aux.push_back(it);
+    }
+
+    res.clear();
+    for (auto &it : aux) {
+        bool found = false;
+        for (auto &i : toAirports) {
+            if (i->getCode() == it->getCode()) found = true;
+        }
+        if (!found) res.push_back(it);
+    }
+
+    excludedAirports = res;
+}
+
+
+void FilterState::verifyIncludedAirports() {
+    vector<Airport*> res;
+
+    for (auto &it : includedAirports) {
+        bool found = false;
+        for (auto &i : excludedAirports) {
+            if (i->getCode() == it->getCode()) found = true;
+        }
+        if (!found) res.push_back(it);
+    }
+    vector<Airport*> aux;
+    for (auto &it : res) {
+        bool found = false;
+        for (auto &i : fromAirports) {
+            if (i->getCode() == it->getCode()) found = true;
+        }
+        if (!found) aux.push_back(it);
+    }
+
+    res.clear();
+    for (auto &it : aux) {
+        bool found = false;
+        for (auto &i : toAirports) {
+            if (i->getCode() == it->getCode()) found = true;
+        }
+        if (!found) res.push_back(it);
+    }
+
+    includedAirports = res;
+}
+
+
+void FilterState::verifyIncludedAirlines() {
+    unordered_set<Airline*> res;
+
+    for (auto it : includedAirlines) {
+        auto p = excludedAirlines.find(it);
+
+        if (p == excludedAirlines.end()) {
+            res.insert(it);
+        }
+    }
+    includedAirlines = res;
+}
+
+
+void FilterState::verifyExcludedAirlines() {
+    unordered_set<Airline*> res;
+
+    for (auto it : excludedAirlines) {
+        auto p = includedAirlines.find(it);
+
+        if (p == includedAirlines.end()) {
+            res.insert(it);
+        }
+    }
+    excludedAirlines = res;
+}
+
+
+void FilterState::verifyVisitCountryCity() {
+    for (auto it = cityCountry.begin(); it != cityCountry.end(); ) {
+        auto &airportVector = it->second;
+
+        airportVector.erase(
+                std::remove_if(
+                        airportVector.begin(),
+                        airportVector.end(),
+                        [this](auto airport) {
+                            return isAirportToBeRemoved(airport);
+                        }
+                ),
+                airportVector.end()
+        );
+
+        if (airportVector.empty()) {
+            it = cityCountry.erase(it);
+        } else {
+            ++it;
+        }
     }
 }
 
- vector<Airport*>& FilterState::getFromAirports() {
-    return fromAirports;
+bool FilterState::isAirportToBeRemoved(Airport* airport) const {
+
+    return std::find(toAirports.begin(), toAirports.end(), airport) != toAirports.end() ||
+           std::find(fromAirports.begin(), fromAirports.end(), airport) != fromAirports.end() ||
+           std::find(excludedAirports.begin(), excludedAirports.end(), airport) != excludedAirports.end() ||
+           std::find(includedAirports.begin(), includedAirports.end(), airport) != includedAirports.end();
 }
 
-unordered_set<Airline*>& FilterState::getFromAirline() {
-    return fromAirlines;
-}
-unordered_set<Airline*>& FilterState::getToAirline() {
-    return toAirlines;
-}
+
