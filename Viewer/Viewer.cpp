@@ -621,11 +621,12 @@ void Viewer::printTopKVector(const vector<pair<Airline *, int>> &airlines, const
 }
 
 void Viewer::printFlightOptions(const vector<vector<Airport *>> &flights) {
-    int numAirports = 0;
+    vector<vector<Airport *>> sortedFlights = flights;
+    std::sort(sortedFlights.begin(), sortedFlights.end(), [](const auto& a, const auto& b) {return a.size() < b.size();});
+    int numAirports = sortedFlights.back().size();
     int nameSize = 0;
 
     for (auto &elem : flights) {
-        if (elem.size() > numAirports) numAirports = elem.size();
         for(auto &airport : elem) {
             if (airport->getName().length() > nameSize) nameSize = airport->getName().length();
         }
@@ -638,10 +639,12 @@ void Viewer::printFlightOptions(const vector<vector<Airport *>> &flights) {
     cout << string(totalSpace + 2, '-') << endl;
     cout << '|' << string(lenLabel, ' ') << "Flight Options" << string(lenFLabel, ' ') << '|' << endl;
     cout << string(totalSpace + 2, '-') << endl;
-    for (auto &elem : flights) {
+
+    for (auto &elem : sortedFlights) {
         int aux = numAirports;
-        for (auto& airport : elem) {
-            cout << "| Code: " << airport->getName() << string(space1 - 10, ' ');
+        for (auto airport = elem.begin(); airport != elem.end(); airport++) {
+            auto air = *airport;
+            cout << "| Code: " << air->getCode() << string(space1 - 10, ' ');
             aux--;
         }
         while (aux != 0) {
@@ -650,17 +653,19 @@ void Viewer::printFlightOptions(const vector<vector<Airport *>> &flights) {
         }
         cout << '|' << endl;
         aux = numAirports;
-        for (auto& airport : elem) {
-            cout << "| Name: " << airport->getName() << string(space1 - 7 - airport->getName().length(), ' ');
+        for (auto airport = elem.begin(); airport != elem.end(); airport++) {
+            auto air = *airport;
+            cout << "| Name: " << air->getName() << string(space1 - 7 - air->getName().length(), ' ');
+            aux--;
         }
         while (aux != 0) {
             cout << '|' << string (space1, ' ');
             aux--;
         }
         cout << '|' << endl;
+        cout << string(totalSpace + 2, '-') << endl;
     }
 }
-
 
 
 

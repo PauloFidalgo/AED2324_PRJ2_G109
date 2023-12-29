@@ -80,23 +80,25 @@ State* FilterState::handleInput() {
             this->includeCountries();
             break;
         case 12:
-            manager.manageFlightSearchFromMenuMinDistance(this->toAirports,this->fromAirports,airportsToVisit,cityCountry,excludedAirports,excludedAirlines,includedAirlines);
+            manager.manageFlightSearchFromMenuMinDistance(this->fromAirports,this->toAirports,airportsToVisit,cityCountry,excludedAirports,excludedAirlines,includedAirlines);
             toAirports.clear();
             fromAirports.clear();
             airportsToVisit.clear();
             cityCountry.clear();
             excludedAirports.clear();
             includedAirlines.clear();
-            return this;
+            while (stateHistory.size() != 1) stateHistory.pop();
+            return stateHistory.top();
         case 13:
-            manager.manageFlightSearchFromMenu(this->toAirports,this->fromAirports,airportsToVisit,cityCountry,excludedAirports,excludedAirlines,includedAirlines);
+            manager.manageFlightSearchFromMenu(this->fromAirports,this->toAirports,airportsToVisit,cityCountry,excludedAirports,excludedAirlines,includedAirlines);
             toAirports.clear();
             fromAirports.clear();
             airportsToVisit.clear();
             cityCountry.clear();
             excludedAirports.clear();
             includedAirlines.clear();
-            return this;
+            while (stateHistory.size() != 1) stateHistory.pop();
+            return stateHistory.top();
         case 0:
             if(!State::stateHistory.empty()){
                 State* previousState = State::stateHistory.top();

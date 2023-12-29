@@ -625,6 +625,8 @@ vector<vector<Airport*>> Manager::bfsMinConnectionsExcludeAirports(Airport* s, A
         node->setVisited(false);
     }
 
+    if (s == t) return {};
+
     for (auto &air : exclude) {
         auto airport = connections.findVertex(air);
         airport->setVisited(true);
@@ -1101,6 +1103,8 @@ vector<vector<Airport*>> Manager::scheduleTripMinConnectionAirports(Airport* u, 
 vector<Airport*> Manager::findShortestPathExcludeCountries(Airport* u, Airport* v, vector<string> &countries) {
     unordered_map<Vertex*, int> distances;
 
+    if (u == v) return {};
+
     for (auto &node : connections.getVertexSet()) {
         distances[node] = numeric_limits<int>::max();
         if (!excludeCountries(node, countries)) {
@@ -1111,8 +1115,8 @@ vector<Airport*> Manager::findShortestPathExcludeCountries(Airport* u, Airport* 
         }
     }
 
-    auto depart = connections.findVertex(u);
-    auto arrival = connections.findVertex(v);
+    auto depart = connections.findVertex(airports[u->getCode()]);
+    auto arrival = connections.findVertex(airports[v->getCode()]);
 
 
     priority_queue<pair<int, Vertex*>, vector<pair<int, Vertex*>>, greater<>> pq;
