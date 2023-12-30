@@ -109,8 +109,8 @@ string State::getValidCity() {
             if (code == "ok") {
                 return "";
             }
-            if (!manager.validateCityName(city)) {
-                cout << "City doesn't exist. Try again." << endl;
+            if (!manager.validateCityName(city) or city.empty()) {
+                cout << "City doesn't exist. Try again or is empty." << endl;
             }
         } while (!manager.validateCityName(city));
         return city;
@@ -122,8 +122,8 @@ string State::getValidSingleCity() {
     do {
         cout << "City: ";
         cin >> city;
-        if (!manager.validateCityName(city)) {
-            cout << "City doesn't exist. Try again." << endl;
+        if (!manager.validateCityName(city) or city.empty()) {
+            cout << "City doesn't exist or is empty. Try again." << endl;
         }
     } while (!manager.validateCityName(city));
     return city;
@@ -134,8 +134,8 @@ string State::getValidSingleCountry() {
     do {
         cout << "Country: ";
         cin >> code;
-        if (!manager.validateCountryName(code)) {
-            cout << "Country doesn't exist. Try again." << endl;
+        if (!manager.validateCountryName(code) or code.empty()) {
+            cout << "Country doesn't exist or is empty. Try again." << endl;
         }
     } while (!manager.validateCountryName(code));
     return code;
@@ -146,8 +146,8 @@ string State::getValidCountry() {
     do {
         cout << "Country: ";
         cin >> code;
-        if (!manager.validateCountryName(code)) {
-            cout << "Country doesn't exist. Try again." << endl;
+        if (!manager.validateCountryName(code) or code.empty()) {
+            cout << "Country doesn't exist or is empty. Try again." << endl;
         }
     } while (!manager.validateCountryName(code));
     return code;
