@@ -58,35 +58,33 @@ State* StatisticsState1::handleInput() {
             switch (userInput) {
                 case 1: {
                     Airport *airport = getValidSingleAirport();
-                    manager.getNumFlightsAndAirlines(airport);
+                    if (airport) manager.getNumFlightsAndAirlines(airport);
                     return this;
                 }
                 case 2: {
                     Airline *airline = getValidSingleAirline();
-                    manager.getNumFlightsPerAirline(airline);
+                    if (airline) manager.getNumFlightsPerAirline(airline);
                     return this;
                 }
                 case 3: {
                     Airport *airport = getValidSingleAirport();
-                    manager.getCountriesCanFlyToAirport(airport);
+                    if (airport) manager.getCountriesCanFlyToAirport(airport);
                     return this;
                 }
                 case 4: {
-                    string city = getValidSingleCity();
-                    vector<Airport*> airports = manager.getAirportsPerCity(city);
-                    manager.getCityDestinationsDistance1(airports,city);
+                    vector<Airport*> airports = getValidAirportsSingleCity();
+                    if (!airports.empty()) manager.getCityDestinationsDistance1(airports,name);
                     return this;
                 }
                 case 5: {
-                    string country = getValidSingleCountry();
-                    auto airports = manager.getAirportsPerCountry(country);
-                    manager.getCountryDestinationsDistance1(airports,country);
+                    auto airports = getValidAirportsSingleCountry();
+                    if (!airports.empty()) manager.getCountryDestinationsDistance1(airports,name);
                     return this;
                 }
                 case 6: {
                     Airport *airport = getValidSingleAirport();
                     int distance = getValidAirportK();
-                    manager.getAirportDestinantionsUntilDistanceK(airport, distance);
+                    if (distance != -1) manager.getAirportDestinantionsUntilDistanceK(airport, distance);
                     return this;
                 }
                 default:

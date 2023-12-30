@@ -69,7 +69,7 @@ State* StatisticsState2::handleInput() {
             }
             case 2: {
                 Airport* airport = getValidSingleAirport();
-                manager.getAirportDestinantionsDistance1(airport);
+                if (airport) manager.getAirportDestinantionsDistance1(airport);
                 return this;
             }
             case 3:
@@ -77,7 +77,7 @@ State* StatisticsState2::handleInput() {
                 return this;
             case 4: {
                 Airport* airport = getValidSingleAirport();
-                manager.getAirportDestinantions(airport);
+                if (airport) manager.getAirportDestinantions(airport);
                 return this;
             }
             case 5: {

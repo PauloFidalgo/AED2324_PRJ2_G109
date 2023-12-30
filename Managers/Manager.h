@@ -33,6 +33,7 @@ private:
 
 public:
     Manager();
+    unordered_map<string, vector<Airport*>> getCity() {return cityAirports;}
     unordered_map<string, Airline*> getAirlines();
     unordered_map<string, Airport*> getAirports();
     Airport* getAirportPerCode(const string &code) const;

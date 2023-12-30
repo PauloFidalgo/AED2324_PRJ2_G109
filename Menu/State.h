@@ -5,6 +5,7 @@
 #ifndef AED2324_PRJ2_G109_STATE_H
 #define AED2324_PRJ2_G109_STATE_H
 #include "stack"
+#include <sstream>
 #include "../Managers/Manager.h"
 
 class State {
