@@ -72,10 +72,8 @@ State* StatisticsState4::handleInput() {
             case 2: {
                 auto airports = getValidAirports();
                 auto dist = getValidAirportK();
-                barsState.displayMenu();
-                barsState.handleInput();
-                auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, bars, true);
+                auto bar = bars();
+                manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, bar, true);
                 return this;
             }
             case 3: {

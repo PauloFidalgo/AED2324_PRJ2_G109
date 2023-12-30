@@ -1,5 +1,6 @@
 #include "State.h"
 #include "StatisticsState1.h"
+#include "BarsState.h"
 std::stack<State*> State::stateHistory;
 std::stack<State*> State::statisticsHistory;
 
@@ -327,34 +328,33 @@ vector<Airport*> State::getAirportsRange(int x){
     return airports;
 }
 
-
 vector<Airport*> State::getValidAirports() {
     vector<Airport *> airports;
-    bool in = true;
-    while (in) {
-        Airport* aux;
-        Airport* aux2;
+
+    while (true) {
+        Airport* aux = nullptr;
+        Airport* aux2 = nullptr;
 
         do {
-            cout << "Airport ( ok to confirm ): ";
+            cout << "Airport Name or Code (enter 'ok' to confirm): ";
             cin >> name;
+
             if (name == "ok") {
-                in = false;
-                break;
+                return airports;
             }
 
-             aux = manager.getAirportPerCode(code);
-             aux2 = manager.getAirportPerName(code);
+            aux = manager.getAirportPerCode(name);
+            aux2 = manager.getAirportPerName(name);
 
-            if (!aux and !aux2) {
+            if (!aux && !aux2) {
                 cout << "Airport doesn't exist. Try again." << endl;
             }
-        } while (!aux and !aux2);
+        } while (!aux && !aux2);
 
         airports.push_back((aux) ? aux : aux2);
     }
-    return airports;
 }
+
 
 unordered_set<Airline*> State::getValidAirlines() {
     unordered_set<Airline *> airlines;
@@ -408,4 +408,11 @@ unordered_set<Airline*> State::getValidAirlinePerCountry() {
         airlines.insert(aux.begin(),aux.end());
     }
     return airlines;
+}
+
+bool State::bars() {
+    barsState.displayMenu();
+    barsState.handleInput();
+    auto bars =barsState.shouldUseGraphicBar();
+    return bars;
 }

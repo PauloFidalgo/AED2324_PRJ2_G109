@@ -3,6 +3,7 @@
 //
 
 #include "StatisticsState7.h"
+#include "StatisticsState8.h"
 #include "BarsState.h"
 #include "iostream"
 #include "sstream"
@@ -15,7 +16,7 @@ void StatisticsState7::displayMenu() {
 
     cout << endl;
     cout << "________________________________________________________________________________________________________" << endl;
-    cout << "|   previous - previous page                                                                           |" << endl;
+    cout << "|   previous - previous page                                                   next - next page        |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                             Statistics:                                              |" << endl;
     cout << "|                                                                                                      |" << endl;
@@ -52,6 +53,10 @@ State* StatisticsState7::handleInput() {
             State::statisticsHistory.pop();
             return previousState;
         }
+    }
+    if(userInputStr == "next"){
+        State::statisticsHistory.push(this);
+        return &statisticsState8;
     }
     if (userInputStr == "exit") {
         exit(0);
