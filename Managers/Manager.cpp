@@ -340,6 +340,58 @@ vector<Airport*> Manager::hasFlightAirline(Airport *source, Airport *target, vec
     return res;
 }
 
+void Manager::checkUndirect(Vertex* &source, Vertex* &dest) {
+
+    for (auto &d : dest->getAdj()) {
+        if (d.getDest() == source) return;
+    }
+    Edge e = Edge(source, 0.0);
+    Airline* a = new Airline();
+    dest->addAdj(e, a);
+}
+
+vector<vector<Airport*>> Manager::cc() {
+    auto undirected = connections;
+
+    for (auto vertex : undirected.getVertexSet()) {
+        auto adj = vertex->getAdj();
+        for (auto &d : adj) {
+            Vertex* ver = d.getDest();
+            checkUndirect(vertex, ver);
+        }
+    }
+
+
+    for (auto node : undirected.getVertexSet()) {
+        node->setVisited(false);
+    }
+
+    vector<vector<Airport*>> res;
+
+    for (auto node : undirected.getVertexSet()) {
+        if (!node->isVisited()) {
+            vector<Airport*> aux;
+
+            dfsCC(aux, node);
+            res.push_back(aux);
+        }
+    }
+    return res;
+}
+
+void Manager::dfsCC(vector<Airport*>& aux, Vertex* v) {
+    v->setVisited(true);
+
+    aux.push_back(v->getInfo());
+
+    for (auto &vis : v->getAdj()) {
+        auto w = vis.getDest();
+        if (!w->isVisited()) {
+            dfsCC(aux, w);
+        }
+    }
+}
+
 vector<vector<Airport*>> Manager::scc() {
     for (auto &airport : connections.getVertexSet()) {
         airport->setVisited(false);

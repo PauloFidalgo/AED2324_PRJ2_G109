@@ -72,6 +72,9 @@ public:
     void dfsApp(Vertex *v, stack<Airport> &s, vector<Airport> &res, int &i);
     vector<Airport*> getAirportsPerCountry(const string &c);
     vector<Airport*> getAiportsPerCity(const string& city) const;
+    void checkUndirect(Vertex* &source, Vertex* &dest);
+    vector<vector<Airport*>> cc();
+    void dfsCC(vector<Airport*>& aux, Vertex* v);
 
     vector<vector<Airport*>> scc();
     unordered_set<string> getCitiesPerCountry(const string& c) const;

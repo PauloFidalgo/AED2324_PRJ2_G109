@@ -15,6 +15,7 @@ private:
     int numFlights = 0;
 
 public:
+    Airline();
     Airline(const std::string &code, const std::string &name, const std::string &callsign, const std::string &country);
     std::string getName() const;
     void increaseNumFlights();
