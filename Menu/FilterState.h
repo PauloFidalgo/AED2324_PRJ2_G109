@@ -7,18 +7,9 @@
 #include "State.h"
 class FilterState: public State {
 private:
-    Airport* fromAirport;
-    Airport* toAirport;
     vector<Airport*> fromAirports;
     vector<Airport*> toAirports;
-    unordered_set<Airline*> fromAirlines;
-    unordered_set<Airline*> toAirlines;
-    vector<Airline*> airlines;
-
-    vector<Airport*> airportsToVisit;
     map<int,vector<Airport*>> cityCountry;
-    vector<Airport*> AirportsToExclude;
-
     unordered_set<Airline*> excludedAirlines;
     unordered_set<Airline*> includedAirlines;
     vector<Airport*> excludedAirports;
@@ -29,23 +20,10 @@ public:
     // Constructor
     FilterState(vector<Airport*> &from, vector<Airport*> &to);
 
-    // Setters
-    void setFrom( Airport* fromAirport);
-    void setTo( Airport* toAirport);
-    void setFrom( vector<Airport*> fromAirports);
-    void setTo( vector<Airport*> toAirports);
-    unordered_set<Airline*>& getToAirline();
-    vector<Airport*>& getFromAirports();
-    unordered_set<Airline*>& getFromAirline();
     void displayMenu() override;
     State * handleInput() override;
     void excludeAirlinesPerCountry();
-    const vector<Airport *> &getToAirports() const;
-
-    void setToAirports(const vector<Airport *> &toAirports);
-
-    Airline *getInputAirlines();
-
+    void includeAirlinesPerCountry();
     void includeAirlines();
 
     void excludeAirlines();
@@ -59,6 +37,13 @@ public:
     void includeAirports();
     void includeCities();
     void excludeCities();
+
+    void verifyExcludedAirlines();
+    void verifyIncludedAirlines();
+    void verifyIncludedAirports();
+    void verifyExcludeAirports();
+    void verifyVisitCountryCity();
+    bool isAirportToBeRemoved(Airport* airport) const;
 
 };
 

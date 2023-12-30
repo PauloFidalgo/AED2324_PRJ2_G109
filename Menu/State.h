@@ -35,6 +35,8 @@ public:
     string getValidSingleCountry();
     string getValidSingleCity();
     map<int,vector<Airport*>> getValidAirportsPerCountries();
+    vector<Airport*> getValidAirportsSingleCountry();
+    vector<Airport*> getValidAirportsSingleCity();
     vector<Airport*> getValidAirportsPerCity();
     vector<Airport*> getValidAirportsPerCountry();
     vector<Airport *> getAirportsRange(int x);

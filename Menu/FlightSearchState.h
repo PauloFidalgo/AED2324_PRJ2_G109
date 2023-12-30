@@ -28,6 +28,7 @@ public:
 
     void displayMenu() override;
     State* handleInput() override;
+    void validateToAirports();
 
 };
 
