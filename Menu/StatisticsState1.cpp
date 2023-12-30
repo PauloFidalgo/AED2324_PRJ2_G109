@@ -58,9 +58,6 @@ State* StatisticsState1::handleInput() {
             switch (userInput) {
                 case 1: {
                     Airport *airport = getValidSingleAirport();
-                    if(airport == nullptr){
-                        return this;
-                    }
                     manager.getNumFlightsAndAirlines(airport);
                     return this;
                 }

@@ -26,9 +26,11 @@ Airport* State::getValidAirport() {
         do {
             cout << "Airport: ";
             cin >> code;
+
             if(code == "ok"){
                 return nullptr;
             }
+
             airportCode = manager.getAirportPerCode(code);
             airportName = manager.getAirportPerName(code);
 
@@ -68,6 +70,7 @@ Airline* State::getValidAirline() {
         do {
             cout << "Airline: ";
             cin >> code;
+
             if (code == "ok") {
                 return nullptr;
             }
@@ -87,6 +90,7 @@ Airline* State::getValidSingleAirline() {
     do {
         cout << "Airline: ";
         cin >> code;
+
         airlineCode = manager.getAirlinePerCode(code);
         airlineName = manager.getAirlinePerName(code);
         if (!airlineCode and !airlineName) {
