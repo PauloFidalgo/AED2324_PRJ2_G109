@@ -388,7 +388,8 @@ vector<Airport*> State::getValidAirports() {
             }
         } while (!aux and !aux2);
 
-        airports.push_back((aux) ? aux : aux2);
+        if (aux) airports.push_back(aux);
+        if (aux2) airports.push_back(aux2);
     }
     return airports;
 }
@@ -417,7 +418,7 @@ unordered_set<Airline*> State::getValidAirlines() {
         } while (!aux and !aux2);
 
         if (aux) airlines.insert(aux);
-        if (aux2) airlines.insert(aux);
+        if (aux2) airlines.insert(aux2);
     }
     return airlines;
 }
