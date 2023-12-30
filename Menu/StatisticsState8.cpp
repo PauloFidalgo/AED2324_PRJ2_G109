@@ -19,12 +19,12 @@ void StatisticsState8::displayMenu() {
     cout << "|                                                                                                      |" << endl;
     cout << "|                                             Statistics:                                              |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                                     1. Top K Airlines That Fly More To An Airport Ratio (Ascending)  |" << endl;
-    cout << "|                                     2. Top K Airlines That Fly More To An Airport Ratio (Descending) |" << endl;
-    cout << "|                                     3. Airlines Per Airport                                          |" << endl;
-    cout << "|                                     4. Strongly connected Components                                 |" << endl;
-    cout << "|                                     5.                                                   |" << endl;
-    cout << "|                                     6.                                           |" << endl;
+    cout << "|                             1. Top K Airlines That Fly More To An Airport Ratio (Ascending)          |" << endl;
+    cout << "|                             2. Top K Airlines That Fly More To An Airport Ratio (Descending)         |" << endl;
+    cout << "|                             3. Strongly connected Components                                         |" << endl;
+    cout << "|                             4. Connected Components                                                  |" << endl;
+    cout << "|                             5. Top K Greatest Traffic Airline                                        |" << endl;
+    cout << "|                             6.                                                                       |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "| back - Main Menu                                                                                     |" << endl;
     cout << "| exit - Exit                                                                              page - 8    |" << endl;
@@ -74,20 +74,20 @@ State* StatisticsState8::handleInput() {
                 return this;
             }
             case 3: {
-                auto airport = getValidSingleAirport();
-                manager.listAirlinesPerAirport(airport);
-                return this;
-            }
-            case 4: {
                 manager.scc();
                 return this;
             }
+            case 4: {
+                //manager.cc();
+                return this;
+            }
             case 5: {
-
+                int k = getValidAirlineK();
+                manager.getTopKGreatestTrafficAirline(k);
+                return this;
             }
-            case 6: {
+            case 6:
 
-            }
             default:
                 std::cout << " Invalid choice. try again" << std::endl;
                 return this;

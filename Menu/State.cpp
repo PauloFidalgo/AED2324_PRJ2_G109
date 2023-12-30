@@ -1,6 +1,6 @@
 #include "State.h"
-#include "StatisticsState1.h"
 #include "BarsState.h"
+
 std::stack<State*> State::stateHistory;
 std::stack<State*> State::statisticsHistory;
 
@@ -48,9 +48,6 @@ Airport* State::getValidSingleAirport() {
     do {
         cout << "Airport: ";
         cin >> code;
-        if(code == "back"){
-            return nullptr;
-        }
 
         airportCode = manager.getAirportPerCode(code);
         airportName = manager.getAirportPerName(code);
@@ -59,6 +56,7 @@ Airport* State::getValidSingleAirport() {
             cout << "Airport doesn't exist. Try again." << endl;
         }
     } while (!airportCode && !airportName);
+
     return (airportCode) ? airportCode : airportName;
 }
 
@@ -140,19 +138,15 @@ string State::getValidSingleCountry() {
 }
 
 string State::getValidCountry() {
-    while (code != "ok") {
-        do {
-            cout << "Country: ";
-            cin >> code;
-            if (code == "ok") {
-                return "";
-            }
-            if (!manager.validateCountryName(code)) {
-                cout << "Country doesn't exist. Try again." << endl;
-            }
-        } while (!manager.validateCountryName(code));
-        return code;
-    }
+    cout << endl;
+    do {
+        cout << "Country: ";
+        cin >> code;
+        if (!manager.validateCountryName(code)) {
+            cout << "Country doesn't exist. Try again." << endl;
+        }
+    } while (!manager.validateCountryName(code));
+    return code;
 }
 
 int State::getValidAirportK() {
@@ -194,23 +188,25 @@ int State::getValidCountryK(){
         cout << "K : ";
         cin >> distance;
 
-            if (distance < 0 ) {
-                cout << "K needs to be > 0. Try again." << endl;
-            }
+        if (distance < 0 ) {
+            cout << "K needs to be > 0. Try again." << endl;
+        }
 
     } while (distance < 0 or distance > manager.getAirports().size());
     return distance;
 }
 
-Airport* State::getValidAirportPerCoordinates(){
+Airport* State::getValidAirportPerCoordinates() {
     Airport* airport;
-    double latitude, longitude;
+    cout << endl;
     do {
-        cout << "Latitude: ";
-        cin >> latitude ;
-        cout << endl;
-        cout << "Longitude: ";
-        cin >> longitude;
+        double latitude = -100, longitude = -200;
+        while (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
+            cout << "Latitude: ";
+            cin >> latitude ;
+            cout << "Longitude: ";
+            cin >> longitude;
+        }
         airport = manager.getClosestAirport(latitude,longitude);
         if (!airport) {
             cout << "Airport doesn't exist. Try again." << endl;
@@ -219,16 +215,33 @@ Airport* State::getValidAirportPerCoordinates(){
     return airport;
 }
 
+vector<Airport*> State::getValidAirportsSingleCountry() {
+    vector<Airport*> airports;
+    cout << endl;
+    do {
+        cout << "Country: ";
+        cin >> name;
+
+        airports = manager.validateCountry(name);
+        if (airports.empty()) {
+            cout << "Country doesn't exist. Try again." << endl;
+        }
+    } while (airports.empty());
+
+    return airports;
+}
+
 map<int,vector<Airport*>> State::getValidAirportsPerCities(){
     map <int,vector<Airport*>> airports;
     int i = 1;
     bool in = true;
+    cout << endl;
     while (in) {
         vector<Airport*> aux;
         do {
-            cout << "City( ok to confirm ): ";
+            cout << "City (ok to confirm): ";
             cin >> name;
-            if (code == "ok") {
+            if (name == "ok") {
                 in = false;
                 break;
             }
@@ -243,13 +256,29 @@ map<int,vector<Airport*>> State::getValidAirportsPerCities(){
     return airports;
 }
 
+vector<Airport*> State::getValidAirportsSingleCity() {
+    vector<Airport*> airports;
+    cout << endl;
+    do {
+        cout << "City: ";
+        cin >> name;
+        airports = manager.validateCity(name);
+        if (airports.empty()) {
+            cout << "City doesn't exist. Try again." << endl;
+        }
+    } while (airports.empty());
+
+    return airports;
+}
+
 vector<Airport*> State::getValidAirportsPerCity(){
-   vector<Airport*> airports;
+    vector<Airport*> airports;
     vector<Airport*> aux;
+    cout << endl;
     bool in = true;
     while (in) {
         do {
-            cout << "City( ok to confirm ): ";
+            cout << "City (ok to confirm): ";
             cin >> name;
             if (name == "ok") {
                 return airports;
@@ -266,12 +295,13 @@ vector<Airport*> State::getValidAirportsPerCity(){
 
 map<int,vector<Airport*>> State::getValidAirportsPerCountries() {
     map <int,vector<Airport*>> airports;
+    cout << endl;
     int i = 1;
     bool in = true;
     while (in) {
         vector<Airport*> aux;
         do {
-            cout << "Country( ok to confirm ): ";
+            cout << "Country (ok to confirm): ";
             cin >> name;
             if (name == "ok") {
                 in = false;
@@ -282,19 +312,20 @@ map<int,vector<Airport*>> State::getValidAirportsPerCountries() {
                 cout << "Country doesn't exist. Try again." << endl;
             }
         } while (aux.empty());
-       airports.insert({i,aux});
-       i++;
+        airports.insert({i,aux});
+        i++;
     }
     return airports;
 }
 
 vector<Airport*> State::getValidAirportsPerCountry() {
-   vector<Airport*> airports;
+    vector<Airport*> airports;
+    cout << endl;
     bool in = true;
     while (in) {
         vector<Airport*> aux;
         do {
-            cout << "Country( ok to confirm ): ";
+            cout << "Country (ok to confirm): ";
             cin >> name;
             if (name == "ok") {
                 in = false;
@@ -310,51 +341,59 @@ vector<Airport*> State::getValidAirportsPerCountry() {
     return airports;
 }
 
-vector<Airport*> State::getAirportsRange(int x){
+vector<Airport*> State::getAirportsRange(int x) {
     vector<Airport*> airports;
-    double longitude, latitude;
+    cout << endl;
     do {
-        cout << "Latitude: ";
-        cin >> latitude ;
-        cout << endl;
-        cout << "Longitude: ";
-        cin >> longitude;
+        double latitude = -100, longitude = -200;
+        while (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
+            cout << "Latitude: ";
+            cin >> latitude ;
+            cout << "Longitude: ";
+            cin >> longitude;
+
+            if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
+                cout << "Invalid numbers!\nLatitude must be between -90 and 90\nLongitude must be between -180 and 180\n" << endl;
+            }
+        }
 
         airports = manager.getAirportsPerCoordinatesRange(latitude, longitude, x);
         if (airports.empty()) {
-            cout << "Airport doesn't exist. Try again." << endl;
+            cout << "There are no airports in that range" << endl;
         }
     } while (airports.empty());
     return airports;
 }
 
+
 vector<Airport*> State::getValidAirports() {
     vector<Airport *> airports;
-
-    while (true) {
-        Airport* aux = nullptr;
-        Airport* aux2 = nullptr;
+    bool in = true;
+    while (in) {
+        Airport* aux;
+        Airport* aux2;
 
         do {
-            cout << "Airport Name or Code (enter 'ok' to confirm): ";
+            cout << "Airport Name or Code (ok to confirm): ";
             cin >> name;
-
             if (name == "ok") {
-                return airports;
+                in = false;
+                break;
             }
 
             aux = manager.getAirportPerCode(name);
             aux2 = manager.getAirportPerName(name);
 
-            if (!aux && !aux2) {
+            if (!aux and !aux2) {
                 cout << "Airport doesn't exist. Try again." << endl;
             }
-        } while (!aux && !aux2);
+        } while (!aux and !aux2);
 
-        airports.push_back((aux) ? aux : aux2);
+        if (aux) airports.push_back(aux);
+        if (aux2) airports.push_back(aux2);
     }
+    return airports;
 }
-
 
 unordered_set<Airline*> State::getValidAirlines() {
     unordered_set<Airline *> airlines;
@@ -364,22 +403,23 @@ unordered_set<Airline*> State::getValidAirlines() {
         Airline* aux2;
 
         do {
-            cout << "Airline ( ok to confirm ): ";
+            cout << "Airline (ok to confirm): ";
             cin >> name;
             if (name == "ok") {
                 in = false;
                 break;
             }
 
-            aux = manager.getAirlinePerCode(code);
-            aux2 = manager.getAirlinePerName(code);
+            aux = manager.getAirlinePerCode(name);
+            aux2 = manager.getAirlinePerName(name);
 
             if (!aux and !aux2) {
                 cout << "Airline doesn't exist. Try again." << endl;
             }
         } while (!aux and !aux2);
 
-        airlines.insert((aux) ? aux : aux2);
+        if (aux) airlines.insert(aux);
+        if (aux2) airlines.insert(aux2);
     }
     return airlines;
 }
@@ -392,14 +432,14 @@ unordered_set<Airline*> State::getValidAirlinePerCountry() {
 
 
         do {
-            cout << "Country ( ok to confirm ): ";
+            cout << "Country (ok to confirm): ";
             cin >> name;
             if (name == "ok") {
                 in = false;
                 break;
             }
 
-            aux = manager.getAirlinesPerCountry(code);
+            aux = manager.getAirlinesPerCountry(name);
 
             if (aux.empty()) {
                 cout << "Airline doesn't exist. Try again." << endl;
@@ -409,6 +449,7 @@ unordered_set<Airline*> State::getValidAirlinePerCountry() {
     }
     return airlines;
 }
+
 
 bool State::bars() {
     barsState.displayMenu();

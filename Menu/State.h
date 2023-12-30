@@ -46,7 +46,7 @@ public:
     int getValidCityK();
     int getValidCountryK();
     int getValidAirlineK();
-    bool bars();
+    static bool bars();
 
     Airline *getValidSingleAirline();
 };
