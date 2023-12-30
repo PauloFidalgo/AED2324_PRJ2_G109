@@ -66,19 +66,12 @@ public:
     void dfsVisit(Vertex *v, Vertex *t, vector<Airport> &flights);
     bool hasPath(Vertex *v, Vertex *t, vector<Airport> &flights);
     vector<Airport> pathExists(Airport *d, Airport *t);
-
-    vector<Vertex*> airportsAtDistanceK(Airport *source, int k);
     void articulationPoints();
     void dfsApp(Vertex *v, stack<Airport> &s, vector<Airport> &res, int &i);
     vector<Airport*> getAirportsPerCountry(const string &c);
     vector<Airport*> getAiportsPerCity(const string& city) const;
-    void checkUndirect(Vertex* &source, Vertex* &dest);
-    vector<vector<Airport*>> cc();
-    void dfsCC(vector<Airport*>& aux, Vertex* v);
-
     vector<vector<Airport*>> scc();
     unordered_set<string> getCitiesPerCountry(const string& c) const;
-    bool hasConnection(const string &s, const string &t);
     bool dfsVisitBool(Vertex *v, Vertex *t);
     vector<Airport*> hasFlightAirline(Airport *source, Airport *target, vector<Airline*> &setOfAirlines);
     void dfsScc(Vertex *v, stack<Airport*> &s, vector<vector<Airport*>> &res, int &i);
