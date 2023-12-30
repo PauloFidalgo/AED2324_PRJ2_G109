@@ -47,6 +47,9 @@ Airport* State::getValidSingleAirport() {
     do {
         cout << "Airport: ";
         cin >> code;
+        if(code == "back"){
+            return nullptr;
+        }
 
         airportCode = manager.getAirportPerCode(code);
         airportName = manager.getAirportPerName(code);
@@ -55,7 +58,6 @@ Airport* State::getValidSingleAirport() {
             cout << "Airport doesn't exist. Try again." << endl;
         }
     } while (!airportCode && !airportName);
-
     return (airportCode) ? airportCode : airportName;
 }
 
