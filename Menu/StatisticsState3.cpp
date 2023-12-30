@@ -64,20 +64,18 @@ State* StatisticsState3::handleInput() {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
             case 1: {
-                string country = getValidCountry();
                 vector<Airport*> airports = this->getValidAirportsPerCountry();
-                manager.getCountryDestinantions(airports,country);
+                manager.getCountryDestinantions(airports,name);
                 return this;
             }
             case 2: {
-                string city = getValidCity();
                 vector<Airport*> airports = this->getValidAirportsPerCity();
                 int dist = this->getValidCityK();
-                manager.getCityDestinantionsUntilDistanceK(airports,city,dist);
+                manager.getCityDestinantionsUntilDistanceK(airports,name,dist);
                 return this;
             }
             case 3: {
-                string city = getValidCity();
+                string city = getValidSingleCity();
                 manager.getCountriesCanFlyToCity(city);
                 return this;
             }
@@ -91,8 +89,7 @@ State* StatisticsState3::handleInput() {
 
             }
             case 6: {
-                string country = getValidCountry();
-                unordered_set<Airline*> airlines = manager.getAirlinesPerCountry(country);
+                unordered_set<Airline*> airlines = getValidAirlinePerCountry();
                 int distance = getValidAirlineK();
                 manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,false,false);
                 return this;

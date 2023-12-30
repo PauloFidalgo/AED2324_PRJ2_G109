@@ -65,14 +65,14 @@ State* StatisticsState5::handleInput() {
         switch (userInput) {
             case 1: {
                 auto airport = getValidAirports();
-                auto city = getValidCity();
+                auto city = getValidSingleCity();
                 auto dist = this->getValidCityK();
                 manager.getCityDestinantionsUntilDistanceK(airport,city,dist);
                 return this;
             }
             case 2: {
                 auto airport = getValidAirports();
-                auto country = getValidCountry();
+                auto country = getValidSingleCountry();
                 auto dist = this->getValidCountryK();
                 manager.getCountryDestinantionsUntilDistanceK(airport,country,dist);
                 return this;

@@ -60,7 +60,7 @@ State* StatisticsState6::handleInput() {
         switch (userInput) {
             case 1: {
                 auto airports = getValidAirports();
-                auto city = getValidCity();
+                auto city = getValidSingleCity();
                 barsState.displayMenu();
                 barsState.handleInput();
                 auto bars =barsState.shouldUseGraphicBar();
