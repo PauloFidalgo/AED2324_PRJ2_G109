@@ -67,22 +67,22 @@ State* StatisticsState5::handleInput() {
                 auto airport = getValidAirports();
                 auto city = getValidSingleCity();
                 auto dist = this->getValidCityK();
-                manager.getCityDestinantionsUntilDistanceK(airport,city,dist);
+                if(!airport.empty() && dist != -1 && !city.empty()) manager.getCityDestinantionsUntilDistanceK(airport,city,dist);
                 return this;
             }
             case 2: {
                 auto airport = getValidAirports();
                 auto country = getValidSingleCountry();
                 auto dist = this->getValidCountryK();
-                manager.getCountryDestinantionsUntilDistanceK(airport,country,dist);
+                if(!airport.empty() && dist != -1 && !country.empty())  manager.getCountryDestinantionsUntilDistanceK(airport,country,dist);
                 return this;
             }
             case 3: {
                 auto k = getValidCityK();
                 barsState.displayMenu();
                 barsState.handleInput();
-                auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKGreatestTrafficCity(k,bars,true);
+                auto bars = barsState.shouldUseGraphicBar();
+                if(bars && k != -1) manager.getTopKGreatestTrafficCity(k,bars,true);
                 return this;
             }
             case 4: {
@@ -90,23 +90,23 @@ State* StatisticsState5::handleInput() {
                 barsState.displayMenu();
                 barsState.handleInput();
                 auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKGreatestTrafficCity(k,bars,false);
+                if(bars && k != -1) manager.getTopKGreatestTrafficCity(k,bars,false);
                 return this;
             }
             case 5: {
                 auto k = getValidCountryK();
                 barsState.displayMenu();
                 barsState.handleInput();
-                auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKGreatestTrafficCountry(k,bars,true);
+                auto bars = barsState.shouldUseGraphicBar();
+                if(bars && k != -1) manager.getTopKGreatestTrafficCountry(k,bars,true);
                 return this;
             }
             case 6: {
                 auto k = getValidCountryK();
                 barsState.displayMenu();
                 barsState.handleInput();
-                auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKGreatestTrafficCountry(k,bars,false);
+                auto bars = barsState.shouldUseGraphicBar();
+                if(bars && k != -1) manager.getTopKGreatestTrafficCountry(k,bars,false);
                 return this;
             }
             default:

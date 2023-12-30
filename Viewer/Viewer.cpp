@@ -3,6 +3,7 @@
 //
 
 #include <iomanip>
+#include <algorithm>
 #include "Viewer.h"
 
 void Viewer::printNumAirportsNumFlights(const int &numAirports, const int &numFlights) {

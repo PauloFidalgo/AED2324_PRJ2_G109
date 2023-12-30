@@ -66,7 +66,7 @@ State* StatisticsState4::handleInput() {
         switch (userInput) {
             case 1: {
                 auto dist = this->getValidAirportK();
-                manager.getTopKGreatestTrafficAirport(dist);
+                if(dist != -1) manager.getTopKGreatestTrafficAirport(dist);
                 return this;
             }
             case 2: {
@@ -74,8 +74,8 @@ State* StatisticsState4::handleInput() {
                 auto dist = getValidAirportK();
                 barsState.displayMenu();
                 barsState.handleInput();
-                auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, bars, true);
+                auto bars = barsState.shouldUseGraphicBar();
+                if(!airports.empty() && dist != -1 && bars) manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, bars, true);
                 return this;
             }
             case 3: {
@@ -83,25 +83,25 @@ State* StatisticsState4::handleInput() {
                 auto dist = getValidAirportK();
                 barsState.displayMenu();
                 barsState.handleInput();
-                auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, bars, false);
+                auto bars = barsState.shouldUseGraphicBar();
+                if(!airports.empty() && dist != -1 && bars) manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, bars, false);
                 return this;
             }
             case 4: {
                 string country = getValidSingleCountry();
                 Airport* airport = manager.getAirportPerName(country);
-                Manager::printAirportInfo(airport);
+                if (!country.empty() && airport != nullptr) Manager::printAirportInfo(airport);
                 return this;
             }
             case 5: {
                 string name = getValidSingleCountry();
                 Airline *airline = manager.getAirlinePerName(name);
-                Manager::printAirlineInfo(airline);
+                if (!name.empty() && airline != nullptr) Manager::printAirlineInfo(airline);
                 return this;
             }
             case 6: {
                 auto airports = getValidAirportsSingleCountry();
-                manager.listAirportsPerCountryCity(airports, name);
+                if (!airports.empty()) manager.listAirportsPerCountryCity(airports, name);
                 return this;
             }
             default:

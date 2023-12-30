@@ -22,7 +22,6 @@ State::~State() {
 Airport* State::getValidSingleAirport() {
     Airport* airportCode;
     Airport* airportName;
-    cout << endl;
     getline(cin, code);
     airportCode = manager.getAirportPerCode(code);
     airportName = manager.getAirportPerName(code);
@@ -153,9 +152,9 @@ int State::getValidCountryK(){
         cin >> distance;
 
         if (distance == -1) return -1;
-            if (distance < 0 ) {
-                cout << "K needs to be > 0. Try again." << endl;
-            }
+        if (distance < 0 ) {
+            cout << "K needs to be > 0. Try again." << endl;
+        }
 
     } while (distance < 0 or distance > manager.getAirports().size());
     return distance;
@@ -163,7 +162,6 @@ int State::getValidCountryK(){
 
 Airport* State::getValidAirportPerCoordinates() {
     Airport* airport;
-    cout << endl;
     do {
         double latitude = -100, longitude = -200;
         while (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
@@ -206,7 +204,6 @@ map<int,vector<Airport*>> State::getValidAirportsPerCities(){
     int i = 1;
     bool in = true;
     bool first = true;
-    cout << endl;
     while (in) {
         vector<Airport*> aux;
         do {
@@ -258,7 +255,6 @@ vector<Airport*> State::getValidAirportsSingleCity() {
 vector<Airport*> State::getValidAirportsPerCity(){
    vector<Airport*> airports;
     vector<Airport*> aux;
-    cout << endl;
     bool in = true;
     bool first = true;
     while (in) {
@@ -286,7 +282,6 @@ vector<Airport*> State::getValidAirportsPerCity(){
 
 map<int,vector<Airport*>> State::getValidAirportsPerCountries() {
     map <int,vector<Airport*>> airports;
-    cout << endl;
     int i = 1;
     bool first = true;
     bool in = true;
@@ -317,7 +312,6 @@ map<int,vector<Airport*>> State::getValidAirportsPerCountries() {
 
 vector<Airport*> State::getValidAirportsPerCountry() {
    vector<Airport*> airports;
-    cout << endl;
     bool first = true;
     bool in = true;
     while (in) {
@@ -348,7 +342,6 @@ vector<Airport*> State::getValidAirportsPerCountry() {
 
 vector<Airport*> State::getAirportsRange(int x) {
     vector<Airport*> airports;
-    cout << endl;
     do {
         double latitude = -100, longitude = -200;
         while (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {

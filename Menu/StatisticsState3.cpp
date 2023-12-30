@@ -65,18 +65,18 @@ State* StatisticsState3::handleInput() {
         switch (userInput) {
             case 1: {
                 vector<Airport*> airports = this->getValidAirportsPerCountry();
-                manager.getCountryDestinantions(airports,name);
+                if (!airports.empty()) manager.getCountryDestinantions(airports,name);
                 return this;
             }
             case 2: {
                 vector<Airport*> airports = this->getValidAirportsPerCity();
                 int dist = this->getValidCityK();
-                manager.getCityDestinantionsUntilDistanceK(airports,name,dist);
+                if (!airports.empty() && dist != -1) manager.getCityDestinantionsUntilDistanceK(airports,name,dist);
                 return this;
             }
             case 3: {
                 string city = getValidSingleCity();
-                manager.getCountriesCanFlyToCity(city);
+                if (!city.empty()) manager.getCountriesCanFlyToCity(city);
                 return this;
             }
             case 4:
@@ -84,14 +84,14 @@ State* StatisticsState3::handleInput() {
                 return this;
             case 5: {
                 int k = getValidAirlineK();
-                manager.getTopKGreatestTrafficAirline(k);
+                if (k != -1) manager.getTopKGreatestTrafficAirline(k);
                 return this;
 
             }
             case 6: {
                 unordered_set<Airline*> airlines = getValidAirlinePerCountry();
                 int distance = getValidAirlineK();
-                manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,false,false);
+                if (!airlines.empty() && distance != -1) manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,false,false);
                 return this;
             }
 

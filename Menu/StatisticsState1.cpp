@@ -84,7 +84,7 @@ State* StatisticsState1::handleInput() {
                 case 6: {
                     Airport *airport = getValidSingleAirport();
                     int distance = getValidAirportK();
-                    if (distance != -1) manager.getAirportDestinantionsUntilDistanceK(airport, distance);
+                    if (airport != nullptr && distance != -1) manager.getAirportDestinantionsUntilDistanceK(airport, distance);
                     return this;
                 }
                 default:
