@@ -83,8 +83,10 @@ State* StatisticsState3::handleInput() {
                 manager.diameterPairs();
                 return this;
             case 5: {
-                int k = getValidAirlineK();
-                if (k != -1) manager.getTopKGreatestTrafficAirline(k);
+                unordered_set<Airline*> airlines = getValidAirlinePerCountry();
+                int distance = getValidAirlineK();
+                auto bar = bars();
+                if (!airlines.empty() && distance != -1) manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,bar,true);
                 return this;
 
             }

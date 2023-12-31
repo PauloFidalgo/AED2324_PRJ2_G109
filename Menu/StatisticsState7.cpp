@@ -66,52 +66,40 @@ State* StatisticsState7::handleInput() {
             case 1: {
                 auto airline = getValidSingleAirline();
                 auto k = getValidAirportK();
-                barsState.displayMenu();
-                barsState.handleInput();
-                auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKAirportsAirlineTravelsTo(k,airline,bars,true);
+                auto bar = bars();
+                if( k != -1 && airline) manager.getTopKAirportsAirlineTravelsTo(k,airline,bar,true);
                 return this;
             }
             case 2: {
                 auto airline = getValidSingleAirline();
                 auto k = getValidAirportK();
-                barsState.displayMenu();
-                barsState.handleInput();
-                auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKAirportsAirlineTravelsTo(k,airline,bars, false);
+                auto bar = bars();
+                if( k != -1 && airline) manager.getTopKAirportsAirlineTravelsTo(k,airline,bar, false);
                 return this;
             }
             case 3: {
                 auto k = getValidAirportK();
-                barsState.displayMenu();
-                barsState.handleInput();
-                auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKAirportsWithMoreAirlines(k,bars,true);
+                auto bar = bars();
+                if( k != -1)  manager.getTopKAirportsWithMoreAirlines(k,bar,true);
                 return this;
             }
             case 4: {
                 auto k = getValidAirportK();
-                barsState.displayMenu();
-                barsState.handleInput();
-                auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKAirportsWithMoreAirlines(k,bars,false);
+                auto bar = bars();
+                if( k != -1 ) manager.getTopKAirportsWithMoreAirlines(k,bar,false);
                 return this;
             }
             case 5: {
                 auto airport = getValidSingleAirport();
                 auto k = getValidAirportK();
-                barsState.displayMenu();
-                barsState.handleInput();
-                auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKAirlinesThatFlyMoreToAnAirport(k,airport,bars, true);
+                auto bar = bars();
+                if( k != -1 && airport) manager.getTopKAirlinesThatFlyMoreToAnAirport(k,airport,bar, true);
             }
             case 6: {
                 auto airport = getValidSingleAirport();
                 auto k = getValidAirportK();
-                barsState.displayMenu();
-                barsState.handleInput();
-                auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKAirlinesThatFlyMoreToAnAirport(k,airport,bars, false);
+                auto bar = bars();
+                if( k != -1 && airport) manager.getTopKAirlinesThatFlyMoreToAnAirport(k,airport,bar, false);
             }
             default:
                 std::cout << " Invalid choice. try again" << std::endl;

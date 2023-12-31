@@ -84,15 +84,13 @@ State* StatisticsState4::handleInput() {
                 return this;
             }
             case 4: {
-                string country = getValidSingleCountry();
-                Airport* airport = manager.getAirportPerName(country);
-                if (!country.empty() && airport != nullptr) Manager::printAirportInfo(airport);
+                auto airport = getValidSingleAirport();
+                if (airport) Manager::printAirportInfo(airport);
                 return this;
             }
             case 5: {
-                string name = getValidSingleCountry();
-                Airline *airline = manager.getAirlinePerName(name);
-                if (!name.empty() && airline != nullptr) Manager::printAirlineInfo(airline);
+                auto airline = getValidSingleAirline();
+                if (airline) Manager::printAirlineInfo(airline);
                 return this;
             }
             case 6: {

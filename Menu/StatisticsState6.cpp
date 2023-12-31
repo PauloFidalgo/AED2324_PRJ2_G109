@@ -80,19 +80,17 @@ State* StatisticsState6::handleInput() {
                 return this;
             }
             case 3: {
-                auto country = getValidSingleCountry();
-                auto countryCities = manager.getCitiesPerCountry(country);
+                auto cities = getValidCitiesSingleCountry();
                 auto k = getValidCountryK();
                 auto bar = bars();
-                if ( k != -1 && !countryCities.empty()) manager.getTopKGreatestTrafficCityPerCountry(k,countryCities,bar,true);
+                if ( k != -1 && !cities.empty()) manager.getTopKGreatestTrafficCityPerCountry(k,cities,bar,true);
                 return this;
             }
             case 4: {
-                auto country = getValidSingleCountry();
-                auto countryCities = manager.getCitiesPerCountry(country);
+                auto cities = getValidCitiesSingleCountry();
                 auto k = getValidCountryK();
                 auto bar = bars();
-                if ( k != -1 && !countryCities.empty())manager.getTopKGreatestTrafficCityPerCountry(k,countryCities,bars,false);
+                if ( k != -1 && !cities.empty())manager.getTopKGreatestTrafficCityPerCountry(k,cities,bar,false);
                 return this;
             }
             case 5: {
@@ -103,7 +101,7 @@ State* StatisticsState6::handleInput() {
             case 6: {
                 auto k = getValidCountryK();
                 auto bar = bars();
-                if( k != -1) manager.getTopKCountriesWithMoreAirlines(k,bars, false);
+                if( k != -1) manager.getTopKCountriesWithMoreAirlines(k,bar, false);
             }
             default:
                 std::cout << " Invalid choice. try again" << std::endl;

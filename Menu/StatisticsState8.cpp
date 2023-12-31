@@ -22,8 +22,8 @@ void StatisticsState8::displayMenu() {
     cout << "|                             1. Top K Airlines That Fly More To An Airport Ratio (Ascending)          |" << endl;
     cout << "|                             2. Top K Airlines That Fly More To An Airport Ratio (Descending)         |" << endl;
     cout << "|                             3. Strongly connected Components                                         |" << endl;
-    cout << "|                             4. Connected Components                                                  |" << endl;
-    cout << "|                             5. Top K Greatest Traffic Airline                                        |" << endl;
+    cout << "|                             4. Top K Greatest Traffic Airline                                        |" << endl;
+    cout << "|                             5.                                                                       |" << endl;
     cout << "|                             6.                                                                       |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "| back - Main Menu                                                                                     |" << endl;
@@ -61,16 +61,14 @@ State* StatisticsState8::handleInput() {
             case 1: {
                 auto k = getValidAirportK();
                 auto airport = getValidSingleAirport();
-                barsState.displayMenu();
-                barsState.handleInput();
-                auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKAirlinesThatFlyMoreToAnAirportRatio(k,airport,bars,true);
+                auto bar = bars();
+                if( k != -1 && airport) manager.getTopKAirlinesThatFlyMoreToAnAirportRatio(k,airport,bar,true);
             }
             case 2: {
                 auto k = getValidAirportK();
                 auto airport = getValidSingleAirport();
                 auto bar = bars();
-                manager.getTopKAirlinesThatFlyMoreToAnAirportRatio(k,airport,bar,false);
+                if( k != -1 && airport) manager.getTopKAirlinesThatFlyMoreToAnAirportRatio(k,airport,bar,false);
                 return this;
             }
             case 3: {
@@ -78,13 +76,12 @@ State* StatisticsState8::handleInput() {
                 return this;
             }
             case 4: {
-                //manager.cc();
+                int k = getValidAirlineK();
+                if (k != -1) manager.getTopKGreatestTrafficAirline(k);
                 return this;
+
             }
             case 5: {
-                int k = getValidAirlineK();
-                manager.getTopKGreatestTrafficAirline(k);
-                return this;
             }
             case 6:
 

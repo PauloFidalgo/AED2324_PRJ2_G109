@@ -95,7 +95,7 @@ string State::getValidSingleCity() {
 
 string State::getValidSingleCountry() {
 
-    do {
+    while(!manager.validateCountryName(code)){
         cout << "Country: (back to cancel)";
 
         getline(cin, code);
@@ -105,7 +105,7 @@ string State::getValidSingleCountry() {
         if (!manager.validateCountryName(code)) {
             cout << "Country doesn't exist. Try again." << endl;
         }
-    } while (!manager.validateCountryName(code));
+    }
     return code;
 }
 
@@ -460,6 +460,27 @@ unordered_set<Airline*> State::getValidAirlinePerCountry() {
     }
 
     return airlines;
+}
+
+unordered_set<string> State::getValidCitiesSingleCountry() {
+    unordered_set<string> cities;
+    getline(cin, name);
+    cities = manager.getCitiesPerCountry(name);
+
+    while (cities.empty()) {
+        cout << "Country (back to cancel): ";
+        getline(cin, name);
+
+        if (name == "back") return {};
+
+        cities = manager.getCitiesPerCountry(name);
+
+        if (cities.empty()) {
+            cout << "Country doesn't exist. Try again." << endl;
+        }
+    }
+
+    return cities;
 }
 
 bool State::bars() {

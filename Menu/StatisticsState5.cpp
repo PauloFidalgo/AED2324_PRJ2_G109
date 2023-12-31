@@ -99,7 +99,7 @@ State* StatisticsState5::handleInput() {
             case 6: {
                 auto k = getValidCountryK();
                 auto bar = bars();
-                if ( k!= -1) manager.getTopKGreatestTrafficCountry(k,bars,false);
+                if ( k!= -1) manager.getTopKGreatestTrafficCountry(k,bar,false);
                 return this;
             }
             default:
