@@ -21,13 +21,6 @@ Manager::Manager() {
     this->countryAirlines = parser.getAirlinesCountry();
 }
 
-unordered_map<std::string, Airline*> Manager::getAirlines() {
-    return this->airlines;
-}
-
-unordered_map<string, Airport*> Manager::getAirports() {
-    return this->airports;
-}
 
 Airport* Manager::getAirportPerCode(const std::string &code) const {
     auto it = airports.find(code);
@@ -87,25 +80,8 @@ Airline* Manager::getAirlinePerName(const std::string &name) const {
     return nullptr;
 }
 
-vector<Airport*> Manager::getAirportsPerCountry(const string &c) {
-    auto cities = this->getCitiesPerCountry(c);
 
-    vector<Airport*> res;
-
-    if (!cities.empty()) {
-        for (auto &city : cities) {
-            auto air = this->getAirportsPerCity(city);
-
-            if (!air.empty()) {
-                res.insert(res.end(), make_move_iterator(air.begin()), make_move_iterator(air.end()));
-            }
-        }
-    }
-
-    return res;
-}
-
-vector<Airport*> Manager::getAiportsPerCity(const string& city) const {
+vector<Airport*> Manager::getAirportsPerCity(const string& city) const {
     auto it = cityAirports.find(city);
 
     if (it != cityAirports.end()) return it->second;
@@ -159,7 +135,7 @@ Airport* Manager::getClosestAirport(const double &x, const double &y) {
     return closest;
 }
 
-unordered_set<string> Manager::getCitiesPerCountry(const string& c) {
+unordered_set<string> Manager::getCitiesPerCountry(const string& c) const {
     auto it = countryCities.find(c);
 
     if (it != countryCities.end()) return it->second;
@@ -450,6 +426,9 @@ vector<Edge> Manager::getOutFlights(Airport* airport) const {
     return vertex->getAdj();
 }
 
+/*! Permite visualizar o número total de aeroportos e o número total de voos da rede
+ * O(|V|)
+ */
 void Manager::getNumAirportsAndFlights() const {
     int numAirports = airports.size();
     int numFlights = 0;
@@ -459,6 +438,9 @@ void Manager::getNumAirportsAndFlights() const {
     Viewer::printNumAirportsNumFlights(numAirports, numFlights);
 }
 
+/*! Permite visualizar o número total de voos de um aeroporto e de quantas companhias diferentes
+ *
+ */
 void Manager::getNumFlightsAndAirlines(Airport *airport) const {
     int numFlights = airport->getNumFlightsOut();
     int numAirlines = 0;
@@ -477,6 +459,9 @@ void Manager::getNumFlightsAndAirlines(Airport *airport) const {
     Viewer::printNumFlightsOutAndAirlines(airport->getCode(), airport->getName(), numFlights, numAirlines);
 }
 
+/*! Permite visualizar o número total de voos de uma cidade
+ *
+ */
 void Manager::getNumFlightsPerCity(const string &city) const {
     int numFlights = 0;
     vector<Airport*> air = getAirportsPerCity(city);
@@ -487,11 +472,16 @@ void Manager::getNumFlightsPerCity(const string &city) const {
     Viewer::printNumFlightsPerCity(city, numFlights);
 }
 
+/*! Permite visualizar o número total de voos de uma companhia
+ *
+ */
 void Manager::getNumFlightsPerAirline(Airline *airline) const {
     int numFlights = airline->getNumFlights();
     Viewer::printNumFlightsPerAirline(airline->getCode(), airline->getName(), numFlights);
 }
-
+/*! Permite visualizar o número países diferentes que é possível visitar a partir de uma aeorporto
+ *
+ */
 void Manager::getCountriesCanFlyToAirport(Airport *airport) const {
     vector<Edge> edges = getOutFlights(airport);
     set<string> countries;
@@ -502,7 +492,9 @@ void Manager::getCountriesCanFlyToAirport(Airport *airport) const {
     Viewer::printCountriesAirportCanFlyTo(airport->getCode(), airport->getName(), numCountries);
 }
 
-
+/*! Permite visualizar o número países diferentes que é possível visitar a partir de uma cidade
+ *
+ */
 void Manager::getCountriesCanFlyToCity(const string &city) const {
     set<string> countries;
     for (auto& elem : connections.getVertexSet()) {
@@ -523,7 +515,7 @@ bool notIn(vector<Airport*> &v, Airport* &t) {
     return true;
 }
 
-int Manager::getNumStops(Airport* s, Airport* t) {
+int Manager::getNumStops(Airport* s, Airport* t) const {
     for (auto node : connections.getVertexSet()) {
         node->setVisited(false);
     }
@@ -763,7 +755,7 @@ vector<Airport*> Manager::minimizeDistace(Airport* u, Airport* v, const vector<A
 }
 
 
-vector<Airport*> Manager::findShortestPath(Airport* u, Airport* v) {
+vector<Airport*> Manager::findShortestPath(Airport* u, Airport* v) const {
     unordered_map<Vertex*, int> distances;
     for (Vertex* vertex : connections.getVertexSet()) {
         distances[vertex] = numeric_limits<int>::max();
@@ -833,7 +825,7 @@ bool excludeCountries(Vertex* v, vector<string> &countries) {
     return false;
 }
 
-double Manager::getTripDistance(const vector<Airport *> &trip) {
+double Manager::getTripDistance(const vector<Airport *> &trip) const {
     double res = 0.0;
 
     auto it = trip.begin();
@@ -847,7 +839,7 @@ double Manager::getTripDistance(const vector<Airport *> &trip) {
     return res;
 }
 
-double Manager::getDistance(Airport *u, Airport* v) {
+double Manager::getDistance(Airport *u, Airport* v) const {
     auto p = findShortestPath(u, v);
 
     auto it = p.begin();
@@ -878,36 +870,6 @@ double Manager::getDistance(Airport *u, Airport* v) {
     return dist;
 }
 
-vector<Airport*> Manager::scheduleTripMinDistance(Airport* u, Airport* v, vector<Airport*> & visit) {
-    for (auto node : connections.getVertexSet()) {
-        node->setVisited(false);
-    }
-
-    vector<Airport*> res;
-
-    visit.push_back(v);
-    auto first = u;
-
-    for (auto &country : visit) {
-        auto min_dist = findShortestPath(first, country);
-
-        for (auto &c : min_dist) {
-            if (std::find(res.begin(), res.end(),c) == res.end())
-            res.push_back(c);
-        }
-
-        first = country;
-    }
-
-    auto min_dist = findShortestPath(first, v);
-
-    for (auto &c : min_dist) {
-        if (std::find(res.begin(), res.end(),c) == res.end())
-        res.push_back(c);
-    }
-
-    return res;
-}
 
 vector<Airport*> Manager::scheduleTripMinDistance(Airport* &source, Airport* &destination, vector<Airport*> &airporsToVisit, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
 
@@ -933,116 +895,6 @@ vector<Airport*> Manager::scheduleTripMinDistance(Airport* &source, Airport* &de
     for (auto &c : min_dist) {
         if (std::find(res.begin(), res.end(),c) == res.end())
             res.push_back(c);
-    }
-
-    return res;
-}
-
-vector<vector<Airport*>> Manager::scheduleTripMinConnectionCities(Airport* u, Airport* v, vector<string>& visit) {
-    vector<vector<Airport*>> visits;
-    bool first = true;
-
-    for (auto& city : visit) {
-        auto air = getAirportsPerCity(city);
-
-        if (first) {
-            for (auto& airport : air) {
-                vector<Airport*> aux;
-                aux.push_back(airport);
-                visits.push_back(aux);
-            }
-            first = false;
-        } else {
-            vector<vector<Airport*>> newVisits;
-            for (auto& path : visits) {
-                for (auto& airport : air) {
-                    vector<Airport*> newPath = path; // Copy the current path
-                    newPath.push_back(airport);
-                    newVisits.push_back(newPath);
-                }
-            }
-            visits = newVisits;
-        }
-    }
-
-    vector<vector<Airport*>> res;
-    vector<pair<int, vector<vector<Airport*>>>> auxiliary;
-
-    first = true;
-    int min;
-    vector<vector<Airport*>> aux;
-
-    for (auto& vec : visits) {
-        auto next = scheduleTripMinConnectionAirports(u, v, vec, {}, {}, {});
-        auto it = next.begin();
-
-        if (first || it->size() <= min) {
-            aux = next;
-            min = it->size();
-            auxiliary.emplace_back(min, aux);
-            first = false;
-        }
-    }
-
-    for (auto& trip : auxiliary) {
-        if (trip.first == min) {
-            res.insert(res.end(), trip.second.begin(), trip.second.end());
-        }
-    }
-
-    return res;
-}
-
-vector<vector<Airport*>> Manager::scheduleTripMinConnectionCountries(Airport* u, Airport* v, vector<string>& visit) {
-    vector<vector<Airport*>> visits;
-    bool first = true;
-
-    for (auto& country : visit) {
-        auto air = getAirportsPerCountry(country);
-
-        if (first) {
-            for (auto& airport : air) {
-                vector<Airport*> aux;
-                aux.push_back(airport);
-                visits.push_back(aux);
-            }
-            first = false;
-        } else {
-            vector<vector<Airport*>> newVisits;
-            for (auto& path : visits) {
-                for (auto& airport : air) {
-                    vector<Airport*> newPath = path; // Copy the current path
-                    newPath.push_back(airport);
-                    newVisits.push_back(newPath);
-                }
-            }
-            visits = newVisits;
-        }
-    }
-
-    vector<vector<Airport*>> res;
-    vector<pair<int, vector<vector<Airport*>>>> auxiliary;
-
-    first = true;
-    int min;
-    vector<vector<Airport*>> aux;
-
-    for (auto& vec : visits) {
-        auto next = scheduleTripMinConnectionAirports(u, v, vec, {}, {}, {});
-        auto it = next.begin();
-
-        if (first || it->size() <= min) {
-            aux = next;
-            min = it->size();
-            auxiliary.emplace_back(min, aux);
-            first = false;
-        }
-    }
-
-    for (auto& trip : auxiliary) {
-        if (trip.first == min) {
-            res.insert(res.end(), trip.second.begin(), trip.second.end());
-        }
     }
 
     return res;
@@ -1102,78 +954,6 @@ vector<vector<Airport*>> Manager::scheduleTripMinConnectionAirports(Airport* u, 
     return re;
 }
 
-vector<Airport*> Manager::findShortestPathExcludeCountries(Airport* u, Airport* v, vector<string> &countries) {
-    unordered_map<Vertex*, int> distances;
-
-    if (u == v) return {};
-
-    for (auto &node : connections.getVertexSet()) {
-        distances[node] = numeric_limits<int>::max();
-        if (!excludeCountries(node, countries)) {
-            node->setVisited(false);
-        }
-        else {
-            node->setVisited(true);
-        }
-    }
-
-    auto depart = connections.findVertex(airports[u->getCode()]);
-    auto arrival = connections.findVertex(airports[v->getCode()]);
-
-
-    priority_queue<pair<int, Vertex*>, vector<pair<int, Vertex*>>, greater<>> pq;
-
-
-    Vertex* sourceAirport = connections.findVertex(u);
-    Vertex* targetAirportPerCode = connections.findVertex(v);
-
-
-    if (!sourceAirport || !targetAirportPerCode) {
-        cerr << "Source or target airport not found." << endl;
-        return {};
-    }
-
-    distances[sourceAirport] = 0;
-    pq.emplace(0, sourceAirport);
-
-    unordered_map<Vertex*, Vertex*> parent;
-
-    while (!pq.empty()) {
-        Vertex* current = pq.top().second;
-        int currentDistance = pq.top().first;
-        pq.pop();
-
-        if (currentDistance > distances[current]) {
-            continue;
-        }
-
-        for (Edge& flight : current->getAdj()) {
-            Vertex* neighbor = flight.getDest();
-
-            if (!neighbor->isVisited()) {
-                int weight = flight.getWeight();
-
-                int newDistance = currentDistance + weight;
-
-                if (newDistance < distances[neighbor]) {
-                    distances[neighbor] = newDistance;
-                    pq.emplace(newDistance, neighbor);
-                    parent[neighbor] = current;
-                }
-            }
-        }
-    }
-
-    vector<Airport*> path;
-    Vertex* current = targetAirportPerCode;
-
-    while (current != nullptr) {
-        path.insert(path.begin(), current->getInfo());
-        current = parent[current];
-    }
-
-    return path;
-}
 
 vector<Airport*> Manager::findShortestPathExclude(Airport* u, Airport* v, vector<Airport*> &airpExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
     unordered_map<Vertex*, int> distances;
@@ -1250,200 +1030,7 @@ vector<Airport*> Manager::findShortestPathExclude(Airport* u, Airport* v, vector
     return path;
 }
 
-vector<vector<Airport*>> Manager::findMinConnectionsExcludeCountries(Airport* s, Airport* t, vector<string> &countries) {
-    for (auto node : connections.getVertexSet()) {
-        if (excludeCountries(node, countries)) {
-            node->setVisited(true);
-        }
-        else {
-            node->setVisited(false);
-        }
-    }
 
-    auto first = connections.findVertex(s);
-    auto last = connections.findVertex(t);
-
-    queue<Vertex*> q;
-    unordered_map<Vertex*, Vertex*> parent;
-
-    q.push(first);
-    first->setVisited(true);
-    bool found = false;
-
-    vector<Vertex*> res;
-
-    while (!q.empty()) {
-        int size = q.size();
-
-        for (int i = 0; i < size; i++) {
-            Vertex* current = q.front();
-            q.pop();
-
-
-            for (Edge& flight : current->getAdj()) {
-                Vertex* neighbor = flight.getDest();
-
-                if (!neighbor->isVisited()) {
-                    q.push(neighbor);
-                    parent[neighbor] = current;
-                    neighbor->setVisited(true);
-
-                    if (neighbor == last) {
-                        found = true;
-                        neighbor->setVisited(false);
-                        res.push_back(current);
-                    }
-                }
-            }
-        }
-
-        if (found) break;
-    }
-
-    vector<vector<Airport*>> result;
-    for (auto v : res) {
-        Vertex* current = v;
-        vector<Airport*> path;
-        while (current != nullptr) {
-            path.insert(path.begin(), current->getInfo());
-            current = parent[current];
-        }
-        path.push_back(t);
-        result.push_back(path);
-    }
-    return result;
-}
-
-vector<vector<Airport*>> Manager::findMinConnectionsExcludeCities(Airport* s, Airport* t, vector<string> &cities) {
-    for (auto node : connections.getVertexSet()) {
-        node->setVisited(false);
-    }
-
-    for (auto &city : cities) {
-        auto cityAir = getAirportsPerCity(city);
-        for (auto &airport : cityAir) {
-            auto vertex = connections.findVertex(airport);
-            vertex->setVisited(true);
-        }
-    }
-
-    auto first = connections.findVertex(s);
-    auto last = connections.findVertex(t);
-
-    queue<Vertex*> q;
-    unordered_map<Vertex*, Vertex*> parent;
-
-    q.push(first);
-    first->setVisited(true);
-    bool found = false;
-
-    vector<Vertex*> res;
-
-    while (!q.empty()) {
-        int size = q.size();
-
-        for (int i = 0; i < size; i++) {
-            Vertex* current = q.front();
-            q.pop();
-
-
-            for (Edge& flight : current->getAdj()) {
-                Vertex* neighbor = flight.getDest();
-
-                if (!neighbor->isVisited()) {
-                    q.push(neighbor);
-                    parent[neighbor] = current;
-                    neighbor->setVisited(true);
-
-                    if (neighbor == last) {
-                        found = true;
-                        neighbor->setVisited(false);
-                        res.push_back(current);
-                    }
-                }
-            }
-        }
-
-        if (found) break;
-    }
-
-    vector<vector<Airport*>> result;
-    for (auto v : res) {
-        Vertex* current = v;
-        vector<Airport*> path;
-        while (current != nullptr) {
-            path.insert(path.begin(), current->getInfo());
-            current = parent[current];
-        }
-        path.push_back(t);
-        result.push_back(path);
-    }
-    return result;
-}
-
-vector<vector<Airport*>> Manager::findMinConnectionsExcludeAirports(Airport* s, Airport* t, vector<Airport*> &air) {
-    for (auto node : connections.getVertexSet()) {
-        node->setVisited(false);
-    }
-
-    for (auto &airport : air) {
-        auto vertex = connections.findVertex(airport);
-        vertex->setVisited(true);
-    }
-
-    auto first = connections.findVertex(s);
-    auto last = connections.findVertex(t);
-
-    queue<Vertex*> q;
-    unordered_map<Vertex*, Vertex*> parent;
-
-    q.push(first);
-    first->setVisited(true);
-    bool found = false;
-
-    vector<Vertex*> res;
-
-    while (!q.empty()) {
-        int size = q.size();
-
-        for (int i = 0; i < size; i++) {
-            Vertex* current = q.front();
-            q.pop();
-
-
-            for (Edge& flight : current->getAdj()) {
-                Vertex* neighbor = flight.getDest();
-
-                if (!neighbor->isVisited()) {
-                    q.push(neighbor);
-                    parent[neighbor] = current;
-                    neighbor->setVisited(true);
-
-                    if (neighbor == last) {
-                        found = true;
-                        neighbor->setVisited(false);
-                        res.push_back(current);
-                    }
-                }
-            }
-        }
-
-        if (found) break;
-    }
-
-    vector<vector<Airport*>> result;
-    for (auto v : res) {
-        Vertex* current = v;
-        vector<Airport*> path;
-        while (current != nullptr) {
-            path.insert(path.begin(), current->getInfo());
-            current = parent[current];
-        }
-        path.push_back(t);
-        result.push_back(path);
-    }
-    return result;
-}
 
 void combinationalHelper(map<int, vector<Airport*>>::iterator &current, map<int, vector<Airport*>>::iterator &next, map<int, vector<Airport*>>& cityCountry, vector<vector<Airport*>>& res, vector<Airport*>& path) {
 
@@ -1472,6 +1059,7 @@ void allCombinations(map<int, vector<Airport*>>& cityCountry, vector<vector<Airp
     auto next = std::next(it);
     combinationalHelper(it, next, cityCountry, res, path);
 }
+
 
 void Manager::manageFlightSearchFromMenu(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
     vector<vector<Airport*>> res;
@@ -1579,21 +1167,6 @@ unordered_map<string, int> Manager::inFlightsPerAirport(Airport* d) {
     return res;
 }
 
-vector<Airport*> Manager::getAirportsPerCity(const string& city) const {
-    auto it = cityAirports.find(city);
-
-    if (it != cityAirports.end()) return it->second;
-
-    return {};
-}
-
-unordered_set<string> Manager::getCitiesPerCountry(const string& c) const {
-    auto it = countryCities.find(c);
-
-    if (it != countryCities.end()) return it->second;
-
-    return {};
-}
 
 vector<Airport*> Manager::getAirportsPerCountry(const string &c) const {
     auto cities = this->getCitiesPerCountry(c);
@@ -1613,6 +1186,9 @@ vector<Airport*> Manager::getAirportsPerCountry(const string &c) const {
     return res;
 }
 
+/*! Permite visualizar o número de destinos (aeroportos, cidades e países) disponíveis para um aeroporto
+ *
+ */
 void Manager::getAirportDestinantionsDistance1(Airport *airport) const {
     auto depart = connections.findVertex(airport);
     set<string> countries;
@@ -1621,11 +1197,15 @@ void Manager::getAirportDestinantionsDistance1(Airport *airport) const {
         countries.emplace(elem.getDest()->getInfo()->getCountry());
         cities.emplace(elem.getDest()->getInfo()->getCity());
     }
-    int numAirports = depart->getAdj().size();
+    int numAirports = airport->getNumFlightsOut();
     int numCountries = countries.size();
     int numCities = cities.size();
     Viewer::printAirportDestinationsDistance1(airport->getCode(), airport->getName(), numAirports, numCities, numCountries);
 }
+
+/*! Permite visualizar o número de destinos (aeroportos, cidades e países) disponíveis para uma cidade
+ *
+ */
 
 void Manager::getCityDestinationsDistance1(vector<Airport *> air, const string& city) const {
     set<string> airportCodes;
@@ -1646,6 +1226,10 @@ void Manager::getCityDestinationsDistance1(vector<Airport *> air, const string& 
     int numCities = cities.size();
     Viewer::printCityDestinationsDistance1(city, numAirports, numCities, numCountries);
 }
+
+/*! Permite visualizar o número de destinos (aeroportos, cidades e países) disponíveis para um país
+ *
+ */
 void Manager::getCountryDestinationsDistance1(vector<Airport *> air, const string& country) const {
     set<string> airportCodes;
     set<string> countries;
@@ -1666,6 +1250,9 @@ void Manager::getCountryDestinationsDistance1(vector<Airport *> air, const strin
     Viewer::printCountryDestinationsDistance1(country, numAirports, numCities, numCountries);
 }
 
+/*! Permite visualizar o número de destinos (aeroportos, cidades e países) alcançáveis a partir de um aeroporto
+ *
+ */
 void Manager::getAirportDestinantions(Airport *airport) const {
     vector<string> air;
     set<string> countries;
@@ -1702,6 +1289,10 @@ void Manager::getAirportDestinantions(Airport *airport) const {
     int numCities = cities.size();
     Viewer::printAirportDestinations(airport->getCode(), airport->getName(), numAirports, numCities, numCountries);
 }
+
+/*! Permite visualizar o número de destinos (aeroportos, cidades e países) alcançáveis a partir de uma cidade
+ *
+ */
 void Manager::getCityDestinantions(const vector<Airport *> &airportsCity, const string& city) const {
     set<string> air;
     set<string> countries;
@@ -1744,6 +1335,9 @@ void Manager::getCityDestinantions(const vector<Airport *> &airportsCity, const 
     Viewer::printCityDestinations(city, numAirports, numCities, numCountries);
 }
 
+/*! Permite visualizar o número de destinos (aeroportos, cidades e países) alcançáveis a partir de um país
+ *
+ */
 void Manager::getCountryDestinantions(const vector<Airport *> &airportsCountry, const string& country) const {
     set<string> air;
     set<string> countries;
@@ -1787,6 +1381,10 @@ void Manager::getCountryDestinantions(const vector<Airport *> &airportsCountry, 
     Viewer::printCountryDestinations(country, numAirports, numCities, numCountries);
 }
 
+/*! Permite visualizar o número de destinos (aeroportos, cidades e países) alcançáveis a partir de um aeroporto até
+ * a uma dada distância (k)
+ *
+ */
 void Manager::getAirportDestinantionsUntilDistanceK(Airport *airport, const int &k) const {
     vector<string> air;
     set<string> countries;
@@ -1827,6 +1425,11 @@ void Manager::getAirportDestinantionsUntilDistanceK(Airport *airport, const int 
     Viewer::printAirportDestinations(airport->getCode(), airport->getName(), numAirports, numCities, numCountries);
 }
 
+
+/*! Permite visualizar o número de destinos (aeroportos, cidades e países) alcançáveis a partir de uma cidade até a
+ * uma dada distância (k)
+ *
+ */
 void Manager::getCityDestinantionsUntilDistanceK(const vector<Airport *> &airportsCity, const string& city, const int &k) const {
     set<string> air;
     set<string> countries;
@@ -1873,6 +1476,10 @@ void Manager::getCityDestinantionsUntilDistanceK(const vector<Airport *> &airpor
     Viewer::printCityDestinations(city, numAirports, numCities, numCountries);
 }
 
+/*! Permite visualizar o número de destinos (aeroportos, cidades e países) alcançáveis a partir de um país até a
+ * uma dada distância (k)
+ *
+ */
 void Manager::getCountryDestinantionsUntilDistanceK(const vector<Airport *> &airportsCountry, const string& country, const int &k) const {
     set<string> air;
     set<string> countries;
@@ -1919,7 +1526,11 @@ void Manager::getCountryDestinantionsUntilDistanceK(const vector<Airport *> &air
     Viewer::printCountryDestinations(country, numAirports, numCities, numCountries);
 }
 
-
+/*! Método auxiliar da função DiameterPairs(). Consiste numa BFS que atualiza o número máximo de escalas (i),
+ * sempre que é encontrado um caminho entre dois aeoroportos com o número de escalas superior a i. Também mantém
+ * um vetor com os pares de aeroportos que correspondem ao número máximo de escalas.
+ *
+ */
 
 void Manager::findComponentDiameterPairs(Vertex *origin, vector<pair<Airport*, Airport*>> &result, int &i) const {
     queue<pair<Vertex *, int>> q;
@@ -1954,16 +1565,22 @@ void Manager::findComponentDiameterPairs(Vertex *origin, vector<pair<Airport*, A
     }
 }
 
-
+/*! Permite visualizar o número de escalas para a viagem com mais escalas, assim como todos os pares de aeroportos
+ * origem-destino, cuja viagem entre eles tem um número de escalas igual ao valor obtido
+ *
+ */
 void Manager::diameterPairs() const {
     vector<pair<Airport*, Airport*>> result;
     int maxDiameter = 0;
-    int maxNameLength = 0;
     for (auto &elem : connections.getVertexSet()) {
         findComponentDiameterPairs(elem, result, maxDiameter);
     }
     Viewer::printDiameterPairs(result, maxDiameter);
 }
+
+/*! Método auxiliar, utilizado para ordenar de forma decrescente um set de aeroportos
+ *
+ */
 auto comparatorAirportDesc = [](Airport *a, Airport *b) {
     int trafficA = a->getNumFlightsIn() + a->getNumFlightsOut();
     int trafficB = b->getNumFlightsIn() + b->getNumFlightsOut();
@@ -1974,6 +1591,10 @@ auto comparatorAirportDesc = [](Airport *a, Airport *b) {
 
     return trafficA > trafficB;
 };
+
+/*! Método auxiliar, utilizado para ordenar de forma crescente um set de aeroportos
+ *
+ */
 auto comparatorAirportAsc = [](Airport *a, Airport *b) {
     int trafficA = a->getNumFlightsIn() + a->getNumFlightsOut();
     int trafficB = b->getNumFlightsIn() + b->getNumFlightsOut();
@@ -1985,7 +1606,10 @@ auto comparatorAirportAsc = [](Airport *a, Airport *b) {
     return trafficA < trafficB;
 };
 
-
+/*! Permite visualizar os top k aeroportos que têm o maior ou menor número de voos,
+ * em forma de lista ou gráfico de barras
+ *
+ */
 void Manager::getTopKGreatestTrafficAirport(int k, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorAirportAsc : comparatorAirportDesc;
     set<Airport *, decltype(comparator)> airportsByTraffic(comparator);
@@ -2005,6 +1629,9 @@ void Manager::getTopKGreatestTrafficAirport(int k, const bool &bars, const bool&
     else Viewer::printAirportGreatestTraffic(air, nameSize);
 }
 
+/*! Método auxiliar, utilizado para ordenar de forma decrescente um set de pares de strings e inteiros
+ *
+ */
 auto comparatorPairsDesc = [](const pair<string, int> &a, const pair<string, int> &b) {
     int trafficA = a.second;
     int trafficB = b.second;
@@ -2015,6 +1642,10 @@ auto comparatorPairsDesc = [](const pair<string, int> &a, const pair<string, int
 
     return trafficA > trafficB;
 };
+
+/*! Método auxiliar, utilizado para ordenar de forma crescente um set de pares de strings e inteiros
+ *
+ */
 auto comparatorPairsAsc = [](const pair<string, int> &a, const pair<string, int> &b) {
     int trafficA = a.second;
     int trafficB = b.second;
@@ -2026,7 +1657,10 @@ auto comparatorPairsAsc = [](const pair<string, int> &a, const pair<string, int>
     return trafficA < trafficB;
 };
 
-
+/*! Permite visualizar as top k cidades que têm o maior ou menor número de voos,
+ * em forma de lista ou gráfico de barras
+ *
+ */
 void Manager::getTopKGreatestTrafficCity(int k, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorPairsAsc : comparatorPairsDesc;
     set<pair<string, int>, decltype(comparator)> cityByTraffic(comparator);
@@ -2049,6 +1683,10 @@ void Manager::getTopKGreatestTrafficCity(int k, const bool &bars, const bool& as
     else Viewer::printCountryCityStats(cities, "Cities", "Number of flights", nameSize);
 }
 
+/*! Permite visualizar os top k países que têm o maior ou menor número de voos,
+ * em forma de lista ou gráfico de barras
+ *
+ */
 void Manager::getTopKGreatestTrafficCountry(int k, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorPairsAsc : comparatorPairsDesc;
     set<pair<string, int>, decltype(comparator)> countriesByTraffic(comparator);
@@ -2074,6 +1712,10 @@ void Manager::getTopKGreatestTrafficCountry(int k, const bool &bars, const bool&
     else Viewer::printCountryCityStats(countries, "Countries", "Number of flights", nameSize);
 }
 
+/*! Permite visualizar os top k aeroportos numa dada cidade que têm o maior ou menor número de voos,
+ * em forma de lista ou gráfico de barras
+ *
+ */
 void Manager::getTopKGreatestTrafficAirportPerCity(int k, const vector<Airport *> &airportsPerCity, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorAirportAsc : comparatorAirportDesc;
     set<Airport *, decltype(comparator)> airportsByTraffic(comparator);
@@ -2092,6 +1734,10 @@ void Manager::getTopKGreatestTrafficAirportPerCity(int k, const vector<Airport *
     else Viewer::printAirportGreatestTraffic(air, nameSize);
 }
 
+/*! Permite visualizar os top k aeroportos num dado país que têm o maior ou menor número de voos,
+ * em forma de lista ou gráfico de barras
+ *
+ */
 void Manager::getTopKGreatestTrafficAirportPerCountry(int k, const vector<Airport *> &airportsPerCountry, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorAirportAsc : comparatorAirportDesc;
     set<Airport *, decltype(comparator)> airportsByTraffic(comparator);
@@ -2110,6 +1756,10 @@ void Manager::getTopKGreatestTrafficAirportPerCountry(int k, const vector<Airpor
     else Viewer::printAirportGreatestTraffic(air, nameSize);
 }
 
+/*! Permite visualizar as top k cidades num dado país que têm o maior ou menor número de voos,
+ * em forma de lista ou gráfico de barras
+ *
+ */
 void Manager::getTopKGreatestTrafficCityPerCountry(int k,pair<string, set<string>> *selectedCountryCities, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorPairsAsc : comparatorPairsDesc;
     set<pair<string, int>, decltype(comparator)> cityByTraffic(comparator);
@@ -2133,6 +1783,9 @@ void Manager::getTopKGreatestTrafficCityPerCountry(int k,pair<string, set<string
     else Viewer::printCountryCityStats(cities, "Cities", "Number of flights", nameSize);
 }
 
+/*! Método auxiliar, utilizado para ordenar de forma decrescente um set de companhias
+ *
+ */
 auto comparatorAirlineDesc = [](Airline *a, Airline *b) {
     int trafficA = a->getNumFlights();
     int trafficB = b->getNumFlights();
@@ -2143,6 +1796,10 @@ auto comparatorAirlineDesc = [](Airline *a, Airline *b) {
 
     return trafficA > trafficB;
 };
+
+/*! Método auxiliar, utilizado para ordenar de forma crescente um set de companhias
+ *
+ */
 auto comparatorAirlineAsc = [](Airline *a, Airline *b) {
     int trafficA = a->getNumFlights();
     int trafficB = b->getNumFlights();
@@ -2154,6 +1811,10 @@ auto comparatorAirlineAsc = [](Airline *a, Airline *b) {
     return trafficA < trafficB;
 };
 
+/*! Permite visualizar as top k companhias que têm o maior ou menor número de voos,
+ * em forma de lista ou gráfico de barras
+ *
+ */
 void Manager::getTopKGreatestTrafficAirline(int k, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorAirlineAsc : comparatorAirlineDesc;
     set<Airline *, decltype(comparator)> airlinesByTraffic(comparator);
@@ -2173,6 +1834,11 @@ void Manager::getTopKGreatestTrafficAirline(int k, const bool &bars, const bool&
 
 }
 
+/*! Permite visualizar as top k companhias num dado país que têm o maior ou menor número de,
+ * em forma de lista ou gráfico de barras
+ *
+ */
+
 void Manager::getTopKGreatestTrafficAirlinePerCountry(int k, const unordered_set<Airline *> &airlinesCountry, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorAirlineAsc : comparatorAirlineDesc;
     set<Airline *, decltype(comparator)> airlinesByTraffic(comparator);
@@ -2191,6 +1857,10 @@ void Manager::getTopKGreatestTrafficAirlinePerCountry(int k, const unordered_set
     else Viewer::printAirlineGreatestTraffic(air, nameSize);
 }
 
+/*! Permite visualizar os top k aeroportos para onde voa mais ou menos uma companhia,
+ * em forma de lista ou gráfico de barras
+ *
+ */
 void Manager::getTopKAirportsAirlineTravelsTo(int k, Airline *airline, const bool &bars, const bool& asc) const {
     map<Airport *, int> airportNumFlights;
     for (auto &elem : connections.getVertexSet()) {
@@ -2218,6 +1888,10 @@ void Manager::getTopKAirportsAirlineTravelsTo(int k, Airline *airline, const boo
 
 }
 
+/*! Permite visualizar os top k aeroportos que têm o maior ou menor número de companhias a
+ * operar no aeroporto, em forma de lista ou gráfico de barras
+ *
+ */
 void Manager::getTopKAirportsWithMoreAirlines(int k, const bool &bars, const bool& asc) const {
     vector<pair<Airport *, int>> airportNumAirlines;
     for (auto& elem : connections.getVertexSet()) {
@@ -2246,6 +1920,10 @@ void Manager::getTopKAirportsWithMoreAirlines(int k, const bool &bars, const boo
     else Viewer::printTopKVector(res,"Airports", "Number of Airlines", nameSize);
 }
 
+/*! Permite visualizar as top k companhias que voam mais ou menos para um dado aeroporto,
+ * em forma de lista ou gráfico de barras
+ *
+ */
 void Manager::getTopKAirlinesThatFlyMoreToAnAirport(int k, Airport *airport, const bool &bars, const bool& asc) const {
     map<Airline *, int> airlineNumFlightsToAirport;
     for (auto &elem : connections.getVertexSet()) {
@@ -2275,7 +1953,9 @@ void Manager::getTopKAirlinesThatFlyMoreToAnAirport(int k, Airport *airport, con
 }
 
 
-
+/*! Faz uma listagem das companhias que operam num dado aeroporto
+ *
+ */
 void Manager::listAirlinesPerAirport(Airport *airport) {
     auto air = connections.findVertex(airport);
     set<Airline *> airlinesInAirport;
@@ -2291,7 +1971,9 @@ void Manager::listAirlinesPerAirport(Airport *airport) {
     Viewer::printAirlinesPerAirport(airlinesInAirport, nameSize);
 }
 
-
+/*! Faz uma listagem dos aeroportos que operam num dado país ou numa dada cidade
+ *
+ */
 void Manager::listAirportsPerCountryCity(const vector<Airport *> &airportsCountry, const string &countryCity) const{
     int maxLengthName = 0;
     vector<Airport *> res;
@@ -2301,6 +1983,9 @@ void Manager::listAirportsPerCountryCity(const vector<Airport *> &airportsCountr
     Viewer::printListAirportsPerCountryCity(res, maxLengthName, countryCity);
 }
 
+/*! Método auxiliar que converte uma string dada pelo utilizador numa string com letras minúsculas apenas
+ *
+ */
 string nameToLower(const string& word) {
     string res;
     for (auto& ch : word) {
@@ -2309,6 +1994,9 @@ string nameToLower(const string& word) {
     return res;
 }
 
+/*! Permite fazer uma pesquisa de aeroportos por nome
+ *
+ */
 void Manager::searchAirportsByName(const string &airportName) {
     if (airportName.empty()) {
         cout << "Invalid name." << endl;
@@ -2325,6 +2013,9 @@ void Manager::searchAirportsByName(const string &airportName) {
     Viewer::printSearchAirports(res,maxLengthName,airportName);
 }
 
+/*! Permite fazer uma pesquisa de companhias por nome
+ *
+ */
 void Manager::searchAirlinesByName(const string &airlineName) {
     if (airlineName.empty()) {
         cout << "Invalid name." << endl;
@@ -2341,14 +2032,24 @@ void Manager::searchAirlinesByName(const string &airlineName) {
     Viewer::printSearchAirlines(res,maxLengthName,airlineName);
 }
 
+/*! Permite visualizar informação relativa a um dado aeroporto
+ *
+ */
 void Manager::printAirportInfo(Airport *airport) {
     Viewer::printAirportInfo(airport);
 }
 
+/*! Permite visualizar informação relativa a uma dada companhia
+ *
+ */
 void Manager::printAirlineInfo(Airline *airline) {
     Viewer::printAirlineInfo(airline);
 }
 
+/*! Permite visualizar as top k companhias que apresentam uma maior relação entre o número de voos que efetuam
+ * para um dado aeroporto número total de voos que fazem, em forma de lista ou gráfico de barras
+ *
+ */
 void Manager::getTopKAirlinesThatFlyMoreToAnAirportRatio(int k, Airport *airport, const bool &bars, const bool &asc) const {
     map<Airline *, int> airlineNumFlightsToAirport;
     for (auto &elem : connections.getVertexSet()) {
@@ -2376,7 +2077,9 @@ void Manager::getTopKAirlinesThatFlyMoreToAnAirportRatio(int k, Airport *airport
     if (bars) Viewer::printTopKVectorBarsRatio(res, asc);
     else Viewer::printTopKVectorRatio(res, "Airlines", "Number of flights", nameSize);
 }
-
+/*! Método que retorna os aeroportos de um dado país
+ *
+ */
 vector<Airport*> Manager::validateCountry(const string &country) const {
     auto it = countryCities.find(country);
     vector<Airport*> res;
@@ -2399,7 +2102,7 @@ vector<Airport*> Manager::validateCity(const string &city) const {
     return {};
 }
 
-unordered_set<Airline*> Manager::getAirlinesPerCountry(const string& country) {
+unordered_set<Airline*> Manager::getAirlinesPerCountry(const string& country) const {
     auto it = countryAirlines.find(country);
 
     if (it != countryAirlines.end()) return it->second;
@@ -2438,9 +2141,3 @@ void Manager::getTopKCountriesWithMoreAirlines(int k, const bool &bars, const bo
     if (bars) Viewer::printCityOrCountryGreatestTrafficBars(res, nameSize, asc);
     else Viewer::printCountryCityStats(res, "Countries", "Number of airlines", nameSize);
 }
-
-
-
-
-
-
