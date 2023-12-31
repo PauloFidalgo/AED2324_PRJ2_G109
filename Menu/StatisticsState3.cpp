@@ -22,8 +22,8 @@ void StatisticsState3::displayMenu() {
     cout << "|                                     2. City Destinations until specific Distance                     |" << endl;
     cout << "|                                     3. Countries that can fly to certain city                        |" << endl;
     cout << "|                                     4. Diameter Pairs                                                |" << endl;
-    cout << "|                                     5. Top k greatest traffic airline                                |" << endl;
-    cout << "|                                     6. Top k greatest traffic airline per country                    |" << endl;
+    cout << "|                                     5. Top k greatest traffic airline per country (Ascending)        |" << endl;
+    cout << "|                                     6. Top k greatest traffic airline per country (Descending)       |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|  back - Main Menu                                                                                    |" << endl;
@@ -83,8 +83,10 @@ State* StatisticsState3::handleInput() {
                 manager.diameterPairs();
                 return this;
             case 5: {
-                int k = getValidAirlineK();
-                if (k != -1) manager.getTopKGreatestTrafficAirline(k);
+                unordered_set<Airline*> airlines = getValidAirlinePerCountry();
+                int distance = getValidAirlineK();
+                auto bar = bars();
+                if (!airlines.empty() && distance != -1) manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,bar,true);
                 return this;
 
             }

@@ -946,10 +946,11 @@ void Manager::getCityDestinantions(const vector<Airport *> &airportsCity, const 
         auto depart = connections.findVertex(airportCity);
 
         queue<Vertex*> q;
-        depart->setVisited(true);
         for (auto& edge : depart->getAdj()) {
-            q.push(edge.getDest());
-            edge.getDest()->setVisited(true);
+            if(!edge.getDest()->isVisited()){
+                q.push(edge.getDest());
+                edge.getDest()->setVisited(true);
+            }
         }
 
         while (!q.empty()) {
@@ -990,10 +991,12 @@ void Manager::getCountryDestinantions(const vector<Airport *> &airportsCountry, 
         auto depart = connections.findVertex(airportCountry);
 
         queue<Vertex*> q;
-        depart->setVisited(true);
+
         for (auto& edge : depart->getAdj()) {
-            q.push(edge.getDest());
-            edge.getDest()->setVisited(true);
+            if(!edge.getDest()->isVisited()){
+                q.push(edge.getDest());
+                edge.getDest()->setVisited(true);
+            }
         }
 
         while (!q.empty()) {
@@ -1079,10 +1082,12 @@ void Manager::getCityDestinantionsUntilDistanceK(const vector<Airport *> &airpor
         auto depart = connections.findVertex(airportCity);
 
         queue<pair<Vertex*, int>> q;
-        depart->setVisited(true);
+
         for (auto& edge : depart->getAdj()) {
-            q.emplace(edge.getDest(), 1);
-            edge.getDest()->setVisited(true);
+            if(!edge.getDest()->isVisited()){
+                q.emplace(edge.getDest(), 1);
+                edge.getDest()->setVisited(true);
+            }
         }
 
         while (!q.empty()) {
@@ -1127,10 +1132,12 @@ void Manager::getCountryDestinantionsUntilDistanceK(const vector<Airport *> &air
         auto depart = connections.findVertex(airportCountry);
 
         queue<pair<Vertex*, int>> q;
-        depart->setVisited(true);
+
         for (auto& edge : depart->getAdj()) {
-            q.push({edge.getDest(), 1});
-            edge.getDest()->setVisited(true);
+            if(!edge.getDest()->isVisited()){
+                q.emplace(edge.getDest(), 1);
+                edge.getDest()->setVisited(true);
+            }
         }
 
         while (!q.empty()) {
@@ -1393,10 +1400,10 @@ void Manager::getTopKGreatestTrafficAirportPerCountry(int k, const vector<Airpor
  * em forma de lista ou gráfico de barras
  *
  */
-void Manager::getTopKGreatestTrafficCityPerCountry(int k,pair<string, set<string>> *selectedCountryCities, const bool &bars, const bool& asc) const {
+void Manager::getTopKGreatestTrafficCityPerCountry(int k, const unordered_set<string> &selectedCountryCities, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorPairsAsc : comparatorPairsDesc;
     set<pair<string, int>, decltype(comparator)> cityByTraffic(comparator);
-    for (auto &elem : selectedCountryCities->second) {
+    for (auto &elem : selectedCountryCities) {
         int numFlights = 0;
         vector<Airport *> airportsPerCity = getAirportsPerCity(elem);
         for (auto &air : airportsPerCity) {
@@ -1609,11 +1616,11 @@ void Manager::listAirlinesPerAirport(Airport *airport) {
  */
 void Manager::listAirportsPerCountryCity(const vector<Airport *> &airportsCountry, const string &countryCity) const{
     int maxLengthName = 0;
-    vector<Airport *> res;
+
     for (auto& elem : airportsCountry) {
         if (elem->getName().length() > maxLengthName) maxLengthName = elem->getName().length();
     }
-    Viewer::printListAirportsPerCountryCity(res, maxLengthName, countryCity);
+    Viewer::printListAirportsPerCountryCity(airportsCountry, maxLengthName, countryCity);
 }
 
 /*! Método auxiliar que converte uma string dada pelo utilizador numa string com letras minúsculas apenas

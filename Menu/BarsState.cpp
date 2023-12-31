@@ -6,7 +6,7 @@
 #include <sstream>
 
 BarsState barsState;
-bool BarsState::shouldUseGraphicBar() const  {
+int BarsState::shouldUseGraphicBar()   {
     return useGraphicBar;
 }
 
@@ -31,6 +31,7 @@ void BarsState::displayMenu() {
 }
 
 State* BarsState::handleInput() {
+    cin.clear();
     cout << "Enter your choice: ";
     cin >> userInputStr;
 
@@ -40,24 +41,20 @@ State* BarsState::handleInput() {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
             case 1: {
-                useGraphicBar = true;
-                if (!State::statisticsHistory.empty()) {
-                    State *previousState = State::statisticsHistory.top();
-                    State::statisticsHistory.pop();
-                    return previousState;
-                }
+                useGraphicBar = 1;
+                break;
             }
             case 2: {
-                useGraphicBar = false;
-                if (!State::statisticsHistory.empty()) {
-                    State *previousState = State::statisticsHistory.top();
-                    State::statisticsHistory.pop();
-                    return previousState;
-                }
+                useGraphicBar = 0;
+                break;
+            }
+            case -1 :{
+                useGraphicBar = -1;
+                break;
             }
             default:
                 std::cout << " Invalid choice. try again" << std::endl;
-                return this;
+                return handleInput();
         }
     }
 }

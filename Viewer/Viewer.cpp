@@ -640,10 +640,10 @@ void Viewer::printFlightOptions(const vector<vector<Airport *>> &flights) {
 
     int space1 = nameSize + 8;
     int totalSpace = (space1 + 1) * numAirports - 1;
-    int lenLabel = (totalSpace - 14) / 2;
-    int lenFLabel = (totalSpace - 14) % 2 == 0 ? lenLabel : lenLabel + 1;
+    int lenLabel = (totalSpace - 26) / 2;
+    int lenFLabel = (totalSpace - 26) % 2 == 0 ? lenLabel : lenLabel + 1;
     cout << string(totalSpace + 2, '-') << endl;
-    cout << '|' << string(lenLabel, ' ') << "Flight Options" << string(lenFLabel, ' ') << '|' << endl;
+    cout << '|' << string(lenLabel, ' ') << "-> -> Flight Options -> ->" << string(lenFLabel, ' ') << '|' << endl;
     cout << string(totalSpace + 2, '-') << endl;
 
     for (auto &elem : sortedFlights) {
@@ -672,7 +672,3 @@ void Viewer::printFlightOptions(const vector<vector<Airport *>> &flights) {
         cout << string(totalSpace + 2, '-') << endl;
     }
 }
-
-
-
-

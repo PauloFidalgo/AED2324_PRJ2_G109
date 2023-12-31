@@ -21,12 +21,12 @@ void StatisticsState4::displayMenu() {
     cout << "|                                                                                                      |" << endl;
     cout << "|                                             Statistics:                                              |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                                     1. Top K Greatest Traffic Airport                                |" << endl;
-    cout << "|                                     2. Top K Greatest Traffic Airport Per Country                    |" << endl;
-    cout << "|                                     3. Top K Lowest Traffic Airport Per Country                      |" << endl;
-    cout << "|                                     4. Airport Info                                                  |" << endl;
-    cout << "|                                     5. Airline Info                                                  |" << endl;
-    cout << "|                                     6. Airports per Country                                          |" << endl;
+    cout << "|                                 1. Top K Greatest Traffic Airport                                    |" << endl;
+    cout << "|                                 2. Top K Greatest Traffic Airport Per Country (Ascending)            |" << endl;
+    cout << "|                                 3. Top K Greatest Traffic Airport Per Country (Descending)           |" << endl;
+    cout << "|                                 4. Airport Info                                                      |" << endl;
+    cout << "|                                 5. Airline Info                                                      |" << endl;
+    cout << "|                                 6. Airports per Country                                              |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "| back - Main Menu                                                                                     |" << endl;
     cout << "| exit - Exit                                                                              page - 4    |" << endl;
@@ -72,31 +72,25 @@ State* StatisticsState4::handleInput() {
             case 2: {
                 auto airports = getValidAirports();
                 auto dist = getValidAirportK();
-                barsState.displayMenu();
-                barsState.handleInput();
-                auto bars = barsState.shouldUseGraphicBar();
-                if(!airports.empty() && dist != -1 && bars) manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, bars, true);
+                auto bar = bars();
+                if(!airports.empty() && dist != -1) manager.getTopKGreatestTrafficAirportPerCountry(dist, airports,bar, true);
                 return this;
             }
             case 3: {
                 auto airports = getValidAirports();
                 auto dist = getValidAirportK();
-                barsState.displayMenu();
-                barsState.handleInput();
-                auto bars = barsState.shouldUseGraphicBar();
-                if(!airports.empty() && dist != -1 && bars) manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, bars, false);
+                auto bar = bars();
+                if(!airports.empty() && dist != -1) manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, bar, false);
                 return this;
             }
             case 4: {
-                string country = getValidSingleCountry();
-                Airport* airport = manager.getAirportPerName(country);
-                if (!country.empty() && airport != nullptr) Manager::printAirportInfo(airport);
+                auto airport = getValidSingleAirport();
+                if (airport) Manager::printAirportInfo(airport);
                 return this;
             }
             case 5: {
-                string name = getValidSingleCountry();
-                Airline *airline = manager.getAirlinePerName(name);
-                if (!name.empty() && airline != nullptr) Manager::printAirlineInfo(airline);
+                auto airline = getValidSingleAirline();
+                if (airline) Manager::printAirlineInfo(airline);
                 return this;
             }
             case 6: {

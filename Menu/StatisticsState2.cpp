@@ -94,4 +94,3 @@ State* StatisticsState2::handleInput() {
         }
     }
 }
-

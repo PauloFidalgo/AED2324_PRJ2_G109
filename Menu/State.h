@@ -19,6 +19,7 @@ protected:
     int userInput{};
     string name;
 
+
 public:
     State();
     virtual void displayMenu() = 0;
@@ -39,11 +40,11 @@ public:
     vector<Airport*> getValidAirports();
     unordered_set<Airline*> getValidAirlines();
     unordered_set<Airline*> getValidAirlinePerCountry();
-
     int getValidCityK();
     int getValidCountryK();
     int getValidAirlineK();
-
+    static bool bars();
+    unordered_set<string> getValidCitiesSingleCountry();
     Airline *getValidSingleAirline();
 };
 
