@@ -1646,11 +1646,11 @@ void Manager::listAirlinesPerAirport(Airport *airport) {
  */
 void Manager::listAirportsPerCountryCity(const vector<Airport *> &airportsCountry, const string &countryCity) const{
     int maxLengthName = 0;
-    vector<Airport *> res;
+
     for (auto& elem : airportsCountry) {
         if (elem->getName().length() > maxLengthName) maxLengthName = elem->getName().length();
     }
-    Viewer::printListAirportsPerCountryCity(res, maxLengthName, countryCity);
+    Viewer::printListAirportsPerCountryCity(airportsCountry, maxLengthName, countryCity);
 }
 
 /*! Método auxiliar que converte uma string dada pelo utilizador numa string com letras minúsculas apenas

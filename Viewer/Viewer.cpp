@@ -640,15 +640,17 @@ void Viewer::printFlightOptions(const vector<vector<Airport *>> &flights) {
 
     int space1 = nameSize + 8;
     int totalSpace = (space1 + 1) * numAirports - 1;
-    int lenLabel = (totalSpace - 30) / 2;
-    int lenFLabel = (totalSpace - 30) % 2 == 0 ? lenLabel : lenLabel + 1;
+    int lenLabel = (totalSpace - 26) / 2;
+    int lenFLabel = (totalSpace - 26) % 2 == 0 ? lenLabel : lenLabel + 1;
     cout << string(totalSpace + 2, '-') << endl;
-    cout << '|' << string(lenLabel, ' ') << "->  ->  Flight Options  ->  ->" << string(lenFLabel, ' ') << '|' << endl;
+    cout << '|' << string(lenLabel, ' ') << "-> -> Flight Options -> ->" << string(lenFLabel, ' ') << '|' << endl;
     cout << string(totalSpace + 2, '-') << endl;
+
     for (auto &elem : sortedFlights) {
         int aux = numAirports;
-        for (auto& airport : elem) {
-            cout << "| Code: " << airport->getName() << string(space1 - 10, ' ');
+        for (auto airport = elem.begin(); airport != elem.end(); airport++) {
+            auto air = *airport;
+            cout << "| Code: " << air->getCode() << string(space1 - 10, ' ');
             aux--;
         }
         while (aux != 0) {
@@ -657,8 +659,10 @@ void Viewer::printFlightOptions(const vector<vector<Airport *>> &flights) {
         }
         cout << '|' << endl;
         aux = numAirports;
-        for (auto& airport : elem) {
-            cout << "| Name: " << airport->getName() << string(space1 - 7 - airport->getName().length(), ' ');
+        for (auto airport = elem.begin(); airport != elem.end(); airport++) {
+            auto air = *airport;
+            cout << "| Name: " << air->getName() << string(space1 - 7 - air->getName().length(), ' ');
+            aux--;
         }
         while (aux != 0) {
             cout << '|' << string (space1, ' ');
@@ -668,7 +672,3 @@ void Viewer::printFlightOptions(const vector<vector<Airport *>> &flights) {
         cout << string(totalSpace + 2, '-') << endl;
     }
 }
-
-
-
-
