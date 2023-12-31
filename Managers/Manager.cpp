@@ -1888,7 +1888,7 @@ void Manager::getCountryDestinantionsUntilDistanceK(const vector<Airport *> &air
 
         for (auto& edge : depart->getAdj()) {
             if(!edge.getDest()->isVisited()){
-                q.push({edge.getDest(), 1});
+                q.emplace(edge.getDest(), 1);
                 edge.getDest()->setVisited(true);
             }
         }
