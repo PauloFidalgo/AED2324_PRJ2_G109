@@ -22,8 +22,8 @@ void StatisticsState3::displayMenu() {
     cout << "|                                     2. City Destinations until specific Distance                     |" << endl;
     cout << "|                                     3. Countries that can fly to certain city                        |" << endl;
     cout << "|                                     4. Diameter Pairs                                                |" << endl;
-    cout << "|                                     5. Top k greatest traffic airline per country (Ascending)        |" << endl;
-    cout << "|                                     6. Top k greatest traffic airline per country (Descending)       |" << endl;
+    cout << "|                                     5. Top k greatest traffic airline                                |" << endl;
+    cout << "|                                     6. Top k greatest traffic airline per country                    |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|  back - Main Menu                                                                                    |" << endl;
@@ -64,41 +64,34 @@ State* StatisticsState3::handleInput() {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
             case 1: {
-                string country = getValidCountry();
                 vector<Airport*> airports = this->getValidAirportsPerCountry();
-                manager.getCountryDestinantions(airports,country);
+                if (!airports.empty()) manager.getCountryDestinantions(airports,name);
                 return this;
             }
             case 2: {
-                string city = getValidCity();
                 vector<Airport*> airports = this->getValidAirportsPerCity();
                 int dist = this->getValidCityK();
-                manager.getCityDestinantionsUntilDistanceK(airports,city,dist);
+                if (!airports.empty() && dist != -1) manager.getCityDestinantionsUntilDistanceK(airports,name,dist);
                 return this;
             }
             case 3: {
-                string city = getValidCity();
-                manager.getCountriesCanFlyToCity(city);
+                string city = getValidSingleCity();
+                if (!city.empty()) manager.getCountriesCanFlyToCity(city);
                 return this;
             }
             case 4:
                 manager.diameterPairs();
                 return this;
             case 5: {
-                string country = getValidCountry();
-                unordered_set<Airline*> airlines = manager.getAirlinesPerCountry(country);
-                int distance = getValidAirlineK();
-                auto bar = bars();
-                manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,bar,true);
+                int k = getValidAirlineK();
+                if (k != -1) manager.getTopKGreatestTrafficAirline(k);
                 return this;
 
             }
             case 6: {
-                string country = getValidCountry();
-                unordered_set<Airline*> airlines = manager.getAirlinesPerCountry(country);
+                unordered_set<Airline*> airlines = getValidAirlinePerCountry();
                 int distance = getValidAirlineK();
-                auto bar = bars();
-                manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,bar,false);
+                if (!airlines.empty() && distance != -1) manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,false,false);
                 return this;
             }
 

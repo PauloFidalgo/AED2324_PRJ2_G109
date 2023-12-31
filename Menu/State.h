@@ -5,6 +5,7 @@
 #ifndef AED2324_PRJ2_G109_STATE_H
 #define AED2324_PRJ2_G109_STATE_H
 #include "stack"
+#include <sstream>
 #include "../Managers/Manager.h"
 
 class State {
@@ -24,16 +25,12 @@ public:
     virtual void displayMenu() = 0;
     virtual State* handleInput() = 0;
     virtual ~State();
-    Airport* getValidAirport();
-    Airline* getValidAirline();
-    string getValidCity();
-    string getValidCountry();
+    string getValidSingleCity();
     int getValidAirportK();
     Airport* getValidAirportPerCoordinates();
     Airport* getValidSingleAirport();
     map<int,vector<Airport*>> getValidAirportsPerCities();
     string getValidSingleCountry();
-    string getValidSingleCity();
     map<int,vector<Airport*>> getValidAirportsPerCountries();
     vector<Airport*> getValidAirportsSingleCountry();
     vector<Airport*> getValidAirportsSingleCity();

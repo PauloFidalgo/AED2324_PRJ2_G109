@@ -5,8 +5,7 @@
 #include "Managers/Manager.h"
 
 int main() {
-    MenuManager menuManager;
-    menuManager.menuNavigation();
+   MenuManager manager;
+   manager.menuNavigation();
 
-    return 0;
 }

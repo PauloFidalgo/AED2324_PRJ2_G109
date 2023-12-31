@@ -20,12 +20,12 @@ void StatisticsState5::displayMenu() {
     cout << "|                                                                                                      |" << endl;
     cout << "|                                             Statistics:                                              |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                                   1. Country Destinations Until Distance K                           |" << endl;
-    cout << "|                                   2. Top K Greatest Traffic City (Ascending)                         |" << endl;
-    cout << "|                                   3. Top K Greatest Traffic City (Descending)                        |" << endl;
-    cout << "|                                   4. Airlines Per Airport                                            |" << endl;
-    cout << "|                                   5. Top K Greatest Traffic Country(Ascending)                       |" << endl;
-    cout << "|                                   6. Top K Greatest Traffic Country(Descending)                      |" << endl;
+    cout << "|                                     1. Top K Greatest Traffic Airport                                |" << endl;
+    cout << "|                                     2. Top K Greatest Traffic Airport Per Country                    |" << endl;
+    cout << "|                                     3. Top K Lowest Traffic Airport Per Country                      |" << endl;
+    cout << "|                                     4. Airport Info                                                  |" << endl;
+    cout << "|                                     5. Airline Info                                                  |" << endl;
+    cout << "|                                     6. Airports per Country                                          |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "| back - Main Menu                                                                                     |" << endl;
     cout << "| exit - Exit                                                                              page - 5    |" << endl;
@@ -65,47 +65,48 @@ State* StatisticsState5::handleInput() {
         switch (userInput) {
             case 1: {
                 auto airport = getValidAirports();
-                auto country = getValidCountry();
-                auto dist = this->getValidCountryK();
-                manager.getCountryDestinantionsUntilDistanceK(airport,country,dist);
+                auto city = getValidSingleCity();
+                auto dist = this->getValidCityK();
+                if(!airport.empty() && dist != -1 && !city.empty()) manager.getCityDestinantionsUntilDistanceK(airport,city,dist);
                 return this;
             }
             case 2: {
-                auto k = getValidCityK();
-                barsState.displayMenu();
-                barsState.handleInput();
-                auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKGreatestTrafficCity(k,bars,true);
+                auto airport = getValidAirports();
+                auto country = getValidSingleCountry();
+                auto dist = this->getValidCountryK();
+                if(!airport.empty() && dist != -1 && !country.empty())  manager.getCountryDestinantionsUntilDistanceK(airport,country,dist);
                 return this;
-
             }
             case 3: {
                 auto k = getValidCityK();
                 barsState.displayMenu();
                 barsState.handleInput();
-                auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKGreatestTrafficCity(k,bars,false);
+                auto bars = barsState.shouldUseGraphicBar();
+                if(bars && k != -1) manager.getTopKGreatestTrafficCity(k,bars,true);
                 return this;
             }
             case 4: {
-                auto airport = getValidSingleAirport();
-                manager.listAirlinesPerAirport(airport);
+                auto k = getValidCityK();
+                barsState.displayMenu();
+                barsState.handleInput();
+                auto bars =barsState.shouldUseGraphicBar();
+                if(bars && k != -1) manager.getTopKGreatestTrafficCity(k,bars,false);
                 return this;
             }
             case 5: {
                 auto k = getValidCountryK();
                 barsState.displayMenu();
                 barsState.handleInput();
-                auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKGreatestTrafficCountry(k,bars,true);
+                auto bars = barsState.shouldUseGraphicBar();
+                if(bars && k != -1) manager.getTopKGreatestTrafficCountry(k,bars,true);
                 return this;
             }
             case 6: {
                 auto k = getValidCountryK();
                 barsState.displayMenu();
                 barsState.handleInput();
-                auto bars =barsState.shouldUseGraphicBar();
-                manager.getTopKGreatestTrafficCountry(k,bars,false);
+                auto bars = barsState.shouldUseGraphicBar();
+                if(bars && k != -1) manager.getTopKGreatestTrafficCountry(k,bars,false);
                 return this;
             }
             default:

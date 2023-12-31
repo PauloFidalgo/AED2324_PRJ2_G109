@@ -2,6 +2,7 @@
 // Created by Wagner Pedrosa on 01/12/2023.
 //
 
+#include <algorithm>
 #include "FilterState.h"
 #include "iostream"
 #include "FlightSearchState.h"
