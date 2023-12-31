@@ -1,5 +1,5 @@
 #include "State.h"
-
+#include "BarsState.h"
 std::stack<State*> State::stateHistory;
 std::stack<State*> State::statisticsHistory;
 
@@ -97,6 +97,7 @@ string State::getValidSingleCountry() {
 
     do {
         cout << "Country: (back to cancel)";
+
         getline(cin, code);
 
         if (code == "back") return "";
@@ -459,4 +460,11 @@ unordered_set<Airline*> State::getValidAirlinePerCountry() {
     }
 
     return airlines;
+}
+
+bool State::bars() {
+    barsState.displayMenu();
+    barsState.handleInput();
+    auto bars =barsState.shouldUseGraphicBar();
+    return bars;
 }

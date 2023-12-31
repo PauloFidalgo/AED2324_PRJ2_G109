@@ -22,8 +22,8 @@ void StatisticsState3::displayMenu() {
     cout << "|                                     2. City Destinations until specific Distance                     |" << endl;
     cout << "|                                     3. Countries that can fly to certain city                        |" << endl;
     cout << "|                                     4. Diameter Pairs                                                |" << endl;
-    cout << "|                                     5. Top k greatest traffic airline                                |" << endl;
-    cout << "|                                     6. Top k greatest traffic airline per country                    |" << endl;
+    cout << "|                                     5. Top k greatest traffic airline per country (Ascending)        |" << endl;
+    cout << "|                                     6. Top k greatest traffic airline per country (Descending)       |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|  back - Main Menu                                                                                    |" << endl;

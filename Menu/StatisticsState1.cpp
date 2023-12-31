@@ -11,7 +11,6 @@ using namespace std;
 
 StatisticsState1 statisticsState1;
 void StatisticsState1::displayMenu() {
-
     cout << endl;
     cout << "________________________________________________________________________________________________________" << endl;
     cout << "|                                                                                 next - next page     |" << endl;

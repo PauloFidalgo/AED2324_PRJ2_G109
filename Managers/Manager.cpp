@@ -2110,10 +2110,10 @@ void Manager::getTopKGreatestTrafficAirportPerCountry(int k, const vector<Airpor
     else Viewer::printAirportGreatestTraffic(air, nameSize);
 }
 
-void Manager::getTopKGreatestTrafficCityPerCountry(int k,const unordered_set<string>& selectedCountryCities, const bool &bars, const bool& asc) const {
+void Manager::getTopKGreatestTrafficCityPerCountry(int k,pair<string, set<string>> *selectedCountryCities, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorPairsAsc : comparatorPairsDesc;
     set<pair<string, int>, decltype(comparator)> cityByTraffic(comparator);
-    for (auto &elem : selectedCountryCities) {
+    for (auto &elem : selectedCountryCities->second) {
         int numFlights = 0;
         vector<Airport *> airportsPerCity = getAirportsPerCity(elem);
         for (auto &air : airportsPerCity) {
