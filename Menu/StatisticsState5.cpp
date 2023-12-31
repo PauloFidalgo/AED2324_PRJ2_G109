@@ -72,17 +72,15 @@ State* StatisticsState5::handleInput() {
             }
             case 2: {
                 auto k = getValidCityK();
-                barsState.displayMenu();
-                barsState.handleInput();
-                auto bars = barsState.shouldUseGraphicBar();
-                if(k != -1) manager.getTopKGreatestTrafficCity(k,bars,true);
+                int bar = bars();
+                if(k != -1 && (bar == 1 or bar == 0) ) manager.getTopKGreatestTrafficCity(k,bar,true);
                 return this;
 
             }
             case 3: {
                 auto k = getValidCityK();
                 auto bar = bars();
-                if(k != -1) manager.getTopKGreatestTrafficCity(k,bar,false);
+                if(k != -1 && (bar == 1 or bar == 0)) manager.getTopKGreatestTrafficCity(k,bar,false);
                 return this;
             }
             case 4: {

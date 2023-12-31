@@ -111,14 +111,33 @@ string State::getValidSingleCountry() {
 
 
 int State::getValidAirportK() {
-    do {
+    cout << "K (-1 to cancel): ";
+    getline(cin,userInputStr);
+
+    try{
+       distance = stoi(userInputStr);
+    }
+    catch (exception &err){
+        cout << "k must be an integer";
+
+    }
+    while (!manager.getMaxKAirports(distance)) {
         cout << "K (-1 to cancel): ";
-        cin >> distance;
+        getline(cin,userInputStr);
+
+        try{
+            distance = stoi(userInputStr);
+        }
+        catch (exception &err){
+            cout << "k must be an integer";
+
+        }
+
         if (distance == -1) return -1;
         if (!manager.getMaxKAirports(distance)) {
             cout << "K doesn't exist. Try again." << endl;
         }
-    } while (!manager.getMaxKAirports(distance));
+    }
     return distance;
 }
 
@@ -135,15 +154,20 @@ int State::getValidAirlineK() {
 }
 
 int State::getValidCityK() {
-    do {
+
+    do  {
+        cin.clear();
         cout << "K (-1 to cancel): ";
         cin >> distance;
+
+
         if (distance == -1) return -1;
         if (distance < 0 ) {
             cout << "K needs to be > 0. Try again." << endl;
         }
 
     } while (!manager.getMaxKCities(distance));
+
     return distance;
 }
 
@@ -486,6 +510,6 @@ unordered_set<string> State::getValidCitiesSingleCountry() {
 bool State::bars() {
     barsState.displayMenu();
     barsState.handleInput();
-    auto bars =barsState.shouldUseGraphicBar();
+    auto bars = barsState.shouldUseGraphicBar();
     return bars;
 }

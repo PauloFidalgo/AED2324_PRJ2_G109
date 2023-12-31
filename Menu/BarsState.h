@@ -14,7 +14,7 @@ private:
 public:
     void displayMenu() override;
     State * handleInput() override;
-    bool shouldUseGraphicBar() const;
+    int shouldUseGraphicBar() ;
 
 };
 
