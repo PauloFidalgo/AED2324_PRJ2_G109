@@ -11,6 +11,7 @@ using namespace std;
 
 StatisticsState1 statisticsState1;
 void StatisticsState1::displayMenu() {
+
     cout << endl;
     cout << "________________________________________________________________________________________________________" << endl;
     cout << "|                                                                                 next - next page     |" << endl;
@@ -53,42 +54,42 @@ State* StatisticsState1::handleInput() {
     }
     else
     {
-            istringstream(userInputStr) >> userInput;
-            switch (userInput) {
-                case 1: {
-                    Airport *airport = getValidSingleAirport();
-                    if (airport) manager.getNumFlightsAndAirlines(airport);
-                    return this;
-                }
-                case 2: {
-                    Airline *airline = getValidSingleAirline();
-                    if (airline) manager.getNumFlightsPerAirline(airline);
-                    return this;
-                }
-                case 3: {
-                    Airport *airport = getValidSingleAirport();
-                    if (airport) manager.getCountriesCanFlyToAirport(airport);
-                    return this;
-                }
-                case 4: {
-                    vector<Airport*> airports = getValidAirportsSingleCity();
-                    if (!airports.empty()) manager.getCityDestinationsDistance1(airports,name);
-                    return this;
-                }
-                case 5: {
-                    auto airports = getValidAirportsSingleCountry();
-                    if (!airports.empty()) manager.getCountryDestinationsDistance1(airports,name);
-                    return this;
-                }
-                case 6: {
-                    Airport *airport = getValidSingleAirport();
-                    int distance = getValidAirportK();
-                    if (airport != nullptr && distance != -1) manager.getAirportDestinantionsUntilDistanceK(airport, distance);
-                    return this;
-                }
-                default:
-                    std::cout << " Invalid choice. try again" << std::endl;
-                    return this;
+        istringstream(userInputStr) >> userInput;
+        switch (userInput) {
+            case 1: {
+                Airport *airport = getValidSingleAirport();
+                if (airport) manager.getNumFlightsAndAirlines(airport);
+                return this;
             }
+            case 2: {
+                Airline *airline = getValidSingleAirline();
+                if (airline) manager.getNumFlightsPerAirline(airline);
+                return this;
+            }
+            case 3: {
+                Airport *airport = getValidSingleAirport();
+                if (airport) manager.getCountriesCanFlyToAirport(airport);
+                return this;
+            }
+            case 4: {
+                vector<Airport*> airports = getValidAirportsSingleCity();
+                if (!airports.empty()) manager.getCityDestinationsDistance1(airports,name);
+                return this;
+            }
+            case 5: {
+                auto airports = getValidAirportsSingleCountry();
+                if (!airports.empty()) manager.getCountryDestinationsDistance1(airports,name);
+                return this;
+            }
+            case 6: {
+                Airport *airport = getValidSingleAirport();
+                int distance = getValidAirportK();
+                if (airport != nullptr && distance != -1) manager.getAirportDestinantionsUntilDistanceK(airport, distance);
+                return this;
+            }
+            default:
+                std::cout << " Invalid choice. try again" << std::endl;
+                return this;
         }
     }
+}

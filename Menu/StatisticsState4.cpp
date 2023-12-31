@@ -73,26 +73,24 @@ State* StatisticsState4::handleInput() {
                 auto airports = getValidAirports();
                 auto dist = getValidAirportK();
                 auto bar = bars();
-                if(!airports.empty() && dist != -1) manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, bar, true);
+                if(!airports.empty() && dist != -1) manager.getTopKGreatestTrafficAirportPerCountry(dist, airports,bar, true);
                 return this;
             }
             case 3: {
                 auto airports = getValidAirports();
                 auto dist = getValidAirportK();
                 auto bar = bars();
-                if(!airports.empty() && dist != -1 ) manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, bar, false);
+                if(!airports.empty() && dist != -1) manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, bar, false);
                 return this;
             }
             case 4: {
-                string country;
-                getline(cin,country);
+                string country = getValidSingleCountry();
                 Airport* airport = manager.getAirportPerName(country);
                 if (!country.empty() && airport != nullptr) Manager::printAirportInfo(airport);
                 return this;
             }
             case 5: {
-                string name;
-                getline(cin,name);
+                string name = getValidSingleCountry();
                 Airline *airline = manager.getAirlinePerName(name);
                 if (!name.empty() && airline != nullptr) Manager::printAirlineInfo(airline);
                 return this;
