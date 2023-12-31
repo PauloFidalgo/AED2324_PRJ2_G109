@@ -44,9 +44,6 @@ public:
     vector<Airport*> getAirportsPerCity(const string& city) const;
     unordered_set<Airline*> getAirlinesPerCountry(const string& country) const;
     unordered_set<string> getCitiesPerCountry(const string& c) const;
-    double getDistance(Airport* u, Airport* v) const;
-    double getTripDistance(const vector<Airport*> &trip) const;
-    int getNumStops(Airport* s, Airport* t) const;
     vector<Airport*> getAirportsPerCoordinatesRange(const double &x, const double &y, const int &range);
     Airport* getClosestAirport(const double &x, const double &y);
     vector<Edge> getOutFlights(Airport* airport) const;
@@ -55,6 +52,10 @@ public:
     bool validateCityName(const std::string &name) const;
     bool validateCountryName(const std::string &name) const;
     vector<Airport*> validateCountry(const string &country) const;
+    bool getMaxKAirports(const int &x) const;
+    bool getMaxKCountries(const int &x) const;
+    bool getMaxKCities(const int &x) const;
+    bool getMaxKAirlines(const int &x) const;
     vector<Airport*> validateCity(const string &city) const;
 
     // Main Functions

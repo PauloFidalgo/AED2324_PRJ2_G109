@@ -21,6 +21,22 @@ Manager::Manager() {
     this->countryAirlines = parser.getAirlinesCountry();
 }
 
+bool Manager::getMaxKAirports(const int &x) const {
+    return x > 0 && x < airports.size();
+}
+
+bool Manager::getMaxKAirlines(const int &x) const {
+    return x > 0 && x < airlines.size();
+}
+
+bool Manager::getMaxKCities(const int &x) const {
+    return x > 0 && x < cityAirports.size();
+}
+
+bool Manager::getMaxKCountries(const int &x) const {
+    return x > 0 && x < countryCities.size();
+}
+
 /*! Permite pequisar um aeroporto por código
  *  Retorna apontador para o aeroporto ou nullptr no caso de não existir
  */
@@ -339,7 +355,7 @@ void Manager::dfsScc(Vertex *v, stack<Airport*> &s, vector<vector<Airport*>> &re
 }
 
 /*! Permite obter o conjunto de voos que partem de um aeroporto
- * 
+ *
  */
 vector<Edge> Manager::getOutFlights(Airport* airport) const {
 
@@ -440,43 +456,6 @@ bool notIn(vector<Airport*> &v, Airport* &t) {
     return true;
 }
 
-int Manager::getNumStops(Airport* s, Airport* t) const {
-    for (auto node : connections.getVertexSet()) {
-        node->setVisited(false);
-    }
-
-    auto first = connections.findVertex(s);
-    auto last = connections.findVertex(t);
-
-    queue<Vertex*> q;
-
-    q.push(first);
-    first->setVisited(true);
-    int k = -1;
-
-    while (!q.empty()) {
-        int size = q.size();
-
-        for (int i = 0; i < size; i++) {
-            auto next = q.front();
-            q.pop();
-
-            if (next == last) return k;
-
-            for (auto &n : next->getAdj()) {
-                auto dest = n.getDest();
-
-                if (!dest->isVisited()) {
-                    dest->setVisited(true);
-                    q.push(dest);
-                }
-            }
-        }
-        k++;
-    }
-
-    return -1;
-}
 
 
 vector<vector<Airport*>> Manager::bfsMinConnectionsExcludeAirports(Airport* s, Airport* t, const vector<Airport*> &exclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines) {
@@ -550,67 +529,7 @@ vector<vector<Airport*>> Manager::bfsMinConnectionsExcludeAirports(Airport* s, A
     }
     return result;
 }
-/*
-vector<Airport*> Manager::findShortestPath(Airport* u, Airport* v) const {
-    unordered_map<Vertex*, int> distances;
-    for (Vertex* vertex : connections.getVertexSet()) {
-        distances[vertex] = numeric_limits<int>::max();
-        vertex->setVisited(false);
-    }
 
-    priority_queue<pair<int, Vertex*>, vector<pair<int, Vertex*>>, greater<>> pq;
-
-
-    Vertex* sourceAirport = connections.findVertex(u);
-    Vertex* targetAirportPerCode = connections.findVertex(v);
-
-
-    if (!sourceAirport || !targetAirportPerCode) {
-        cerr << "Source or target airport not found." << endl;
-        return {};
-    }
-
-    distances[sourceAirport] = 0;
-    pq.emplace(0, sourceAirport);
-
-    unordered_map<Vertex*, Vertex*> parent;
-
-    while (!pq.empty()) {
-        Vertex* current = pq.top().second;
-        int currentDistance = pq.top().first;
-        pq.pop();
-
-        if (currentDistance > distances[current]) {
-            continue;
-        }
-
-        for (Edge& flight : current->getAdj()) {
-            Vertex* neighbor = flight.getDest();
-
-            if (!neighbor->isVisited()) {
-                int weight = flight.getWeight();
-
-                int newDistance = currentDistance + weight;
-
-                if (newDistance < distances[neighbor]) {
-                    distances[neighbor] = newDistance;
-                    pq.emplace(newDistance, neighbor);
-                    parent[neighbor] = current;
-                }
-            }
-        }
-    }
-
-    vector<Airport*> path;
-    Vertex* current = targetAirportPerCode;
-
-    while (current != nullptr) {
-        path.insert(path.begin(), current->getInfo());
-        current = parent[current];
-    }
-
-    return path;
-}*/
 
 bool excludeCountries(Vertex* v, vector<string> &countries) {
     for (const auto& country : countries) {
@@ -620,51 +539,6 @@ bool excludeCountries(Vertex* v, vector<string> &countries) {
     }
     return false;
 }
-
-double Manager::getTripDistance(const vector<Airport *> &trip) const {
-    double res = 0.0;
-
-    auto it = trip.begin();
-    auto first = *it;
-
-    it++;
-    while (it != trip.end()) {
-        res += getDistance(first, *it);
-        it++;
-    }
-    return res;
-}
-/*
-double Manager::getDistance(Airport *u, Airport* v) const {
-    auto p = findShortestPath(u, v);
-
-    auto it = p.begin();
-    double dist = 0.0;
-
-    while (it != p.end()) {
-        auto source = connections.findVertex(getAirportPerCode((*it)->getCode()));
-
-        if (source) {
-            auto nextIt = std::next(it);
-
-            if (nextIt != p.end()) {
-                for (auto &edge : source->getAdj()) {
-                    if (edge.getDest()->getInfo()->getCode() == (*nextIt)->getCode()) {
-                        dist += edge.getWeight();
-                        break;
-                    }
-                }
-            } else {
-                break;
-            }
-
-            it = nextIt;
-        } else {
-            break;
-        }
-    }
-    return dist;
-}*/
 
 
 vector<Airport*> Manager::scheduleTripMinDistance(Airport* &source, Airport* &destination, vector<Airport*> &airporsToVisit, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
