@@ -14,9 +14,9 @@ protected:
     static std:: stack<State*> statisticsHistory;
     Manager manager;
     string code;
-    int distance;
+    int distance{};
     string userInputStr;
-    int userInput;
+    int userInput{};
     string name;
 
 public:
