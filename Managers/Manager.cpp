@@ -407,7 +407,10 @@ vector<vector<Airport*>> Manager::scc() {
 }
 
 /*! Função auxiliar que utiliza pesquisa em profundidade determinar o número de componentes fortemente ligados
- *
+ *  @param v Apontador para vértice onde irá começar a visita em profundidade
+ *  @param s stack de apontadores para aeroportos, utilidada para determinar os componentes fortemente ligados
+ *  @param res vetor de apontadores para aeroportos, onde o resultado será inserido
+ *  @param i valor que indica a ordem de visita do vértice
  */
 void Manager::dfsScc(Vertex *v, stack<Airport*> &s, vector<vector<Airport*>> &res, int &i) {
     v->setLow(i);
