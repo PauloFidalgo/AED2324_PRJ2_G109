@@ -453,7 +453,8 @@ void Manager::dfsScc(Vertex *v, stack<Airport*> &s, vector<vector<Airport*>> &re
 }
 
 /*! Permite obter o conjunto de voos que partem de um aeroporto
- *
+ *  @param airport apontador para aeroporto para o qual se pretende obter o conjunto de voos que partem desse aeroporto
+ *  @return vetor de edges correspondentes aos voos que partem do aeroporto
  */
 vector<Edge> Manager::getOutFlights(Airport* airport) const {
 
@@ -465,7 +466,7 @@ vector<Edge> Manager::getOutFlights(Airport* airport) const {
     return vertex->getAdj();
 }
 
-/*! Permite visualizar o número total de aeroportos e o número total de voos da rede
+/*! @brief Permite visualizar o número total de aeroportos e o número total de voos da rede
  * O(|V|)
  */
 void Manager::getNumAirportsAndFlights() const {
@@ -477,8 +478,8 @@ void Manager::getNumAirportsAndFlights() const {
     Viewer::printNumAirportsNumFlights(numAirports, numFlights);
 }
 
-/*! Permite visualizar o número total de voos de um aeroporto e de quantas companhias diferentes
- *
+/*! @brief Permite visualizar o número total de voos de um aeroporto e de quantas companhias diferentes
+ * @param airport apontador para aeroporto para o qual se pretende imprimir o número de voos e companhias que fazem esses voos
  */
 void Manager::getNumFlightsAndAirlines(Airport *airport) const {
     int numFlights = airport->getNumFlightsOut();
@@ -498,8 +499,8 @@ void Manager::getNumFlightsAndAirlines(Airport *airport) const {
     Viewer::printNumFlightsOutAndAirlines(airport->getCode(), airport->getName(), numFlights, numAirlines);
 }
 
-/*! Permite visualizar o número total de voos de uma cidade
- *
+/*! @brief Permite visualizar o número total de voos de uma cidade
+ *  @param city nome da cidade para a qual se pretende imprimir o número de voos
  */
 void Manager::getNumFlightsPerCity(const string &city) const {
     int numFlights = 0;
@@ -511,15 +512,15 @@ void Manager::getNumFlightsPerCity(const string &city) const {
     Viewer::printNumFlightsPerCity(city, numFlights);
 }
 
-/*! Permite visualizar o número total de voos de uma companhia
- *
+/*! @brief Permite visualizar o número total de voos de uma companhia
+ *  @param airline apontador para a Airline para a qual se pretende imprimir o número de voos
  */
 void Manager::getNumFlightsPerAirline(Airline *airline) const {
     int numFlights = airline->getNumFlights();
     Viewer::printNumFlightsPerAirline(airline->getCode(), airline->getName(), numFlights);
 }
-/*! Permite visualizar o número países diferentes que é possível visitar a partir de uma aeorporto
- *
+/*! @brief Permite visualizar o número países diferentes que é possível visitar a partir de uma aeorporto
+ *  @param airport apontador para o aeroporto para o qual se pretende imprimir o conjunto de países que sao alcançáveis
  */
 void Manager::getCountriesCanFlyToAirport(Airport *airport) const {
     vector<Edge> edges = getOutFlights(airport);
@@ -532,7 +533,7 @@ void Manager::getCountriesCanFlyToAirport(Airport *airport) const {
 }
 
 /*! Permite visualizar o número países diferentes que é possível visitar a partir de uma cidade
- *
+ *  @param city nome da cidade para a qual se prentende obter o conjunto de países que voam para ela
  */
 void Manager::getCountriesCanFlyToCity(const string &city) const {
     set<string> countries;
@@ -549,6 +550,12 @@ void Manager::getCountriesCanFlyToCity(const string &city) const {
 
 /*! Função auxiliar que implementa uma pesquisa em largura para determinar os caminhos do ponto s até ao t no número mínimo de voos com vários filtros
  *  É possível excluir vários aeroportos, companhias aéreas ou voar apenas em algumas companhias
+ *  @param s apontador para o aeroporto de partida
+ *  @param t apontador para o aeroporto de destino
+ *  @param exclude vetor de apontadores para aeroportos, que se serão excluídos
+ *  @param airlinesToExclude unordered_set de apontadores para companhias aéreas que se pretendem excluir
+ *  @param flyOnlyAirlines unordered_set de apontadores para as companhias aéreas que serão incluídas
+ *  @return vetor de caminhos que satisfazem os requisitos
  */
 vector<vector<Airport*>> Manager::bfsMinConnectionsExcludeAirports(Airport* s, Airport* t, const vector<Airport*> &exclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines) {
     for (auto node : connections.getVertexSet()) {
