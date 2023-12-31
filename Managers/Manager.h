@@ -40,7 +40,7 @@ public:
     Airport* getAirportPerName(const string &name) const;
     Airline* getAirlinePerCode(const std::string &code) const;
     Airline* getAirlinePerName(const std::string &name) const;
-    vector<Airport*> getAirportsPerCountry(const string &c) const;
+    vector<Airport*> getAirportsPerCountry(const string &country) const;
     vector<Airport*> getAirportsPerCity(const string& city) const;
     unordered_set<Airline*> getAirlinesPerCountry(const string& country) const;
     unordered_set<string> getCitiesPerCountry(const string& c) const;
@@ -91,7 +91,7 @@ public:
     void getTopKGreatestTrafficCountry(int k, const bool &bars = false, const bool& asc = false) const;
     void getTopKGreatestTrafficAirportPerCity(int k, const vector<Airport *> &airportsPerCity, const bool &bars = false, const bool& asc = false) const;
     void getTopKGreatestTrafficAirportPerCountry(int k, const vector<Airport *> &airportsPerCountry, const bool &bars = false, const bool& asc = false) const;
-    void getTopKGreatestTrafficCityPerCountry(int k, pair<string, set<string>> *selectedCountryCities, const bool &bars = false, const bool& asc = false) const;
+    void getTopKGreatestTrafficCityPerCountry(int k, const unordered_set<string> &selectedCountryCities, const bool &bars, const bool& asc) const;
     void getTopKGreatestTrafficAirline(int k, const bool &bars = false, const bool& asc = false) const;
     void getTopKGreatestTrafficAirlinePerCountry(int k, const unordered_set<Airline *> &airlinesCountry, const bool &bars = false, const bool& asc = false) const;
     void getTopKCountriesWithMoreAirlines(int k, const bool &bars = false, const bool& asc = false) const;

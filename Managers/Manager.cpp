@@ -22,28 +22,36 @@ Manager::Manager() {
 }
 
 /*! Permite verificar se um número inteiro k está entre 0 e o número máximo de aeroportos
- *
+ * @param x Valor que se pretende verificar se é positivo e menor que número de aeroportos
+ * @return true se x positivo e menor que número de aeroportos
+ * @return false se x negativo ou maior que número de aeroportos
  */
 bool Manager::getMaxKAirports(const int &x) const {
     return x > 0 && x < airports.size();
 }
 
 /*! Permite verificar se um número inteiro k está entre 0 e o número máximo de companhias aéreas
- *
+ * @param x Valor que se pretende verificar se é positivo e menor que número de companhias aéreas
+ * @return true se x positivo e menor que número de companhias aéreas
+ * @return false se x negativo ou maior que número de companhias aéreas
  */
 bool Manager::getMaxKAirlines(const int &x) const {
     return x > 0 && x < airlines.size();
 }
 
 /*! Permite verificar se um número inteiro k está entre 0 e o número máximo de cidades
- *
+ * @param x Valor que se pretende verificar se é positivo e menor que número de cidades
+ * @return true se x positivo e menor que número de cidades
+ * @return false se x negativo ou maior que número de cidades
  */
 bool Manager::getMaxKCities(const int &x) const {
     return x > 0 && x < cityAirports.size();
 }
 
 /*! Permite verificar se um número inteiro k está entre 0 e o número máximo de países
- *
+ * @param x Valor que se pretende verificar se é positivo e menor que número de países
+ * @return true se x positivo e menor que número de países
+ * @return false se x negativo ou maior que número de países
  */
 bool Manager::getMaxKCountries(const int &x) const {
     return x > 0 && x < countryCities.size();
@@ -51,6 +59,9 @@ bool Manager::getMaxKCountries(const int &x) const {
 
 /*! Permite pequisar um aeroporto por código
  *  Retorna apontador para o aeroporto ou nullptr no caso de não existir
+ * @param code Código do aeroporto que se pretende obter
+ * @return apontador para airport se code for válido
+ * @return nullptr se code não existir
  */
 Airport* Manager::getAirportPerCode(const std::string &code) const {
     auto it = airports.find(code);
@@ -63,7 +74,9 @@ Airport* Manager::getAirportPerCode(const std::string &code) const {
 }
 
 /*! Permite pequisar um aeroporto por nome
- *  Retorna apontador para o aeroporto ou nullptr no caso de não existir
+ * @param name Nome do aeroporto que se pretende obter
+ * @return apontador para airport se o name do aeroporto for válido
+ * @return nullptr se name não existir
  */
 Airport* Manager::getAirportPerName(const std::string &name) const {
     auto it = airportsByName.find(name);
@@ -76,7 +89,9 @@ Airport* Manager::getAirportPerName(const std::string &name) const {
 }
 
 /*! Permite verificar o nome de uma cidade
- *  Retorna true caso a cidade exista e false caso contrário
+ * @param name Nome da cidade que se pretende verificar se é válido
+ * @return true se nome da cidade for válido
+ * @return false se nome da cidade for inválido
  */
 bool Manager::validateCityName(const std::string &name) const {
     auto it = cityAirports.find(name);
@@ -89,7 +104,9 @@ bool Manager::validateCityName(const std::string &name) const {
 }
 
 /*! Permite verificar o nome de um país
- *  Retorna true caso o país exista e false caso contrário
+ * @param name Nome do país que se pretende verficiar se é válido
+ * @return true se nome do país for válido
+ * @return false se nome do país for inválido
  */
 bool Manager::validateCountryName(const std::string &name) const {
     auto it = countryCities.find(name);
@@ -101,6 +118,11 @@ bool Manager::validateCountryName(const std::string &name) const {
     return false;
 }
 
+/*! Permite obter o conjunto de aeroportos por país
+ * @param country Nome do país para o qual se pretende obter o conjunto de companhias
+ * @return unordered_set com apontadores para Airline se nome do país for válido
+ * @return unordered_set vazio se nome do país for inválido
+ */
 unordered_set<Airline*> Manager::getAirlinesPerCountry(const string& country) const {
     auto it = countryAirlines.find(country);
 
@@ -110,7 +132,9 @@ unordered_set<Airline*> Manager::getAirlinesPerCountry(const string& country) co
 }
 
 /*! Permite pequisar uma companhia por código
- *  Retorna apontador para o companhia ou nullptr no caso de não existir
+ * @param code Code da companhia que se pretende obter
+ * @return apontador para Airline se code for válido
+ * @return nullptr se code for inválido
  */
 Airline* Manager::getAirlinePerCode(const std::string &code) const {
     auto it = airlines.find(code);
@@ -123,7 +147,9 @@ Airline* Manager::getAirlinePerCode(const std::string &code) const {
 }
 
 /*! Permite pequisar uma companhia por nome
- *  Retorna apontador para o companhia ou nullptr no caso de não existir
+ * @param name Nome da companhia que se pretende obter
+ * @return apontador para Airline se name for válido
+ * @return nullptr se name for inválido
  */
 Airline* Manager::getAirlinePerName(const std::string &name) const {
     auto it = airlinesByName.find(name);
@@ -136,7 +162,9 @@ Airline* Manager::getAirlinePerName(const std::string &name) const {
 }
 
 /*! Permite obter todos os aeroportos de uma cidade
- *  Retorna um vetor de apontadores para aeroportos ou vetor nulo, caso a cidade não exista
+ * @param city Nome da cidade para a qual se pretende obter o conjunto de aeroportos
+ * @return vector de apontadores para Airport se city for válida
+ * @return nullptr se city for inválida
  */
 vector<Airport*> Manager::getAirportsPerCity(const string& city) const {
     auto it = cityAirports.find(city);
@@ -147,10 +175,12 @@ vector<Airport*> Manager::getAirportsPerCity(const string& city) const {
 }
 
 /*! Permite obter todos os aeroportos de um país
- *  Retorna um vetor de apontadores para aeroportos ou vetor nulo, caso o país não exista
+ * @param country Nome do país para o qual se pretende obter o conjunto de aeroportos
+ * @return vector de apontadores para Airport se country for válido
+ * @return nullptr se country for inválido
  */
-vector<Airport*> Manager::getAirportsPerCountry(const string &c) const {
-    auto cities = this->getCitiesPerCountry(c);
+vector<Airport*> Manager::getAirportsPerCountry(const string &country) const {
+    auto cities = this->getCitiesPerCountry(country);
 
     vector<Airport*> res;
 
@@ -168,10 +198,12 @@ vector<Airport*> Manager::getAirportsPerCountry(const string &c) const {
 }
 
 /*! Permite obter as cidades de um determinado país
- *  Retorna um unordered_set de strings com os nomes das cidades ou vazio caso o país não exista
+ * @param country Nome do país para o qual se pretende obter o conjunto de cidades
+ * @return unordered_set de strings com os nomes das cidades correspondentes ao país, se country for válido
+ * @return unordered_set vazio se country for inválido
  */
-unordered_set<string> Manager::getCitiesPerCountry(const string& c) const {
-    auto it = countryCities.find(c);
+unordered_set<string> Manager::getCitiesPerCountry(const string& country) const {
+    auto it = countryCities.find(country);
 
     if (it != countryCities.end()) return it->second;
 
@@ -179,7 +211,11 @@ unordered_set<string> Manager::getCitiesPerCountry(const string& c) const {
 }
 
 /*! Permite obter a distância entre dois pontos através das respetivas coordenadas
- *
+ * @param lat1 latitude do 1º ponto
+ * @param lon1 longitude do 1º ponto
+ * @param lat2 latitude do 2º ponto
+ * @param lon2 longitude do 2º ponto
+ * @return distância entre A(lat1, lon1) e B(lat2, lon2)
  */
 double haversine(double lat1, double lon1, double lat2, double lon2) {
     double dLat = (lat2 - lat1) *
@@ -199,7 +235,11 @@ double haversine(double lat1, double lon1, double lat2, double lon2) {
 }
 
 /*! Permite obter todos os aeroportos a uma distância "range" de uma coordenada
- *  Retorna um vetor de apontadores para aeroportos ou vetor nulo, caso não existam
+ *  @param x latitude
+ *  @param y longitude
+ *  @param range distância máxima até à qual serão incluídos aeroportos
+ *  @return vetor de apontadores para aeroportos se existirem aeroportos a uma distância máxima de range do ponto (x,y)
+ *  @return vetor vazio se não existirem aeroportos nesse range
  */
 vector<Airport*> Manager::getAirportsPerCoordinatesRange(const double &x, const double &y, const int &range) {
     double dist;
@@ -216,7 +256,9 @@ vector<Airport*> Manager::getAirportsPerCoordinatesRange(const double &x, const 
 }
 
 /*! Permite obter o aeroporto mais próximo de uma coordenada
- *  Retorna um vetor de apontadores para aeroportos ou vetor nulo, caso não existam
+ *  @param x latitude
+ *  @param y longitude
+ *  @return vetor de apontador para o aeroporto mais próximo do ponto (x,y)
  */
 Airport* Manager::getClosestAirport(const double &x, const double &y) {
     double min = MAXFLOAT, dist;
@@ -233,7 +275,7 @@ Airport* Manager::getClosestAirport(const double &x, const double &y) {
     return closest;
 }
 
-/*! Determina os vértices críticos do grafo
+/*! @brief Determina os vértices críticos do grafo
  *  Vértices críticos, são vértices que caso sejam removidos, fazem aumentar o número de componentes do grafo
  *
  */
@@ -261,7 +303,10 @@ void Manager::articulationPoints() {
 }
 
 /*! Função auxiliar que executa uma pesquisa em profundidade, com o objetivo de encontrar os pontos de articulações
- *
+ *  @param v Apontador para vértice onde irá começar a visita em profundidade
+ *  @param s stack de apontadores para aeroportos, utilidada para determinar os articulation points
+ *  @param res vetor de apontadores para aeroportos, onde o resultado será inserido
+ *  @param i valor que indica a ordem de visita do vértice
  */
 void Manager::dfsApp(Vertex *v, stack<Airport*> &s, vector<Airport*> &res, int &i) {
     v->setNum(i);
@@ -294,7 +339,10 @@ void Manager::dfsApp(Vertex *v, stack<Airport*> &s, vector<Airport*> &res, int &
 }
 
 /*! Função auxiliar para verificar alguma companhia do unordered_set<> air está incluída no voo (Edge) e
- *  Retorna true caso exista pelo menos uma companhia que faça esse voo e false caso contrário
+ *  @param e Edge (voo) para o qual se pretende verificar se alguma companhia está incluída
+ *  @param air unordered_set de apontadores para airlines que se quer verificar se, pelo menos uma, está contida no edge
+ *  @return true caso exista pelo menos uma companhia que faça esse voo
+ *  @return false caso não exista nenhuma companhia do unordered_set que faça esse voo
  */
 bool hasAirline(Edge &e, const unordered_set<Airline*> &air) {
     for (auto &airline : air) {
@@ -306,7 +354,10 @@ bool hasAirline(Edge &e, const unordered_set<Airline*> &air) {
 }
 
 /*! Função auxiliar para verificar alguma companhia do vector<> air está incluída no voo (Edge) e
- *  Retorna true caso exista pelo menos uma companhia que faça esse voo e false caso contrário
+ *  @param e Edge (voo) para o qual se pretende verificar se alguma companhia está incluída
+ *  @param air vetor de apontadores para airlines que se quer verificar se, pelo menos uma, está contida no edge
+ *  @return true caso exista pelo menos uma companhia que faça esse voo
+ *  @return false caso não exista nenhuma companhia do vetor que faça esse voo
  */
 bool hasAirline(Edge &e, const vector<Airline*> &air) {
     for (auto &airline : air) {
@@ -318,7 +369,10 @@ bool hasAirline(Edge &e, const vector<Airline*> &air) {
 }
 
 /*! Função auxiliar para verificar se existe alguma companhia incluída no voo (Edge) que não esteja incluída no unordered_set<> air
- *  Retorna true caso exista pelo menos uma companhia não presente no unordered_set<> que faça esse voo e false caso contrário
+ *  @param e Edge (voo) para o qual se pretende verificar se, pelo menos, uma companhia que faça esse voo não está contida no unordered_set
+ *  @param air unordered_set de apontadores para airlines que se pretende excluir
+ *  @return true caso exista pelo menos uma companhia não presente no unordered_set<> que faça esse voo
+ *  @return false caso contrário
  */
 bool hasOtherAirline(Edge &e, const unordered_set<Airline*> &air) {
     for (auto &airline : e.getAirlines()) {
@@ -329,7 +383,7 @@ bool hasOtherAirline(Edge &e, const unordered_set<Airline*> &air) {
     return false;
 }
 
-/*! Determina o número de componentes fortemente ligados do grafo
+/*! @brief Determina o número de componentes fortemente ligados do grafo
  *  Um componente fortemente ligado é um subset do conjunto de vértices, tal que qualquer vértice concegue aceder a qualquer outro vértice do mesmo componente
  */
 vector<vector<Airport*>> Manager::scc() {
