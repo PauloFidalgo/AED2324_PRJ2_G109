@@ -631,7 +631,14 @@ vector<vector<Airport*>> Manager::bfsMinConnectionsExcludeAirports(Airport* s, A
 
 
 /*! Função auxiliar que na determinação da viagem com mínima distância entre dois pontos, com vários filtros
- *  É possível incluir aeroportos para passar, excluir vários aeroportos, companhias aéreas ou voar apenas em algumas companhias
+ *  É possível incluir aeroportos para passar, excluir vários aeroportos, companhias aéreas ou voar apenas em algumas companhias *  @param s apontador para o aeroporto de partida
+ *  @param source apontador para o aeroporto de partida
+ *  @param destination apontador para o aeroporto de destino
+ *  @param airporsToVisit apontador para aeroportos que deverão ser visitados sequencialmente
+ *  @param airportsToExclude vetor de apontadores para aeroportos, que se serão excluídos
+ *  @param airlinesToExclude unordered_set de apontadores para companhias aéreas que se pretendem excluir
+ *  @param flyOnlyAirlines unordered_set de apontadores para as companhias aéreas que serão incluídas
+ *  @return vetor de apontadores para aeroportos correspondente a um caminho que satisfaz os requisitos e minimiza a distância
  */
 vector<Airport*> Manager::scheduleTripMinDistance(Airport* &source, Airport* &destination, vector<Airport*> &airporsToVisit, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
 
@@ -664,16 +671,23 @@ vector<Airport*> Manager::scheduleTripMinDistance(Airport* &source, Airport* &de
 
 /*! Função auxiliar que na determinação das viagens com número mínimo de escalas entre dois pontos, com vários filtros
  *  É possível incluir aeroportos para passar, excluir vários aeroportos, companhias aéreas ou voar apenas em algumas companhias
+ *  @param source apontador para o aeroporto de partida
+ *  @param destination apontador para o aeroporto de destino
+ *  @param airporsToVisit apontador para aeroportos que deverão ser visitados sequencialmente
+ *  @param airportsToExclude vetor de apontadores para aeroportos, que se serão excluídos
+ *  @param airlinesToExclude unordered_set de apontadores para companhias aéreas que se pretendem excluir
+ *  @param flyOnlyAirlines unordered_set de apontadores para as companhias aéreas que serão incluídas
+ *  @return vetor de caminhos satisfazem os requisitos e minimizam o número de escalas
  */
-vector<vector<Airport*>> Manager::scheduleTripMinConnectionAirports(Airport* u, Airport* v, const vector<Airport*>& visit, const vector<Airport*> &exclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines) {
+vector<vector<Airport*>> Manager::scheduleTripMinConnectionAirports(Airport* source, Airport* destination, const vector<Airport*>& airporsToVisit, const vector<Airport*> &airportsToExclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines) {
     vector<vector<Airport*>> path;
 
-    auto start = u;
+    auto start = source;
     bool first = true;
 
-    for (auto &code : visit) {
+    for (auto &code : airporsToVisit) {
 
-        vector<vector<Airport*>> currentPaths = bfsMinConnectionsExcludeAirports(start, code, exclude, airlinesToExclude, flyOnlyAirlines);
+        vector<vector<Airport*>> currentPaths = bfsMinConnectionsExcludeAirports(start, code, airportsToExclude, airlinesToExclude, flyOnlyAirlines);
 
         if (!first) {
             vector<vector<Airport *>> re;
@@ -702,7 +716,7 @@ vector<vector<Airport*>> Manager::scheduleTripMinConnectionAirports(Airport* u, 
         start = code;
     }
 
-    vector<vector<Airport*>> lastLeg = bfsMinConnectionsExcludeAirports(start, v, exclude, airlinesToExclude, flyOnlyAirlines);
+    vector<vector<Airport*>> lastLeg = bfsMinConnectionsExcludeAirports(start, destination, airportsToExclude, airlinesToExclude, flyOnlyAirlines);
 
     if (path.empty()) return lastLeg;
 
@@ -722,25 +736,31 @@ vector<vector<Airport*>> Manager::scheduleTripMinConnectionAirports(Airport* u, 
 /*! Função auxiliar que na determinação da viagem com mínima distância entre dois pontos, com vários filtros
  *  Esta função utiliza uma fila de prioridade para garantir que o primeiro caminho encontrado é o que minimiza a distância
  *  É possível incluir aeroportos para passar, excluir vários aeroportos, companhias aéreas ou voar apenas em algumas companhias
+ *  @param source apontador para o aeroporto de partida
+ *  @param destination apontador para o aeroporto de destino
+ *  @param airportsToExclude vetor de apontadores para aeroportos, que se serão excluídos
+ *  @param airlinesToExclude unordered_set de apontadores para companhias aéreas que se pretendem excluir
+ *  @param flyOnlyAirlines unordered_set de apontadores para as companhias aéreas que serão incluídas
+ *  @return vetor de apontadores para aeroportos, correspondente a um caminho que satisfaz os requisitos e minimiza a distância
  */
-vector<Airport*> Manager::findShortestPathExclude(Airport* u, Airport* v, vector<Airport*> &airpExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
+vector<Airport*> Manager::findShortestPathExclude(Airport* source, Airport* destination, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
     unordered_map<Vertex*, int> distances;
 
-    if (u->getCode() == v->getCode()) return {};
+    if (source->getCode() == destination->getCode()) return {};
 
     for (auto &node : connections.getVertexSet()) {
         distances[node] = numeric_limits<int>::max();
         node->setVisited(false);
     }
 
-    for (auto a : airpExclude)
+    for (auto a : airportsToExclude)
     {
         auto p = connections.findVertex(a);
         p->setVisited(true);
     }
 
-    auto sourceAirport = connections.findVertex(getAirportPerCode(u->getCode()));
-    auto targetAirportPerCode = connections.findVertex(getAirportPerCode(v->getCode()));
+    auto sourceAirport = connections.findVertex(getAirportPerCode(source->getCode()));
+    auto targetAirportPerCode = connections.findVertex(getAirportPerCode(destination->getCode()));
 
 
     priority_queue<pair<int, Vertex*>, vector<pair<int, Vertex*>>, greater<>> pq;
@@ -798,6 +818,14 @@ vector<Airport*> Manager::findShortestPathExclude(Airport* u, Airport* v, vector
     return path;
 }
 
+/*!
+ * @brief Função auxiliar para obter as combinações de visitas de países diferentes
+ * @param current current iterator
+ * @param next next iterator
+ * @param cityCountry map de cityCountries a visitar
+ * @param res vetor onde será colocado o resultado
+ * @param path vetor com a combinação atual
+ */
 void combinationalHelper(map<int, vector<Airport*>>::iterator &current, map<int, vector<Airport*>>::iterator &next, map<int, vector<Airport*>>& cityCountry, vector<vector<Airport*>>& res, vector<Airport*>& path) {
 
     if (next == cityCountry.end()) {
@@ -818,7 +846,11 @@ void combinationalHelper(map<int, vector<Airport*>>::iterator &current, map<int,
     }
 }
 
-
+/*!
+ * @brief Função auxiliar para obter as combinações de visitas de países diferentes
+ * @param cityCountry map de cityCountries a visitar
+ * @param res vetor onde será colocado o resultado
+ */
 void allCombinations(map<int, vector<Airport*>>& cityCountry, vector<vector<Airport*>>& res) {
     vector<Airport*> path;
     auto it = cityCountry.begin();
@@ -828,6 +860,13 @@ void allCombinations(map<int, vector<Airport*>>& cityCountry, vector<vector<Airp
 
 /*! Função que recebe pedido do menu para procurar voos de um conjunto de pontos de partida até um conjunto de pontos de destinos, minimizando o número de escalas, com vários filtros
  *  É possível incluir aeroportos para passar, excluir vários aeroportos, companhias aéreas ou voar apenas em algumas companhias
+ * @param source vetor de apontadores para aeroportos correspondentes aos aeroportos de partida, inseridos pelo utilizador
+ * @param destination vetor de apontadores para aeroportos correspondentes aos aeroportos de destino, inseridos pelo utilizador
+ * @param airporsToVisit vetor de apontadores para aeroportos correspondentes aos aeroportos por onde o utilizador pretende passar
+ * @param cityCountry mapa de inteiro (correspondente à ordem pela qual devem ser visitados) os países ou cidades inseridas pelo utilizador
+ * @param airportsToExclude vetor de apontadores para aeroportos a excluir, inseridos pelo utilizador
+ * @param airlinesToExclude unordered_set de apontadores para Airlines a excluir, inseridos pelo utilizador
+ * @param flyOnlyAirlines unordered_set de apontadores para Airlines a incluir, inseridos pelo utilizador
  */
 void Manager::manageFlightSearchFromMenu(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
     vector<vector<Airport*>> res;
@@ -859,7 +898,14 @@ void Manager::manageFlightSearchFromMenu(vector<Airport*> &source, vector<Airpor
 }
 
 /*! Função que recebe pedido do menu para procurar voos de um conjunto de pontos de partida até um conjunto de pontos de destinos, minimizando a distância percorrida, com vários filtros
- *  É possível incluir aeroportos para passar, excluir vários aeroportos, companhias aéreas ou voar apenas em algumas companhias
+ * É possível incluir aeroportos para passar, excluir vários aeroportos, companhias aéreas ou voar apenas em algumas companhias
+ * @param source vetor de apontadores para aeroportos correspondentes aos aeroportos de partida, inseridos pelo utilizador
+ * @param destination vetor de apontadores para aeroportos correspondentes aos aeroportos de destino, inseridos pelo utilizador
+ * @param airporsToVisit vetor de apontadores para aeroportos correspondentes aos aeroportos por onde o utilizador pretende passar
+ * @param cityCountry mapa de inteiro (correspondente à ordem pela qual devem ser visitados) os países ou cidades inseridas pelo utilizador
+ * @param airportsToExclude vetor de apontadores para aeroportos a excluir, inseridos pelo utilizador
+ * @param airlinesToExclude unordered_set de apontadores para Airlines a excluir, inseridos pelo utilizador
+ * @param flyOnlyAirlines unordered_set de apontadores para Airlines a incluir, inseridos pelo utilizador
  */
 void Manager::manageFlightSearchFromMenuMinDistance(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
     vector<vector<Airport*>> res;
@@ -891,7 +937,7 @@ void Manager::manageFlightSearchFromMenuMinDistance(vector<Airport*> &source, ve
 
 
 /*! Permite visualizar o número de destinos (aeroportos, cidades e países) disponíveis para um aeroporto
- *
+ * @param airport apontador para aeroporto para o qual se pretende obter e imprimir os destinos acessíveis diretamente (sem escalas)
  */
 void Manager::getAirportDestinantionsDistance1(Airport *airport) const {
     auto depart = connections.findVertex(airport);
@@ -908,9 +954,9 @@ void Manager::getAirportDestinantionsDistance1(Airport *airport) const {
 }
 
 /*! Permite visualizar o número de destinos (aeroportos, cidades e países) disponíveis para uma cidade
- *
+ * @param air vetor de apontadores para aeroportos
+ * @param city nome da cidade para a qual se pretende
  */
-
 void Manager::getCityDestinationsDistance1(vector<Airport *> air, const string& city) const {
     set<string> airportCodes;
     set<string> countries;
@@ -1416,9 +1462,11 @@ void Manager::getTopKGreatestTrafficCountry(int k, const bool &bars, const bool&
     else Viewer::printCountryCityStats(countries, "Countries", "Number of flights", nameSize);
 }
 
-/*! Permite visualizar os top k aeroportos numa dada cidade que têm o maior ou menor número de voos,
- * em forma de lista ou gráfico de barras
- *
+/*! @brief Permite visualizar os top k aeroportos numa dada cidade que têm o maior ou menor número de voos, em forma de lista ou gráfico de barras
+ * @param k número de aeroportos a serem impressos
+ * @param airportsPerCity vetor de apontadores para os aeroportos correspondentes à cidade 
+ * @param bars bool utilizada para imprimir ou não o gráfico de barras
+ * @param asc bool utilizada para imprimir por ordem ascendente ou descendente
  */
 void Manager::getTopKGreatestTrafficAirportPerCity(int k, const vector<Airport *> &airportsPerCity, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorAirportAsc : comparatorAirportDesc;
@@ -1438,9 +1486,11 @@ void Manager::getTopKGreatestTrafficAirportPerCity(int k, const vector<Airport *
     else Viewer::printAirportGreatestTraffic(air, nameSize);
 }
 
-/*! Permite visualizar os top k aeroportos num dado país que têm o maior ou menor número de voos,
- * em forma de lista ou gráfico de barras
- *
+/*! @brief Permite visualizar os top k aeroportos num dado país que têm o maior ou menor número de voos, em forma de lista ou gráfico de barras
+ * @param k número de airports a serem impressos
+ * @param airportsPerCountry vetor de apontadores para aeroportos do país em questão
+ * @param bars bool utilizada para imprimir ou não o gráfico de barras
+ * @param asc bool utilizada para imprimir por ordem ascendente ou descendente
  */
 void Manager::getTopKGreatestTrafficAirportPerCountry(int k, const vector<Airport *> &airportsPerCountry, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorAirportAsc : comparatorAirportDesc;
@@ -1460,9 +1510,11 @@ void Manager::getTopKGreatestTrafficAirportPerCountry(int k, const vector<Airpor
     else Viewer::printAirportGreatestTraffic(air, nameSize);
 }
 
-/*! Permite visualizar as top k cidades num dado país que têm o maior ou menor número de voos,
- * em forma de lista ou gráfico de barras
- *
+/*! @brief Permite visualizar as top k cidades num dado país que têm o maior ou menor número de voos, em forma de lista ou gráfico de barras
+ * @param k número de cidades a serem impressas
+ * @param selectedCountryCities unordered_set de strings com as cidades a serem incluídas
+ * @param bars bool utilizada para imprimir ou não o gráfico de barras
+ * @param asc bool utilizada para imprimir por ordem ascendente ou descendente
  */
 void Manager::getTopKGreatestTrafficCityPerCountry(int k, const unordered_set<string> &selectedCountryCities, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorPairsAsc : comparatorPairsDesc;
@@ -1487,7 +1539,7 @@ void Manager::getTopKGreatestTrafficCityPerCountry(int k, const unordered_set<st
     else Viewer::printCountryCityStats(cities, "Cities", "Number of flights", nameSize);
 }
 
-/*! Método auxiliar, utilizado para ordenar de forma decrescente um set de companhias
+/*! @brief Método auxiliar, utilizado para ordenar de forma decrescente um set de companhias
  *
  */
 auto comparatorAirlineDesc = [](Airline *a, Airline *b) {
@@ -1501,7 +1553,7 @@ auto comparatorAirlineDesc = [](Airline *a, Airline *b) {
     return trafficA > trafficB;
 };
 
-/*! Método auxiliar, utilizado para ordenar de forma crescente um set de companhias
+/*! @brief Método auxiliar, utilizado para ordenar de forma crescente um set de companhias
  *
  */
 auto comparatorAirlineAsc = [](Airline *a, Airline *b) {
@@ -1515,9 +1567,10 @@ auto comparatorAirlineAsc = [](Airline *a, Airline *b) {
     return trafficA < trafficB;
 };
 
-/*! Permite visualizar as top k companhias que têm o maior ou menor número de voos,
- * em forma de lista ou gráfico de barras
- *
+/*! @brief Permite visualizar as top k companhias que têm o maior ou menor número de voos, em forma de lista ou gráfico de barras
+ * @param k número de airlines a serem impressas
+ * @param bars bool utilizada para imprimir ou não o gráfico de barras
+ * @param asc bool utilizada para imprimir por ordem ascendente ou descendente
  */
 void Manager::getTopKGreatestTrafficAirline(int k, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorAirlineAsc : comparatorAirlineDesc;
@@ -1538,9 +1591,11 @@ void Manager::getTopKGreatestTrafficAirline(int k, const bool &bars, const bool&
 
 }
 
-/*! Permite visualizar as top k companhias num dado país que têm o maior ou menor número de,
- * em forma de lista ou gráfico de barras
- *
+/*! @brief Permite visualizar as top k companhias num dado país que têm o maior ou menor número de, em forma de lista ou gráfico de barras
+ * @param k número de airlines a serem impressas
+ * @param airlinesCountry unordered_set de apontadores para as airlines do país
+ * @param bars bool utilizada para imprimir ou não o gráfico de barras
+ * @param asc bool utilizada para imprimir por ordem ascendente ou descendente
  */
 
 void Manager::getTopKGreatestTrafficAirlinePerCountry(int k, const unordered_set<Airline *> &airlinesCountry, const bool &bars, const bool& asc) const {
@@ -1561,9 +1616,11 @@ void Manager::getTopKGreatestTrafficAirlinePerCountry(int k, const unordered_set
     else Viewer::printAirlineGreatestTraffic(air, nameSize);
 }
 
-/*! Permite visualizar os top k aeroportos para onde voa mais ou menos uma companhia,
- * em forma de lista ou gráfico de barras
- *
+/*! @brief Permite visualizar os top k aeroportos para onde voa mais ou menos uma companhia, em forma de lista ou gráfico de barras
+ * @param k número de aeroportos a serem impressos
+ * @param airline apontador para companhia aérea que queremos verificar para onde tem mais voos
+ * @param bars bool utilizada para imprimir ou não o gráfico de barras
+ * @param asc bool utilizada para imprimir por ordem ascendente ou descendente
  */
 void Manager::getTopKAirportsAirlineTravelsTo(int k, Airline *airline, const bool &bars, const bool& asc) const {
     map<Airport *, int> airportNumFlights;
@@ -1592,9 +1649,10 @@ void Manager::getTopKAirportsAirlineTravelsTo(int k, Airline *airline, const boo
 
 }
 
-/*! Permite visualizar os top k aeroportos que têm o maior ou menor número de companhias a
- * operar no aeroporto, em forma de lista ou gráfico de barras
- *
+/*! @brief Permite visualizar os top k aeroportos que têm o maior ou menor número de companhias a operar no aeroporto, em forma de lista ou gráfico de barras
+ * @param k número de aeroportos a serem impressos
+ * @param bars bool utilizada para imprimir ou não o gráfico de barras
+ * @param asc bool utilizada para imprimir por ordem ascendente ou descendente
  */
 void Manager::getTopKAirportsWithMoreAirlines(int k, const bool &bars, const bool& asc) const {
     vector<pair<Airport *, int>> airportNumAirlines;
@@ -1624,9 +1682,10 @@ void Manager::getTopKAirportsWithMoreAirlines(int k, const bool &bars, const boo
     else Viewer::printTopKVector(res,"Airports", "Number of Airlines", nameSize);
 }
 
-/*! Permite visualizar as top k companhias que voam mais ou menos para um dado aeroporto,
- * em forma de lista ou gráfico de barras
- *
+/*! @brief Permite visualizar as top k companhias que voam mais ou menos para um dado aeroporto, em forma de lista ou gráfico de barras
+ * @param k número de airlines a serem impressas
+ * @param bars bool utilizada para imprimir ou não o gráfico de barras
+ * @param asc bool utilizada para imprimir por ordem ascendente ou descendente
  */
 void Manager::getTopKAirlinesThatFlyMoreToAnAirport(int k, Airport *airport, const bool &bars, const bool& asc) const {
     map<Airline *, int> airlineNumFlightsToAirport;
@@ -1657,8 +1716,8 @@ void Manager::getTopKAirlinesThatFlyMoreToAnAirport(int k, Airport *airport, con
 }
 
 
-/*! Faz uma listagem das companhias que operam num dado aeroporto
- *
+/*! @brief Faz uma listagem das companhias que operam num dado aeroporto
+ * @param airport apontador para aeroporto para o qual se irá imprimir as companhias que voam de lá
  */
 void Manager::listAirlinesPerAirport(Airport *airport) {
     auto air = connections.findVertex(airport);
@@ -1675,8 +1734,9 @@ void Manager::listAirlinesPerAirport(Airport *airport) {
     Viewer::printAirlinesPerAirport(airlinesInAirport, nameSize);
 }
 
-/*! Faz uma listagem dos aeroportos que operam num dado país ou numa dada cidade
- *
+/*! @brief Faz uma listagem dos aeroportos que operam num dado país ou numa dada cidade
+ * @param airportsCountry vetor de apontadores para aeroportos da cidade
+ * @param countryCity nome da cidade
  */
 void Manager::listAirportsPerCountryCity(const vector<Airport *> &airportsCountry, const string &countryCity) const{
     int maxLengthName = 0;
@@ -1687,8 +1747,9 @@ void Manager::listAirportsPerCountryCity(const vector<Airport *> &airportsCountr
     Viewer::printListAirportsPerCountryCity(airportsCountry, maxLengthName, countryCity);
 }
 
-/*! Método auxiliar que converte uma string dada pelo utilizador numa string com letras minúsculas apenas
- *
+/*!@brief Método auxiliar que converte uma string dada pelo utilizador numa string com letras minúsculas apenas
+ * @param word palavra que será convertida em letras minúsculas
+ * @return palavra em letras minúsculas
  */
 string nameToLower(const string& word) {
     string res;
@@ -1698,8 +1759,8 @@ string nameToLower(const string& word) {
     return res;
 }
 
-/*! Permite fazer uma pesquisa de aeroportos por nome
- *
+/*! @brief Permite fazer uma pesquisa de aeroportos por nome
+ * @param airportName nome do aeroporto para o qual se pretende imprimir a informação
  */
 void Manager::searchAirportsByName(const string &airportName) {
     if (airportName.empty()) {
@@ -1717,8 +1778,8 @@ void Manager::searchAirportsByName(const string &airportName) {
     Viewer::printSearchAirports(res,maxLengthName,airportName);
 }
 
-/*! Permite fazer uma pesquisa de companhias por nome
- *
+/*! @brief Permite fazer uma pesquisa de companhias por nome
+ * @param airlineName nome da airline que se pretende procurar e imprimir informação
  */
 void Manager::searchAirlinesByName(const string &airlineName) {
     if (airlineName.empty()) {
@@ -1736,23 +1797,26 @@ void Manager::searchAirlinesByName(const string &airlineName) {
     Viewer::printSearchAirlines(res,maxLengthName,airlineName);
 }
 
-/*! Permite visualizar informação relativa a um dado aeroporto
- *
+/*! @brief Permite visualizar informação relativa a um dado aeroporto
+ * @param airport apontador para aeroporto para o qual se pretende imprimir a informação
  */
 void Manager::printAirportInfo(Airport *airport) {
     Viewer::printAirportInfo(airport);
 }
 
-/*! Permite visualizar informação relativa a uma dada companhia
- *
+/*! @brief Permite visualizar informação relativa a uma dada companhia
+ * @param airline apontador para airline para a qual se pretende imprimir a informação
  */
 void Manager::printAirlineInfo(Airline *airline) {
     Viewer::printAirlineInfo(airline);
 }
 
-/*! Permite visualizar as top k companhias que apresentam uma maior relação entre o número de voos que efetuam
+/*! @brief Permite visualizar as top k companhias que apresentam uma maior relação entre o número de voos que efetuam
  * para um dado aeroporto número total de voos que fazem, em forma de lista ou gráfico de barras
- *
+ * @param k número de airlines a serem impressas
+ * @param airport apontador para o aeroporto que se pretende obter o rácio
+ * @param bars bool utilizada para imprimir ou não o gráfico de barras
+ * @param asc bool utilizada para imprimir por ordem ascendente ou descendente
  */
 void Manager::getTopKAirlinesThatFlyMoreToAnAirportRatio(int k, Airport *airport, const bool &bars, const bool &asc) const {
     map<Airline *, int> airlineNumFlightsToAirport;
@@ -1783,6 +1847,12 @@ void Manager::getTopKAirlinesThatFlyMoreToAnAirportRatio(int k, Airport *airport
 }
 
 
+/*!
+ * @brief Imprime no terminal o top k países com mais companhias aéreas
+ * @param k número de países a serem impressos
+ * @param bars bool utilizada para imprimir ou não o gráfico de barras
+ * @param asc bool utilizada para imprimir por ordem ascendente ou descendente
+ */
 void Manager::getTopKCountriesWithMoreAirlines(int k, const bool &bars, const bool &asc) const {
     map<string,set<Airline *>> countriesNumAirlines;
     for (auto &elem : connections.getVertexSet()) {
