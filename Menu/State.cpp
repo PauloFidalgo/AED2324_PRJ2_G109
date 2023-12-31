@@ -115,10 +115,10 @@ int State::getValidAirportK() {
         cout << "K (-1 to cancel): ";
         cin >> distance;
         if (distance == -1) return -1;
-        if (distance < 0 or distance > manager.getAirports().size()) {
+        if (!manager.getMaxKAirports(distance)) {
             cout << "K doesn't exist. Try again." << endl;
         }
-    } while (distance < 0 or distance > manager.getAirports().size());
+    } while (!manager.getMaxKAirports(distance));
     return distance;
 }
 
@@ -127,10 +127,10 @@ int State::getValidAirlineK() {
         cout << "K (-1 to cancel): ";
         cin >> distance;
         if (distance == -1) return -1;
-        if (distance < 0 or distance > manager.getAirlines().size()) {
+        if (!manager.getMaxKAirlines(distance)) {
             cout << "K doesn't exist. Try again." << endl;
         }
-    } while (distance < 0 or distance > manager.getAirlines().size());
+    } while (!manager.getMaxKAirlines(distance));
     return distance;
 }
 
@@ -143,7 +143,7 @@ int State::getValidCityK() {
             cout << "K needs to be > 0. Try again." << endl;
         }
 
-    } while (distance < 0 or distance > manager.getAirports().size());
+    } while (!manager.getMaxKCities(distance));
     return distance;
 }
 
@@ -157,7 +157,7 @@ int State::getValidCountryK(){
             cout << "K needs to be > 0. Try again." << endl;
         }
 
-    } while (distance < 0 or distance > manager.getAirports().size());
+    } while (!manager.getMaxKCountries(distance));
     return distance;
 }
 
