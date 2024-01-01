@@ -11,7 +11,9 @@
 using namespace std;
 StatisticsState5 statisticsState5;
 
-
+/*!@brief  função que mostra o quinto menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar 
+ *
+ */
 void StatisticsState5::displayMenu() {
 
     cout << endl;
@@ -33,6 +35,9 @@ void StatisticsState5::displayMenu() {
 
 }
 
+/*!@brief  função que permite ao utilizador navegar entre os varios menus das estatísticas ou consultar alguma estatística.
+ * 
+ */
 State* StatisticsState5::handleInput() {
     cout << "Enter your choice: ";
     cin >> userInputStr;
