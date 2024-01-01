@@ -12,7 +12,9 @@ using namespace std;
 FlightSearchState flightSearchState;
 StatisticsState1 statisticsStateCode;
 
-
+/*!@brief  função que mostra o menu principal com as diferentes opções.
+ *
+ */
 void MainMenuState::displayMenu() {
 
 
@@ -38,6 +40,9 @@ void MainMenuState::displayMenu() {
 
 }
 
+/*!@brief  função que consoante o input do utilizador altera o estado para o menu das estatisticas ou para as pesquisas de voos 
+ *
+ */
 State * MainMenuState::handleInput() {
     cout << "Enter your choice: ";
     cin >> userInputStr;
