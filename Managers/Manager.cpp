@@ -307,17 +307,9 @@ void Manager::articulationPoints() {
     auto *airline = new Airline("", "", "", "");
     for (auto &elem : connections.getVertexSet()) {
         auto air = airVertex.find(elem->getInfo()->getCode());
-        Vertex *vertex = copy.findVertex(air->second);
         for (auto & edge : elem->getAdj()) {
-            copy.addEdge(vertex, edge.getDest(), 0, airline);
-        }
-    }
-    for (auto &elem : copy.getVertexSet()) {
-        for (const auto& edge : elem->getAdj()) {
-            Edge newEdge(elem, edge.getWeight());
-            for (auto& airline : edge.getAirlines()) {
-                edge.getDest()->addAdj(newEdge, airline);
-            }
+            copy.addEdge(edge.getDest()->getInfo(), air->second, 0, airline);
+            copy.addEdge(air->second, edge.getDest()->getInfo(), 0, airline);
         }
     }
     for (auto &airport : copy.getVertexSet()) {
