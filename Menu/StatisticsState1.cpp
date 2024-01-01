@@ -20,12 +20,12 @@ void StatisticsState1::displayMenu() {
     cout << "|                                                                                 next - next page     |" << endl;
     cout << "|                                             Statistics                                               |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                                     1. Nº flights and Airlines                                       |" << endl;
-    cout << "|                                     2. Nº flights per Airlines                                       |" << endl;
-    cout << "|                                     3. Nº country's that can fly to a specific airport               |" << endl;
-    cout << "|                                     4. Get City destinations distance 1                              |" << endl;
-    cout << "|                                     5. Get Country destinations distance 1                           |" << endl;
-    cout << "|                                     6. Get Airport destinations until certain distance               |" << endl;
+    cout << "|                    1. No. of flights out of an airport and from how many different airlines          |" << endl;
+    cout << "|                    2. No. of flights per airline                                                     |" << endl;
+    cout << "|                    3. No. of different countries that a given airport flies to                       |" << endl;
+    cout << "|                    4. No. of destinations available for a given city (Distance 1)                    |" << endl;
+    cout << "|                    5. No. of destinations available for a given country (Distance 1)                 |" << endl;
+    cout << "|                    6. No. of reachable destinations from a given airport in a max number of K stops  |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                                                                                      |" << endl;

@@ -894,7 +894,7 @@ void Viewer::printFlightOptions(const vector<vector<Airport *>> &flights) {
 /*!
  * @brief Imprime os strongly connected components.
  * @param airports Vetor de vetores representando os airports e cada vetor contem outro vetor com os aeroportos pertencentes a uma SCC
- * O (n * m), sendo n o numero de SSC no vetor de airportos e m o numero total de airports
+ * O (n * j * k)
  */
 void Viewer::printScc(const vector<vector<Airport *>> &airports) {
     if (airports.empty()) {
@@ -910,7 +910,7 @@ void Viewer::printScc(const vector<vector<Airport *>> &airports) {
         }
         int rows = sqrt(elem.size());
         int cols = (elem.size() + rows - 1) / rows;
-        int spaceBox = nameSize + 2 > 31 + to_string(i).length() ? nameSize : 31 + to_string(i).length();
+        int spaceBox = nameSize + 8 > 31 + to_string(i).length() ? nameSize + 8 : 31 + to_string(i).length();
         int totalSpace = (spaceBox + 1) * cols - 1;
         int lenLabel = (totalSpace - 29 - to_string(i).length()) / 2;
         int lenFLabel = (totalSpace - 29 - to_string(i).length()) % 2 == 0 ? lenLabel : lenLabel + 1;
@@ -918,10 +918,10 @@ void Viewer::printScc(const vector<vector<Airport *>> &airports) {
         cout << '|' << string(lenLabel, ' ') << "Strongly Connected Component " << i << string(lenFLabel, ' ') << '|' << endl;
         cout << string(totalSpace + 2, '-') << endl;
         int it = 0;
-        for (int j = 0; i < rows; i++) {
+        for (int j = 0; j < rows; j++) {
             ostringstream os1;
             ostringstream os2;
-            for (int k = 0; i < cols; i++) {
+            for (int k = 0; k < cols; k++) {
                 if (it != elem.size()) {
                     os1 << "| Code: " << elem[it]->getCode() << string(spaceBox - 10, ' ');
                     os2 << "| Name: " << elem[it]->getName() << string(spaceBox - 7 - elem[it]->getName().length(), ' ');
@@ -940,5 +940,3 @@ void Viewer::printScc(const vector<vector<Airport *>> &airports) {
         }
     }
 }
-
-
