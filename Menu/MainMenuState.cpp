@@ -12,7 +12,7 @@ using namespace std;
 State* stat = new StatisticsState1();
 State* flight = new FlightSearchState();
 
-/*!@brief  função que mostra o menu principal com as diferentes opções.
+/*!@brief Função que mostra o menu principal com as diferentes opções.
  *
  */
 void MainMenuState::displayMenu() {
@@ -24,9 +24,9 @@ void MainMenuState::displayMenu() {
     cout << "|                                                                      |                                   |" << endl;
     cout << "|                                                                --====|====--                             |" << endl;
     cout << "|                                                                      |                                   |" << endl;
-    cout << "|                                                                 .-         -.                            |" << endl;
+    cout << "|                                                                 .-     -.  -.                            |" << endl;
     cout << "|                                                               .'_________'. .'                           |" << endl;
-    cout << "|            1. Flight Search                                  /_/_|__|__|_|_                              |" << endl;
+    cout << "|            1. Flight Search                                  /_/_|__|__|_|_\\                              |" << endl;
     cout << "|            2. Statistics                                    ;'-._       _.-';                            |" << endl;
     cout << "|                                        ,--------------------|    `-. .-'    |--------------------,       |" << endl;
     cout << "|                                        ``  --..__    ___   ;       '       ;   ___    __..--  ``         |" << endl;
@@ -40,7 +40,7 @@ void MainMenuState::displayMenu() {
 
 }
 
-/*!@brief  função que consoante o input do utilizador altera o estado para o menu das estatisticas ou para as pesquisas de voos
+/*!@brief Função que consoante o input do utilizador altera o estado para o menu das estatísticas ou para as pesquisas de voos
  *
  */
 State * MainMenuState::handleInput() {
