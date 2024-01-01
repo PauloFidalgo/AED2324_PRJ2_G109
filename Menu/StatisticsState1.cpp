@@ -9,7 +9,7 @@
 
 using namespace std;
 
-/*!@brief  função que mostra o 1 menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar 
+/*!@brief  função que mostra o primeiro menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar 
  *
  */
 void StatisticsState1::displayMenu() {
