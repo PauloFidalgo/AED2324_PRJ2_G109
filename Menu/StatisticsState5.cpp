@@ -9,7 +9,9 @@
 
 using namespace std;
 
-
+/*!@brief  função que mostra o quinto menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar 
+ *
+ */
 void StatisticsState5::displayMenu() {
 
     cout << endl;
@@ -31,6 +33,9 @@ void StatisticsState5::displayMenu() {
 
 }
 
+/*!@brief  função que permite ao utilizador navegar entre os varios menus das estatísticas ou consultar alguma estatística.
+ * 
+ */
 State* StatisticsState5::handleInput() {
     State* nextState = new StatisticsState6();
     cout << "Enter your choice: ";

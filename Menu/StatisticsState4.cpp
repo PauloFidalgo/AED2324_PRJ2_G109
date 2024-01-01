@@ -1,11 +1,20 @@
 //
 // Created by Wagner Pedrosa on 26/12/2023.
 //
+#include "StatisticsState1.h"
 #include "StatisticsState4.h"
+#include "StatisticsState3.h"
+#include "StatisticsState5.h"
+#include "BarsState.h"
 #include "iostream"
 #include "sstream"
 
 using namespace std;
+State* statisticsState5 = new StatisticsState5();
+
+/*!@brief  função que mostra o quarto menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar
+ *
+ */
 
 void StatisticsState4::displayMenu() {
 
@@ -28,8 +37,10 @@ void StatisticsState4::displayMenu() {
 
 }
 
+/*!@brief  função que permite ao utilizador navegar entre os varios menus das estatísticas e consultar alguma estatística.
+ *
+ */
 State* StatisticsState4::handleInput() {
-    State* nextState = new StatisticsState5();
     cout << "Enter your choice: ";
     cin >> userInputStr;
 
@@ -52,7 +63,7 @@ State* StatisticsState4::handleInput() {
     }
     if (userInputStr == "next") {
         State::statisticsHistory.push(this);
-        return nextState;
+        return statisticsState5;
     }
     if (userInputStr == "exit") {
         exit(0);
@@ -103,4 +114,3 @@ State* StatisticsState4::handleInput() {
         }
     }
 }
-

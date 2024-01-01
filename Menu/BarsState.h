@@ -12,9 +12,9 @@ private:
     int userInput;
     bool useGraphicBar;
 public:
-    void displayMenu();
-    State * handleInput();
-    int shouldUseGraphicBar() ;
+    void displayMenu() override;
+    State * handleInput() override;
+    bool shouldUseGraphicBar() ;
 
 };
 

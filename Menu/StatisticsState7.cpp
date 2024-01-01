@@ -3,10 +3,17 @@
 //
 
 #include "StatisticsState7.h"
+#include "StatisticsState8.h"
+#include "BarsState.h"
 #include "iostream"
 #include "sstream"
 
 using namespace std;
+State* statisticsState8 = new StatisticsState8();
+
+/*!@brief  função que mostra o sétimo menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar
+ *
+ */
 
 void StatisticsState7::displayMenu() {
 
@@ -29,8 +36,10 @@ void StatisticsState7::displayMenu() {
 
 }
 
+/*!@brief  função que permite ao utilizador navegar entre os varios menus das estatísticas ou consultar alguma estatística.
+ *
+ */
 State* StatisticsState7::handleInput() {
-    State* nextState = new StatisticsState8();
     cout << "Enter your choice: ";
     cin >> userInputStr;
 
@@ -53,7 +62,7 @@ State* StatisticsState7::handleInput() {
     }
     if(userInputStr == "next"){
         State::statisticsHistory.push(this);
-        return nextState;
+        return statisticsState8;
     }
     if (userInputStr == "exit") {
         exit(0);
@@ -114,4 +123,3 @@ State* StatisticsState7::handleInput() {
         }
     }
 }
-

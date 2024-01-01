@@ -7,14 +7,17 @@
 #include <string>
 #include "FilterState.h"
 #include <sstream>
-#include "CoordinatesFilterState.h"
 
 
 using namespace std;
 
-
+/*! @brief Construtor da classe FlightSearchState que inicializa a variável isSelectingFrom como true.
+*/
 FlightSearchState::FlightSearchState(): isSelectingFrom(true){}
 
+/*! @brief função que mostra o menu com as possibilidades de pesquisa de voos, onde é permitido ao utilizador escolher o ponto de partida e o ponto de chegada.
+ *
+ */
 void FlightSearchState::displayMenu() {
     const std::string origin = isSelectingFrom ? "From" : "To  ";
     cout << endl;
@@ -35,6 +38,10 @@ void FlightSearchState::displayMenu() {
     cout << "--------------------------------------------------------------------------------------------------------" << endl;
 }
 
+
+
+/*!@brief  função que, permite ao utilizador escolher o ponto de partida e o ponto de chagada consoante as várias opções apresentadas no menu
+ */
 State *FlightSearchState::handleInput() {
     cout << "Enter your choice: ";
     cin >> userInputStr;
@@ -227,8 +234,10 @@ State *FlightSearchState::handleInput() {
     }
 }
 
+/*! @brief função que verifica se o aeroporto de partida não é o mesmo que o aeroporto de chagada.
+ *
+ */
 void FlightSearchState::validateToAirports() {
-    vector<Airport*> res;
 
     if (fromAirports.size() == 1 && toAirports.size() == 1) {
         auto it = fromAirports.begin();

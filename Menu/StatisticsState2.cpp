@@ -3,11 +3,18 @@
 //
 
 #include "StatisticsState2.h"
+#include "StatisticsState1.h"
+#include "StatisticsState3.h"
 #include "iostream"
 #include "sstream"
 
 using namespace std;
 
+State* statisticsState3 = new StatisticsState3();
+
+/*!@brief  função que mostra o segundo menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar
+ *
+ */
 void StatisticsState2::displayMenu() {
 
     cout << endl;
@@ -28,8 +35,10 @@ void StatisticsState2::displayMenu() {
     cout << "--------------------------------------------------------------------------------------------------------" << endl;
 }
 
+/*!@brief  função que permite ao utilizador navegar entre os varios menus das estatísticas e consultar as várias estatísticas.
+ *
+ */
 State* StatisticsState2::handleInput() {
-    State* nextState = new StatisticsState3();
     cout << "Enter your choice: ";
     cin >> userInputStr;
 
@@ -53,7 +62,7 @@ State* StatisticsState2::handleInput() {
 
     if (userInputStr == "next") {
         State::statisticsHistory.push(this);
-        return nextState;
+        return statisticsState3;
     }
     if (userInputStr == "exit") {
         exit(0);
@@ -92,4 +101,3 @@ State* StatisticsState2::handleInput() {
         }
     }
 }
-

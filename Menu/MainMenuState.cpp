@@ -3,13 +3,18 @@
 //
 
 #include "MainMenuState.h"
+#include "FlightSearchState.h"
 #include <iostream>
 #include <sstream>
+#include "StatisticsState1.h"
 using namespace std;
 
 State* stat = new StatisticsState1();
 State* flight = new FlightSearchState();
 
+/*!@brief  função que mostra o menu principal com as diferentes opções.
+ *
+ */
 void MainMenuState::displayMenu() {
 
 
@@ -35,8 +40,10 @@ void MainMenuState::displayMenu() {
 
 }
 
-State* MainMenuState::handleInput() {
-
+/*!@brief  função que consoante o input do utilizador altera o estado para o menu das estatisticas ou para as pesquisas de voos
+ *
+ */
+State * MainMenuState::handleInput() {
     cout << "Enter your choice: ";
     cin >> userInputStr;
     if (userInputStr == "exit") {
