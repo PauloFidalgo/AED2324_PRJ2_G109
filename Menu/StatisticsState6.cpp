@@ -64,16 +64,14 @@ State* StatisticsState6::handleInput() {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
             case 1: {
-                auto city = getValidSingleCity();
-                auto airports = manager.getAirportsPerCity(city);
+                auto airports = getValidAirportsSingleCity();
                 auto k = getValidAirportK();
                 auto bar = bars();
                 if( k != -1 && !airports.empty()) manager.getTopKGreatestTrafficAirportPerCity(k,airports,bar,true);
                 return this;
             }
             case 2: {
-                auto city = getValidSingleCity();
-                auto airports = manager.getAirportsPerCity(city);
+                auto airports = getValidAirportsSingleCity();
                 auto k = getValidAirportK();
                 auto bar =  bars();
                 if( k != -1 && !airports.empty()) manager.getTopKGreatestTrafficAirportPerCity(k,airports,bar,false);

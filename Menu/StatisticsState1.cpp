@@ -9,7 +9,6 @@
 
 using namespace std;
 
-StatisticsState1 statisticsState1;
 void StatisticsState1::displayMenu() {
 
     cout << endl;
@@ -84,7 +83,7 @@ State* StatisticsState1::handleInput() {
             case 6: {
                 Airport *airport = getValidSingleAirport();
                 int distance = getValidAirportK();
-                if (airport != nullptr && distance != -1) manager.getAirportDestinantionsUntilDistanceK(airport, distance);
+                if (airport && distance != -1) manager.getAirportDestinantionsUntilDistanceK(airport, distance);
                 return this;
             }
             default:
