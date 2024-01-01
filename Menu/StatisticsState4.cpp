@@ -12,7 +12,7 @@
 using namespace std;
 StatisticsState4 statisticsState4;
 
-/*!@brief  função que mostra o 4 menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar 
+/*!@brief  função que mostra o quarto menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar 
  *
  */
 
