@@ -12,6 +12,9 @@
 using namespace std;
 StatisticsState4 statisticsState4;
 
+/*!@brief  função que mostra o 4 menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar 
+ *
+ */
 
 void StatisticsState4::displayMenu() {
 
@@ -34,6 +37,9 @@ void StatisticsState4::displayMenu() {
 
 }
 
+/*!@brief  função que permite ao utilizador navegar entre os varios menus das estatísticas e consultar alguma estatística.
+ * 
+ */
 State* StatisticsState4::handleInput() {
     cout << "Enter your choice: ";
     cin >> userInputStr;
