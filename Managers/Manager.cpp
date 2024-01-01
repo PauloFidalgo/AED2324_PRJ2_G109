@@ -1349,7 +1349,7 @@ auto comparatorAirportDesc = [](Airport *a, Airport *b) {
     return trafficA > trafficB;
 };
 
-/*! Método auxiliar, utilizado para ordenar de forma crescente um set de aeroportos
+/*! @brief Método auxiliar, utilizado para ordenar de forma crescente um set de aeroportos
  *
  */
 auto comparatorAirportAsc = [](Airport *a, Airport *b) {
@@ -1853,7 +1853,7 @@ void Manager::getTopKAirlinesThatFlyMoreToAnAirportRatio(int k, Airport *airport
         k--;
     }
     if (bars) Viewer::printTopKVectorBarsRatio(res, asc);
-    else Viewer::printTopKVectorRatio(res, "Airlines", "Number of flights", nameSize);
+    else Viewer::printTopKVectorRatio(res, nameSize);
 }
 
 

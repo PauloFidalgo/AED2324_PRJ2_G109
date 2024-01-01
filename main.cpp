@@ -7,5 +7,4 @@
 int main() {
    MenuManager manager;
    manager.menuNavigation();
-
 }
