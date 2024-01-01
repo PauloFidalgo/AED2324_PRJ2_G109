@@ -10,6 +10,10 @@
 using namespace std;
 StatisticsState3 statisticsState3;
 
+/*!@brief  função que mostra o 1 menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar 
+ *
+ */
+
 void StatisticsState3::displayMenu() {
 
     cout << endl;
@@ -32,6 +36,9 @@ void StatisticsState3::displayMenu() {
 
 }
 
+/*!@brief  função que permite ao utilizador navegar entre os varios menus das estatísticas ou consultar alguma estatística.
+ * 
+ */
 State* StatisticsState3::handleInput() {
     cout << "Enter your choice: ";
     cin >> userInputStr;
