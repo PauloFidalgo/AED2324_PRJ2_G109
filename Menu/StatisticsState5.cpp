@@ -9,6 +9,8 @@
 
 using namespace std;
 
+State* statisticsState6 = new StatisticsState6();
+
 /*!@brief  função que mostra o quinto menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar 
  *
  */
@@ -37,7 +39,6 @@ void StatisticsState5::displayMenu() {
  * 
  */
 State* StatisticsState5::handleInput() {
-    State* nextState = new StatisticsState6();
     cout << "Enter your choice: ";
     cin >> userInputStr;
 
@@ -60,7 +61,7 @@ State* StatisticsState5::handleInput() {
     }
     if (userInputStr == "next") {
         State::statisticsHistory.push(this);
-        return nextState;
+        return statisticsState6;
     }
     if (userInputStr == "exit") {
         exit(0);

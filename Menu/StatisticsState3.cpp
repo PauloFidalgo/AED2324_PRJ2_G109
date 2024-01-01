@@ -9,10 +9,11 @@
 
 using namespace std;
 
+State* statisticsState4 = new StatisticsState4();
+
 /*!@brief  função que mostra o terceiro menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar 
  *
  */
-
 void StatisticsState3::displayMenu() {
 
     cout << endl;
@@ -39,7 +40,6 @@ void StatisticsState3::displayMenu() {
  * 
  */
 State* StatisticsState3::handleInput() {
-    State* nextState = new StatisticsState4();
     cout << "Enter your choice: ";
     cin >> userInputStr;
 
@@ -63,7 +63,7 @@ State* StatisticsState3::handleInput() {
 
     if (userInputStr == "next") {
         State::statisticsHistory.push(this);
-        return nextState;
+        return statisticsState4;
     }
     if (userInputStr == "exit") {
         exit(0);
