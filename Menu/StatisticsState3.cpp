@@ -10,7 +10,7 @@
 using namespace std;
 StatisticsState3 statisticsState3;
 
-/*!@brief  função que mostra o 1 menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar 
+/*!@brief  função que mostra o terceiro menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar 
  *
  */
 
