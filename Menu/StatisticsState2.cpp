@@ -12,7 +12,7 @@ using namespace std;
 
 StatisticsState2 statisticsState2;
 
-/*!@brief  função que mostra o 2 menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar 
+/*!@brief  função que mostra o segundo menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar 
  *
  */
 void StatisticsState2::displayMenu() {
