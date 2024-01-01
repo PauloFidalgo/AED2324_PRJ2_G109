@@ -70,8 +70,9 @@ State* StatisticsState3::handleInput() {
             }
             case 2: {
                 vector<Airport*> airports = this->getValidAirportsPerCity();
+                if (airports.empty()) return this;
                 int dist = this->getValidCityK();
-                if (!airports.empty() && dist != -1) manager.getCityDestinantionsUntilDistanceK(airports,name,dist);
+                if (dist != -1) manager.getCityDestinantionsUntilDistanceK(airports,name,dist);
                 return this;
             }
             case 3: {
@@ -83,17 +84,20 @@ State* StatisticsState3::handleInput() {
                 manager.diameterPairs();
                 return this;
             case 5: {
-                unordered_set<Airline*> airlines = getValidAirlinePerCountry();
+                unordered_set<Airline*> airlines = getValidAirlineSingleCountry();
+                if (airlines.empty()) return this;
                 int distance = getValidAirlineK();
+                if (distance == -1) return this;
                 auto bar = bars();
-                if (!airlines.empty() && distance != -1) manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,bar,true);
+                manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,bar,true);
                 return this;
 
             }
             case 6: {
-                unordered_set<Airline*> airlines = getValidAirlinePerCountry();
+                unordered_set<Airline*> airlines = getValidAirlineSingleCountry();
+                if (airlines.empty()) return this;
                 int distance = getValidAirlineK();
-                if (!airlines.empty() && distance != -1) manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,false,false);
+                if (distance != -1) manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,false,false);
                 return this;
             }
 

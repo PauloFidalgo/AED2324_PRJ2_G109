@@ -65,41 +65,51 @@ State* StatisticsState6::handleInput() {
         switch (userInput) {
             case 1: {
                 auto airports = getValidAirportsSingleCity();
+                if (airports.empty()) return this;
                 auto k = getValidAirportK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if( k != -1 && !airports.empty()) manager.getTopKGreatestTrafficAirportPerCity(k,airports,bar,true);
+                manager.getTopKGreatestTrafficAirportPerCity(k,airports,bar,true);
                 return this;
             }
             case 2: {
                 auto airports = getValidAirportsSingleCity();
+                if (airports.empty()) return this;
                 auto k = getValidAirportK();
+                if (k == -1) return this;
                 auto bar =  bars();
-                if( k != -1 && !airports.empty()) manager.getTopKGreatestTrafficAirportPerCity(k,airports,bar,false);
+                manager.getTopKGreatestTrafficAirportPerCity(k,airports,bar,false);
                 return this;
             }
             case 3: {
                 auto cities = getValidCitiesSingleCountry();
+                if (cities.empty()) return this;
                 auto k = getValidCountryK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if ( k != -1 && !cities.empty()) manager.getTopKGreatestTrafficCityPerCountry(k,cities,bar,true);
+                manager.getTopKGreatestTrafficCityPerCountry(k,cities,bar,true);
                 return this;
             }
             case 4: {
                 auto cities = getValidCitiesSingleCountry();
+                if (cities.empty()) return this;
                 auto k = getValidCountryK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if ( k != -1 && !cities.empty())manager.getTopKGreatestTrafficCityPerCountry(k,cities,bar,false);
+                manager.getTopKGreatestTrafficCityPerCountry(k,cities,bar,false);
                 return this;
             }
             case 5: {
                 auto k = getValidCountryK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if( k != -1) manager.getTopKCountriesWithMoreAirlines(k,bar, true);
+                manager.getTopKCountriesWithMoreAirlines(k,bar, true);
             }
             case 6: {
                 auto k = getValidCountryK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if( k != -1) manager.getTopKCountriesWithMoreAirlines(k,bar, false);
+                manager.getTopKCountriesWithMoreAirlines(k,bar, false);
             }
             default:
                 std::cout << " Invalid choice. try again" << std::endl;

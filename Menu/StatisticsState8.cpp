@@ -60,15 +60,19 @@ State* StatisticsState8::handleInput() {
         switch (userInput) {
             case 1: {
                 auto k = getValidAirportK();
+                if (k == -1) return this;
                 auto airport = getValidSingleAirport();
+                if (!airport) return this;
                 auto bar = bars();
-                if( k != -1 && airport) manager.getTopKAirlinesThatFlyMoreToAnAirportRatio(k,airport,bar,true);
+                manager.getTopKAirlinesThatFlyMoreToAnAirportRatio(k,airport,bar,true);
             }
             case 2: {
                 auto k = getValidAirportK();
+                if (k == -1) return this;
                 auto airport = getValidSingleAirport();
+                if (!airport) return this;
                 auto bar = bars();
-                if( k != -1 && airport) manager.getTopKAirlinesThatFlyMoreToAnAirportRatio(k,airport,bar,false);
+                manager.getTopKAirlinesThatFlyMoreToAnAirportRatio(k,airport,bar,false);
                 return this;
             }
             case 3: {

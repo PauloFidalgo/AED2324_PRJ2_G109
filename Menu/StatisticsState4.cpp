@@ -71,16 +71,20 @@ State* StatisticsState4::handleInput() {
             }
             case 2: {
                 auto airports = getValidAirports();
+                if (airports.empty()) return this;
                 auto dist = getValidAirportK();
+                if (dist == -1) return this;
                 auto bar = bars();
-                if(!airports.empty() && dist != -1) manager.getTopKGreatestTrafficAirportPerCountry(dist, airports,bar, true);
+                manager.getTopKGreatestTrafficAirportPerCountry(dist, airports,bar, true);
                 return this;
             }
             case 3: {
                 auto airports = getValidAirports();
+                if (airports.empty()) return this;
                 auto dist = getValidAirportK();
+                if (dist == -1) return this;
                 auto bar = bars();
-                if(!airports.empty() && dist != -1) manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, bar, false);
+                manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, bar, false);
                 return this;
             }
             case 4: {

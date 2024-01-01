@@ -40,6 +40,7 @@ public:
     vector<Airport*> getValidAirports();
     unordered_set<Airline*> getValidAirlines();
     unordered_set<Airline*> getValidAirlinePerCountry();
+    unordered_set<Airline*> getValidAirlineSingleCountry();
     int getValidCityK();
     int getValidCountryK();
     int getValidAirlineK();

@@ -91,7 +91,6 @@ string State::getValidSingleCity() {
     s = manager.validateCityName(city);
     while (!s) {
         cout << "City (back to cancel):";
-
         getline(cin, city);
 
         if (city == "back") {
@@ -130,33 +129,28 @@ string State::getValidSingleCountry() {
  * @return Valor de K válido ou -1 se cancelado.
  */
 int State::getValidAirportK() {
-    cout << "K (-1 to cancel): ";
-    getline(cin,userInputStr);
+    do {
+        bool s = false;
 
-    try{
-       distance = stoi(userInputStr);
-    }
-    catch (exception &err){
-        cout << "k must be an integer";
-
-    }
-    while (!manager.getMaxKAirports(distance)) {
-        cout << "K (-1 to cancel): ";
-        getline(cin,userInputStr);
-
-        try{
-            distance = stoi(userInputStr);
-        }
-        catch (exception &err){
-            cout << "k must be an integer";
-
+        while (!s) {
+            cin.clear();
+            cout << "K (-1 to cancel): ";
+            getline(cin, userInputStr);
+            try {
+                distance = stoi(userInputStr);
+                s = true;
+            }
+            catch (exception &e) {
+                cin.clear();
+            }
         }
 
         if (distance == -1) return -1;
+
         if (!manager.getMaxKAirports(distance)) {
             cout << "K doesn't exist. Try again." << endl;
         }
-    }
+    } while (!manager.getMaxKAirports(distance));
     return distance;
 }
 
@@ -166,8 +160,23 @@ int State::getValidAirportK() {
  */
 int State::getValidAirlineK() {
     do {
-        cout << "K (-1 to cancel): ";
-        cin >> distance;
+        cin.clear();
+        bool s = false;
+
+        while (!s) {
+            cin.clear();
+            cout << "K (-1 to cancel): ";
+            getline(cin, userInputStr);
+            try {
+                distance = stoi(userInputStr);
+                s = true;
+            }
+            catch (exception &e) {
+                ;
+                cin.clear();
+            }
+        }
+
         if (distance == -1) return -1;
         if (!manager.getMaxKAirlines(distance)) {
             cout << "K doesn't exist. Try again." << endl;
@@ -181,20 +190,28 @@ int State::getValidAirlineK() {
  * @return Valor de K válido ou -1 se cancelado.
  */
 int State::getValidCityK() {
+    do {
+        bool s = false;
 
-    do  {
-        cin.clear();
-        cout << "K (-1 to cancel): ";
-        cin >> distance;
-
-
-        if (distance == -1) return -1;
-        if (distance < 0 ) {
-            cout << "K needs to be > 0. Try again." << endl;
+        while (!s) {
+            cin.clear();
+            cout << "K (-1 to cancel): ";
+            getline(cin, userInputStr);
+            try {
+                distance = stoi(userInputStr);
+                s = true;
+            }
+            catch (exception &e) {
+                ;
+                cin.clear();
+            }
         }
 
+        if (distance == -1) return -1;
+        if (!manager.getMaxKCities(distance)) {
+            cout << "K doesn't exist. Try again." << endl;
+        }
     } while (!manager.getMaxKCities(distance));
-
     return distance;
 }
 
@@ -204,14 +221,26 @@ int State::getValidCityK() {
  */
 int State::getValidCountryK(){
     do {
-        cout << "K (-1 to cancel): ";
-        cin >> distance;
+        bool s = false;
 
-        if (distance == -1) return -1;
-        if (distance < 0 ) {
-            cout << "K needs to be > 0. Try again." << endl;
+        while (!s) {
+            cin.clear();
+            cout << "K (-1 to cancel): ";
+            getline(cin, userInputStr);
+            try {
+                distance = stoi(userInputStr);
+                s = true;
+            }
+            catch (exception &e) {
+                ;
+                cin.clear();
+            }
         }
 
+        if (distance == -1) return -1;
+        if (!manager.getMaxKCountries(distance)) {
+            cout << "K doesn't exist. Try again." << endl;
+        }
     } while (!manager.getMaxKCountries(distance));
     return distance;
 }
@@ -226,9 +255,32 @@ Airport* State::getValidAirportPerCoordinates() {
         double latitude = -100, longitude = -200;
         while (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
             cout << "Latitude: ";
-            cin >> latitude ;
+            bool s = false;
+
+            while (!s) {
+                cin.clear();
+                getline(cin, userInputStr);
+                try {
+                    latitude = stoi(userInputStr);
+                    s = true;
+                }
+                catch (exception &e) {
+                    cin.clear();
+                }
+            }
+            s = false;
             cout << "Longitude: ";
-            cin >> longitude;
+            while (!s) {
+                cin.clear();
+                getline(cin, userInputStr);
+                try {
+                    longitude = stoi(userInputStr);
+                    s = true;
+                }
+                catch (exception &e) {
+                    cin.clear();
+                }
+            }
         }
         airport = manager.getClosestAirport(latitude,longitude);
         if (!airport) {
@@ -435,12 +487,32 @@ vector<Airport*> State::getAirportsRange(int x) {
         double latitude = -100, longitude = -200;
         while (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
             cout << "Latitude: ";
-            cin >> latitude ;
-            cout << "Longitude: ";
-            cin >> longitude;
+            bool s = false;
 
-            if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
-                cout << "Invalid numbers!\nLatitude must be between -90 and 90\nLongitude must be between -180 and 180\n" << endl;
+            while (!s) {
+                cin.clear();
+                getline(cin, userInputStr);
+                try {
+                    latitude = stoi(userInputStr);
+                    s = true;
+                }
+                catch (exception &e) {
+                    cin.clear();
+                }
+            }
+            s = false;
+            cout << "Longitude: ";
+            while (!s) {
+                ;
+                cin.clear();
+                getline(cin, userInputStr);
+                try {
+                    longitude = stoi(userInputStr);
+                    s = true;
+                }
+                catch (exception &e) {
+                    cin.clear();
+                }
             }
         }
 
@@ -557,6 +629,29 @@ unordered_set<Airline*> State::getValidAirlinePerCountry() {
 
         airlines.insert(aux.begin(), aux.end());
     }
+
+    return airlines;
+}
+
+unordered_set<Airline*> State::getValidAirlineSingleCountry() {
+    unordered_set<Airline *> airlines;
+    bool first = true;
+        do {
+            cin.clear();
+            if (!first) cout << "Country Name (back to cancel): ";
+            getline(cin, name);
+
+            if (name == "back") {
+                return {};
+            }
+
+            airlines = manager.getAirlinesPerCountry(name);
+
+            if (airlines.empty() && !first) {
+                cout << "Country doesn't exist. Try again." << endl;
+            }
+            first = false;
+        } while (airlines.empty());
 
     return airlines;
 }

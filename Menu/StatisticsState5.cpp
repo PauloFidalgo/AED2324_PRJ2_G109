@@ -65,22 +65,26 @@ State* StatisticsState5::handleInput() {
         switch (userInput) {
             case 1: {
                 auto airport = getValidAirports();
+                if (airport.empty()) return this;
                 auto country = getValidSingleCountry();
+                if (country.empty()) return this;
                 auto dist = this->getValidCountryK();
-                if(!airport.empty() && dist != -1 && !country.empty())  manager.getCountryDestinantionsUntilDistanceK(airport,country,dist);
+                if(dist != -1)  manager.getCountryDestinantionsUntilDistanceK(airport,country,dist);
                 return this;
             }
             case 2: {
                 auto k = getValidCityK();
+                if (k == -1) return this;
                 int bar = bars();
-                if(k != -1 && (bar == 1 or bar == 0) ) manager.getTopKGreatestTrafficCity(k,bar,true);
+                if(bar == 1 or bar == 0) manager.getTopKGreatestTrafficCity(k,bar,true);
                 return this;
 
             }
             case 3: {
                 auto k = getValidCityK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if(k != -1 && (bar == 1 or bar == 0)) manager.getTopKGreatestTrafficCity(k,bar,false);
+                if(bar == 1 or bar == 0) manager.getTopKGreatestTrafficCity(k,bar,false);
                 return this;
             }
             case 4: {
@@ -90,14 +94,16 @@ State* StatisticsState5::handleInput() {
             }
             case 5: {
                 auto k = getValidCountryK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if( k != -1) manager.getTopKGreatestTrafficCountry(k,bar,true);
+                manager.getTopKGreatestTrafficCountry(k,bar,true);
                 return this;
             }
             case 6: {
                 auto k = getValidCountryK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if ( k!= -1) manager.getTopKGreatestTrafficCountry(k,bar,false);
+                manager.getTopKGreatestTrafficCountry(k,bar,false);
                 return this;
             }
             default:

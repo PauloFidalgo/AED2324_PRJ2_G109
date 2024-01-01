@@ -65,41 +65,51 @@ State* StatisticsState7::handleInput() {
         switch (userInput) {
             case 1: {
                 auto airline = getValidSingleAirline();
+                if (!airline) return this;
                 auto k = getValidAirportK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if( k != -1 && airline) manager.getTopKAirportsAirlineTravelsTo(k,airline,bar,true);
+                manager.getTopKAirportsAirlineTravelsTo(k,airline,bar,true);
                 return this;
             }
             case 2: {
                 auto airline = getValidSingleAirline();
+                if (!airline) return this;
                 auto k = getValidAirportK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if( k != -1 && airline) manager.getTopKAirportsAirlineTravelsTo(k,airline,bar, false);
+                manager.getTopKAirportsAirlineTravelsTo(k,airline,bar, false);
                 return this;
             }
             case 3: {
                 auto k = getValidAirportK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if( k != -1)  manager.getTopKAirportsWithMoreAirlines(k,bar,true);
+                manager.getTopKAirportsWithMoreAirlines(k,bar,true);
                 return this;
             }
             case 4: {
                 auto k = getValidAirportK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if( k != -1 ) manager.getTopKAirportsWithMoreAirlines(k,bar,false);
+                manager.getTopKAirportsWithMoreAirlines(k,bar,false);
                 return this;
             }
             case 5: {
                 auto airport = getValidSingleAirport();
+                if (!airport) return this;
                 auto k = getValidAirportK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if( k != -1 && airport) manager.getTopKAirlinesThatFlyMoreToAnAirport(k,airport,bar, true);
+                manager.getTopKAirlinesThatFlyMoreToAnAirport(k,airport,bar, true);
             }
             case 6: {
                 auto airport = getValidSingleAirport();
+                if (!airport) return this;
                 auto k = getValidAirportK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if( k != -1 && airport) manager.getTopKAirlinesThatFlyMoreToAnAirport(k,airport,bar, false);
+                manager.getTopKAirlinesThatFlyMoreToAnAirport(k,airport,bar, false);
             }
             default:
                 std::cout << " Invalid choice. try again" << std::endl;
