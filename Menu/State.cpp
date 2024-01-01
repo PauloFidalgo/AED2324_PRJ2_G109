@@ -19,6 +19,10 @@ State::~State() {
 }
 
 
+/*!
+ * @brief Obtém um aeroporto válido com base no código ou nome.
+ * @return Apontador para o aeroporto válido ou nullptr se cancelado.
+ */
 Airport* State::getValidSingleAirport() {
     Airport* airportCode;
     Airport* airportName;
@@ -46,6 +50,10 @@ Airport* State::getValidSingleAirport() {
 }
 
 
+/*!
+ * @brief Obtém uma companhia aérea válida com base no código ou nome.
+ * @return Apontador para a companhia aérea válida ou nullptr se cancelado.
+ */
 Airline* State::getValidSingleAirline() {
     Airline* airlineCode;
     Airline* airlineName;
@@ -72,6 +80,10 @@ Airline* State::getValidSingleAirline() {
     if (airlineName) return airlineName;
 }
 
+/*!
+ * @brief Obtém um nome de cidade válido.
+ * @return Nome de cidade válido ou string vazia se cancelado.
+ */
 string State::getValidSingleCity() {
     string city;
     bool s;
@@ -93,6 +105,10 @@ string State::getValidSingleCity() {
     return city;
 }
 
+/*!
+ * @brief Obtém um nome de país válido.
+ * @return Nome de país válido ou string vazia se cancelado.
+ */
 string State::getValidSingleCountry() {
 
     while(!manager.validateCountryName(code)){
@@ -109,7 +125,10 @@ string State::getValidSingleCountry() {
     return code;
 }
 
-
+/*!
+ * @brief Obtém um valor válido para K relacionado a aeroportos.
+ * @return Valor de K válido ou -1 se cancelado.
+ */
 int State::getValidAirportK() {
     cout << "K (-1 to cancel): ";
     getline(cin,userInputStr);
@@ -141,6 +160,10 @@ int State::getValidAirportK() {
     return distance;
 }
 
+/*!
+ * @brief Obtém um valor válido para K relacionado a companhias aéreas.
+ * @return Valor de K válido ou -1 se cancelado.
+ */
 int State::getValidAirlineK() {
     do {
         cout << "K (-1 to cancel): ";
@@ -153,6 +176,10 @@ int State::getValidAirlineK() {
     return distance;
 }
 
+/*!
+ * @brief Obtém um valor válido para K relacionado a cidades.
+ * @return Valor de K válido ou -1 se cancelado.
+ */
 int State::getValidCityK() {
 
     do  {
@@ -171,6 +198,10 @@ int State::getValidCityK() {
     return distance;
 }
 
+/*!
+ * @brief Obtém um valor válido para K relacionado a países.
+ * @return Valor de K válido ou -1 se cancelado.
+ */
 int State::getValidCountryK(){
     do {
         cout << "K (-1 to cancel): ";
@@ -185,6 +216,10 @@ int State::getValidCountryK(){
     return distance;
 }
 
+/*!
+ * @brief Obtém um aeroporto com base em coordenadas.
+ * @return Apontador para o aeroporto mais próximo válido.
+ */
 Airport* State::getValidAirportPerCoordinates() {
     Airport* airport;
     do {
@@ -203,6 +238,10 @@ Airport* State::getValidAirportPerCoordinates() {
     return airport;
 }
 
+/*!
+ * @brief Obtém uma lista de aeroportos de um país.
+ * @return Vetor de aeroportos válidos ou vetor vazio caso seja cancelado
+ */
 vector<Airport*> State::getValidAirportsSingleCountry() {
     vector<Airport*> airports;
     getline(cin, name);
@@ -224,6 +263,10 @@ vector<Airport*> State::getValidAirportsSingleCountry() {
     return airports;
 }
 
+/*!
+ * @brief Obtém um mapa de aeroportos por cidades.
+ * @return Mapa de inteiro (correspondente á ordem de visita) para vetores de aeroportos, ou mapa vazio casa seja cancelado
+ */
 map<int,vector<Airport*>> State::getValidAirportsPerCities(){
     map <int,vector<Airport*>> airports;
     int i = 1;
@@ -256,6 +299,10 @@ map<int,vector<Airport*>> State::getValidAirportsPerCities(){
     return airports;
 }
 
+/*!
+ * @brief Obtém uma lista de aeroportos de uma cidade.
+ * @return Vetor de aeroportos válidos ou vetor vazio se for cancelado
+ */
 vector<Airport*> State::getValidAirportsSingleCity() {
     vector<Airport*> airports;
     getline(cin, name);
@@ -277,6 +324,10 @@ vector<Airport*> State::getValidAirportsSingleCity() {
     return airports;
 }
 
+/*!
+ * @brief Obtém uma lista de aeroportos de uma ou mais cidades.
+ * @return Vetor de aeroportos válidos ou vetor vazio se for cancelado
+ */
 vector<Airport*> State::getValidAirportsPerCity(){
    vector<Airport*> airports;
     vector<Airport*> aux;
@@ -305,6 +356,10 @@ vector<Airport*> State::getValidAirportsPerCity(){
     return airports;
 }
 
+/*!
+ * @brief Obtém uma lista de aeroportos de um ou mais países.
+ * @return Mapa de inteiro, correspondente à ordem de visita para vetores de aeroportos ou mapa vazio caso seja cancelado
+ */
 map<int,vector<Airport*>> State::getValidAirportsPerCountries() {
     map <int,vector<Airport*>> airports;
     int i = 1;
@@ -335,6 +390,10 @@ map<int,vector<Airport*>> State::getValidAirportsPerCountries() {
     return airports;
 }
 
+/*!
+ * @brief Obtém uma lista de aeroportos de um país.
+ * @return Vetor de aeroportos válidos ou vetor vazio se cancelado
+ */
 vector<Airport*> State::getValidAirportsPerCountry() {
    vector<Airport*> airports;
     bool first = true;
@@ -365,6 +424,11 @@ vector<Airport*> State::getValidAirportsPerCountry() {
     return airports;
 }
 
+/*!
+ * @brief Obtém uma lista de aeroportos num determinado range centrado num ponto.
+ * @param x Valor do range.
+ * @return Vetor de aeroportos válidos.
+ */
 vector<Airport*> State::getAirportsRange(int x) {
     vector<Airport*> airports;
     do {
@@ -388,7 +452,10 @@ vector<Airport*> State::getAirportsRange(int x) {
     return airports;
 }
 
-
+/*!
+ * @brief Obtém uma lista de aeroportos com base no nome ou código.
+ * @return Vetor de aeroportos válidos ou vetor vazio se cancelado
+ */
 vector<Airport*> State::getValidAirports() {
     vector<Airport *> airports;
     bool in = true;
@@ -421,6 +488,10 @@ vector<Airport*> State::getValidAirports() {
     return airports;
 }
 
+/*!
+ * @brief Obtém um conjunto de companhias aéreas com base no nome ou código.
+ * @return Conjunto de companhias aéreas válidas ou unordered_set vazio se cancelado
+ */
 unordered_set<Airline*> State::getValidAirlines() {
     unordered_set<Airline *> airlines;
     Airline* aux;
@@ -453,6 +524,10 @@ unordered_set<Airline*> State::getValidAirlines() {
     return airlines;
 }
 
+/*!
+ * @brief Obtém um conjunto de companhias aéreas de um país.
+ * @return Conjunto de companhias aéreas válidas ou unordered_set vazio se cancelado
+ */
 unordered_set<Airline*> State::getValidAirlinePerCountry() {
     unordered_set<Airline *> airlines;
     bool in = true;
@@ -486,6 +561,10 @@ unordered_set<Airline*> State::getValidAirlinePerCountry() {
     return airlines;
 }
 
+/*!
+ * @brief Obtém um conjunto de cidades de um país.
+ * @return Conjunto de cidades válidas ou unordered_set vazio se cancelado
+ */
 unordered_set<string> State::getValidCitiesSingleCountry() {
     unordered_set<string> cities;
     getline(cin, name);
@@ -507,6 +586,10 @@ unordered_set<string> State::getValidCitiesSingleCountry() {
     return cities;
 }
 
+/*!
+ * @brief Manipula a interface de barras.
+ * @return true se a interface de barras deve ser usada, false caso contrário.
+ */
 bool State::bars() {
     barsState.displayMenu();
     barsState.handleInput();
