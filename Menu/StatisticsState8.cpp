@@ -10,7 +10,9 @@
 using namespace std;
 StatisticsState8 statisticsState8;
 
-
+/*!@brief  função que mostra o oitavo menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar 
+ *
+ */
 void StatisticsState8::displayMenu() {
 
     cout << endl;
@@ -32,6 +34,9 @@ void StatisticsState8::displayMenu() {
 
 }
 
+/*!@brief  função que permite ao utilizador navegar entre os varios menus das estatísticas ou consultar alguma estatística.
+ * 
+ */
 State* StatisticsState8::handleInput() {
     cout << "Enter your choice: ";
     cin >> userInputStr;
