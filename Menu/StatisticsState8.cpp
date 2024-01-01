@@ -82,10 +82,6 @@ State* StatisticsState8::handleInput() {
                 return this;
 
             }
-            case 5: {
-            }
-            case 6:
-
             default:
                 std::cout << " Invalid choice. try again" << std::endl;
                 return this;
