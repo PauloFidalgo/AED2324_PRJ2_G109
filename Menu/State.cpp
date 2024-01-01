@@ -402,9 +402,10 @@ vector<Airport*> State::getValidAirportsSingleCity() {
 /*!
  * @brief Obtém uma lista de aeroportos de uma ou mais cidades.
  * @return Vetor de aeroportos válidos ou vetor vazio se for cancelado
+ * O(n*m) sendo n o numero de imput do utilizador e m o numero de aeroportos da cidade que o utilizador escolheu
  */
 vector<Airport*> State::getValidAirportsPerCity(){
-   vector<Airport*> airports;
+    vector<Airport*> airports;
     vector<Airport*> aux;
     bool in = true;
     bool first = true;
@@ -423,14 +424,15 @@ vector<Airport*> State::getValidAirportsPerCity(){
 
             if (name == "back") return {};
 
-            aux = manager.getAirportsPerCity(name);
+            aux = manager.getAirportsPerCity(name); // O(n)
 
             if ((aux.empty() || !in) && !first) {
                 cout << "City doesn't exist. Try again." << endl;
             }
             first = false;
         } while (aux.empty() || !in);
-        airports.insert(airports.end(),aux.begin(),aux.end());
+
+        airports.insert(airports.end(),aux.begin(),aux.end()); // O(1)
     }
     return airports;
 }
@@ -710,6 +712,7 @@ unordered_set<Airline*> State::getValidAirlineSingleCountry() {
 /*!
  * @brief Obtém um conjunto de cidades de um país.
  * @return Conjunto de cidades válidas ou unordered_set vazio se cancelado
+ *
  */
 unordered_set<string> State::getValidCitiesSingleCountry() {
     unordered_set<string> cities;
