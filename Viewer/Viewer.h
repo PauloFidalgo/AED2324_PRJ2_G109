@@ -19,7 +19,7 @@ using namespace std;
 class Viewer {
 public:
     static void printNumAirportsNumFlights(const int& numAirports, const int& numFlights);
-    static void printNumFlightsOutAndAirlines(const string& name, const string& code, const int& numFlights, const int& numAirlines);
+    static void printNumFlightsOutAndAirlines(const string& code, const string& name, const int& numFlights, const int& numAirlines);
     static void printNumFlightsPerCity(const string& city, const int& numFlights);
     static void printNumFlightsPerAirline(const string& code, const string& name, const int& numFlights);
     static void printCountriesAirportCanFlyTo(const string &code, const string &name, const int &numCountries);

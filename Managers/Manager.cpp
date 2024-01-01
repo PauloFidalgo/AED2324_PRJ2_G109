@@ -25,6 +25,7 @@ Manager::Manager() {
  * @param x Valor que se pretende verificar se é positivo e menor que número de aeroportos
  * @return true se x positivo e menor que número de aeroportos
  * @return false se x negativo ou maior que número de aeroportos
+ * O(1)
  */
 bool Manager::getMaxKAirports(const int &x) const {
     return x > 0 && x < airports.size();
@@ -34,6 +35,7 @@ bool Manager::getMaxKAirports(const int &x) const {
  * @param x Valor que se pretende verificar se é positivo e menor que número de companhias aéreas
  * @return true se x positivo e menor que número de companhias aéreas
  * @return false se x negativo ou maior que número de companhias aéreas
+ * O(1)
  */
 bool Manager::getMaxKAirlines(const int &x) const {
     return x > 0 && x < airlines.size();
@@ -43,6 +45,7 @@ bool Manager::getMaxKAirlines(const int &x) const {
  * @param x Valor que se pretende verificar se é positivo e menor que número de cidades
  * @return true se x positivo e menor que número de cidades
  * @return false se x negativo ou maior que número de cidades
+ * O(1)
  */
 bool Manager::getMaxKCities(const int &x) const {
     return x > 0 && x < cityAirports.size();
@@ -52,6 +55,7 @@ bool Manager::getMaxKCities(const int &x) const {
  * @param x Valor que se pretende verificar se é positivo e menor que número de países
  * @return true se x positivo e menor que número de países
  * @return false se x negativo ou maior que número de países
+ * O(1)
  */
 bool Manager::getMaxKCountries(const int &x) const {
     return x > 0 && x < countryCities.size();
@@ -61,6 +65,7 @@ bool Manager::getMaxKCountries(const int &x) const {
  * @param code Código do aeroporto que se pretende obter
  * @return apontador para airport se code for válido
  * @return nullptr se code não existir
+ * O()
  */
 Airport* Manager::getAirportPerCode(const std::string &code) const {
     auto it = airports.find(code);
@@ -164,6 +169,7 @@ Airline* Manager::getAirlinePerName(const std::string &name) const {
  * @param city Nome da cidade para a qual se pretende obter o conjunto de aeroportos
  * @return vector de apontadores para Airport se city for válida
  * @return nullptr se city for inválida
+ * O(n)
  */
 vector<Airport*> Manager::getAirportsPerCity(const string& city) const {
     auto it = cityAirports.find(city);
@@ -455,6 +461,7 @@ void Manager::dfsScc(Vertex *v, stack<Airport*> &s, vector<vector<Airport*>> &re
 /*! @brief Permite obter o conjunto de voos que partem de um aeroporto
  *  @param airport apontador para aeroporto para o qual se pretende obter o conjunto de voos que partem desse aeroporto
  *  @return vetor de edges correspondentes aos voos que partem do aeroporto
+ *  O(|V|)
  */
 vector<Edge> Manager::getOutFlights(Airport* airport) const {
 
@@ -480,6 +487,7 @@ void Manager::getNumAirportsAndFlights() const {
 
 /*! @brief Permite visualizar o número total de voos de um aeroporto e de quantas companhias diferentes
  * @param airport apontador para aeroporto para o qual se pretende imprimir o número de voos e companhias que fazem esses voos
+ * O(|V| + |E| * n log(n))
  */
 void Manager::getNumFlightsAndAirlines(Airport *airport) const {
     int numFlights = airport->getNumFlightsOut();
@@ -501,6 +509,7 @@ void Manager::getNumFlightsAndAirlines(Airport *airport) const {
 
 /*! @brief Permite visualizar o número total de voos de uma cidade
  *  @param city nome da cidade para a qual se pretende imprimir o número de voos
+ *  O(|V| + n)
  */
 void Manager::getNumFlightsPerCity(const string &city) const {
     int numFlights = 0;
@@ -514,6 +523,7 @@ void Manager::getNumFlightsPerCity(const string &city) const {
 
 /*! @brief Permite visualizar o número total de voos de uma companhia
  *  @param airline apontador para a Airline para a qual se pretende imprimir o número de voos
+ *  O(1)
  */
 void Manager::getNumFlightsPerAirline(Airline *airline) const {
     int numFlights = airline->getNumFlights();
@@ -521,6 +531,7 @@ void Manager::getNumFlightsPerAirline(Airline *airline) const {
 }
 /*! @brief Permite visualizar o número países diferentes que é possível visitar a partir de uma aeorporto
  *  @param airport apontador para o aeroporto para o qual se pretende imprimir o conjunto de países que sao alcançáveis
+ *  O(|V| + n log(n))
  */
 void Manager::getCountriesCanFlyToAirport(Airport *airport) const {
     vector<Edge> edges = getOutFlights(airport);
@@ -534,6 +545,7 @@ void Manager::getCountriesCanFlyToAirport(Airport *airport) const {
 
 /*! @brief Permite visualizar o número países diferentes que é possível visitar a partir de uma cidade
  *  @param city nome da cidade para a qual se prentende obter o conjunto de países que voam para ela
+ *  O(|V| + |E| * log(|E|))
  */
 void Manager::getCountriesCanFlyToCity(const string &city) const {
     set<string> countries;
@@ -639,6 +651,7 @@ vector<vector<Airport*>> Manager::bfsMinConnectionsExcludeAirports(Airport* s, A
  *  @param airlinesToExclude unordered_set de apontadores para companhias aéreas que se pretendem excluir
  *  @param flyOnlyAirlines unordered_set de apontadores para as companhias aéreas que serão incluídas
  *  @return vetor de apontadores para aeroportos correspondente a um caminho que satisfaz os requisitos e minimiza a distância
+ *
  */
 vector<Airport*> Manager::scheduleTripMinDistance(Airport* &source, Airport* &destination, vector<Airport*> &airporsToVisit, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines) {
 
@@ -938,12 +951,13 @@ void Manager::manageFlightSearchFromMenuMinDistance(vector<Airport*> &source, ve
 
 /*! @brief Permite visualizar o número de destinos (aeroportos, cidades e países) disponíveis para um aeroporto
  * @param airport apontador para aeroporto para o qual se pretende obter e imprimir os destinos acessíveis diretamente (sem escalas)
+ * O(|V| + n * log (n))
  */
 void Manager::getAirportDestinantionsDistance1(Airport *airport) const {
-    auto depart = connections.findVertex(airport);
+    auto depart = connections.findVertex(airport); // O(|V|)
     set<string> countries;
     set<string> cities;
-    for (auto &elem : depart->getAdj()) {
+    for (auto &elem : depart->getAdj()) { //O(n * log(n))
         countries.emplace(elem.getDest()->getInfo()->getCountry());
         cities.emplace(elem.getDest()->getInfo()->getCity());
     }
@@ -956,6 +970,7 @@ void Manager::getAirportDestinantionsDistance1(Airport *airport) const {
 /*! @brief Permite visualizar o número de destinos (aeroportos, cidades e países) disponíveis para uma cidade
  * @param air vetor de apontadores para aeroportos
  * @param city nome da cidade para a qual se pretende
+ * O(n * (|V| + k * log (k))) ??????
  */
 void Manager::getCityDestinationsDistance1(vector<Airport *> air, const string& city) const {
     set<string> airportCodes;
@@ -980,6 +995,7 @@ void Manager::getCityDestinationsDistance1(vector<Airport *> air, const string& 
 /*! @brief Permite visualizar o número de destinos (aeroportos, cidades e países) disponíveis para um país
  *  @param air vetor de apontadores para os aeroportos do país em questão
  *  @param country país para o qual se pretende obter os destinos diretos
+ *  O(n * (|V| + k * log (k))) ?????
  */
 void Manager::getCountryDestinationsDistance1(vector<Airport *> air, const string& country) const {
     set<string> airportCodes;
@@ -1003,6 +1019,7 @@ void Manager::getCountryDestinationsDistance1(vector<Airport *> air, const strin
 
 /*! @brief Permite visualizar o número de destinos (aeroportos, cidades e países) alcançáveis a partir de um aeroporto
  *  @param airport apontador para o aeroporto para o qual se pretende imprimir os destinos alcançáveis
+ *  O(|V| * log(|V|) + |E|) ???
  */
 void Manager::getAirportDestinantions(Airport *airport) const {
     vector<string> air;
@@ -1044,6 +1061,7 @@ void Manager::getAirportDestinantions(Airport *airport) const {
 /*! Permite visualizar o número de destinos (aeroportos, cidades e países) alcançáveis a partir de uma cidade
  * @param airportsCity vetor de apontadores para aeroportos da cidade em questão
  * @param city país para a qual se pretende visualizar os destinos alcançáveis
+ * O(n * (|V| * log(|V|) + |E|)) ???
  */
 void Manager::getCityDestinantions(const vector<Airport *> &airportsCity, const string& city) const {
     set<string> air;
@@ -1090,6 +1108,7 @@ void Manager::getCityDestinantions(const vector<Airport *> &airportsCity, const 
 /*! @brief Permite visualizar o número de destinos (aeroportos, cidades e países) alcançáveis a partir de um país
  * @param airportsCountry vetor de apontadores para aeroportos do país em questão
  * @param country país para o qual se pretende visualizar os destinos alcançáveis
+ * O(n * (|V| * log(|V|) + |E|)) ???
  */
 void Manager::getCountryDestinantions(const vector<Airport *> &airportsCountry, const string& country) const {
     set<string> air;
@@ -1137,6 +1156,7 @@ void Manager::getCountryDestinantions(const vector<Airport *> &airportsCountry, 
 /*! @brief Permite visualizar o número de destinos (aeroportos, cidades e países) alcançáveis a partir de um aeroporto até a uma dada distância (k)
  *  @param airport apontador para o aeroporto onde se pretende começar a pesquisa
  *  @param k distância máxima
+ *  O(|V| * log(|V|) + |E|) ???
  */
 void Manager::getAirportDestinantionsUntilDistanceK(Airport *airport, const int &k) const {
     vector<string> air;
@@ -1183,6 +1203,7 @@ void Manager::getAirportDestinantionsUntilDistanceK(Airport *airport, const int 
  *  @param airportsCity vetor de apontadores para aeroportos da cidade em questão
  *  @param city cidade a partir da qual se vai começar a pesquisa
  *  @param k distância máxima
+ *  O(n * (|V| * log(|V|) + |E|)) ???
  */
 void Manager::getCityDestinantionsUntilDistanceK(const vector<Airport *> &airportsCity, const string& city, const int &k) const {
     set<string> air;
@@ -1234,6 +1255,7 @@ void Manager::getCityDestinantionsUntilDistanceK(const vector<Airport *> &airpor
  *  @param airportsCountry vetor de apontadores para aeroportos do país em questão
  *  @param country país a partir do qual se vai começar a pesquisa
  *  @param k distância máxima
+ *  O(n * (|V| * log(|V|) + |E|)) ???
  */
 void Manager::getCountryDestinantionsUntilDistanceK(const vector<Airport *> &airportsCountry, const string& country, const int &k) const {
     set<string> air;
@@ -1288,6 +1310,7 @@ void Manager::getCountryDestinantionsUntilDistanceK(const vector<Airport *> &air
  * @param origin apontador para vértice onde será iniciada a BFS
  * @param result vetor de pares de apontadores para aeroportos correspondentes aos pontos de partida e destinos com o número máximo de escalas
  * @param i o número máximo de escalas, atualizado sempre que se encontra um valor superior
+ * O(|V| + |E|)
  */
 
 void Manager::findComponentDiameterPairs(Vertex *origin, vector<pair<Airport*, Airport*>> &result, int &i) const {
@@ -1324,7 +1347,7 @@ void Manager::findComponentDiameterPairs(Vertex *origin, vector<pair<Airport*, A
 }
 
 /*! @brief Permite visualizar o número de escalas para a viagem com mais escalas, assim como todos os pares de aeroportos - origem-destino, cuja viagem entre eles tem um número de escalas igual ao valor obtido
- *
+ * O(|V|² + |V| * |E|)
  */
 void Manager::diameterPairs() const {
     vector<pair<Airport*, Airport*>> result;
@@ -1336,7 +1359,7 @@ void Manager::diameterPairs() const {
 }
 
 /*! @brief Método auxiliar, utilizado para ordenar de forma decrescente um set de aeroportos
- *
+ * O(1)
  */
 auto comparatorAirportDesc = [](Airport *a, Airport *b) {
     int trafficA = a->getNumFlightsIn() + a->getNumFlightsOut();
@@ -1350,7 +1373,7 @@ auto comparatorAirportDesc = [](Airport *a, Airport *b) {
 };
 
 /*! @brief Método auxiliar, utilizado para ordenar de forma crescente um set de aeroportos
- *
+ * O(1)
  */
 auto comparatorAirportAsc = [](Airport *a, Airport *b) {
     int trafficA = a->getNumFlightsIn() + a->getNumFlightsOut();
@@ -1366,7 +1389,8 @@ auto comparatorAirportAsc = [](Airport *a, Airport *b) {
 /*! @brief Permite visualizar os top k aeroportos que têm o maior ou menor número de voos, em forma de lista ou gráfico de barras
  * @param k número de aeroportos a serem impressos
  * @param bars bool utilizada para imprimir ou não o gráfico de barras
- * @param asc bool utilizada para imprimir por ordem ascendente ou descendent
+ * @param asc bool utilizada para imprimir por ordem ascendente ou descendente
+ * O(|V| * log(|V|))
  */
 void Manager::getTopKGreatestTrafficAirport(int k, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorAirportAsc : comparatorAirportDesc;
@@ -1388,7 +1412,7 @@ void Manager::getTopKGreatestTrafficAirport(int k, const bool &bars, const bool&
 }
 
 /*! @brief Método auxiliar, utilizado para ordenar de forma decrescente um set de pares de strings e inteiros
- *
+ *  O(1)
  */
 auto comparatorPairsDesc = [](const pair<string, int> &a, const pair<string, int> &b) {
     int trafficA = a.second;
@@ -1402,7 +1426,7 @@ auto comparatorPairsDesc = [](const pair<string, int> &a, const pair<string, int
 };
 
 /*! @brief Método auxiliar, utilizado para ordenar de forma crescente um set de pares de strings e inteiros
- *
+ *  O(1)
  */
 auto comparatorPairsAsc = [](const pair<string, int> &a, const pair<string, int> &b) {
     int trafficA = a.second;
@@ -1419,6 +1443,7 @@ auto comparatorPairsAsc = [](const pair<string, int> &a, const pair<string, int>
  * @param k número de cidades a serem impressas
  * @param bars bool utilizada para imprimir ou não o gráfico de barras
  * @param asc bool utilizada para imprimir por ordem ascendente ou descendent
+ * O(n * k + n log(n)) ???
  */
 void Manager::getTopKGreatestTrafficCity(int k, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorPairsAsc : comparatorPairsDesc;
@@ -1446,6 +1471,7 @@ void Manager::getTopKGreatestTrafficCity(int k, const bool &bars, const bool& as
  * @param k número de países a serem impressos
  * @param bars bool utilizada para imprimir ou não o gráfico de barras
  * @param asc bool utilizada para imprimir por ordem ascendente ou descendent
+ * O(n * log (n) + n * k * l)) ???
  */
 void Manager::getTopKGreatestTrafficCountry(int k, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorPairsAsc : comparatorPairsDesc;
@@ -1477,6 +1503,7 @@ void Manager::getTopKGreatestTrafficCountry(int k, const bool &bars, const bool&
  * @param airportsPerCity vetor de apontadores para os aeroportos correspondentes à cidade
  * @param bars bool utilizada para imprimir ou não o gráfico de barras
  * @param asc bool utilizada para imprimir por ordem ascendente ou descendente
+ * O(n * log(n))
  */
 void Manager::getTopKGreatestTrafficAirportPerCity(int k, const vector<Airport *> &airportsPerCity, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorAirportAsc : comparatorAirportDesc;
@@ -1501,6 +1528,7 @@ void Manager::getTopKGreatestTrafficAirportPerCity(int k, const vector<Airport *
  * @param airportsPerCountry vetor de apontadores para aeroportos do país em questão
  * @param bars bool utilizada para imprimir ou não o gráfico de barras
  * @param asc bool utilizada para imprimir por ordem ascendente ou descendente
+ * O(n * log(n))
  */
 void Manager::getTopKGreatestTrafficAirportPerCountry(int k, const vector<Airport *> &airportsPerCountry, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorAirportAsc : comparatorAirportDesc;
@@ -1525,6 +1553,7 @@ void Manager::getTopKGreatestTrafficAirportPerCountry(int k, const vector<Airpor
  * @param selectedCountryCities unordered_set de strings com as cidades a serem incluídas
  * @param bars bool utilizada para imprimir ou não o gráfico de barras
  * @param asc bool utilizada para imprimir por ordem ascendente ou descendente
+ * O(n log(n) + n * k) ???
  */
 void Manager::getTopKGreatestTrafficCityPerCountry(int k, const unordered_set<string> &selectedCountryCities, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorPairsAsc : comparatorPairsDesc;
@@ -1550,7 +1579,7 @@ void Manager::getTopKGreatestTrafficCityPerCountry(int k, const unordered_set<st
 }
 
 /*! @brief Método auxiliar, utilizado para ordenar de forma decrescente um set de companhias
- *
+ * O(1)
  */
 auto comparatorAirlineDesc = [](Airline *a, Airline *b) {
     int trafficA = a->getNumFlights();
@@ -1564,7 +1593,7 @@ auto comparatorAirlineDesc = [](Airline *a, Airline *b) {
 };
 
 /*! @brief Método auxiliar, utilizado para ordenar de forma crescente um set de companhias
- *
+ * O(1)
  */
 auto comparatorAirlineAsc = [](Airline *a, Airline *b) {
     int trafficA = a->getNumFlights();
@@ -1581,6 +1610,7 @@ auto comparatorAirlineAsc = [](Airline *a, Airline *b) {
  * @param k número de airlines a serem impressas
  * @param bars bool utilizada para imprimir ou não o gráfico de barras
  * @param asc bool utilizada para imprimir por ordem ascendente ou descendente
+ * O(|V| * log(|V|))
  */
 void Manager::getTopKGreatestTrafficAirline(int k, const bool &bars, const bool& asc) const {
     auto comparator = asc ? comparatorAirlineAsc : comparatorAirlineDesc;
@@ -1606,6 +1636,7 @@ void Manager::getTopKGreatestTrafficAirline(int k, const bool &bars, const bool&
  * @param airlinesCountry unordered_set de apontadores para as airlines do país
  * @param bars bool utilizada para imprimir ou não o gráfico de barras
  * @param asc bool utilizada para imprimir por ordem ascendente ou descendente
+ * O(n log(n))
  */
 
 void Manager::getTopKGreatestTrafficAirlinePerCountry(int k, const unordered_set<Airline *> &airlinesCountry, const bool &bars, const bool& asc) const {
@@ -1631,6 +1662,7 @@ void Manager::getTopKGreatestTrafficAirlinePerCountry(int k, const unordered_set
  * @param airline apontador para companhia aérea que queremos verificar para onde tem mais voos
  * @param bars bool utilizada para imprimir ou não o gráfico de barras
  * @param asc bool utilizada para imprimir por ordem ascendente ou descendente
+ * O(|V| + |E| * log(|E|)) ?? nao sei se por causa de dar sort devia contar isso
  */
 void Manager::getTopKAirportsAirlineTravelsTo(int k, Airline *airline, const bool &bars, const bool& asc) const {
     map<Airport *, int> airportNumFlights;
@@ -1663,6 +1695,7 @@ void Manager::getTopKAirportsAirlineTravelsTo(int k, Airline *airline, const boo
  * @param k número de aeroportos a serem impressos
  * @param bars bool utilizada para imprimir ou não o gráfico de barras
  * @param asc bool utilizada para imprimir por ordem ascendente ou descendente
+ * O(|V| + |E| * n log(n)) ???
  */
 void Manager::getTopKAirportsWithMoreAirlines(int k, const bool &bars, const bool& asc) const {
     vector<pair<Airport *, int>> airportNumAirlines;
@@ -1696,6 +1729,7 @@ void Manager::getTopKAirportsWithMoreAirlines(int k, const bool &bars, const boo
  * @param k número de airlines a serem impressas
  * @param bars bool utilizada para imprimir ou não o gráfico de barras
  * @param asc bool utilizada para imprimir por ordem ascendente ou descendente
+ * O(|V| + |E| * n log(n))
  */
 void Manager::getTopKAirlinesThatFlyMoreToAnAirport(int k, Airport *airport, const bool &bars, const bool& asc) const {
     map<Airline *, int> airlineNumFlightsToAirport;
@@ -1728,6 +1762,7 @@ void Manager::getTopKAirlinesThatFlyMoreToAnAirport(int k, Airport *airport, con
 
 /*! @brief Faz uma listagem das companhias que operam num dado aeroporto
  * @param airport apontador para aeroporto para o qual se irá imprimir as companhias que voam de lá
+ * O(|V| + |E| * n log(n))
  */
 void Manager::listAirlinesPerAirport(Airport *airport) {
     auto air = connections.findVertex(airport);
@@ -1747,6 +1782,7 @@ void Manager::listAirlinesPerAirport(Airport *airport) {
 /*! @brief Faz uma listagem dos aeroportos que operam num dado país ou numa dada cidade
  * @param airportsCountry vetor de apontadores para aeroportos da cidade
  * @param countryCity nome da cidade
+ * O(n)
  */
 void Manager::listAirportsPerCountryCity(const vector<Airport *> &airportsCountry, const string &countryCity) const{
     int maxLengthName = 0;
@@ -1760,6 +1796,7 @@ void Manager::listAirportsPerCountryCity(const vector<Airport *> &airportsCountr
 /*!@brief Método auxiliar que converte uma string dada pelo utilizador numa string com letras minúsculas apenas
  * @param word palavra que será convertida em letras minúsculas
  * @return palavra em letras minúsculas
+ * O(n)
  */
 string nameToLower(const string& word) {
     string res;
@@ -1771,6 +1808,7 @@ string nameToLower(const string& word) {
 
 /*! @brief Permite fazer uma pesquisa de aeroportos por nome
  * @param airportName nome do aeroporto para o qual se pretende imprimir a informação
+ * O(|V| * k)
  */
 void Manager::searchAirportsByName(const string &airportName) {
     if (airportName.empty()) {
@@ -1790,6 +1828,7 @@ void Manager::searchAirportsByName(const string &airportName) {
 
 /*! @brief Permite fazer uma pesquisa de companhias por nome
  * @param airlineName nome da airline que se pretende procurar e imprimir informação
+ * O(n * k)
  */
 void Manager::searchAirlinesByName(const string &airlineName) {
     if (airlineName.empty()) {
@@ -1809,6 +1848,7 @@ void Manager::searchAirlinesByName(const string &airlineName) {
 
 /*! @brief Permite visualizar informação relativa a um dado aeroporto
  * @param airport apontador para aeroporto para o qual se pretende imprimir a informação
+ * O(1)
  */
 void Manager::printAirportInfo(Airport *airport) {
     Viewer::printAirportInfo(airport);
@@ -1816,6 +1856,7 @@ void Manager::printAirportInfo(Airport *airport) {
 
 /*! @brief Permite visualizar informação relativa a uma dada companhia
  * @param airline apontador para airline para a qual se pretende imprimir a informação
+ * O(1)
  */
 void Manager::printAirlineInfo(Airline *airline) {
     Viewer::printAirlineInfo(airline);
@@ -1827,6 +1868,7 @@ void Manager::printAirlineInfo(Airline *airline) {
  * @param airport apontador para o aeroporto que se pretende obter o rácio
  * @param bars bool utilizada para imprimir ou não o gráfico de barras
  * @param asc bool utilizada para imprimir por ordem ascendente ou descendente
+ * O(|V| + |E| * n log(n))
  */
 void Manager::getTopKAirlinesThatFlyMoreToAnAirportRatio(int k, Airport *airport, const bool &bars, const bool &asc) const {
     map<Airline *, int> airlineNumFlightsToAirport;
@@ -1862,6 +1904,7 @@ void Manager::getTopKAirlinesThatFlyMoreToAnAirportRatio(int k, Airport *airport
  * @param k número de países a serem impressos
  * @param bars bool utilizada para imprimir ou não o gráfico de barras
  * @param asc bool utilizada para imprimir por ordem ascendente ou descendente
+ * O(|V| * log(|V|) + |E| * n log(n))
  */
 void Manager::getTopKCountriesWithMoreAirlines(int k, const bool &bars, const bool &asc) const {
     map<string,set<Airline *>> countriesNumAirlines;

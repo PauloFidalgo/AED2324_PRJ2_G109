@@ -11,6 +11,7 @@
  * @brief Imprime o número de aeroportos e o número de voos em formato tabular.
  * @param numAirports Número de aeroportos.
  * @param numFlights Número de voos.
+ * O(1)
  */
 void Viewer::printNumAirportsNumFlights(const int &numAirports, const int &numFlights) {
     int space = numFlights > numAirports ? to_string(numFlights).length() + 2  : to_string(numAirports).length() + 2;
@@ -30,6 +31,7 @@ void Viewer::printNumAirportsNumFlights(const int &numAirports, const int &numFl
  * @param name Nome do aeroporto.
  * @param numFlights Número de voos de saída.
  * @param numAirlines Número de companhias aéreas associadas ao aeroporto.
+ * O(1)
  */
 void Viewer::printNumFlightsOutAndAirlines(const string &code, const string &name, const int &numFlights, const int &numAirlines) {
     int space = name.length() > 7 ? name.length() + 2: 7;
@@ -55,6 +57,7 @@ void Viewer::printNumFlightsOutAndAirlines(const string &code, const string &nam
  * @brief Imprime o número de voos por cidade em formato tabular.
  * @param city Nome da cidade.
  * @param numFlights Número de voos.
+ * O(1)
  */
 void Viewer::printNumFlightsPerCity(const string &city, const int &numFlights) {
     int space = city.length() > to_string(numFlights).length() ? city.length() + 2: to_string((numFlights)).length() + 2;
@@ -73,6 +76,7 @@ void Viewer::printNumFlightsPerCity(const string &city, const int &numFlights) {
  * @param code Código da companhia aérea.
  * @param name Nome da companhia aérea.
  * @param numFlights Número de voos.
+ * O(1)
  */
 void Viewer::printNumFlightsPerAirline(const string &code, const string &name, const int &numFlights) {
     int space = name.length() > to_string(numFlights).length() ? name.length() + 2: to_string((numFlights)).length() + 2;
@@ -94,6 +98,7 @@ void Viewer::printNumFlightsPerAirline(const string &code, const string &name, c
  * @param code Código do aeroporto.
  * @param name Nome do aeroporto.
  * @param numCountries Número de países para os quais o aeroporto pode voar.
+ * O(1)
  */
 void Viewer::printCountriesAirportCanFlyTo(const string &code, const string &name, const int &numCountries) {
     int space = name.length() > 7 ? name.length() + 2: 7;
@@ -114,6 +119,7 @@ void Viewer::printCountriesAirportCanFlyTo(const string &code, const string &nam
  * @brief Imprime os países para os quais uma cidade pode voar em formato tabular.
  * @param city Nome da cidade.
  * @param numCountries Número de países para os quais a cidade pode voar.
+ * O(1)
  */
 void Viewer::printCountriesCityCanFlyTo(const string &city, const int &numCountries) {
     int space = city.length() > 7 ? city.length() + 2: 7;
@@ -134,6 +140,7 @@ void Viewer::printCountriesCityCanFlyTo(const string &city, const int &numCountr
  *  @param numAirports Número de aeroportos alcançáveis a partir de um voo direto.
  *  @param numCities Número de cidades alcançáveis a partir de um voo direto.
  *  @param numCountries Número de países alcançáveis a partir de um voo direto.
+ *  O(1)
  */
 void Viewer::printAirportDestinationsDistance1(const string &code, const string &name, const int &numAirports, const int &numCities, const int &numCountries) {
     int space = name.length() > 7 ? name.length() + 2: 7;
@@ -162,6 +169,7 @@ void Viewer::printAirportDestinationsDistance1(const string &code, const string 
  *  @param numAirports Número de aeroportos alcançáveis a partir de um voo direto.
  *  @param numCities Número de cidades alcançáveis a partir de um voo direto.
  *  @param numCountries Número de países alcançáveis a partir de um voo direto.
+ *  O(1)
  */
 void Viewer::printCityDestinationsDistance1(const string &city, const int &numAirports, const int &numCities, const int &numCountries) {
     int space = city.length() > 7 ? city.length() + 2: 7;
@@ -187,6 +195,7 @@ void Viewer::printCityDestinationsDistance1(const string &city, const int &numAi
  *  @param numAirports Número de aeroportos alcançáveis a partir de um voo direto.
  *  @param numCities Número de cidades alcançáveis a partir de um voo direto.
  *  @param numCountries Número de países alcançáveis a partir de um voo direto.
+ *  O(1)
  */
 void Viewer::printCountryDestinationsDistance1(const string &country, const int &numAirports, const int &numCities, const int &numCountries) {
     int space = country.length() > 7 ? country.length() + 2: 7;
@@ -213,6 +222,7 @@ void Viewer::printCountryDestinationsDistance1(const string &country, const int 
  *  @param numAirports Número de aeroportos alcançáveis a partir de um voo direto.
  *  @param numCities Número de cidades alcançáveis a partir de um voo direto.
  *  @param numCountries Número de países alcançáveis a partir de um voo direto.
+ *  O(1)
  */
 void Viewer::printAirportDestinations(const string &code, const string &name, const int &numAirports, const int &numCities, const int &numCountries) {
     int space = name.length() > 7 ? name.length() + 2: 7;
@@ -240,6 +250,7 @@ void Viewer::printAirportDestinations(const string &code, const string &name, co
  *  @param numAirports Número de aeroportos alcançáveis a partir de um voo direto.
  *  @param numCities Número de cidades alcançáveis a partir de um voo direto.
  *  @param numCountries Número de países alcançáveis a partir de um voo direto.
+ *  O(1)
  */
 void Viewer::printCityDestinations(const string &city, const int &numAirports, const int &numCities, const int &numCountries) {
     int space = city.length() > 7 ? city.length() + 2: 7;
@@ -264,6 +275,7 @@ void Viewer::printCityDestinations(const string &city, const int &numAirports, c
  *  @param numAirports Número de aeroportos alcançáveis a partir de um voo direto.
  *  @param numCities Número de cidades alcançáveis a partir de um voo direto.
  *  @param numCountries Número de países alcançáveis a partir de um voo direto.
+ *  O(1)
  */
 void Viewer::printCountryDestinations(const string &country, const int &numAirports, const int &numCities, const int &numCountries) {
     int space = country.length() > 7 ? country.length() + 2: 7;
@@ -287,6 +299,7 @@ void Viewer::printCountryDestinations(const string &country, const int &numAirpo
  * número máximo de escalas que se verifica para qualquer viagem, em formato tabular.
  *  @param result vetor de pares de aeroportos origem-destino.
  *  @param maxDiameter número máximo de escalas que se verifica para qualquer viagem.
+ *  O(n)
  */
 void Viewer::printDiameterPairs(const vector<pair<Airport *, Airport *>> &result, const int &maxDiameter) {
     int maxNameLength = 0;
@@ -314,6 +327,7 @@ void Viewer::printDiameterPairs(const vector<pair<Airport *, Airport *>> &result
 /*! @brief Imprime um número pré-definido de aeroportos que apresentam maior ou menor tráfego aéreo, em formato tabular.
  *  @param airportsByTraffic vetor de aeroportos com mais ou menos tráfego aéreo.
  *  @param nameSize tamanho do maior nome de um aeroporto que vai ser impresso.
+ *  O(n)
  */
 void Viewer::printAirportGreatestTraffic(const vector<Airport *> &airportsByTraffic, const int &nameSize) {
     int space1 = nameSize + 8 > 10 ? nameSize + 8 : 10;
@@ -338,6 +352,7 @@ void Viewer::printAirportGreatestTraffic(const vector<Airport *> &airportsByTraf
  *  @param label1 legenda da primeira coluna da tabela a ser impressa.
  *  @param label2 legenda da segunda coluna da tabela a ser impressa.
  *  @param nameSize tamanho do maior nome de um país ou cidade que vai ser impresso.
+ *  O(n)
  */
 void Viewer::printCountryCityStats(const vector<pair<string, int>> &countriesCities,const string &label1, const string &label2, const int &nameSize) {
     string label3 = label1 == "Countries" ? "| Country: " : "| City: ";
@@ -364,6 +379,7 @@ void Viewer::printCountryCityStats(const vector<pair<string, int>> &countriesCit
  *  @param label1 legenda da primeira coluna da tabela a ser impressa.
  *  @param label2 legenda da segunda coluna da tabela a ser impressa.
  *  @param nameSize tamanho do maior nome de um aeroporto que vai ser impresso.
+ *  O(n)
  */
 void Viewer::printTopKVector(const vector<pair<Airport *, int>> &airports,const string &label1, const string &label2, const int &nameSize) {
     int space1 = nameSize + 8 > label1.length() + 2 ? nameSize + 8 : label1.length() + 2;
@@ -388,6 +404,7 @@ void Viewer::printTopKVector(const vector<pair<Airport *, int>> &airports,const 
 /*! @brief Imprime as companhias aéreas que operam num dado aeroporto, em formato tabular.
  * @param airlines set de companhias que operam no dado aeroporto.
  *  @param nameSize tamanho do maior nome de uma companhia aérea que vai ser impresso.
+ *  O(n)
  */
 void Viewer::printAirlinesPerAirport(const set<Airline *> &airlines, const int &nameSize) {
     int space = nameSize + 8 > 10 ? nameSize + 8 : 10;
@@ -406,6 +423,7 @@ void Viewer::printAirlinesPerAirport(const set<Airline *> &airlines, const int &
  * @param airports vetor de aeroportos existentes no país ou cidade escolhido.
  *  @param nameSize tamanho do maior nome de aeroporto que vai ser impresso.
  *  @param countryCity nome do país ou cidade escolhidos.
+ *  O(n)
  */
 void Viewer::printListAirportsPerCountryCity(const vector<Airport *> &airports, const int &nameSize, const string &countryCity) {
     int space = nameSize + 8 > 40 ? nameSize + 8 : 40;
@@ -426,6 +444,7 @@ void Viewer::printListAirportsPerCountryCity(const vector<Airport *> &airports, 
  * @param airlines Vetor contendo apontadores para objetos de companhias aéreas.
  * @param nameSize Tamanho do nome a ser considerado ao formatar a saída.
  * @param country Nome do país para o qual listar as companhias aéreas.
+ * O(n)
  */
 void Viewer::printListAirlinesPerCountry(const vector<Airline *> &airlines, const int &nameSize, const string &country) {
     int space = nameSize + 8 > 40 ? nameSize + 8 : 40;
@@ -446,6 +465,7 @@ void Viewer::printListAirlinesPerCountry(const vector<Airline *> &airlines, cons
  * @param airports Vetor contendo apontadores para objetos de aeroportos.
  * @param nameSize Tamanho do nome a ser considerado ao formatar a saída.
  * @param airportName Nome do aeroporto a ser pesquisado.
+ * O(n)
  */
 void Viewer::printSearchAirports(const vector<Airport *> &airports, const int &nameSize, const string &airportName) {
     if (airports.empty()) {
@@ -470,6 +490,7 @@ void Viewer::printSearchAirports(const vector<Airport *> &airports, const int &n
  * @param airlines Vetor contendo apontadores para objetos de companhias aéreas.
  * @param nameSize Tamanho do nome a ser considerado ao formatar a saída.
  * @param airlineName Nome da companhia aérea a ser pesquisada.
+ * O(n)
  */
 void Viewer::printSearchAirlines(const vector<Airline *> &airlines, const int &nameSize, const string &airlineName) {
     if (airlines.empty()) {
@@ -492,6 +513,7 @@ void Viewer::printSearchAirlines(const vector<Airline *> &airlines, const int &n
 /*!
  * @brief Imprime informações sobre um aeroporto.
  * @param airport Apontador para o objeto de aeroporto.
+ * O(1)
  */
 void Viewer::printAirportInfo(Airport *airport) {
     int nameLength = airport->getName().length();
@@ -510,6 +532,7 @@ void Viewer::printAirportInfo(Airport *airport) {
 /*!
  * @brief Imprime informações sobre uma companhia aérea.
  * @param airline apontador para o objeto de companhia aérea.
+ * O(1)
  */
 void Viewer::printAirlineInfo(Airline *airline) {
     int nameLength = airline->getName().length();
@@ -527,6 +550,7 @@ void Viewer::printAirlineInfo(Airline *airline) {
  * @brief Imprime as companhias aéreas com maior tráfego.
  * @param airlinesByTraffic Vetor de apontadors para objetos de companhia aérea ordenados por tráfego.
  * @param nameSize Tamanho do nome a ser considerado ao formatar a saída.
+ * O(n)
  */
 void Viewer::printAirlineGreatestTraffic(const vector<Airline *> &airlinesByTraffic, const int &nameSize) {
     int space1 = nameSize + 8 > 10 ? nameSize + 8 : 10;
@@ -550,6 +574,7 @@ void Viewer::printAirlineGreatestTraffic(const vector<Airline *> &airlinesByTraf
  * @brief Imprime gráficos de barras representando o tráfego dos aeroportos.
  * @param airportsByTraffic Vetor de apontadors para objetos de aeroporto ordenados por tráfego.
  * @param asc Indica se a ordenação é ascendente.
+ * O(n)
  */
 void Viewer::printAirportGreatestTrafficBars(const vector<Airport *> &airportsByTraffic, const bool &asc = false) {
     if (!airportsByTraffic.empty()) {
@@ -580,6 +605,7 @@ void Viewer::printAirportGreatestTrafficBars(const vector<Airport *> &airportsBy
  * @brief Imprime gráficos de barras representando o tráfego das companhias aéreas.
  * @param airlinesByTraffic Vetor de apontadors para objetos de companhia aérea ordenados por tráfego.
  * @param asc Indica se a ordenação é ascendente.
+ * O(n)
  */
 void Viewer::printAirlineGreatestTrafficBars(const vector<Airline *> &airlinesByTraffic, const bool &asc) {
     if (!airlinesByTraffic.empty()) {
@@ -611,6 +637,7 @@ void Viewer::printAirlineGreatestTrafficBars(const vector<Airline *> &airlinesBy
  * @param traffic Vetor de pares representando tráfego de cidades ou países.
  * @param nameSize Tamanho do nome a ser considerado ao formatar a saída.
  * @param asc Indica se a ordenação é ascendente.
+ * O(n)
  */
 void Viewer::printCityOrCountryGreatestTrafficBars(const vector<pair<string, int>> &traffic, const int& nameSize, const bool &asc) {
     if (!traffic.empty()) {
@@ -645,6 +672,7 @@ void Viewer::printCityOrCountryGreatestTrafficBars(const vector<pair<string, int
  * @brief Imprime gráficos de barras representando o tráfego dos principais elementos em um vetor.
  * @param airportsOrAirlines Vetor de pares representando tráfego de aeroportos ou companhias aéreas.
  * @param asc Indica se a ordenação é ascendente.
+ * O(n)
  */
 void Viewer::printTopKVectorBars(const vector<pair<Airport *, int>> &airports, const bool &asc) {
     if (!airports.empty()) {
@@ -675,6 +703,7 @@ void Viewer::printTopKVectorBars(const vector<pair<Airport *, int>> &airports, c
  * @brief Imprime gráficos de barras representando o tráfego dos principais elementos em um vetor.
  * @param airportsOrAirlines Vetor de pares representando tráfego de aeroportos ou companhias aéreas.
  * @param asc Indica se a ordenação é ascendente.
+ * O(n)
  */
 void Viewer::printTopKVectorBars(const vector<pair<Airline *, int>> &airportsOrAirlines, const bool &asc) {
     if (!airportsOrAirlines.empty()) {
@@ -705,6 +734,7 @@ void Viewer::printTopKVectorBars(const vector<pair<Airline *, int>> &airportsOrA
  * @brief Imprime os pontos de articulação no grafo de aeroportos.
  * @param res Vetor de apontadors para objetos de aeroporto representando os pontos de articulação.
  * @param nameSize Tamanho do nome a ser considerado ao formatar a saída.
+ * O(n)
  */
 void Viewer::printArticulationPoints(const vector<Airport *> res, const int &nameSize) {
     int space = nameSize + 8 > 35 ? nameSize + 8 : 35;
@@ -724,6 +754,7 @@ void Viewer::printArticulationPoints(const vector<Airport *> res, const int &nam
  * @brief Imprime gráficos de barras representando a proporção do tráfego das companhias aéreas.
  * @param airlines Vetor de pares representando tráfego de companhias aéreas.
  * @param asc Indica se a ordenação é ascendente.
+ * O(n)
  */
 void Viewer::printTopKVectorBarsRatio(const vector<pair<Airline *, double>> &airlines, const bool &asc) {
     if (!airlines.empty()) {
@@ -754,6 +785,7 @@ void Viewer::printTopKVectorBarsRatio(const vector<pair<Airline *, double>> &air
  * @brief Imprime gráficos de barras representando a proporção do tráfego das companhias aéreas.
  * @param airlines Vetor de pares representando tráfego de companhias aéreas.
  * @param asc Indica se a ordenação é ascendente.
+ * O(n)
  */
 void Viewer::printTopKVectorRatio(const vector<pair<Airline *, double>> &airlines, const int &nameSize) {
     int space1 = nameSize + 8 > 10 ? nameSize + 8 : 10 + 2;
@@ -780,6 +812,7 @@ void Viewer::printTopKVectorRatio(const vector<pair<Airline *, double>> &airline
  * @param label1 Rótulo para o primeiro conjunto de dados.
  * @param label2 Rótulo para o segundo conjunto de dados.
  * @param nameSize Tamanho do nome a ser considerado ao formatar a saída.
+ * O(n)
  */
 void Viewer::printTopKVector(const vector<pair<Airline *, int>> &airlines, const string &label1, const string &label2, const int &nameSize) {
     int space1 = nameSize + 8 > label1.length() + 2 ? nameSize + 8 : label1.length() + 2;
@@ -805,6 +838,7 @@ void Viewer::printTopKVector(const vector<pair<Airline *, int>> &airlines, const
 /*!
  * @brief Imprime as opções de voos disponíveis.
  * @param flights Vetor de vetores representando as opções de voos.
+ * O(n * m)
  */
 void Viewer::printFlightOptions(const vector<vector<Airport *>> &flights) {
     if (flights.empty()) {
