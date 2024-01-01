@@ -118,6 +118,7 @@ void Vertex::setAdj(const std::vector<Edge> &destinations) {
  * @brief Adiciona uma aresta adjacente ao vértice.
  * @param destination A aresta que será adicionada como adjacente.
  * @param airline A companhia aérea associada à aresta.
+ * O(n)
  */
 void Vertex::addAdj(Edge &destination, Airline* airline) {
     for (auto& flight : this->adj) {
