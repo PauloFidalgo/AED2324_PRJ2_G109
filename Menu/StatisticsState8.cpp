@@ -22,8 +22,6 @@ void StatisticsState8::displayMenu() {
     cout << "|                             2. Top K Airlines That Fly More To An Airport Ratio (Descending)         |" << endl;
     cout << "|                             3. Strongly connected Components                                         |" << endl;
     cout << "|                             4. Top K Greatest Traffic Airline                                        |" << endl;
-    cout << "|                             5.                                                                       |" << endl;
-    cout << "|                             6.                                                                       |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "| back - Main Menu                                                                                     |" << endl;
     cout << "| exit - Exit                                                                              page - 8    |" << endl;
