@@ -209,12 +209,13 @@ unordered_set<string> Manager::getCitiesPerCountry(const string& country) const 
     return {};
 }
 
-/*! @brief Permite obter a distância entre dois pontos através das respetivas coordenadas
- * @param lat1 latitude do 1º ponto
- * @param lon1 longitude do 1º ponto
- * @param lat2 latitude do 2º ponto
- * @param lon2 longitude do 2º ponto
- * @return distância entre A(lat1, lon1) e B(lat2, lon2)
+/*!
+ * @brief Calcula a distância haversine entre duas coordenadas geográficas.
+ * @param lat1 Latitude da primeira coordenada.
+ * @param lon1 Longitude da primeira coordenada.
+ * @param lat2 Latitude da segunda coordenada.
+ * @param lon2 Longitude da segunda coordenada.
+ * @return A distância haversine entre as duas coordenadas.
  */
 double haversine(double lat1, double lon1, double lat2, double lon2) {
     double dLat = (lat2 - lat1) *

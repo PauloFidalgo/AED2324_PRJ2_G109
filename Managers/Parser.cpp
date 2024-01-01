@@ -11,6 +11,10 @@
 
 using namespace std;
 
+/*!
+ * @brief Lê as informações das companhias aéreas a partir do ficheiro airlines.csv e preenche os contêineres correspondentes.
+ * As informações lidas incluem código, nome, indicativo de chamada e país da companhia aérea.
+ */
 void Parser::readAirlines() {
     fstream iff;
 
@@ -46,6 +50,11 @@ void Parser::readAirlines() {
     }
 }
 
+/*!
+ * @brief Lê as informações dos voos a partir do ficheiro flights.csv e popula o grafo fornecido com as arestas correspondentes.
+ * As informações lidas incluem aeroporto de origem, aeroporto de destino e companhia aérea associada ao voo.
+ * @param g O grafo ao qual as informações dos voos serão adicionadas.
+ */
 void Parser::readFlights(Graph &g) {
     fstream iff;
     try {
@@ -95,6 +104,10 @@ void Parser::readFlights(Graph &g) {
     }
 }
 
+/*!
+ * @brief Retorna um grafo preenchido com informações lidas do ficheiro airports.csv, incluindo informações sobre aeroportos, companhias aéreas e voos.
+ * @return Um grafo preenchido com informações lidas dos ficheiros.
+ */
 Graph Parser::getGraph() {
     fstream iff;
 
@@ -152,11 +165,17 @@ Graph Parser::getGraph() {
     return {};
 }
 
+/*!
+ * @brief Calcula a distância haversine entre duas coordenadas geográficas.
+ * @param lat1 Latitude da primeira coordenada.
+ * @param lon1 Longitude da primeira coordenada.
+ * @param lat2 Latitude da segunda coordenada.
+ * @param lon2 Longitude da segunda coordenada.
+ * @return A distância haversine entre as duas coordenadas.
+ */
 double Parser::haversine(double lat1, double lon1, double lat2, double lon2) {
-    double dLat = (lat2 - lat1) *
-                  M_PI / 180.0;
-    double dLon = (lon2 - lon1) *
-                  M_PI / 180.0;
+    double dLat = (lat2 - lat1) * M_PI / 180.0;
+    double dLon = (lon2 - lon1) * M_PI / 180.0;
 
     lat1 = (lat1) * M_PI / 180.0;
     lat2 = (lat2) * M_PI / 180.0;
@@ -169,22 +188,43 @@ double Parser::haversine(double lat1, double lon1, double lat2, double lon2) {
     return rad * c;
 }
 
+/*!
+ * @brief Retorna um mapa contendo aeroportos indexados por código.
+ * @return Um mapa contendo aeroportos indexados por código.
+ */
 std::unordered_map<std::string, Airport*> Parser::getAirports() {
     return airports;
 }
 
+/*!
+ * @brief Retorna um mapa contendo companhias aéreas indexadas por código.
+ * @return Um mapa contendo companhias aéreas indexadas por código.
+ */
 unordered_map<string, Airline *> Parser::getAirlines() {
     return airlines;
 }
 
+/*!
+ * @brief Retorna um mapa contendo aeroportos agrupados por cidade.
+ * @return Um mapa contendo aeroportos agrupados por cidade.
+ */
 unordered_map<string, vector<Airport*>> Parser::getCityAirports() {
     return cityAirports;
 }
 
+/*!
+ * @brief Retorna um mapa contendo companhias aéreas agrupadas por país.
+ * @return Um mapa contendo companhias aéreas agrupadas por país.
+ */
 unordered_map<string, unordered_set<Airline*>> Parser::getAirlinesCountry() {
     return airlinesCountry;
 }
 
+/*!
+ * @brief Retorna a companhia aérea correspondente ao código fornecido.
+ * @param airline O código da companhia aérea a ser recuperada.
+ * @return Um apontador para a companhia aérea correspondente ao código ou nullptr se não encontrada.
+ */
 Airline* Parser::getAirline(const std::string &airline) {
     auto it = airlines.find(airline);
 
@@ -194,15 +234,26 @@ Airline* Parser::getAirline(const std::string &airline) {
     return nullptr;
 }
 
+/*!
+ * @brief Retorna um mapa contendo cidades agrupadas por país.
+ * @return Um mapa contendo cidades agrupadas por país.
+ */
 unordered_map<string, unordered_set<string>> Parser::getCountryCities() {
     return countryCities;
 }
 
-
+/*!
+ * @brief Retorna um mapa contendo aeroportos indexados por nome.
+ * @return Um mapa contendo aeroportos indexados por nome.
+ */
 std::unordered_map<std::string, Airport *> Parser::getAirportsByName() {
     return airportsByName;
 }
 
+/*!
+ * @brief Retorna um mapa contendo companhias aéreas indexadas por nome.
+ * @return Um mapa contendo companhias aéreas indexadas por nome.
+ */
 std::unordered_map<std::string, Airline *> Parser::getAirlinesByName() {
     return airlinesByName;
 }
