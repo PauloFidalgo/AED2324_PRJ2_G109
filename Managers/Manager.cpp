@@ -423,7 +423,7 @@ bool hasOtherAirline(Edge &e, const unordered_set<Airline*> &air) {
  *  Um componente fortemente ligado é um subset do conjunto de vértices, tal que qualquer vértice concegue aceder a qualquer outro vértice do mesmo componente
  *  O(|V| + |E|)
  */
-vector<vector<Airport*>> Manager::scc() {
+void Manager::scc() {
     for (auto &airport : connections.getVertexSet()) {
         airport->setVisited(false);
         airport->setProcessing(false);
@@ -439,7 +439,7 @@ vector<vector<Airport*>> Manager::scc() {
         }
     }
 
-    return res;
+    Viewer::printScc(res);
 
 }
 

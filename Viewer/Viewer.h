@@ -56,7 +56,7 @@ public:
 
 
     static void printCountryCityStats(const vector<pair<string, int>> &countriesCities, const string &label1, const string &label2, const int &nameSize);
-
+    static void printScc(const vector<vector<Airport *>> &airports);
     static void printFlightOptions(const vector<vector<Airport *>> &airports);
 };
 

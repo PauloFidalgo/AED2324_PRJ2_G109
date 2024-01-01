@@ -452,6 +452,7 @@ vector<Airport*> State::getValidAirportsPerCity(){
 /*!
  * @brief Obtém uma lista de aeroportos de um ou mais países.
  * @return Mapa de inteiro, correspondente à ordem de visita para vetores de aeroportos ou mapa vazio caso seja cancelado
+ * O(n * k)
  */
 map<int,vector<Airport*>> State::getValidAirportsPerCountries() {
     map <int,vector<Airport*>> airports;
