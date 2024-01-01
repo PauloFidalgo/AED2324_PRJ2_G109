@@ -8,8 +8,6 @@
 
 using namespace std;
 
-
-StatisticsState7 nextState;
 void StatisticsState6::displayMenu() {
 
     cout << endl;
@@ -32,6 +30,7 @@ void StatisticsState6::displayMenu() {
 }
 
 State* StatisticsState6::handleInput() {
+    State* nextState = new StatisticsState7();
     cout << "Enter your choice: ";
     cin >> userInputStr;
 
@@ -54,7 +53,7 @@ State* StatisticsState6::handleInput() {
     }
     if(userInputStr == "next"){
         State::statisticsHistory.push(this);
-        return &nextState;
+        return nextState;
     }
     if (userInputStr == "exit") {
         exit(0);

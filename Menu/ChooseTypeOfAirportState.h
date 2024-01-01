@@ -13,8 +13,8 @@ private:
     std::string previousStateType;
 
 public:
-    void displayMenu() override;
-    State * handleInput() override;
+    void displayMenu();
+    State * handleInput();
 
 
 };

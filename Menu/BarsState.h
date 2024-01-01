@@ -12,8 +12,8 @@ private:
     int userInput;
     bool useGraphicBar;
 public:
-    void displayMenu() override;
-    State * handleInput() override;
+    void displayMenu();
+    State * handleInput();
     int shouldUseGraphicBar() ;
 
 };

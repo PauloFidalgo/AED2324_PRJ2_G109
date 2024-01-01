@@ -20,8 +20,8 @@ public:
     // Constructor
     FilterState(vector<Airport*> &from, vector<Airport*> &to);
 
-    void displayMenu() override;
-    State * handleInput() override;
+    void displayMenu();
+    State * handleInput();
     void excludeAirlinesPerCountry();
     void includeAirlinesPerCountry();
     void includeAirlines();

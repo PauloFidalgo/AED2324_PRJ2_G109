@@ -9,7 +9,6 @@
 
 using namespace std;
 
-
 void StatisticsState8::displayMenu() {
 
     cout << endl;

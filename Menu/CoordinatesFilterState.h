@@ -19,8 +19,8 @@ public:
     void setX(const double& x);
     void setY(const double& y);
 
-    void displayMenu() override;
-    State * handleInput() override;
+    void displayMenu();
+    State * handleInput();
 
 };
 

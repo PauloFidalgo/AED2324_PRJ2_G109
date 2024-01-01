@@ -17,5 +17,5 @@ public:
 
 };
 
-extern StatisticsState2 statisticsState2;
+
 #endif //AED2324_PRJ2_G109_STATISTICSSTATE2_H

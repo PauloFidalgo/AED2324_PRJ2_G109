@@ -45,6 +45,7 @@ State *FlightSearchState::handleInput() {
         if (!State::stateHistory.empty()) {
             State *previousState = State::stateHistory.top();
             State::stateHistory.pop();
+            isSelectingFrom = true;
             return previousState;
         } else {
             std::cout << "No previous Menu available" << std::endl;

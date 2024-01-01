@@ -12,6 +12,8 @@ private:
 
 public:
     MenuManager();
+    void displayMenu();
+    void handleInput();
     ~MenuManager();
     void menuNavigation();
 };

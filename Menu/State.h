@@ -24,7 +24,7 @@ public:
     State();
     virtual void displayMenu() = 0;
     virtual State* handleInput() = 0;
-    virtual ~State();
+    ~State();
     string getValidSingleCity();
     int getValidAirportK();
     Airport* getValidAirportPerCoordinates();

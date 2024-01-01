@@ -7,9 +7,8 @@
 #include <sstream>
 using namespace std;
 
-
-FlightSearchState flight;
-StatisticsState1 stat;
+State* stat = new StatisticsState1();
+State* flight = new FlightSearchState();
 
 void MainMenuState::displayMenu() {
 
@@ -37,6 +36,7 @@ void MainMenuState::displayMenu() {
 }
 
 State* MainMenuState::handleInput() {
+
     cout << "Enter your choice: ";
     cin >> userInputStr;
     if (userInputStr == "exit") {
@@ -46,10 +46,10 @@ State* MainMenuState::handleInput() {
         switch (userInput) {
             case 1:
                 State::stateHistory.push(this);
-                return &flight;
+                return flight;
             case 2:
                 State::stateHistory.push(this);
-                return &stat;
+                return stat;
             case -1:
                 exit(0);
             default:
