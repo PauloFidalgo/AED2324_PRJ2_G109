@@ -7,14 +7,17 @@
 #include <string>
 #include "FilterState.h"
 #include <sstream>
-#include "CoordinatesFilterState.h"
 
 
 using namespace std;
 
-
+/*! @brief Construtor da classe FlightSearchState que inicializa a variável isSelectingFrom como true.
+*/
 FlightSearchState::FlightSearchState(): isSelectingFrom(true){}
 
+/*! @brief função que mostra o menu com as possibilidades de pesquisa de voos, onde é permitido ao utilizador escolher o ponto de partida e o ponto de chegada.
+ *
+ */
 void FlightSearchState::displayMenu() {
     const std::string origin = isSelectingFrom ? "From" : "To  ";
     cout << endl;
@@ -35,6 +38,10 @@ void FlightSearchState::displayMenu() {
     cout << "--------------------------------------------------------------------------------------------------------" << endl;
 }
 
+
+
+/*!@brief  função que, permite ao utilizador escolher o ponto de partida e o ponto de chagada consoante as várias opções apresentadas no menu
+ */
 State *FlightSearchState::handleInput() {
     cout << "Enter your choice: ";
     cin >> userInputStr;
@@ -45,30 +52,36 @@ State *FlightSearchState::handleInput() {
         if (!State::stateHistory.empty()) {
             State *previousState = State::stateHistory.top();
             State::stateHistory.pop();
+            isSelectingFrom = true;
             return previousState;
         } else {
             std::cout << "No previous Menu available" << std::endl;
             return this;
         }
     }
-    if (userInputStr == "exit") {
+    else if (userInputStr == "exit") {
         exit(0);
     } else {
-        istringstream(userInputStr) >> userInput;
+        try {
+            userInput = stoi(userInputStr);
+        }
+        catch (exception &e) {
+            cout << "Invalid choice" << endl;
+            cin.clear();
+            return this;
+        }
         switch (userInput) {
             case 1:
                 std::cout << "Airport code or name " << (isSelectingFrom ? "From" : "To") << ": ";
                 if (isSelectingFrom) {
-                    while (!fromCode) {
-                        fromCode = this->getValidSingleAirport();
-                    }
+                    fromCode = this->getValidSingleAirport();
+                    if (!fromCode) return this;
                     fromAirports.push_back(fromCode);
                     isSelectingFrom = false;
                     return this;
                 } else {
-                    while (!toCode) {
-                        toCode = this->getValidSingleAirport();
-                    }
+                    toCode = this->getValidSingleAirport();
+                    if (!toCode) return this;
                     toAirports.push_back(toCode);
                     validateToAirports();
                     isSelectingFrom = true;
@@ -83,15 +96,13 @@ State *FlightSearchState::handleInput() {
             case 2:
                 std::cout << "City Name " << (isSelectingFrom ? "From" : "To") << ": ";
                 if (isSelectingFrom) {
-                    while (fromAirports.empty()) {
-                        fromAirports = this->getValidAirportsSingleCity();
-                    }
+                    fromAirports = this->getValidAirportsSingleCity();
+                    if (fromAirports.empty()) return this;
                     isSelectingFrom = false;
                     return this;
                 } else {
-                    while (toAirports.empty()) {
-                        toAirports = this->getValidAirportsSingleCity();
-                    }
+                    toAirports = this->getValidAirportsSingleCity();
+                    if (toAirports.empty()) return this;
                     isSelectingFrom = true;
                     validateToAirports();
                     if (!fromAirports.empty() && !toAirports.empty()) {
@@ -105,11 +116,13 @@ State *FlightSearchState::handleInput() {
             case 3:
                 std::cout << "Country Name " << (isSelectingFrom ? "From" : "To") << ": ";
                 if (isSelectingFrom) {
-                    while (fromAirports.empty()) fromAirports = this->getValidAirportsSingleCountry();
+                    fromAirports = this->getValidAirportsSingleCountry();
+                    if (fromAirports.empty()) return this;
                     isSelectingFrom = false;
                     return this;
                 } else {
-                    while (toAirports.empty()) toAirports = this->getValidAirportsSingleCountry();
+                    toAirports = this->getValidAirportsSingleCountry();
+                    if (toAirports.empty()) return this;
                     isSelectingFrom = true;
                     validateToAirports();
                     if (!fromAirports.empty() && !toAirports.empty()) {
@@ -123,12 +136,14 @@ State *FlightSearchState::handleInput() {
             case 4:
                 std::cout << "Coordinates " << (isSelectingFrom ? "From" : "To") << ": ";
                 if (isSelectingFrom) {
-                    while (!fromCode) fromCode = this->getValidAirportPerCoordinates();
+                    fromCode = this->getValidAirportPerCoordinates();
+                    if (fromAirports.empty()) return this;
                     fromAirports.push_back(fromCode);
                     isSelectingFrom = false;
                     return this;
                 } else {
-                    while (!toCode) toCode = this->getValidAirportPerCoordinates();
+                    toCode = this->getValidAirportPerCoordinates();
+                    if (toAirports.empty()) return this;
                     toAirports.push_back(toCode);
                     isSelectingFrom = true;
                     validateToAirports();
@@ -143,11 +158,13 @@ State *FlightSearchState::handleInput() {
             case 5:
                 std::cout << "Coordinates " << (isSelectingFrom ? "From" : "To") << ": ";
                 if (isSelectingFrom) {
-                    while (fromAirports.empty()) fromAirports = this->getAirportsRange(50);
+                    fromAirports = this->getAirportsRange(50);
+                    if (fromAirports.empty()) return this;
                     isSelectingFrom = false;
                     return this;
                 } else {
-                    while (toAirports.empty())  toAirports = this->getAirportsRange(50);
+                    toAirports = this->getAirportsRange(50);
+                    if (toAirports.empty()) return this;
                     isSelectingFrom = true;
                     validateToAirports();
                     if (!fromAirports.empty() && !toAirports.empty()) {
@@ -161,11 +178,13 @@ State *FlightSearchState::handleInput() {
             case 6:
                 std::cout << "Coordinates " << (isSelectingFrom ? "From" : "To") << ": ";
                 if (isSelectingFrom) {
-                    while (fromAirports.empty()) fromAirports = this->getAirportsRange(100);
+                    fromAirports = this->getAirportsRange(100);
+                    if (fromAirports.empty()) return this;
                     isSelectingFrom = false;
                     return this;
                 } else {
-                    while (toAirports.empty()) toAirports = this->getAirportsRange(100);
+                    toAirports = this->getAirportsRange(100);
+                    if (toAirports.empty()) return this;
                     isSelectingFrom = true;
                     validateToAirports();
                     if (!fromAirports.empty() && !toAirports.empty()) {
@@ -179,11 +198,13 @@ State *FlightSearchState::handleInput() {
             case 7:
                 std::cout << "Coordinates " << (isSelectingFrom ? "From" : "To") << ": ";
                 if (isSelectingFrom) {
-                    while (fromAirports.empty()) fromAirports = this->getAirportsRange(150);
+                    fromAirports = this->getAirportsRange(150);
+                    if (fromAirports.empty()) return this;
                     isSelectingFrom = false;
                     return this;
                 } else {
-                    while (toAirports.empty()) toAirports = this->getAirportsRange(150);
+                    toAirports = this->getAirportsRange(150);
+                    if (toAirports.empty()) return this;
                     isSelectingFrom = true;
                     validateToAirports();
                     if (!fromAirports.empty() && !toAirports.empty()) {
@@ -213,8 +234,10 @@ State *FlightSearchState::handleInput() {
     }
 }
 
+/*! @brief função que verifica se o aeroporto de partida não é o mesmo que o aeroporto de chagada.
+ *
+ */
 void FlightSearchState::validateToAirports() {
-    vector<Airport*> res;
 
     if (fromAirports.size() == 1 && toAirports.size() == 1) {
         auto it = fromAirports.begin();

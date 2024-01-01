@@ -8,9 +8,10 @@
 #include "sstream"
 
 using namespace std;
-StatisticsState8 statisticsState8;
 
-
+/*!@brief  função que mostra o oitavo menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar
+ *
+ */
 void StatisticsState8::displayMenu() {
 
     cout << endl;
@@ -23,8 +24,6 @@ void StatisticsState8::displayMenu() {
     cout << "|                             2. Top K Airlines That Fly More To An Airport Ratio (Descending)         |" << endl;
     cout << "|                             3. Strongly connected Components                                         |" << endl;
     cout << "|                             4. Top K Greatest Traffic Airline                                        |" << endl;
-    cout << "|                             5.                                                                       |" << endl;
-    cout << "|                             6.                                                                       |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "| back - Main Menu                                                                                     |" << endl;
     cout << "| exit - Exit                                                                              page - 8    |" << endl;
@@ -32,6 +31,9 @@ void StatisticsState8::displayMenu() {
 
 }
 
+/*!@brief  função que permite ao utilizador navegar entre os varios menus das estatísticas ou consultar alguma estatística.
+ *
+ */
 State* StatisticsState8::handleInput() {
     cout << "Enter your choice: ";
     cin >> userInputStr;
@@ -85,10 +87,6 @@ State* StatisticsState8::handleInput() {
                 return this;
 
             }
-            case 5: {
-            }
-            case 6:
-
             default:
                 std::cout << " Invalid choice. try again" << std::endl;
                 return this;

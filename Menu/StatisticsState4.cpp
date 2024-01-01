@@ -10,8 +10,11 @@
 #include "sstream"
 
 using namespace std;
-StatisticsState4 statisticsState4;
+State* statisticsState5 = new StatisticsState5();
 
+/*!@brief  função que mostra o quarto menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar
+ *
+ */
 
 void StatisticsState4::displayMenu() {
 
@@ -34,6 +37,9 @@ void StatisticsState4::displayMenu() {
 
 }
 
+/*!@brief  função que permite ao utilizador navegar entre os varios menus das estatísticas e consultar alguma estatística.
+ *
+ */
 State* StatisticsState4::handleInput() {
     cout << "Enter your choice: ";
     cin >> userInputStr;
@@ -57,7 +63,7 @@ State* StatisticsState4::handleInput() {
     }
     if (userInputStr == "next") {
         State::statisticsHistory.push(this);
-        return &statisticsState5;
+        return statisticsState5;
     }
     if (userInputStr == "exit") {
         exit(0);
@@ -66,7 +72,7 @@ State* StatisticsState4::handleInput() {
         switch (userInput) {
             case 1: {
                 auto dist = this->getValidAirportK();
-                if(dist != -1) manager.getTopKGreatestTrafficAirport(dist);
+                if (dist != -1) manager.getTopKGreatestTrafficAirport(dist);
                 return this;
             }
             case 2: {
@@ -75,7 +81,7 @@ State* StatisticsState4::handleInput() {
                 auto dist = getValidAirportK();
                 if (dist == -1) return this;
                 auto bar = bars();
-                manager.getTopKGreatestTrafficAirportPerCountry(dist, airports,bar, true);
+                manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, bar, true);
                 return this;
             }
             case 3: {

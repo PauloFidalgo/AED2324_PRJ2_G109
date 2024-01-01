@@ -5,16 +5,16 @@
 #ifndef AED2324_PRJ2_G109_STATISTICSSTATE3_H
 #define AED2324_PRJ2_G109_STATISTICSSTATE3_H
 #include "State.h"
+#include "StatisticsState4.h"
 
 class StatisticsState3: public State {
 private:
     string userInputStr;
     int userInput;
 public:
-    void displayMenu() override;
-    State * handleInput() override;
+    void displayMenu();
+    State * handleInput();
 };
 
-extern StatisticsState3 statisticsState3;
 
 #endif //AED2324_PRJ2_G109_STATISTICSSTATE3_H

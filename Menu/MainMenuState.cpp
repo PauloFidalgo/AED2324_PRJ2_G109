@@ -9,10 +9,12 @@
 #include "StatisticsState1.h"
 using namespace std;
 
-FlightSearchState flightSearchState;
-StatisticsState1 statisticsStateCode;
+State* stat = new StatisticsState1();
+State* flight = new FlightSearchState();
 
-
+/*!@brief Função que mostra o menu principal com as diferentes opções.
+ *
+ */
 void MainMenuState::displayMenu() {
 
 
@@ -22,9 +24,9 @@ void MainMenuState::displayMenu() {
     cout << "|                                                                      |                                   |" << endl;
     cout << "|                                                                --====|====--                             |" << endl;
     cout << "|                                                                      |                                   |" << endl;
-    cout << "|                                                                 .-         -.                            |" << endl;
+    cout << "|                                                                 .-     -.  -.                            |" << endl;
     cout << "|                                                               .'_________'. .'                           |" << endl;
-    cout << "|            1. Flight Search                                  /_/_|__|__|_|_                              |" << endl;
+    cout << "|            1. Flight Search                                  /_/_|__|__|_|_\\                              |" << endl;
     cout << "|            2. Statistics                                    ;'-._       _.-';                            |" << endl;
     cout << "|                                        ,--------------------|    `-. .-'    |--------------------,       |" << endl;
     cout << "|                                        ``  --..__    ___   ;       '       ;   ___    __..--  ``         |" << endl;
@@ -38,6 +40,9 @@ void MainMenuState::displayMenu() {
 
 }
 
+/*!@brief Função que consoante o input do utilizador altera o estado para o menu das estatísticas ou para as pesquisas de voos
+ *
+ */
 State * MainMenuState::handleInput() {
     cout << "Enter your choice: ";
     cin >> userInputStr;
@@ -48,10 +53,10 @@ State * MainMenuState::handleInput() {
         switch (userInput) {
             case 1:
                 State::stateHistory.push(this);
-                return &flightSearchState;
+                return flight;
             case 2:
                 State::stateHistory.push(this);
-                return &statisticsStateCode;
+                return stat;
             case -1:
                 exit(0);
             default:

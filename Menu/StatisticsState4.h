@@ -5,6 +5,7 @@
 #ifndef AED2324_PRJ2_G109_STATISTICSSTATE4_H
 #define AED2324_PRJ2_G109_STATISTICSSTATE4_H
 #include "State.h"
+#include "StatisticsState5.h"
 
 class StatisticsState4 : public State {
 private:
@@ -12,10 +13,9 @@ private:
     int userInput;
 
 public:
-    void displayMenu() override;
-    State * handleInput() override;
+    void displayMenu();
+    State * handleInput();
 };
 
-extern StatisticsState4 statisticsState4;
 
 #endif //AED2324_PRJ2_G109_STATISTICSSTATE4_H

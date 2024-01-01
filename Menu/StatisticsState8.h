@@ -12,11 +12,9 @@ private:
     int userInput;
 
 public:
-    void displayMenu() override;
-    State * handleInput() override;
+    void displayMenu();
+    State * handleInput();
 };
-
-extern StatisticsState8 statisticsState8;
 
 
 #endif //AED2324_PRJ2_G109_STATISTICSSTATE8_H

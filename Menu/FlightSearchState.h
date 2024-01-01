@@ -26,8 +26,8 @@ private:
 public:
     FlightSearchState();
 
-    void displayMenu() override;
-    State* handleInput() override;
+    void displayMenu();
+    State* handleInput();
     void validateToAirports();
 
 };

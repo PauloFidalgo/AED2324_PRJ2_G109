@@ -24,13 +24,13 @@ State::~State() {
  * @return Apontador para o aeroporto válido ou nullptr se cancelado.
  */
 Airport* State::getValidSingleAirport() {
-    Airport* airportCode;
-    Airport* airportName;
-    getline(cin, code);
-    airportCode = manager.getAirportPerCode(code);
-    airportName = manager.getAirportPerName(code);
+    Airport* airportCode = nullptr;
+    Airport* airportName = nullptr;
+    cin.ignore();
+    cout << endl;
 
     while(!airportCode && !airportName) {
+        cin.clear();
         cout << "Airport (back to cancel): ";
         getline(cin, code);
 
@@ -55,12 +55,11 @@ Airport* State::getValidSingleAirport() {
  * @return Apontador para a companhia aérea válida ou nullptr se cancelado.
  */
 Airline* State::getValidSingleAirline() {
-    Airline* airlineCode;
-    Airline* airlineName;
-
-    getline(cin, code);
-    airlineCode = manager.getAirlinePerCode(code);
-    airlineName = manager.getAirlinePerName(code);
+    Airline* airlineCode = nullptr;
+    Airline* airlineName = nullptr;
+    cin.ignore();
+    cin.clear();
+    cout << endl;
 
     while (!airlineCode && !airlineName) {
         cout << "Airline (back to cancel): ";
@@ -74,6 +73,8 @@ Airline* State::getValidSingleAirline() {
         airlineName = manager.getAirlinePerName(code);
         if (!airlineCode and !airlineName) {
             cout << "Airline doesn't exist. Try again." << endl;
+            cin.ignore();
+            cin.clear();
         }
     }
     if (airlineCode) return airlineCode;
@@ -86,10 +87,12 @@ Airline* State::getValidSingleAirline() {
  */
 string State::getValidSingleCity() {
     string city;
-    bool s;
-    getline(cin, city);
-    s = manager.validateCityName(city);
+    bool s = false;
+    cin.ignore();
+    cout << endl;
+
     while (!s) {
+        cin.clear();
         cout << "City (back to cancel):";
         getline(cin, city);
 
@@ -109,10 +112,12 @@ string State::getValidSingleCity() {
  * @return Nome de país válido ou string vazia se cancelado.
  */
 string State::getValidSingleCountry() {
+    cout << endl;
+    cin.ignore();
 
     while(!manager.validateCountryName(code)){
+        cin.clear();
         cout << "Country: (back to cancel)";
-
         getline(cin, code);
 
         if (code == "back") return "";
@@ -129,9 +134,11 @@ string State::getValidSingleCountry() {
  * @return Valor de K válido ou -1 se cancelado.
  */
 int State::getValidAirportK() {
+    cin.ignore();
+    cout << endl;
+
     do {
         bool s = false;
-
         while (!s) {
             cin.clear();
             cout << "K (-1 to cancel): ";
@@ -159,8 +166,10 @@ int State::getValidAirportK() {
  * @return Valor de K válido ou -1 se cancelado.
  */
 int State::getValidAirlineK() {
+    cin.ignore();
+    cout << endl;
+
     do {
-        cin.clear();
         bool s = false;
 
         while (!s) {
@@ -172,7 +181,6 @@ int State::getValidAirlineK() {
                 s = true;
             }
             catch (exception &e) {
-                ;
                 cin.clear();
             }
         }
@@ -190,6 +198,9 @@ int State::getValidAirlineK() {
  * @return Valor de K válido ou -1 se cancelado.
  */
 int State::getValidCityK() {
+    cin.ignore();
+    cout << endl;
+
     do {
         bool s = false;
 
@@ -220,6 +231,9 @@ int State::getValidCityK() {
  * @return Valor de K válido ou -1 se cancelado.
  */
 int State::getValidCountryK(){
+    cin.ignore();
+    cout << endl;
+
     do {
         bool s = false;
 
@@ -250,7 +264,10 @@ int State::getValidCountryK(){
  * @return Apontador para o aeroporto mais próximo válido.
  */
 Airport* State::getValidAirportPerCoordinates() {
-    Airport* airport;
+    Airport* airport = nullptr;
+    cin.ignore();
+    cout << endl;
+
     do {
         double latitude = -100, longitude = -200;
         while (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
@@ -296,10 +313,11 @@ Airport* State::getValidAirportPerCoordinates() {
  */
 vector<Airport*> State::getValidAirportsSingleCountry() {
     vector<Airport*> airports;
-    getline(cin, name);
-    airports = manager.getAirportsPerCountry(name);
+    cin.ignore();
+    cout << endl;
 
     while (airports.empty()) {
+        cin.clear();
         cout << "Country (back to cancel): ";
         getline(cin, name);
 
@@ -324,9 +342,13 @@ map<int,vector<Airport*>> State::getValidAirportsPerCities(){
     int i = 1;
     bool in = true;
     bool first = true;
+    cin.ignore();
+    cout << endl;
+
     while (in) {
         vector<Airport*> aux;
         do {
+            cin.clear();
             if (!first) cout << "City (ok to confirm, back to cancel): ";
             getline(cin, name);
 
@@ -357,11 +379,12 @@ map<int,vector<Airport*>> State::getValidAirportsPerCities(){
  */
 vector<Airport*> State::getValidAirportsSingleCity() {
     vector<Airport*> airports;
-    getline(cin, name);
-    airports = manager.getAirportsPerCity(name);
+    cin.ignore();
+    cout << endl;
 
     while (airports.empty())
     {
+        cin.clear();
         cout << "City (back to cancel): ";
         getline(cin, name);
 
@@ -385,8 +408,12 @@ vector<Airport*> State::getValidAirportsPerCity(){
     vector<Airport*> aux;
     bool in = true;
     bool first = true;
+    cin.ignore();
+    cout << endl;
+
     while (in) {
         do {
+            cin.clear();
             if (!first) cout << "City (ok to confirm, back to cancel): ";
             getline(cin, name);
 
@@ -417,9 +444,13 @@ map<int,vector<Airport*>> State::getValidAirportsPerCountries() {
     int i = 1;
     bool first = true;
     bool in = true;
+    cin.ignore();
+    cout << endl;
+
     while (in) {
         vector<Airport*> aux;
         do {
+            cin.clear();
             if (!first) cout << "Country (ok to confirm, back to cancel): ";
             getline(cin, name);
 
@@ -450,11 +481,14 @@ vector<Airport*> State::getValidAirportsPerCountry() {
    vector<Airport*> airports;
     bool first = true;
     bool in = true;
+    cin.ignore();
+    cout << endl;
+
     while (in) {
         vector<Airport*> aux;
         do {
+            cin.clear();
             if (!first) cout << "Country (ok to confirm, back to cancel): ";
-
             getline(cin, name);
 
             if (name == "ok") {
@@ -483,7 +517,11 @@ vector<Airport*> State::getValidAirportsPerCountry() {
  */
 vector<Airport*> State::getAirportsRange(int x) {
     vector<Airport*> airports;
+    cin.ignore();
+    cout << endl;
+
     do {
+        cin.clear();
         double latitude = -100, longitude = -200;
         while (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
             cout << "Latitude: ";
@@ -503,7 +541,6 @@ vector<Airport*> State::getAirportsRange(int x) {
             s = false;
             cout << "Longitude: ";
             while (!s) {
-                ;
                 cin.clear();
                 getline(cin, userInputStr);
                 try {
@@ -532,11 +569,15 @@ vector<Airport*> State::getValidAirports() {
     vector<Airport *> airports;
     bool in = true;
     bool first = true;
+    cin.ignore();
+    cout << endl;
+
     while (in) {
-        Airport* aux;
-        Airport* aux2;
+        Airport* aux = nullptr;
+        Airport* aux2 = nullptr;
 
         do {
+            cin.clear();
             if (!first) cout << "Airport Name or Code (ok to confirm, back to cancel): ";
             getline(cin, name);
             if (name == "ok") {
@@ -566,12 +607,16 @@ vector<Airport*> State::getValidAirports() {
  */
 unordered_set<Airline*> State::getValidAirlines() {
     unordered_set<Airline *> airlines;
-    Airline* aux;
-    Airline* aux2;
+    Airline* aux = nullptr;
+    Airline* aux2 = nullptr;
     bool first = true;
     bool in = true;
+    cin.ignore();
+    cout << endl;
+
     while (in) {
         do {
+            cin.clear();
             if (!first) cout << "Airline Name or Code (ok to confirm, back to cancel): ";
             getline(cin, name);
 
@@ -604,11 +649,14 @@ unordered_set<Airline*> State::getValidAirlinePerCountry() {
     unordered_set<Airline *> airlines;
     bool in = true;
     bool first = true;
+    cin.ignore();
+    cout << endl;
 
     while (in) {
         unordered_set<Airline*> aux;
 
         do {
+            cin.clear();
             if (!first) cout << "Country Name (ok to confirm, back to cancel): ";
             getline(cin, name);
 
@@ -636,6 +684,9 @@ unordered_set<Airline*> State::getValidAirlinePerCountry() {
 unordered_set<Airline*> State::getValidAirlineSingleCountry() {
     unordered_set<Airline *> airlines;
     bool first = true;
+    cin.ignore();
+    cout << endl;
+
         do {
             cin.clear();
             if (!first) cout << "Country Name (back to cancel): ";
@@ -662,10 +713,11 @@ unordered_set<Airline*> State::getValidAirlineSingleCountry() {
  */
 unordered_set<string> State::getValidCitiesSingleCountry() {
     unordered_set<string> cities;
-    getline(cin, name);
-    cities = manager.getCitiesPerCountry(name);
+    cin.ignore();
+    cout << endl;
 
     while (cities.empty()) {
+        cin.clear();
         cout << "Country (back to cancel): ";
         getline(cin, name);
 

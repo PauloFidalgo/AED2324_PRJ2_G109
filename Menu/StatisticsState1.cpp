@@ -8,7 +8,11 @@
 #include "iostream"
 
 using namespace std;
+State* statisticsState2 = new StatisticsState2();
 
+/*!@brief  função que mostra o primeiro menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar 
+ *
+ */
 void StatisticsState1::displayMenu() {
 
     cout << endl;
@@ -30,6 +34,10 @@ void StatisticsState1::displayMenu() {
     cout << "--------------------------------------------------------------------------------------------------------" << endl;
 }
 
+
+/*!@brief  função que permite ao utilizador navegar entre os varios menus das estatísticas ou consultar alguma estatística.
+ * 
+ */
 State* StatisticsState1::handleInput() {
     cout << "Enter your choice: ";
     cin >> userInputStr;
@@ -46,7 +54,7 @@ State* StatisticsState1::handleInput() {
     }
     if(userInputStr == "next"){
         State::statisticsHistory.push(this);
-        return &statisticsState2;
+        return statisticsState2;
     }
     if(userInputStr == "exit"){
         exit(0);
@@ -92,3 +100,4 @@ State* StatisticsState1::handleInput() {
         }
     }
 }
+

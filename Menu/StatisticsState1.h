@@ -6,12 +6,12 @@
 #define AED2324_PRJ2_G109_STATISTICSSTATE1_H
 
 #include "State.h"
+#include "StatisticsState2.h"
 
 class StatisticsState1: public State {
 private:
     string userInputStr;
     int userInput;
-
 
 public:
     void displayMenu() override;
@@ -20,5 +20,5 @@ public:
 
 };
 
-extern StatisticsState1 statisticsState1;
+
 #endif //AED2324_PRJ2_G109_STATISTICSSTATE1_H
