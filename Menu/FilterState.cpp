@@ -8,11 +8,19 @@
 #include "FlightSearchState.h"
 
 using namespace std;
+
+/*!@brief Construtor da classe FilterState que atribui as variáveis" fromAirports" e "toAirports" o respetivo valor.
+ * @param from aeroporto de partida
+ * @param to aeroporto de chegada
+ */
 FilterState::FilterState(vector<Airport*> &from, vector<Airport*> &to) {
     fromAirports = from;
     toAirports = to;
 }
 
+/*! @brief função que mostra o menu com as possibilidades de filtros que o utilizador tem, na sua pesquisa.
+ *
+ */
 void FilterState::displayMenu() {
 
     cout << endl;
@@ -35,6 +43,9 @@ void FilterState::displayMenu() {
     cout << "| -1 - Exit                                                                                            |" << endl;
     cout << "--------------------------------------------------------------------------------------------------------" << endl;
 }
+
+/*!@brief  função que, consoante a escolha do utilizador, adiciona alguns filtros e realiza uma pesquisa tendo em conta os filtros escolhidos.
+ */
 
 State* FilterState::handleInput() {
     int userInput;
@@ -114,7 +125,9 @@ State* FilterState::handleInput() {
 }
 
 
-
+/*!@brief  função que exclui companhias aéreas
+ *
+ */
 void FilterState::excludeAirlines() {
     auto aux = this->getValidAirlines();
     if ( excludedAirlines.empty() && !aux.empty()){
@@ -125,6 +138,9 @@ void FilterState::excludeAirlines() {
     verifyExcludedAirlines();
 }
 
+/*!@brief  função que exclui companhias aéreas por país
+ *
+ */
 void FilterState::excludeAirlinesPerCountry() {
     auto aux = this->getValidAirlinePerCountry();
     if ( excludedAirlines.empty() && !aux.empty()){
@@ -137,6 +153,9 @@ void FilterState::excludeAirlinesPerCountry() {
     verifyExcludedAirlines();
 }
 
+/*!@brief  função que inclui companhias aéreas por país
+ *
+ */
 void FilterState::includeAirlinesPerCountry() {
     auto aux = this->getValidAirlinePerCountry();
     if ( includedAirlines.empty() && !aux.empty()){
@@ -149,7 +168,9 @@ void FilterState::includeAirlinesPerCountry() {
     verifyIncludedAirlines();
 }
 
-
+/*!@brief  função que inclui companhias aéreas
+ *
+ */
 void FilterState::includeAirlines() {
     auto aux = this->getValidAirlines();
     if ( includedAirlines.empty() && !aux.empty()){
@@ -162,6 +183,9 @@ void FilterState::includeAirlines() {
     verifyIncludedAirlines();
 }
 
+/*!@brief  função que exclui aeroportos
+ *
+ */
 void FilterState::excludeAirports() {
     auto aux = this->getValidAirports();
     if ( excludedAirports.empty() && !aux.empty()){
@@ -172,7 +196,9 @@ void FilterState::excludeAirports() {
     verifyExcludeAirports();
 }
 
-
+/*!@brief  função que inclui aeroportos
+ *
+ */
 void FilterState::includeAirports() {
     auto aux = this->getValidAirports();
     if (includedAirports.empty() && !aux.empty()) {
@@ -184,6 +210,9 @@ void FilterState::includeAirports() {
     verifyIncludedAirports();
 }
 
+/*!@brief  função que inclui países
+ *
+ */
 void FilterState::includeCountries() {
     auto aux = this->getValidAirportsPerCountries();
     if ( cityCountry.empty() && !aux.empty()){
@@ -197,7 +226,9 @@ void FilterState::includeCountries() {
     verifyVisitCountryCity();
 }
 
-
+/*!@brief  função que exclui países
+ *
+ */
 void FilterState::excludeCountries() {
     auto aux = this->getValidAirportsPerCountry();
     if ( excludedAirports.empty() && !aux.empty()){
@@ -208,6 +239,9 @@ void FilterState::excludeCountries() {
     verifyExcludeAirports();
 }
 
+/*!@brief  função que inclui cidades
+ *
+ */
 void FilterState::includeCities() {
     auto aux = this->getValidAirportsPerCities();
     if ( cityCountry.empty() && !aux.empty()){
@@ -221,7 +255,9 @@ void FilterState::includeCities() {
     verifyVisitCountryCity();
 }
 
-
+/*!@brief  função que exclui cidades
+ *
+ */
 void FilterState::excludeCities() {
     auto aux = this->getValidAirportsPerCity();
     if ( excludedAirports.empty() && !aux.empty()){
@@ -232,6 +268,9 @@ void FilterState::excludeCities() {
     verifyExcludeAirports();
 }
 
+/*!@brief  função que verifica se existe algum aeroporto excluído que está no vetor de aeroportos incluídos.
+ *
+ */
 void FilterState::verifyExcludeAirports() {
     vector<Airport*> res;
 
@@ -263,7 +302,9 @@ void FilterState::verifyExcludeAirports() {
     excludedAirports = res;
 }
 
-
+/*!@brief  função que verifica se existe algum aeroporto incluído que está no vetor de aeroportos excluídos
+ *
+ */
 void FilterState::verifyIncludedAirports() {
     vector<Airport*> res;
 
@@ -295,7 +336,9 @@ void FilterState::verifyIncludedAirports() {
     includedAirports = res;
 }
 
-
+/*!@brief  função que verifica se existe alguma companhia aérea no vetor de incluídas que está no vetor de companhias aéreas excluídas
+ *
+ */
 void FilterState::verifyIncludedAirlines() {
     unordered_set<Airline*> res;
 
@@ -309,7 +352,9 @@ void FilterState::verifyIncludedAirlines() {
     includedAirlines = res;
 }
 
-
+/*!@brief  função que verifica se existe alguma companhia aérea no vetor de excluídas que está no vetor de companhias aéreas incluídas
+ *
+ */
 void FilterState::verifyExcludedAirlines() {
     unordered_set<Airline*> res;
 
@@ -323,7 +368,9 @@ void FilterState::verifyExcludedAirlines() {
     excludedAirlines = res;
 }
 
-
+/*! @brief função que determina se um aeroporto deve ser removido, consoante a sua presença nos vetores de aeroportos. Para além disso caso após remoção se a entrada ficar vazia então tambem é removida
+ *
+ */
 void FilterState::verifyVisitCountryCity() {
     for (auto it = cityCountry.begin(); it != cityCountry.end(); ) {
         auto &airportVector = it->second;
@@ -347,6 +394,12 @@ void FilterState::verifyVisitCountryCity() {
     }
 }
 
+/*! @brief função que verfica se um dado aeroporto está presente em algum dos vetores
+ *
+ * @param airport
+ * @return true se o aeroporto estiver presente em algum vetor de toAirports, fromAirports, excludedAirports, includedAirports.
+ * @return false se o aeroporto não estiver presente em nunhum desses vetores e por isso não é para remover
+ */
 bool FilterState::isAirportToBeRemoved(Airport* airport) const {
 
     return std::find(toAirports.begin(), toAirports.end(), airport) != toAirports.end() ||

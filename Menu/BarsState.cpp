@@ -6,10 +6,17 @@
 #include <sstream>
 
 BarsState barsState;
-int BarsState::shouldUseGraphicBar()   {
+/*!@brief função que retorna a opção escolhida pelo utilizador em relação à visualização dos dados.
+ *
+ * @return true para mostrar os resultados num gráfico de barras e false para mostrar numa tabela.
+ */
+bool BarsState::shouldUseGraphicBar()   {
     return useGraphicBar;
 }
 
+/*!@brief  função que mostra um menu, onde solicita ao utilizador se deseja visualizar os dados num gráfico de barras.
+ *
+ */
 void BarsState::displayMenu() {
 
     cout << endl;
@@ -30,6 +37,10 @@ void BarsState::displayMenu() {
 
 }
 
+/*!@brief  função que, consoante a escolha do utilizador, mete a variável "useGraphicBar" a true ou false.
+ *
+ */
+
 State* BarsState::handleInput() {
     cin.clear();
     cout << "Enter your choice: ";
@@ -41,17 +52,14 @@ State* BarsState::handleInput() {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
             case 1: {
-                useGraphicBar = 1;
+                useGraphicBar = true;
                 break;
             }
             case 2: {
-                useGraphicBar = 0;
+                useGraphicBar = false;
                 break;
             }
-            case -1 :{
-                useGraphicBar = -1;
-                break;
-            }
+
             default:
                 std::cout << " Invalid choice. try again" << std::endl;
                 return handleInput();
