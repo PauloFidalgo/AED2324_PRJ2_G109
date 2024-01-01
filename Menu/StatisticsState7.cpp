@@ -11,6 +11,9 @@
 using namespace std;
 StatisticsState7 statisticsState7;
 
+/*!@brief  função que mostra o sétimo menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar 
+ *
+ */
 
 void StatisticsState7::displayMenu() {
 
@@ -33,6 +36,9 @@ void StatisticsState7::displayMenu() {
 
 }
 
+/*!@brief  função que permite ao utilizador navegar entre os varios menus das estatísticas ou consultar alguma estatística.
+ * 
+ */
 State* StatisticsState7::handleInput() {
     cout << "Enter your choice: ";
     cin >> userInputStr;
