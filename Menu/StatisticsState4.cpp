@@ -1,17 +1,13 @@
 //
 // Created by Wagner Pedrosa on 26/12/2023.
 //
-#include "StatisticsState1.h"
 #include "StatisticsState4.h"
-#include "StatisticsState3.h"
-#include "StatisticsState5.h"
-#include "BarsState.h"
 #include "iostream"
 #include "sstream"
 
 using namespace std;
-StatisticsState4 statisticsState4;
 
+StatisticsState5 nextState;
 
 void StatisticsState4::displayMenu() {
 
@@ -57,7 +53,7 @@ State* StatisticsState4::handleInput() {
     }
     if (userInputStr == "next") {
         State::statisticsHistory.push(this);
-        return &statisticsState5;
+        return &nextState;
     }
     if (userInputStr == "exit") {
         exit(0);
@@ -66,7 +62,7 @@ State* StatisticsState4::handleInput() {
         switch (userInput) {
             case 1: {
                 auto dist = this->getValidAirportK();
-                if(dist != -1) manager.getTopKGreatestTrafficAirport(dist);
+                if (dist != -1) manager.getTopKGreatestTrafficAirport(dist);
                 return this;
             }
             case 2: {
@@ -75,7 +71,7 @@ State* StatisticsState4::handleInput() {
                 auto dist = getValidAirportK();
                 if (dist == -1) return this;
                 auto bar = bars();
-                manager.getTopKGreatestTrafficAirportPerCountry(dist, airports,bar, true);
+                manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, bar, true);
                 return this;
             }
             case 3: {
@@ -108,3 +104,4 @@ State* StatisticsState4::handleInput() {
         }
     }
 }
+

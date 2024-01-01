@@ -6,6 +6,7 @@
 #define AED2324_PRJ2_G109_STATISTICSSTATE1_H
 
 #include "State.h"
+#include "StatisticsState2.h"
 
 class StatisticsState1: public State {
 private:

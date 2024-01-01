@@ -3,14 +3,14 @@
 //
 
 #include "StatisticsState5.h"
-#include "StatisticsState6.h"
 #include "BarsState.h"
 #include "iostream"
 #include "sstream"
 
 using namespace std;
-StatisticsState5 statisticsState5;
 
+
+StatisticsState6 nextState;
 
 void StatisticsState5::displayMenu() {
 
@@ -56,7 +56,7 @@ State* StatisticsState5::handleInput() {
     }
     if (userInputStr == "next") {
         State::statisticsHistory.push(this);
-        return &statisticsState6;
+        return &nextState;
     }
     if (userInputStr == "exit") {
         exit(0);
@@ -112,3 +112,4 @@ State* StatisticsState5::handleInput() {
         }
     }
 }
+

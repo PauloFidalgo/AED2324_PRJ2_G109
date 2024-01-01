@@ -8,7 +8,6 @@
 #include "sstream"
 
 using namespace std;
-StatisticsState8 statisticsState8;
 
 
 void StatisticsState8::displayMenu() {

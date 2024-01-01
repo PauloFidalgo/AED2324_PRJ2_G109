@@ -8,8 +8,8 @@
 #include "sstream"
 
 using namespace std;
-StatisticsState3 statisticsState3;
 
+StatisticsState4 nextState;
 void StatisticsState3::displayMenu() {
 
     cout << endl;
@@ -56,7 +56,7 @@ State* StatisticsState3::handleInput() {
 
     if (userInputStr == "next") {
         State::statisticsHistory.push(this);
-        return &statisticsState4;
+        return &nextState;
     }
     if (userInputStr == "exit") {
         exit(0);
@@ -107,3 +107,4 @@ State* StatisticsState3::handleInput() {
         }
     }
 }
+
