@@ -9,13 +9,13 @@ BarsState barsState;
 /*!@brief função que retorna a opção escolhida pelo utilizador em relação à visualização dos dados.
  *
  * @return true para mostrar os resultados num gráfico de barras e false para mostrar numa tabela.
+ * O(1)
  */
 bool BarsState::shouldUseGraphicBar()   {
     return useGraphicBar;
 }
 
 /*!@brief  função que mostra um menu, onde solicita ao utilizador se deseja visualizar os dados num gráfico de barras.
- *
  */
 void BarsState::displayMenu() {
 
@@ -38,7 +38,7 @@ void BarsState::displayMenu() {
 }
 
 /*!@brief  função que, consoante a escolha do utilizador, mete a variável "useGraphicBar" a true ou false.
- *
+ * @return chamada recursiva, até ser um input válido
  */
 
 State* BarsState::handleInput() {
@@ -59,7 +59,6 @@ State* BarsState::handleInput() {
                 useGraphicBar = false;
                 break;
             }
-
             default:
                 std::cout << " Invalid choice. try again" << std::endl;
                 return handleInput();

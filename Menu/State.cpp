@@ -22,6 +22,7 @@ State::~State() {
 /*!
  * @brief Obtém um aeroporto válido com base no código ou nome.
  * @return Apontador para o aeroporto válido ou nullptr se cancelado.
+ * O(n)
  */
 Airport* State::getValidSingleAirport() {
     Airport* airportCode = nullptr;
@@ -37,8 +38,8 @@ Airport* State::getValidSingleAirport() {
         if(code == "back") {
             return nullptr;
         }
-        airportCode = manager.getAirportPerCode(code);
-        airportName = manager.getAirportPerName(code);
+        airportCode = manager.getAirportPerCode(code);         //O(n)
+        airportName = manager.getAirportPerName(code);   //O(n)
 
         if (!airportCode and !airportName) {
             cout << "Airport doesn't exist. Try again." << endl;
@@ -53,6 +54,7 @@ Airport* State::getValidSingleAirport() {
 /*!
  * @brief Obtém uma companhia aérea válida com base no código ou nome.
  * @return Apontador para a companhia aérea válida ou nullptr se cancelado.
+ * O(n)
  */
 Airline* State::getValidSingleAirline() {
     Airline* airlineCode = nullptr;
@@ -69,8 +71,8 @@ Airline* State::getValidSingleAirline() {
             return nullptr;
         }
 
-        airlineCode = manager.getAirlinePerCode(code);
-        airlineName = manager.getAirlinePerName(code);
+        airlineCode = manager.getAirlinePerCode(code); //O(n)
+        airlineName = manager.getAirlinePerName(code); //O(n)
         if (!airlineCode and !airlineName) {
             cout << "Airline doesn't exist. Try again." << endl;
             cin.ignore();
@@ -84,6 +86,7 @@ Airline* State::getValidSingleAirline() {
 /*!
  * @brief Obtém um nome de cidade válido.
  * @return Nome de cidade válido ou string vazia se cancelado.
+ * O(n)
  */
 string State::getValidSingleCity() {
     string city;
@@ -110,6 +113,7 @@ string State::getValidSingleCity() {
 /*!
  * @brief Obtém um nome de país válido.
  * @return Nome de país válido ou string vazia se cancelado.
+ * O(n)
  */
 string State::getValidSingleCountry() {
     cout << endl;
@@ -132,6 +136,7 @@ string State::getValidSingleCountry() {
 /*!
  * @brief Obtém um valor válido para K relacionado a aeroportos.
  * @return Valor de K válido ou -1 se cancelado.
+ * O(1)
  */
 int State::getValidAirportK() {
     cin.ignore();
@@ -164,6 +169,7 @@ int State::getValidAirportK() {
 /*!
  * @brief Obtém um valor válido para K relacionado a companhias aéreas.
  * @return Valor de K válido ou -1 se cancelado.
+ * O(1)
  */
 int State::getValidAirlineK() {
     cin.ignore();
@@ -196,6 +202,7 @@ int State::getValidAirlineK() {
 /*!
  * @brief Obtém um valor válido para K relacionado a cidades.
  * @return Valor de K válido ou -1 se cancelado.
+ * O(1)
  */
 int State::getValidCityK() {
     cin.ignore();
@@ -229,6 +236,7 @@ int State::getValidCityK() {
 /*!
  * @brief Obtém um valor válido para K relacionado a países.
  * @return Valor de K válido ou -1 se cancelado.
+ * O(n)
  */
 int State::getValidCountryK(){
     cin.ignore();
@@ -262,6 +270,7 @@ int State::getValidCountryK(){
 /*!
  * @brief Obtém um aeroporto com base em coordenadas.
  * @return Apontador para o aeroporto mais próximo válido.
+ * O(|V|)
  */
 Airport* State::getValidAirportPerCoordinates() {
     Airport* airport = nullptr;
@@ -299,7 +308,7 @@ Airport* State::getValidAirportPerCoordinates() {
                 }
             }
         }
-        airport = manager.getClosestAirport(latitude,longitude);
+        airport = manager.getClosestAirport(latitude,longitude); // O(|V|)
         if (!airport) {
             cout << "Airport doesn't exist. Try again." << endl;
         }
@@ -310,6 +319,7 @@ Airport* State::getValidAirportPerCoordinates() {
 /*!
  * @brief Obtém uma lista de aeroportos de um país.
  * @return Vetor de aeroportos válidos ou vetor vazio caso seja cancelado
+ * O(n * k)
  */
 vector<Airport*> State::getValidAirportsSingleCountry() {
     vector<Airport*> airports;
@@ -323,7 +333,7 @@ vector<Airport*> State::getValidAirportsSingleCountry() {
 
         if (name == "back") return {};
 
-        airports = manager.getAirportsPerCountry(name);
+        airports = manager.getAirportsPerCountry(name); //O(n * k)
 
         if (airports.empty()) {
             cout << "Country doesn't exist. Try again." << endl;
@@ -336,6 +346,7 @@ vector<Airport*> State::getValidAirportsSingleCountry() {
 /*!
  * @brief Obtém um mapa de aeroportos por cidades.
  * @return Mapa de inteiro (correspondente á ordem de visita) para vetores de aeroportos, ou mapa vazio casa seja cancelado
+ * O(n)
  */
 map<int,vector<Airport*>> State::getValidAirportsPerCities(){
     map <int,vector<Airport*>> airports;
@@ -359,7 +370,7 @@ map<int,vector<Airport*>> State::getValidAirportsPerCities(){
 
             if (name == "back") return {};
 
-            aux = manager.getAirportsPerCity(name);
+            aux = manager.getAirportsPerCity(name); // O(n)
 
             if (aux.empty() && !first) {
                 cout << "City doesn't exist. Try again." << endl;
@@ -376,6 +387,7 @@ map<int,vector<Airport*>> State::getValidAirportsPerCities(){
 /*!
  * @brief Obtém uma lista de aeroportos de uma cidade.
  * @return Vetor de aeroportos válidos ou vetor vazio se for cancelado
+ * O(n)
  */
 vector<Airport*> State::getValidAirportsSingleCity() {
     vector<Airport*> airports;
@@ -389,7 +401,7 @@ vector<Airport*> State::getValidAirportsSingleCity() {
         getline(cin, name);
 
         if (name == "back") return {};
-        airports = manager.getAirportsPerCity(name);
+        airports = manager.getAirportsPerCity(name); //O(n)
 
         if (airports.empty()) {
             cout << "City doesn't exist. Try again." << endl;
@@ -402,9 +414,10 @@ vector<Airport*> State::getValidAirportsSingleCity() {
 /*!
  * @brief Obtém uma lista de aeroportos de uma ou mais cidades.
  * @return Vetor de aeroportos válidos ou vetor vazio se for cancelado
+ * O(n*m) sendo n o numero de imput do utilizador e m o numero de aeroportos da cidade que o utilizador escolheu
  */
 vector<Airport*> State::getValidAirportsPerCity(){
-   vector<Airport*> airports;
+    vector<Airport*> airports;
     vector<Airport*> aux;
     bool in = true;
     bool first = true;
@@ -423,14 +436,15 @@ vector<Airport*> State::getValidAirportsPerCity(){
 
             if (name == "back") return {};
 
-            aux = manager.getAirportsPerCity(name);
+            aux = manager.getAirportsPerCity(name); // O(n)
 
             if ((aux.empty() || !in) && !first) {
                 cout << "City doesn't exist. Try again." << endl;
             }
             first = false;
         } while (aux.empty() || !in);
-        airports.insert(airports.end(),aux.begin(),aux.end());
+
+        airports.insert(airports.end(),aux.begin(),aux.end()); // O(1)
     }
     return airports;
 }
@@ -438,6 +452,7 @@ vector<Airport*> State::getValidAirportsPerCity(){
 /*!
  * @brief Obtém uma lista de aeroportos de um ou mais países.
  * @return Mapa de inteiro, correspondente à ordem de visita para vetores de aeroportos ou mapa vazio caso seja cancelado
+ * O(n * k)
  */
 map<int,vector<Airport*>> State::getValidAirportsPerCountries() {
     map <int,vector<Airport*>> airports;
@@ -460,7 +475,7 @@ map<int,vector<Airport*>> State::getValidAirportsPerCountries() {
             }
             if (name == "back") return {};
 
-            aux = manager.getAirportsPerCountry(name);
+            aux = manager.getAirportsPerCountry(name); //O(n * k)
 
             if (aux.empty() && !first) {
                 cout << "Country doesn't exist. Try again." << endl;
@@ -476,6 +491,7 @@ map<int,vector<Airport*>> State::getValidAirportsPerCountries() {
 /*!
  * @brief Obtém uma lista de aeroportos de um país.
  * @return Vetor de aeroportos válidos ou vetor vazio se cancelado
+ *  O(n * k)
  */
 vector<Airport*> State::getValidAirportsPerCountry() {
    vector<Airport*> airports;
@@ -498,7 +514,7 @@ vector<Airport*> State::getValidAirportsPerCountry() {
 
             if (name == "back") return {};
 
-            aux = manager.getAirportsPerCountry(name);
+            aux = manager.getAirportsPerCountry(name); // O(n * k)
 
             if (aux.empty() && !first) {
                 cout << "Country doesn't exist. Try again." << endl;
@@ -514,6 +530,7 @@ vector<Airport*> State::getValidAirportsPerCountry() {
  * @brief Obtém uma lista de aeroportos num determinado range centrado num ponto.
  * @param x Valor do range.
  * @return Vetor de aeroportos válidos.
+ * O(|V|)
  */
 vector<Airport*> State::getAirportsRange(int x) {
     vector<Airport*> airports;
@@ -553,7 +570,7 @@ vector<Airport*> State::getAirportsRange(int x) {
             }
         }
 
-        airports = manager.getAirportsPerCoordinatesRange(latitude, longitude, x);
+        airports = manager.getAirportsPerCoordinatesRange(latitude, longitude, x); // O(|V|)
         if (airports.empty()) {
             cout << "There are no airports in that range" << endl;
         }
@@ -564,6 +581,7 @@ vector<Airport*> State::getAirportsRange(int x) {
 /*!
  * @brief Obtém uma lista de aeroportos com base no nome ou código.
  * @return Vetor de aeroportos válidos ou vetor vazio se cancelado
+ * O(n)
  */
 vector<Airport*> State::getValidAirports() {
     vector<Airport *> airports;
@@ -604,6 +622,7 @@ vector<Airport*> State::getValidAirports() {
 /*!
  * @brief Obtém um conjunto de companhias aéreas com base no nome ou código.
  * @return Conjunto de companhias aéreas válidas ou unordered_set vazio se cancelado
+ * O(n)
  */
 unordered_set<Airline*> State::getValidAirlines() {
     unordered_set<Airline *> airlines;
@@ -626,8 +645,8 @@ unordered_set<Airline*> State::getValidAirlines() {
             }
 
             if (name == "back") return {};
-            aux = manager.getAirlinePerCode(name);
-            aux2 = manager.getAirlinePerName(name);
+            aux = manager.getAirlinePerCode(name); // O(n)
+            aux2 = manager.getAirlinePerName(name); // O(n)
 
             if (!aux && !aux2 && !first) {
                 cout << "Airline doesn't exist. Try again." << endl;
@@ -644,6 +663,7 @@ unordered_set<Airline*> State::getValidAirlines() {
 /*!
  * @brief Obtém um conjunto de companhias aéreas de um país.
  * @return Conjunto de companhias aéreas válidas ou unordered_set vazio se cancelado
+ * O(n), sendo que o numero de inputs do utilizador é relativamente baixo senão era O (n *k ) sendo k o numero de inputs do utilizador
  */
 unordered_set<Airline*> State::getValidAirlinePerCountry() {
     unordered_set<Airline *> airlines;
@@ -667,7 +687,7 @@ unordered_set<Airline*> State::getValidAirlinePerCountry() {
                 return {};
             }
 
-            aux = manager.getAirlinesPerCountry(name);
+            aux = manager.getAirlinesPerCountry(name); // O(n)
 
             if (aux.empty() && !first) {
                 cout << "Country doesn't exist. Try again." << endl;
@@ -681,6 +701,11 @@ unordered_set<Airline*> State::getValidAirlinePerCountry() {
     return airlines;
 }
 
+/*!
+ * @brief Obtém um conjunto de companhias aéreas de um país.
+ * @return Conjunto de companhias aéreas válidas ou unordered_set vazio se cancelado
+ * O(n)
+ */
 unordered_set<Airline*> State::getValidAirlineSingleCountry() {
     unordered_set<Airline *> airlines;
     bool first = true;
@@ -696,7 +721,7 @@ unordered_set<Airline*> State::getValidAirlineSingleCountry() {
                 return {};
             }
 
-            airlines = manager.getAirlinesPerCountry(name);
+            airlines = manager.getAirlinesPerCountry(name); //O(n)
 
             if (airlines.empty() && !first) {
                 cout << "Country doesn't exist. Try again." << endl;
@@ -710,6 +735,7 @@ unordered_set<Airline*> State::getValidAirlineSingleCountry() {
 /*!
  * @brief Obtém um conjunto de cidades de um país.
  * @return Conjunto de cidades válidas ou unordered_set vazio se cancelado
+ *O(n)
  */
 unordered_set<string> State::getValidCitiesSingleCountry() {
     unordered_set<string> cities;
@@ -723,7 +749,7 @@ unordered_set<string> State::getValidCitiesSingleCountry() {
 
         if (name == "back") return {};
 
-        cities = manager.getCitiesPerCountry(name);
+        cities = manager.getCitiesPerCountry(name); //O(n)
 
         if (cities.empty()) {
             cout << "Country doesn't exist. Try again." << endl;

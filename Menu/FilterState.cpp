@@ -19,7 +19,7 @@ FilterState::FilterState(vector<Airport*> &from, vector<Airport*> &to) {
 }
 
 /*! @brief função que mostra o menu com as possibilidades de filtros que o utilizador tem, na sua pesquisa.
- *
+ *  O(1)
  */
 void FilterState::displayMenu() {
 
@@ -45,6 +45,7 @@ void FilterState::displayMenu() {
 }
 
 /*!@brief  função que, consoante a escolha do utilizador, adiciona alguns filtros e realiza uma pesquisa tendo em conta os filtros escolhidos.
+ * @return Ponteiro para o próximo estado do programa, com base na escolha do utilizador.
  */
 
 State* FilterState::handleInput() {
@@ -126,7 +127,7 @@ State* FilterState::handleInput() {
 
 
 /*!@brief  função que exclui companhias aéreas
- *
+ *O(n*k + r*f + a*t)
  */
 void FilterState::excludeAirlines() {
     auto aux = this->getValidAirlines();
@@ -139,7 +140,7 @@ void FilterState::excludeAirlines() {
 }
 
 /*!@brief  função que exclui companhias aéreas por país
- *
+ *O(n*k + r*f + a*t)
  */
 void FilterState::excludeAirlinesPerCountry() {
     auto aux = this->getValidAirlinePerCountry();
@@ -154,7 +155,7 @@ void FilterState::excludeAirlinesPerCountry() {
 }
 
 /*!@brief  função que inclui companhias aéreas por país
- *
+ *O(n*k + r*f + a*t)
  */
 void FilterState::includeAirlinesPerCountry() {
     auto aux = this->getValidAirlinePerCountry();
@@ -169,7 +170,7 @@ void FilterState::includeAirlinesPerCountry() {
 }
 
 /*!@brief  função que inclui companhias aéreas
- *
+ *O(n*k + r*f + a*t)
  */
 void FilterState::includeAirlines() {
     auto aux = this->getValidAirlines();
@@ -184,7 +185,7 @@ void FilterState::includeAirlines() {
 }
 
 /*!@brief  função que exclui aeroportos
- *
+ *O(n*k + r*f + a*t)
  */
 void FilterState::excludeAirports() {
     auto aux = this->getValidAirports();
@@ -197,7 +198,7 @@ void FilterState::excludeAirports() {
 }
 
 /*!@brief  função que inclui aeroportos
- *
+ *O(n*k + r*f + a*t)
  */
 void FilterState::includeAirports() {
     auto aux = this->getValidAirports();
@@ -211,7 +212,7 @@ void FilterState::includeAirports() {
 }
 
 /*!@brief  função que inclui países
- *
+ *O(n*k + r*f + a*t)
  */
 void FilterState::includeCountries() {
     auto aux = this->getValidAirportsPerCountries();
@@ -227,7 +228,7 @@ void FilterState::includeCountries() {
 }
 
 /*!@brief  função que exclui países
- *
+ *O(n*k + r*f + a*t)
  */
 void FilterState::excludeCountries() {
     auto aux = this->getValidAirportsPerCountry();
@@ -240,7 +241,7 @@ void FilterState::excludeCountries() {
 }
 
 /*!@brief  função que inclui cidades
- *
+ *O(n*k + r*f + a*t)
  */
 void FilterState::includeCities() {
     auto aux = this->getValidAirportsPerCities();
@@ -256,44 +257,44 @@ void FilterState::includeCities() {
 }
 
 /*!@brief  função que exclui cidades
- *
+ *O(n*k + r*f + a*t)
  */
 void FilterState::excludeCities() {
-    auto aux = this->getValidAirportsPerCity();
-    if ( excludedAirports.empty() && !aux.empty()){
+    auto aux = this->getValidAirportsPerCity(); //O(n*m)
+    if ( excludedAirports.empty() && !aux.empty()){ // O(1)
         excludedAirports = aux;
     } else if (!aux.empty()) {
-        excludedAirports.insert(excludedAirports.end(),aux.begin(),aux.end());
+        excludedAirports.insert(excludedAirports.end(),aux.begin(),aux.end()); // O(n)
     }
-    verifyExcludeAirports();
+    verifyExcludeAirports(); //O(n*k + r^f + a^t)
 }
 
 /*!@brief  função que verifica se existe algum aeroporto excluído que está no vetor de aeroportos incluídos.
- *
+ *O(n*k + r*f + a*t)
  */
 void FilterState::verifyExcludeAirports() {
     vector<Airport*> res;
 
-    for (auto &it : excludedAirports) {
+    for (auto &it : excludedAirports) { // O(n)
         bool found = false;
-        for (auto &i : includedAirports) {
+        for (auto &i : includedAirports) {  // O(k)
             if (i->getCode() == it->getCode()) found = true;
         }
         if (!found) res.push_back(it);
     }
     vector<Airport*> aux;
-    for (auto &it : res) {
+    for (auto &it : res) {  // O(r)
         bool found = false;
-        for (auto &i : fromAirports) {
+        for (auto &i : fromAirports) {  // O(f)
             if (i->getCode() == it->getCode()) found = true;
         }
         if (!found) aux.push_back(it);
     }
 
     res.clear();
-    for (auto &it : aux) {
+    for (auto &it : aux) {  // O(a)
         bool found = false;
-        for (auto &i : toAirports) {
+        for (auto &i : toAirports) {  // O(t)
             if (i->getCode() == it->getCode()) found = true;
         }
         if (!found) res.push_back(it);
@@ -303,31 +304,31 @@ void FilterState::verifyExcludeAirports() {
 }
 
 /*!@brief  função que verifica se existe algum aeroporto incluído que está no vetor de aeroportos excluídos
- *
+ *O(n*k + r^f + a^t)
  */
 void FilterState::verifyIncludedAirports() {
     vector<Airport*> res;
 
-    for (auto &it : includedAirports) {
+    for (auto &it : includedAirports) { // O(n)
         bool found = false;
-        for (auto &i : excludedAirports) {
+        for (auto &i : excludedAirports) {// O(k)
             if (i->getCode() == it->getCode()) found = true;
         }
         if (!found) res.push_back(it);
     }
     vector<Airport*> aux;
-    for (auto &it : res) {
+    for (auto &it : res) { // O(r)
         bool found = false;
-        for (auto &i : fromAirports) {
+        for (auto &i : fromAirports) { // O(f)
             if (i->getCode() == it->getCode()) found = true;
         }
         if (!found) aux.push_back(it);
     }
 
     res.clear();
-    for (auto &it : aux) {
+    for (auto &it : aux) { // O(a)
         bool found = false;
-        for (auto &i : toAirports) {
+        for (auto &i : toAirports) { // O(t)
             if (i->getCode() == it->getCode()) found = true;
         }
         if (!found) res.push_back(it);
@@ -337,13 +338,13 @@ void FilterState::verifyIncludedAirports() {
 }
 
 /*!@brief  função que verifica se existe alguma companhia aérea no vetor de incluídas que está no vetor de companhias aéreas excluídas
- *
+ * O(n)
  */
 void FilterState::verifyIncludedAirlines() {
     unordered_set<Airline*> res;
 
     for (auto it : includedAirlines) {
-        auto p = excludedAirlines.find(it);
+        auto p = excludedAirlines.find(it); // O(1)
 
         if (p == excludedAirlines.end()) {
             res.insert(it);
@@ -353,13 +354,13 @@ void FilterState::verifyIncludedAirlines() {
 }
 
 /*!@brief  função que verifica se existe alguma companhia aérea no vetor de excluídas que está no vetor de companhias aéreas incluídas
- *
+ *O(n)
  */
 void FilterState::verifyExcludedAirlines() {
     unordered_set<Airline*> res;
 
     for (auto it : excludedAirlines) {
-        auto p = includedAirlines.find(it);
+        auto p = includedAirlines.find(it);// O(1)
 
         if (p == includedAirlines.end()) {
             res.insert(it);
@@ -369,13 +370,13 @@ void FilterState::verifyExcludedAirlines() {
 }
 
 /*! @brief função que determina se um aeroporto deve ser removido, consoante a sua presença nos vetores de aeroportos. Para além disso caso após remoção se a entrada ficar vazia então tambem é removida
- *
+ * O(n*k)
  */
 void FilterState::verifyVisitCountryCity() {
-    for (auto it = cityCountry.begin(); it != cityCountry.end(); ) {
+    for (auto it = cityCountry.begin(); it != cityCountry.end(); ) { // O(n)
         auto &airportVector = it->second;
 
-        airportVector.erase(
+        airportVector.erase( // O(k)
                 std::remove_if(
                         airportVector.begin(),
                         airportVector.end(),
@@ -395,10 +396,10 @@ void FilterState::verifyVisitCountryCity() {
 }
 
 /*! @brief função que verfica se um dado aeroporto está presente em algum dos vetores
- *
  * @param airport
  * @return true se o aeroporto estiver presente em algum vetor de toAirports, fromAirports, excludedAirports, includedAirports.
  * @return false se o aeroporto não estiver presente em nunhum desses vetores e por isso não é para remover
+ *O(n)
  */
 bool FilterState::isAirportToBeRemoved(Airport* airport) const {
 

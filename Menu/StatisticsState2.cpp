@@ -23,12 +23,12 @@ void StatisticsState2::displayMenu() {
     cout << "|                                                                                                      |" << endl;
     cout << "|                                           Statistics:                                                |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                                     1. Nº flights per city                                           |" << endl;
-    cout << "|                                     2. Airports Destinations Distance 1                              |" << endl;
-    cout << "|                                     3. Nº Airports and Flights                                       |" << endl;
-    cout << "|                                     4. Airport Destinations                                          |" << endl;
-    cout << "|                                     5. City Destinations                                             |" << endl;
-    cout << "|                                     6. Articulation points                                           |" << endl;
+    cout << "|                               1. No. flights per city                                                |" << endl;
+    cout << "|                               2. No. of destinations available for a given airport (Distance 1)      |" << endl;
+    cout << "|                               3. Global no. of airports and flights                                  |" << endl;
+    cout << "|                               4. No. of reachable destinations from a given airport                  |" << endl;
+    cout << "|                               5. No. of reachable destinations from a given city                     |" << endl;
+    cout << "|                               6. Essential airports to the network’s circulation capability          |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|  back - Main Menu                                                                                    |" << endl;
     cout << "|  exit - Exit                                                                              page - 2   |" << endl;

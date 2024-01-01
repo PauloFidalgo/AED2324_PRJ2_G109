@@ -24,12 +24,12 @@ void StatisticsState4::displayMenu() {
     cout << "|                                                                                                      |" << endl;
     cout << "|                                             Statistics:                                              |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                                 1. Top K Greatest Traffic Airport                                    |" << endl;
-    cout << "|                                 2. Top K Greatest Traffic Airport Per Country (Ascending)            |" << endl;
-    cout << "|                                 3. Top K Greatest Traffic Airport Per Country (Descending)           |" << endl;
-    cout << "|                                 4. Airport Info                                                      |" << endl;
-    cout << "|                                 5. Airline Info                                                      |" << endl;
-    cout << "|                                 6. Airports per Country                                              |" << endl;
+    cout << "|                 1. top-k airport with the least air traffic capacity                                 |" << endl;
+    cout << "|                 2. top-k airport with the least air traffic capacity Per Country                     |" << endl;
+    cout << "|                 3. top-k airport with the greatest air traffic capacity Per Country                  |" << endl;
+    cout << "|                 4. Airport Info                                                                      |" << endl;
+    cout << "|                 5. Airline Info                                                                      |" << endl;
+    cout << "|                 6. List airports per Country                                                         |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "| back - Main Menu                                                                                     |" << endl;
     cout << "| exit - Exit                                                                              page - 4    |" << endl;
@@ -72,7 +72,8 @@ State* StatisticsState4::handleInput() {
         switch (userInput) {
             case 1: {
                 auto dist = this->getValidAirportK();
-                if (dist != -1) manager.getTopKGreatestTrafficAirport(dist);
+                auto bar = bars();
+                if (dist != -1) manager.getTopKGreatestTrafficAirport(dist,bar,true);
                 return this;
             }
             case 2: {

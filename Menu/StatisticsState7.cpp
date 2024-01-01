@@ -23,12 +23,12 @@ void StatisticsState7::displayMenu() {
     cout << "|                                                                                                      |" << endl;
     cout << "|                                            Statistics:                                               |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                              1. Top K Airports Airline Travels To (Ascending)                        |" << endl;
-    cout << "|                              2. Top K Airports Airline Travels To (Descending)                       |" << endl;
-    cout << "|                              3. Top K Airports With More Airlines (Ascending)                        |" << endl;
-    cout << "|                              4. Top K Airports With More Airlines (Descending)                       |" << endl;
-    cout << "|                              5. Top K Airlines That FlyMore To An Airport (Ascending)                |" << endl;
-    cout << "|                              6. Top K Airlines That FlyMore To An Airport (Descending)               |" << endl;
+    cout << "|                              1. Top-k airport a given airline travels less to                        |" << endl;
+    cout << "|                              2. Top-k airport a given airline travels more to                        |" << endl;
+    cout << "|                              3. Top-k airports with less airlines                                    |" << endl;
+    cout << "|                              4. Top-k airports with more airlines                                    |" << endl;
+    cout << "|                              5. Top-k airlines that fly less to a given airport                      |" << endl;
+    cout << "|                              6. Top-k airlines that fly more to a given airport                      |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "| back - Main Menu                                                                                     |" << endl;
     cout << "| exit - Exit                                                                              page - 7    |" << endl;

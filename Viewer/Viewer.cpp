@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <valarray>
 #include "Viewer.h"
+#include <sstream>
 
 
 /*!
@@ -891,7 +892,11 @@ void Viewer::printFlightOptions(const vector<vector<Airport *>> &flights) {
     }
 }
 
-
+/*!
+ * @brief Imprime os strongly connected components.
+ * @param airports Vetor de vetores representando os airports e cada vetor contem outro vetor com os aeroportos pertencentes a uma SCC
+ * O (n * j * k)
+ */
 void Viewer::printScc(const vector<vector<Airport *>> &airports) {
     if (airports.empty()) {
         cout << "There are no strongly connected components" << endl;
@@ -936,5 +941,3 @@ void Viewer::printScc(const vector<vector<Airport *>> &airports) {
         }
     }
 }
-
-

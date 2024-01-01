@@ -16,7 +16,6 @@ using namespace std;
 FlightSearchState::FlightSearchState(): isSelectingFrom(true){}
 
 /*! @brief função que mostra o menu com as possibilidades de pesquisa de voos, onde é permitido ao utilizador escolher o ponto de partida e o ponto de chegada.
- *
  */
 void FlightSearchState::displayMenu() {
     const std::string origin = isSelectingFrom ? "From" : "To  ";
@@ -235,7 +234,7 @@ State *FlightSearchState::handleInput() {
 }
 
 /*! @brief função que verifica se o aeroporto de partida não é o mesmo que o aeroporto de chagada.
- *
+ *O(1)
  */
 void FlightSearchState::validateToAirports() {
 
