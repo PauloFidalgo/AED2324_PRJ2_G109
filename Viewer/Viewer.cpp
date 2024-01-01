@@ -4,6 +4,7 @@
 
 #include <iomanip>
 #include <algorithm>
+#include <valarray>
 #include "Viewer.h"
 
 
@@ -887,6 +888,52 @@ void Viewer::printFlightOptions(const vector<vector<Airport *>> &flights) {
         }
         cout << '|' << endl;
         cout << string(totalSpace + 2, '-') << endl;
+    }
+}
+
+
+void Viewer::printScc(const vector<vector<Airport *>> &airports) {
+    if (airports.empty()) {
+        cout << "There are no strongly connected components" << endl;
+        return;
+    }
+    int i = 0;
+    for (auto &elem : airports) {
+        i++;
+        int nameSize = 0;
+        for (auto& airport : elem) {
+            if (airport->getName().length() > nameSize) nameSize = airport->getName().length();
+        }
+        int rows = sqrt(elem.size());
+        int cols = (elem.size() + rows - 1) / rows;
+        int spaceBox = nameSize + 8 > 31 + to_string(i).length() ? nameSize + 8 : 31 + to_string(i).length();
+        int totalSpace = (spaceBox + 1) * cols - 1;
+        int lenLabel = (totalSpace - 29 - to_string(i).length()) / 2;
+        int lenFLabel = (totalSpace - 29 - to_string(i).length()) % 2 == 0 ? lenLabel : lenLabel + 1;
+        cout << string(totalSpace + 2, '-') << endl;
+        cout << '|' << string(lenLabel, ' ') << "Strongly Connected Component " << i << string(lenFLabel, ' ') << '|' << endl;
+        cout << string(totalSpace + 2, '-') << endl;
+        int it = 0;
+        for (int j = 0; j < rows; j++) {
+            ostringstream os1;
+            ostringstream os2;
+            for (int k = 0; k < cols; k++) {
+                if (it != elem.size()) {
+                    os1 << "| Code: " << elem[it]->getCode() << string(spaceBox - 10, ' ');
+                    os2 << "| Name: " << elem[it]->getName() << string(spaceBox - 7 - elem[it]->getName().length(), ' ');
+                    it++;
+                }
+                else {
+                    os1 << '|' << string (spaceBox, ' ');
+                    os2 << '|' << string (spaceBox, ' ');
+                }
+            }
+            os1 << '|' << endl;
+            os2 << '|' << endl;
+            cout << os1.str();
+            cout << os2.str();
+            cout << string(totalSpace + 2, '-') << endl;
+        }
     }
 }
 

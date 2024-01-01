@@ -65,10 +65,10 @@ public:
     void manageFlightSearchFromMenu(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines);
     void articulationPoints();
     void dfsApp(Vertex *v, stack<Airport*> &s, vector<Airport*> &res, int &i);
-    vector<vector<Airport*>> scc();
+    void scc();
     void dfsScc(Vertex *v, stack<Airport*> &s, vector<vector<Airport*>> &res, int &i);
 
-    //--------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------
     void getNumAirportsAndFlights() const;
     void getNumFlightsAndAirlines(Airport *airport) const;
     void getNumFlightsPerCity(const string &city) const;
