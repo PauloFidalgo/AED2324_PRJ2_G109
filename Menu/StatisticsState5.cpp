@@ -96,17 +96,17 @@ State* StatisticsState5::handleInput() {
                 return this;
             }
             case 5: {
-                auto airports = getValidAirports();
+                auto airports = getValidAirportsSingleCountry();
                 auto k = getValidAirportK();
-                auto bar = bars();
-                if (!airports.empty() && k != -1 )manager.getTopKGreatestTrafficAirportPerCountry(k, airports, bar, false);
+                auto bar =  bars();
+                if (!airports.empty() && k != -1 ) manager.getTopKGreatestTrafficAirportPerCountry(k,airports,bar,false);
                 return this;
             }
             case 6: {
-                auto airports = getValidAirports();
+                auto airports = getValidAirportsSingleCountry();
                 auto k = getValidAirportK();
-                auto bar = bars();
-                if (!airports.empty() && k != -1 )manager.getTopKGreatestTrafficAirportPerCountry(k, airports, bar, true);
+                auto bar =  bars();
+                if (!airports.empty() && k != -1 ) manager.getTopKGreatestTrafficAirportPerCountry(k,airports,bar, true);
                 return this;
             }
             default:

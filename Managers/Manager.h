@@ -79,11 +79,11 @@ public:
     void getCityDestinationsDistance1(vector<Airport *> air, const string& city) const;
     void getCountryDestinationsDistance1(vector<Airport *> air, const string& country) const;
     void getAirportDestinantions(Airport *airport) const;
-    void getCityDestinantions(const vector<Airport *> &airportsCity, const string& city) const;
-    void getCountryDestinantions(const vector<Airport *> &airportsCountry, const string& country) const;
+    void getCityDestinantions(const vector<Airport *> &airportsCity) const;
+    void getCountryDestinantions(const vector<Airport *> &airportsCountry) const;
     void getAirportDestinantionsUntilDistanceK(Airport *airport, const int &k) const;
-    void getCityDestinantionsUntilDistanceK(const vector<Airport *> &airportsCity, const string& city, const int &k) const;
-    void getCountryDestinantionsUntilDistanceK(const vector<Airport *> &airportsCountry, const string& country, const int &k) const;
+    void getCityDestinantionsUntilDistanceK(const vector<Airport *> &airportsCity, const int &k) const;
+    void getCountryDestinantionsUntilDistanceK(const vector<Airport *> &airportsCountry, const int &k) const;
     void diameterPairs() const;
     void findComponentDiameterPairs(Vertex *origin, vector<pair<Airport*, Airport*>> &result, int &i) const;
     void getTopKGreatestTrafficAirport(int k, const bool &bars = false, const bool& asc = false) const;
@@ -106,8 +106,9 @@ public:
     static void printAirlineInfo(Airline *airline);
     void listAirlinesPerAirport(Airport *airport);
     void listAirlinesPerCountry(const unordered_set<Airline *> &airlinesCountry, const string &country) const;
+    unordered_map<string, Airline*> getAirlines();
 
-    };
+};
 
 
 #endif //AED2324_PRJ2_G109_MANAGER_H

@@ -101,14 +101,14 @@ State* StatisticsState7::handleInput() {
                 auto k = getValidAirportK();
                 auto airport = getValidSingleAirport();
                 auto bar = bars();
-                if (airport && k != -1) manager.getTopKAirlinesThatFlyMoreToAnAirportRatio(k, airport, bar, true);
+                if (airport && k != -1) manager.getTopKAirlinesThatFlyMoreToAnAirportRatio(k, airport, bar, false);
                 return this;
             }
             case 6: {
                 auto k = getValidAirportK();
                 auto airport = getValidSingleAirport();
                 auto bar = bars();
-                if (airport && k != -1) manager.getTopKAirlinesThatFlyMoreToAnAirportRatio(k, airport, bar, false);
+                if (airport && k != -1) manager.getTopKAirlinesThatFlyMoreToAnAirportRatio(k, airport, bar, true);
                 return this;
             }
             default:
