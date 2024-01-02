@@ -70,34 +70,28 @@ State* StatisticsState6::handleInput() {
         switch (userInput) {
             case 1: {
                 auto airline = getValidSingleAirline();
-                if (!airline) return this;
                 auto k = getValidAirportK();
-                if (k == -1) return this;
                 auto bar = bars();
-                manager.getTopKAirportsAirlineTravelsTo(k,airline,bar, false);
+                if (airline && k != -1 )manager.getTopKAirportsAirlineTravelsTo(k,airline,bar, false);
                 return this;
             }
             case 2: {
                 auto airline = getValidSingleAirline();
-                if (!airline) return this;
                 auto k = getValidAirportK();
-                if (k == -1) return this;
                 auto bar = bars();
-                manager.getTopKAirportsAirlineTravelsTo(k,airline,bar,true);
+                if (airline && k != -1 )manager.getTopKAirportsAirlineTravelsTo(k,airline,bar, true);
                 return this;
             }
             case 3: {
                 auto k = getValidAirportK();
-                if (k == -1) return this;
                 auto bar = bars();
-                manager.getTopKAirportsWithMoreAirlines(k,bar,false);
+                if( k != -1) manager.getTopKAirportsWithMoreAirlines(k,bar,false);
                 return this;
             }
             case 4: {
                 auto k = getValidAirportK();
-                if (k == -1) return this;
                 auto bar = bars();
-                manager.getTopKAirportsWithMoreAirlines(k,bar,true);
+                if( k != -1) manager.getTopKAirportsWithMoreAirlines(k,bar,true);
                 return this;
             }
             case 5: {

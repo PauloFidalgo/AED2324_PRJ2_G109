@@ -95,11 +95,9 @@ State* StatisticsState4::handleInput() {
             }
             case 5: {
                 auto airport = getValidAirports();
-                if (airport.empty()) return this;
                 auto country = getValidSingleCountry();
-                if (country.empty()) return this;
                 auto dist = this->getValidCountryK();
-                if(dist != -1)  manager.getCountryDestinantionsUntilDistanceK(airport,country,dist);
+                if(dist != -1 && !country.empty() && airport.empty())  manager.getCountryDestinantionsUntilDistanceK(airport,country,dist);
                 return this;
             }
             case 6: {
