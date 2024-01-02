@@ -23,12 +23,12 @@ void StatisticsState2::displayMenu() {
     cout << "|                                                                                                      |" << endl;
     cout << "|                                           Statistics:                                                |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                                     1. Nº flights per city                                           |" << endl;
-    cout << "|                                     2. Airports Destinations Distance 1                              |" << endl;
-    cout << "|                                     3. Nº Airports and Flights                                       |" << endl;
-    cout << "|                                     4. Airport Destinations                                          |" << endl;
-    cout << "|                                     5. City Destinations                                             |" << endl;
-    cout << "|                                     6. Articulation points                                           |" << endl;
+    cout << "|                       1. Maximum trip and corresponding pair of source-destination airports          |" << endl;
+    cout << "|                       2. Essential airports to the network’s circulation capability                  |" << endl;
+    cout << "|                       3. List strongly connected components                                          |" << endl;
+    cout << "|                       4. List airports per given country                                             |" << endl;
+    cout << "|                       5. List airports per given city                                                |" << endl;
+    cout << "|                       6. List airlines per given country                                             |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|  back - Main Menu                                                                                    |" << endl;
     cout << "|  exit - Exit                                                                              page - 2   |" << endl;
@@ -70,31 +70,32 @@ State* StatisticsState2::handleInput() {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
             case 1: {
-                string city = getValidSingleCity();
-                if (!city.empty()) manager.getNumFlightsPerCity(city);
+                manager.diameterPairs();
                 return this;
             }
             case 2: {
-                Airport* airport = getValidSingleAirport();
-                if (airport) manager.getAirportDestinantionsDistance1(airport);
+                manager.articulationPoints();
                 return this;
             }
-            case 3:
-                manager.getNumAirportsAndFlights();
+            case 3:{
+                manager.scc();
                 return this;
+            }
             case 4: {
-                Airport* airport = getValidSingleAirport();
-                if (airport) manager.getAirportDestinantions(airport);
+                auto airports = getValidAirportsSingleCountry();
+                if (!airports.empty()) manager.listAirportsPerCountryCity(airports, name);
                 return this;
             }
             case 5: {
-                vector<Airport*> airports = getValidAirportsSingleCity();
-                if (!airports.empty()) manager.getCityDestinantions(airports,name);
+                auto airports = getValidAirportsSingleCity();
+                if (!airports.empty()) manager.listAirportsPerCountryCity(airports, name);
                 return this;
             }
-            case 6:
-                manager.articulationPoints();
+            case 6:{
+                auto airline = getValidAirlineSingleCountry();
+                if(!airline.empty()) manager.listAirlinesPerCountry(airline,name);
                 return this;
+            }
             default:
                 std::cout << " Invalid choice. try again" << std::endl;
                 return this;

@@ -65,7 +65,7 @@ bool Manager::getMaxKCountries(const int &x) const {
  * @param code Código do aeroporto que se pretende obter
  * @return apontador para airport se code for válido
  * @return nullptr se code não existir
- * O(n)
+ * O(1)
  */
 Airport* Manager::getAirportPerCode(const std::string &code) const {
     auto it = airports.find(code);
@@ -81,7 +81,7 @@ Airport* Manager::getAirportPerCode(const std::string &code) const {
  * @param name Nome do aeroporto que se pretende obter
  * @return apontador para airport se o name do aeroporto for válido
  * @return nullptr se name não existir
- * O(n)
+ * O(1)
  */
 Airport* Manager::getAirportPerName(const std::string &name) const {
     auto it = airportsByName.find(name);
@@ -97,7 +97,7 @@ Airport* Manager::getAirportPerName(const std::string &name) const {
  * @param name Nome da cidade que se pretende verificar se é válido
  * @return true se nome da cidade for válido
  * @return false se nome da cidade for inválido
- * O(n)
+ * O(1)
  */
 bool Manager::validateCityName(const std::string &name) const {
     auto it = cityAirports.find(name);
@@ -113,7 +113,7 @@ bool Manager::validateCityName(const std::string &name) const {
  * @param name Nome do país que se pretende verficiar se é válido
  * @return true se nome do país for válido
  * @return false se nome do país for inválido
- * O(n)
+ * O(1)
  */
 bool Manager::validateCountryName(const std::string &name) const {
     auto it = countryCities.find(name);
@@ -129,7 +129,7 @@ bool Manager::validateCountryName(const std::string &name) const {
  * @param country Nome do país para o qual se pretende obter o conjunto de companhias
  * @return unordered_set com apontadores para Airline se nome do país for válido
  * @return unordered_set vazio se nome do país for inválido
- * O(n)
+ * O(1)
  */
 unordered_set<Airline*> Manager::getAirlinesPerCountry(const string& country) const {
     auto it = countryAirlines.find(country);
@@ -143,7 +143,7 @@ unordered_set<Airline*> Manager::getAirlinesPerCountry(const string& country) co
  * @param code Code da companhia que se pretende obter
  * @return apontador para Airline se code for válido
  * @return nullptr se code for inválido
- * O(n)
+ * O(1)
  */
 Airline* Manager::getAirlinePerCode(const std::string &code) const {
     auto it = airlines.find(code);
@@ -159,7 +159,7 @@ Airline* Manager::getAirlinePerCode(const std::string &code) const {
  * @param name Nome da companhia que se pretende obter
  * @return apontador para Airline se name for válido
  * @return nullptr se name for inválido
- * O(n)
+ * O(1)
  */
 Airline* Manager::getAirlinePerName(const std::string &name) const {
     auto it = airlinesByName.find(name);
@@ -175,7 +175,7 @@ Airline* Manager::getAirlinePerName(const std::string &name) const {
  * @param city Nome da cidade para a qual se pretende obter o conjunto de aeroportos
  * @return vector de apontadores para Airport se city for válida
  * @return nullptr se city for inválida
- * O(n)
+ * O(1)
  */
 vector<Airport*> Manager::getAirportsPerCity(const string& city) const {
     auto it = cityAirports.find(city);
@@ -189,7 +189,7 @@ vector<Airport*> Manager::getAirportsPerCity(const string& city) const {
  * @param country Nome do país para o qual se pretende obter o conjunto de aeroportos
  * @return vector de apontadores para Airport se country for válido
  * @return nullptr se country for inválido
- * O(n * k)
+ * O(n)
  */
 vector<Airport*> Manager::getAirportsPerCountry(const string &country) const {
     auto cities = this->getCitiesPerCountry(country);
@@ -213,7 +213,7 @@ vector<Airport*> Manager::getAirportsPerCountry(const string &country) const {
  * @param country Nome do país para o qual se pretende obter o conjunto de cidades
  * @return unordered_set de strings com os nomes das cidades correspondentes ao país, se country for válido
  * @return unordered_set vazio se country for inválido
- * O(n)
+ * O(1)
  */
 unordered_set<string> Manager::getCitiesPerCountry(const string& country) const {
     auto it = countryCities.find(country);
@@ -294,24 +294,27 @@ Airport* Manager::getClosestAirport(const double &x, const double &y) {
 
 /*! @brief Determina os vértices críticos do grafo
  *  Vértices críticos, são vértices que caso sejam removidos, fazem aumentar o número de componentes do grafo
- *  VERIFICAR DEPOIS
+ *  O()
  */
 void Manager::articulationPoints() {
     Graph copy;
     unordered_map<string, Airport *> airVertex;
     for (auto &elem : connections.getVertexSet()) {
-        auto *air = new Airport(elem->getInfo()->getCode(), "", "", "", 0, 0);
+        auto *air = new Airport(elem->getInfo()->getCode(), elem->getInfo()->getName(), "", "", 0, 0);
         airVertex.insert({elem->getInfo()->getCode(),air});
         copy.addVertex(air);
     }
+
     auto *airline = new Airline("", "", "", "");
     for (auto &elem : connections.getVertexSet()) {
         auto air = airVertex.find(elem->getInfo()->getCode());
         for (auto & edge : elem->getAdj()) {
-            copy.addEdge(edge.getDest()->getInfo(), air->second, 0, airline);
-            copy.addEdge(air->second, edge.getDest()->getInfo(), 0, airline);
+            auto air1 = airVertex.find(edge.getDest()->getInfo()->getCode());
+            copy.addEdge(air1->second, air->second, 0, airline);
+            copy.addEdge(air->second, air1->second, 0, airline);
         }
     }
+
     for (auto &airport : copy.getVertexSet()) {
         airport->setProcessing(false);
         airport->setNum(-1);
@@ -423,7 +426,7 @@ bool hasOtherAirline(Edge &e, const unordered_set<Airline*> &air) {
  *  Um componente fortemente ligado é um subset do conjunto de vértices, tal que qualquer vértice concegue aceder a qualquer outro vértice do mesmo componente
  *  O(|V| + |E|)
  */
-vector<vector<Airport*>> Manager::scc() {
+void Manager::scc() {
     for (auto &airport : connections.getVertexSet()) {
         airport->setVisited(false);
         airport->setProcessing(false);
@@ -439,7 +442,7 @@ vector<vector<Airport*>> Manager::scc() {
         }
     }
 
-    return res;
+    Viewer::printScc(res);
 
 }
 
@@ -2250,4 +2253,18 @@ bool Manager::bfsMinAirlines(Vertex* source, Vertex* destination, set<Airline*> 
     }
 
     return found;
+}
+/*!@brief
+ *
+ * @param airlinesCountry
+ * @param country
+ * O(n)
+ */
+void Manager::listAirlinesPerCountry(const unordered_set<Airline *> &airlinesCountry, const string &country) const{
+    int maxLengthName = 0;
+
+    for (auto& elem : airlinesCountry) {
+        if (elem->getName().length() > maxLengthName) maxLengthName = elem->getName().length();
+    }
+    Viewer::printListAirlinesPerCountry(airlinesCountry, maxLengthName, country);
 }

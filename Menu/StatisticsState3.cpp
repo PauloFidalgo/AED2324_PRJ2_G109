@@ -22,12 +22,12 @@ void StatisticsState3::displayMenu() {
     cout << "|                                                                                                      |" << endl;
     cout << "|                                          Statistics:                                                 |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                                     1. Country Destinations                                          |" << endl;
-    cout << "|                                     2. City Destinations until specific Distance                     |" << endl;
-    cout << "|                                     3. Countries that can fly to certain city                        |" << endl;
-    cout << "|                                     4. Diameter Pairs                                                |" << endl;
-    cout << "|                                     5. Top k greatest traffic airline per country (Ascending)        |" << endl;
-    cout << "|                                     6. Top k greatest traffic airline per country (Descending)       |" << endl;
+    cout << "|                1. List airlines per airport                                                          |" << endl;
+    cout << "|                2. Airport Info                                                                       |" << endl;
+    cout << "|                3. Airline Info                                                                       |" << endl;
+    cout << "|                4. No. of destinations available for a given airport (Direct flight)                  |" << endl;
+    cout << "|                5. No. of reachable destinations from a given airport in a max number of K stops      |" << endl;
+    cout << "|                6. No. of reachable destinations from a given airport                                 |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|  back - Main Menu                                                                                    |" << endl;
@@ -71,40 +71,35 @@ State* StatisticsState3::handleInput() {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
             case 1: {
-                vector<Airport*> airports = this->getValidAirportsPerCountry();
-                if (!airports.empty()) manager.getCountryDestinantions(airports,name);
+                auto airport = getValidSingleAirport();
+                if(airport) manager.listAirlinesPerAirport(airport);
                 return this;
             }
             case 2: {
-                vector<Airport*> airports = this->getValidAirportsPerCity();
-                if (airports.empty()) return this;
-                int dist = this->getValidCityK();
-                if (dist != -1) manager.getCityDestinantionsUntilDistanceK(airports,name,dist);
+                auto airport = getValidSingleAirport();
+                if (airport) Manager::printAirportInfo(airport);
                 return this;
             }
             case 3: {
-                string city = getValidSingleCity();
-                if (!city.empty()) manager.getCountriesCanFlyToCity(city);
+                auto airline = getValidSingleAirline();
+                if (airline) Manager::printAirlineInfo(airline);
                 return this;
             }
-            case 4:
-                manager.diameterPairs();
+            case 4:{
+                Airport* airport = getValidSingleAirport();
+                if (airport) manager.getAirportDestinantionsDistance1(airport);
                 return this;
-            case 5: {
-                unordered_set<Airline*> airlines = getValidAirlineSingleCountry();
-                if (airlines.empty()) return this;
-                int distance = getValidAirlineK();
-                if (distance == -1) return this;
-                auto bar = bars();
-                manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,bar,true);
-                return this;
+            }
 
+            case 5: {
+                Airport *airport = getValidSingleAirport();
+                int distance = getValidAirportK();
+                if (airport && distance != -1) manager.getAirportDestinantionsUntilDistanceK(airport, distance);
+                return this;
             }
             case 6: {
-                unordered_set<Airline*> airlines = getValidAirlineSingleCountry();
-                if (airlines.empty()) return this;
-                int distance = getValidAirlineK();
-                if (distance != -1) manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,false,false);
+                Airport* airport = getValidSingleAirport();
+                if (airport) manager.getAirportDestinantions(airport);
                 return this;
             }
 

@@ -22,12 +22,12 @@ void StatisticsState6::displayMenu() {
     cout << "|                                                                                                      |" << endl;
     cout << "|                                             Statistics:                                              |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                           1. Top K Greatest Traffic Airport Per City (Ascending)                     |" << endl;
-    cout << "|                           2. Top K Greatest Traffic Airport Per City (Descending)                    |" << endl;
-    cout << "|                           3. Top K Greatest Traffic City Per Country (Ascending)                     |" << endl;
-    cout << "|                           4. Top K Greatest Traffic City Per Country (Descending)                    |" << endl;
-    cout << "|                           5. Top K Countries With More Airlines (Ascending)                          |" << endl;
-    cout << "|                           6. Top K Countries With More Airlines (Descending)                         |" << endl;
+    cout << "|                    1. Top-k airports a given airline travels more to                                 |" << endl;
+    cout << "|                    2. Top-k airports a given airline travels less to                                 |" << endl;
+    cout << "|                    3. Top-k airports with more airlines                                              |" << endl;
+    cout << "|                    4. Top-k airports with less airlines                                              |" << endl;
+    cout << "|                    5. Top-k airlines with the greatest air traffic capacity                          |" << endl;
+    cout << "|                    6. Top-k airlines with the least air traffic capacity                             |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "| back - Main Menu                                                                                     |" << endl;
     cout << "| exit - Exit                                                                              page - 6    |" << endl;
@@ -69,52 +69,42 @@ State* StatisticsState6::handleInput() {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
             case 1: {
-                auto airports = getValidAirportsSingleCity();
-                if (airports.empty()) return this;
+                auto airline = getValidSingleAirline();
                 auto k = getValidAirportK();
-                if (k == -1) return this;
                 auto bar = bars();
-                manager.getTopKGreatestTrafficAirportPerCity(k,airports,bar,true);
+                if (airline && k != -1 )manager.getTopKAirportsAirlineTravelsTo(k,airline,bar, false);
                 return this;
             }
             case 2: {
-                auto airports = getValidAirportsSingleCity();
-                if (airports.empty()) return this;
+                auto airline = getValidSingleAirline();
                 auto k = getValidAirportK();
-                if (k == -1) return this;
-                auto bar =  bars();
-                manager.getTopKGreatestTrafficAirportPerCity(k,airports,bar,false);
+                auto bar = bars();
+                if (airline && k != -1 )manager.getTopKAirportsAirlineTravelsTo(k,airline,bar, true);
                 return this;
             }
             case 3: {
-                auto cities = getValidCitiesSingleCountry();
-                if (cities.empty()) return this;
-                auto k = getValidCountryK();
-                if (k == -1) return this;
+                auto k = getValidAirportK();
                 auto bar = bars();
-                manager.getTopKGreatestTrafficCityPerCountry(k,cities,bar,true);
+                if( k != -1) manager.getTopKAirportsWithMoreAirlines(k,bar,false);
                 return this;
             }
             case 4: {
-                auto cities = getValidCitiesSingleCountry();
-                if (cities.empty()) return this;
-                auto k = getValidCountryK();
-                if (k == -1) return this;
+                auto k = getValidAirportK();
                 auto bar = bars();
-                manager.getTopKGreatestTrafficCityPerCountry(k,cities,bar,false);
+                if( k != -1) manager.getTopKAirportsWithMoreAirlines(k,bar,true);
                 return this;
             }
             case 5: {
-                auto k = getValidCountryK();
-                if (k == -1) return this;
+                int k = getValidAirlineK();
                 auto bar = bars();
-                manager.getTopKCountriesWithMoreAirlines(k,bar, true);
+                if (k != -1) manager.getTopKGreatestTrafficAirline(k,bar,false);
+                return this;
             }
             case 6: {
-                auto k = getValidCountryK();
-                if (k == -1) return this;
+                int k = getValidAirlineK();
                 auto bar = bars();
-                manager.getTopKCountriesWithMoreAirlines(k,bar, false);
+                if (k != -1) manager.getTopKGreatestTrafficAirline(k,bar,true);
+                return this;
             }
             default:
                 std::cout << " Invalid choice. try again" << std::endl;

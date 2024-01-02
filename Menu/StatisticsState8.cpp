@@ -3,12 +3,12 @@
 //
 
 #include "StatisticsState8.h"
-#include "BarsState.h"
+#include "StatisticsState9.h"
 #include "iostream"
 #include "sstream"
 
 using namespace std;
-
+State* statisticsState9 = new StatisticsState9();
 /*!@brief  função que mostra o oitavo menu das estatisticas, onde deixa o utilizador escolher que estatistica quer visualizar
  *
  */
@@ -16,14 +16,16 @@ void StatisticsState8::displayMenu() {
 
     cout << endl;
     cout << "________________________________________________________________________________________________________" << endl;
-    cout << "|   previous - previous page                                                                           |" << endl;
+    cout << "|   previous - previous page                                                   next - next page        |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                             Statistics:                                              |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                             1. Top K Airlines That Fly More To An Airport Ratio (Ascending)          |" << endl;
-    cout << "|                             2. Top K Airlines That Fly More To An Airport Ratio (Descending)         |" << endl;
-    cout << "|                             3. Strongly connected Components                                         |" << endl;
-    cout << "|                             4. Top K Greatest Traffic Airline                                        |" << endl;
+    cout << "|              1. Top-k cities with the greatest air traffic capacity                                  |" << endl;
+    cout << "|              2. Top-k cities with the least air traffic capacity                                     |" << endl;
+    cout << "|              3. Top-k cities per country with the greatest air traffic capacity                      |" << endl;
+    cout << "|              4. Top-k cities per country with the least air traffic capacity                         |" << endl;
+    cout << "|              5. Top-k countries with the greatest air traffic capacity                               |" << endl;
+    cout << "|              6. Top-k countries with the least air traffic capacity                                  |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "| back - Main Menu                                                                                     |" << endl;
     cout << "| exit - Exit                                                                              page - 8    |" << endl;
@@ -55,37 +57,52 @@ State* StatisticsState8::handleInput() {
             return previousState;
         }
     }
+    if(userInputStr == "next"){
+        State::statisticsHistory.push(this);
+        return statisticsState9;
+    }
     if (userInputStr == "exit") {
         exit(0);
     } else {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
             case 1: {
-                auto k = getValidAirportK();
-                if (k == -1) return this;
-                auto airport = getValidSingleAirport();
-                if (!airport) return this;
+                auto k = getValidCityK();
                 auto bar = bars();
-                manager.getTopKAirlinesThatFlyMoreToAnAirportRatio(k,airport,bar,true);
+                if(k!= -1)  manager.getTopKGreatestTrafficCity(k,bar,false);
+                return this;
             }
             case 2: {
-                auto k = getValidAirportK();
-                if (k == -1) return this;
-                auto airport = getValidSingleAirport();
-                if (!airport) return this;
-                auto bar = bars();
-                manager.getTopKAirlinesThatFlyMoreToAnAirportRatio(k,airport,bar,false);
+                auto k = getValidCityK();
+                int bar = bars();
+                if(k!= -1) manager.getTopKGreatestTrafficCity(k,bar,true);
                 return this;
             }
             case 3: {
-                manager.scc();
+                auto cities = getValidCitiesSingleCountry();
+                auto k = getValidCountryK();
+                auto bar = bars();
+                if(k != -1 && !cities.empty()) manager.getTopKGreatestTrafficCityPerCountry(k,cities,bar,false);
                 return this;
             }
             case 4: {
-                int k = getValidAirlineK();
-                if (k != -1) manager.getTopKGreatestTrafficAirline(k);
+                auto cities = getValidCitiesSingleCountry();
+                auto k = getValidCountryK();
+                auto bar = bars();
+                if(k != -1 && !cities.empty()) manager.getTopKGreatestTrafficCityPerCountry(k,cities,bar,true);
                 return this;
-
+            }
+            case 5: {
+                auto k = getValidCountryK();
+                auto bar = bars();
+                if (k != -1) manager.getTopKGreatestTrafficCountry(k,bar,false);
+                return this;
+            }
+            case 6:{
+                auto k = getValidCountryK();
+                auto bar = bars();
+                if (k != -1) manager.getTopKGreatestTrafficCountry(k,bar,true);
+                return this;
             }
             default:
                 std::cout << " Invalid choice. try again" << std::endl;

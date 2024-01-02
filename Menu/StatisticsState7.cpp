@@ -23,12 +23,12 @@ void StatisticsState7::displayMenu() {
     cout << "|                                                                                                      |" << endl;
     cout << "|                                            Statistics:                                               |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                              1. Top K Airports Airline Travels To (Ascending)                        |" << endl;
-    cout << "|                              2. Top K Airports Airline Travels To (Descending)                       |" << endl;
-    cout << "|                              3. Top K Airports With More Airlines (Ascending)                        |" << endl;
-    cout << "|                              4. Top K Airports With More Airlines (Descending)                       |" << endl;
-    cout << "|                              5. Top K Airlines That FlyMore To An Airport (Ascending)                |" << endl;
-    cout << "|                              6. Top K Airlines That FlyMore To An Airport (Descending)               |" << endl;
+    cout << "|                1. Top-k airlines in a given country with the greatest air traffic capacity           |" << endl;
+    cout << "|                2. Top-k airlines in a given country with the least air traffic capacity              |" << endl;
+    cout << "|                3. Top-k airlines that fly more to a given airport                                    |" << endl;
+    cout << "|                4. Top-k airlines that fly less to a given airport                                    |" << endl;
+    cout << "|                5. Top-k airlines that fly more to a given airport (% of total airlines flights)      |" << endl;
+    cout << "|                6. Top-k airlines that fly less to a given airport (% of total airlines flights)      |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "| back - Main Menu                                                                                     |" << endl;
     cout << "| exit - Exit                                                                              page - 7    |" << endl;
@@ -70,52 +70,46 @@ State* StatisticsState7::handleInput() {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
             case 1: {
-                auto airline = getValidSingleAirline();
-                if (!airline) return this;
-                auto k = getValidAirportK();
-                if (k == -1) return this;
+                unordered_set<Airline*> airlines = getValidAirlineSingleCountry();
+                int distance = getValidAirlineK();
                 auto bar = bars();
-                manager.getTopKAirportsAirlineTravelsTo(k,airline,bar,true);
+                if (!airlines.empty() && distance != -1) manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,bar,false);
                 return this;
             }
             case 2: {
-                auto airline = getValidSingleAirline();
-                if (!airline) return this;
-                auto k = getValidAirportK();
-                if (k == -1) return this;
+                unordered_set<Airline*> airlines = getValidAirlineSingleCountry();
+                int distance = getValidAirlineK();
                 auto bar = bars();
-                manager.getTopKAirportsAirlineTravelsTo(k,airline,bar, false);
+                if (!airlines.empty() && distance != -1) manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,bar,true);
                 return this;
             }
             case 3: {
+                auto airport = getValidSingleAirport();
                 auto k = getValidAirportK();
-                if (k == -1) return this;
                 auto bar = bars();
-                manager.getTopKAirportsWithMoreAirlines(k,bar,true);
+                if (airport && k != -1) manager.getTopKAirlinesThatFlyMoreToAnAirport(k,airport,bar, false);
                 return this;
             }
             case 4: {
+                auto airport = getValidSingleAirport();
                 auto k = getValidAirportK();
-                if (k == -1) return this;
                 auto bar = bars();
-                manager.getTopKAirportsWithMoreAirlines(k,bar,false);
+                if (airport && k != -1) manager.getTopKAirlinesThatFlyMoreToAnAirport(k,airport,bar, true);
                 return this;
             }
             case 5: {
-                auto airport = getValidSingleAirport();
-                if (!airport) return this;
                 auto k = getValidAirportK();
-                if (k == -1) return this;
+                auto airport = getValidSingleAirport();
                 auto bar = bars();
-                manager.getTopKAirlinesThatFlyMoreToAnAirport(k,airport,bar, true);
+                if (airport && k != -1) manager.getTopKAirlinesThatFlyMoreToAnAirportRatio(k, airport, bar, true);
+                return this;
             }
             case 6: {
-                auto airport = getValidSingleAirport();
-                if (!airport) return this;
                 auto k = getValidAirportK();
-                if (k == -1) return this;
+                auto airport = getValidSingleAirport();
                 auto bar = bars();
-                manager.getTopKAirlinesThatFlyMoreToAnAirport(k,airport,bar, false);
+                if (airport && k != -1) manager.getTopKAirlinesThatFlyMoreToAnAirportRatio(k, airport, bar, false);
+                return this;
             }
             default:
                 std::cout << " Invalid choice. try again" << std::endl;
