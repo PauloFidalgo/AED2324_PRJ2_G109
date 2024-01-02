@@ -20,12 +20,12 @@ void StatisticsState1::displayMenu() {
     cout << "|                                                                                 next - next page     |" << endl;
     cout << "|                                             Statistics                                               |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|                    1. No. of flights out of an airport and from how many different airlines          |" << endl;
-    cout << "|                    2. No. of flights per airline                                                     |" << endl;
-    cout << "|                    3. No. of different countries that a given airport flies to                       |" << endl;
-    cout << "|                    4. No. of destinations available for a given city (Distance 1)                    |" << endl;
-    cout << "|                    5. No. of destinations available for a given country (Distance 1)                 |" << endl;
-    cout << "|                    6. No. of reachable destinations from a given airport in a max number of K stops  |" << endl;
+    cout << "|                    1. Global no. of airports and flights                                             |" << endl;
+    cout << "|                    2. No. of flights out of an airport and from how many different airlines          |" << endl;
+    cout << "|                    3. No. of flights per airline                                                     |" << endl;
+    cout << "|                    4. No. flights per city                                                           |" << endl;
+    cout << "|                    5. No. of different countries that a given airport flies to                       |" << endl;
+    cout << "|                    6. No. of different countries that a given city flies to                          |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                                                                                      |" << endl;
     cout << "|                                                                                                      |" << endl;
@@ -64,34 +64,32 @@ State* StatisticsState1::handleInput() {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
             case 1: {
+                manager.getNumAirportsAndFlights();
+                return this;
+            }
+            case 2: {
                 Airport *airport = getValidSingleAirport();
                 if (airport) manager.getNumFlightsAndAirlines(airport);
                 return this;
             }
-            case 2: {
+            case 3: {
                 Airline *airline = getValidSingleAirline();
                 if (airline) manager.getNumFlightsPerAirline(airline);
                 return this;
             }
-            case 3: {
+            case 4: {
+                string city = getValidSingleCity();
+                if (!city.empty()) manager.getNumFlightsPerCity(city);
+                return this;
+            }
+            case 5: {
                 Airport *airport = getValidSingleAirport();
                 if (airport) manager.getCountriesCanFlyToAirport(airport);
                 return this;
             }
-            case 4: {
-                vector<Airport*> airports = getValidAirportsSingleCity();
-                if (!airports.empty()) manager.getCityDestinationsDistance1(airports,name);
-                return this;
-            }
-            case 5: {
-                auto airports = getValidAirportsSingleCountry();
-                if (!airports.empty()) manager.getCountryDestinationsDistance1(airports,name);
-                return this;
-            }
             case 6: {
-                Airport *airport = getValidSingleAirport();
-                int distance = getValidAirportK();
-                if (airport && distance != -1) manager.getAirportDestinantionsUntilDistanceK(airport, distance);
+                string city = getValidSingleCity();
+                if (!city.empty()) manager.getCountriesCanFlyToCity(city);
                 return this;
             }
             default:

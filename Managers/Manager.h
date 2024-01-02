@@ -105,6 +105,7 @@ public:
     static void printAirportInfo(Airport *airport);
     static void printAirlineInfo(Airline *airline);
     void listAirlinesPerAirport(Airport *airport);
+    void listAirlinesPerCountry(const unordered_set<Airline *> &airlinesCountry, const string &country) const;
 
     };
 

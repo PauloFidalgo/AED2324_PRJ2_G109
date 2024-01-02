@@ -308,7 +308,7 @@ void Manager::articulationPoints() {
     for (auto &elem : connections.getVertexSet()) {
         auto air = airVertex.find(elem->getInfo()->getCode());
         for (auto & edge : elem->getAdj()) {
-            copy.addEdge(edge.getDest()->getInfo(), air->second, 0, airline); //O(|V|)
+            copy.addEdge(edge.getDest()->getInfo(), air->second, 0, airline);
             copy.addEdge(air->second, edge.getDest()->getInfo(), 0, airline);
         }
     }
@@ -1973,3 +1973,17 @@ void Manager::getTopKCountriesWithMoreAirlines(int k, const bool &bars, const bo
     else Viewer::printCountryCityStats(res, "Countries", "Number of airlines", nameSize);
 }
 
+/*!@brief
+ *
+ * @param airlinesCountry
+ * @param country
+ * O(n)
+ */
+void Manager::listAirlinesPerCountry(const unordered_set<Airline *> &airlinesCountry, const string &country) const{
+    int maxLengthName = 0;
+
+    for (auto& elem : airlinesCountry) {
+        if (elem->getName().length() > maxLengthName) maxLengthName = elem->getName().length();
+    }
+    Viewer::printListAirlinesPerCountry(airlinesCountry, maxLengthName, country);
+}
