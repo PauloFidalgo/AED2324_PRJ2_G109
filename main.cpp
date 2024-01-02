@@ -5,7 +5,11 @@
 #include "Managers/Manager.h"
 
 int main() {
+    /*
     MenuManager m;
     m.menuNavigation();
     return 0;
+     */
+    Manager manager;
+    manager.articulationPoints();
 }

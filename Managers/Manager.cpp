@@ -306,7 +306,6 @@ void checkBackEdge(Graph &g, Airline* air, Vertex* a, Vertex* b) {
  *  O()
  */
 void Manager::articulationPoints() {
-    /*
     Graph copy;
     unordered_map<string, Airport *> airVertex;
     for (auto &elem : connections.getVertexSet()) {
@@ -326,8 +325,7 @@ void Manager::articulationPoints() {
             checkBackEdge(copy, airline, a, b);
         }
     }
-    */
-    for (auto &airport : connections.getVertexSet()) {
+    for (auto &airport : copy.getVertexSet()) {
         airport->setProcessing(false);
         airport->setNum(-1);
         airport->setLow(-1);
@@ -337,7 +335,7 @@ void Manager::articulationPoints() {
     stack<Airport*> s;
     int i = 0;
 
-    for (auto &airport : connections.getVertexSet()) {
+    for (auto &airport : copy.getVertexSet()) {
         if (airport->getNum() == -1) {
             dfsApp(airport, s, res, i);
         }
@@ -378,11 +376,11 @@ void Manager::dfsApp(Vertex *v, stack<Airport*> &s, vector<Airport*> &res, int &
         else if (dest->isProcessing()) {
             v->setLow(min(v->getLow(), dest->getNum()));
         }
-        if (child > 1 && v->getNum() == 0) {
-            res.push_back(v->getInfo());
-        }
     }
     v->setProcessing(false);
+    if (child > 1 && v->getNum() == 0) {
+        res.push_back(v->getInfo());
+    }
     s.pop();
 }
 
