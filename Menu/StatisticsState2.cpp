@@ -93,7 +93,7 @@ State* StatisticsState2::handleInput() {
             }
             case 6:{
                 auto airline = getValidAirlinePerCountry();
-                manager.listAirlinesPerCountry(airline,name);
+                if(!airline.empty()) manager.listAirlinesPerCountry(airline,name);
                 return this;
             }
             default:

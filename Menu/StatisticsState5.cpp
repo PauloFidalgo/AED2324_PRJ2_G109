@@ -69,56 +69,44 @@ State* StatisticsState5::handleInput() {
         istringstream(userInputStr) >> userInput;
         switch (userInput) {
             case 1: {
-                unordered_set<Airline*> airlines = getValidAirlineSingleCountry();
-                if (airlines.empty()) return this;
-                int distance = getValidAirlineK();
-                if (distance != -1) manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,false,false);
+                int k = getValidAirportK();
+                auto bar = bars();
+                if (k != -1) manager.getTopKGreatestTrafficAirport(k,bar ,false);
                 return this;
             }
             case 2: {
-                unordered_set<Airline*> airlines = getValidAirlineSingleCountry();
-                if (airlines.empty()) return this;
-                int distance = getValidAirlineK();
-                if (distance == -1) return this;
+                int k = getValidAirportK();
                 auto bar = bars();
-                manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,bar,true);
+                if (k != -1) manager.getTopKGreatestTrafficAirport(k,bar ,true);
                 return this;
 
             }
             case 3: {
                 auto airports = getValidAirportsSingleCity();
-                if (airports.empty()) return this;
                 auto k = getValidAirportK();
-                if (k == -1) return this;
                 auto bar =  bars();
-                manager.getTopKGreatestTrafficAirportPerCity(k,airports,bar,false);
+                if (!airports.empty() && k != -1 ) manager.getTopKGreatestTrafficAirportPerCity(k,airports,bar,false);
                 return this;
             }
             case 4: {
                 auto airports = getValidAirportsSingleCity();
-                if (airports.empty()) return this;
                 auto k = getValidAirportK();
-                if (k == -1) return this;
-                auto bar = bars();
-                manager.getTopKGreatestTrafficAirportPerCity(k,airports,bar,true);
+                auto bar =  bars();
+                if (!airports.empty() && k != -1 ) manager.getTopKGreatestTrafficAirportPerCity(k,airports,bar,true);
                 return this;
             }
             case 5: {
                 auto airports = getValidAirports();
-                if (airports.empty()) return this;
-                auto dist = getValidAirportK();
-                if (dist == -1) return this;
+                auto k = getValidAirportK();
                 auto bar = bars();
-                manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, bar, false);
+                if (!airports.empty() && k != -1 )manager.getTopKGreatestTrafficAirportPerCountry(k, airports, bar, false);
                 return this;
             }
             case 6: {
                 auto airports = getValidAirports();
-                if (airports.empty()) return this;
-                auto dist = getValidAirportK();
-                if (dist == -1) return this;
+                auto k = getValidAirportK();
                 auto bar = bars();
-                manager.getTopKGreatestTrafficAirportPerCountry(dist, airports, bar, true);
+                if (!airports.empty() && k != -1 )manager.getTopKGreatestTrafficAirportPerCountry(k, airports, bar, true);
                 return this;
             }
             default:
