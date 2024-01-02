@@ -672,15 +672,15 @@ void Viewer::printCityOrCountryGreatestTrafficBars(const vector<pair<string, int
 
 /*!
  * @brief Imprime gráficos de barras representando o tráfego dos principais elementos em um vetor.
- * @param airportsOrAirlines Vetor de pares representando tráfego de aeroportos ou companhias aéreas.
+ * @param airports Vetor de pares representando tráfego de aeroportos.
  * @param asc Indica se a ordenação é ascendente.
  * O(n)
  */
 void Viewer::printTopKVectorBars(const vector<pair<Airport *, int>> &airports, const bool &asc) {
     if (!airports.empty()) {
         float size;
-        if (!asc) size = airports.front().second;
-        else size = airports.back().second;
+        if (!asc) size = airports.front().second >= 1 ? airports.front().second : 1;
+        else size = airports.back().second >= 1 ? airports.back().second : 1;
         cout << "     |" << endl;
         for (auto& elem : airports) {
             int numFlights = elem.second;
@@ -703,17 +703,17 @@ void Viewer::printTopKVectorBars(const vector<pair<Airport *, int>> &airports, c
 
 /*!
  * @brief Imprime gráficos de barras representando o tráfego dos principais elementos em um vetor.
- * @param airportsOrAirlines Vetor de pares representando tráfego de aeroportos ou companhias aéreas.
+ * @param airlines Vetor de pares representando tráfego de companhias aéreas.
  * @param asc Indica se a ordenação é ascendente.
  * O(n)
  */
-void Viewer::printTopKVectorBars(const vector<pair<Airline *, int>> &airportsOrAirlines, const bool &asc) {
-    if (!airportsOrAirlines.empty()) {
+void Viewer::printTopKVectorBars(const vector<pair<Airline *, int>> &airlines, const bool &asc) {
+    if (!airlines.empty()) {
         float size;
-        if (!asc) size = airportsOrAirlines.front().second;
-        else size = airportsOrAirlines.back().second;
+        if (!asc) size = airlines.front().second >= 1 ? airlines.front().second : 1;
+        else size = airlines.back().second >= 1 ? airlines.back().second : 1;
         cout << "     |" << endl;
-        for (auto& elem : airportsOrAirlines) {
+        for (auto& elem : airlines) {
             int numFlights = elem.second;
             int lenBar = (numFlights / size) * 120;
             if (lenBar == 0) {
@@ -761,8 +761,8 @@ void Viewer::printArticulationPoints(const vector<Airport *> res, const int &nam
 void Viewer::printTopKVectorBarsRatio(const vector<pair<Airline *, double>> &airlines, const bool &asc) {
     if (!airlines.empty()) {
         float size;
-        if (!asc) size = airlines.front().second;
-        else size = airlines.back().second;
+        if (!asc) size = airlines.front().second >= 1 ? airlines.front().second : 1;
+        else size = airlines.back().second >= 1 ? airlines.back().second : 1;
         cout << "     |" << endl;
         for (auto& elem : airlines) {
             double numFlights = elem.second;

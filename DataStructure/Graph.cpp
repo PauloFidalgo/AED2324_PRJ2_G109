@@ -44,7 +44,7 @@ bool Graph::addVertex(Airport* in) {
  * @param airline apontador para airline que faz esse voo
  * @return true no caso de ter sido possível adicionar o edge
  * @return false no caso contrário
- * (|V|)
+ * O(|V|)
  */
 bool Graph::addEdge(Airport* sourc, Airport *dest, double w, Airline* airline) {
     auto v1 = findVertex(sourc);

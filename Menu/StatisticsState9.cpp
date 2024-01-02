@@ -63,14 +63,16 @@ State* StatisticsState9::handleInput() {
         switch (userInput) {
             case 1: {
                 auto k = getValidCountryK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if(k != -1) manager.getTopKCountriesWithMoreAirlines(k,bar, false);
+                manager.getTopKCountriesWithMoreAirlines(k,bar, false);
                 return this;
             }
             case 2: {
                 auto k = getValidCountryK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if(k != -1) manager.getTopKCountriesWithMoreAirlines(k,bar, true);
+                manager.getTopKCountriesWithMoreAirlines(k,bar, true);
                 return this;
             }
             default:

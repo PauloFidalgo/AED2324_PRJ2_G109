@@ -68,40 +68,48 @@ State* StatisticsState8::handleInput() {
         switch (userInput) {
             case 1: {
                 auto k = getValidCityK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if(k!= -1)  manager.getTopKGreatestTrafficCity(k,bar,false);
+                manager.getTopKGreatestTrafficCity(k,bar,false);
                 return this;
             }
             case 2: {
                 auto k = getValidCityK();
+                if (k == -1) return this;
                 int bar = bars();
-                if(k!= -1) manager.getTopKGreatestTrafficCity(k,bar,true);
+                manager.getTopKGreatestTrafficCity(k,bar,true);
                 return this;
             }
             case 3: {
                 auto cities = getValidCitiesSingleCountry();
+                if (cities.empty()) return this;
                 auto k = getValidCountryK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if(k != -1 && !cities.empty()) manager.getTopKGreatestTrafficCityPerCountry(k,cities,bar,false);
+                manager.getTopKGreatestTrafficCityPerCountry(k,cities,bar,false);
                 return this;
             }
             case 4: {
                 auto cities = getValidCitiesSingleCountry();
+                if (cities.empty()) return this;
                 auto k = getValidCountryK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if(k != -1 && !cities.empty()) manager.getTopKGreatestTrafficCityPerCountry(k,cities,bar,true);
+                manager.getTopKGreatestTrafficCityPerCountry(k,cities,bar,true);
                 return this;
             }
             case 5: {
                 auto k = getValidCountryK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if (k != -1) manager.getTopKGreatestTrafficCountry(k,bar,false);
+                manager.getTopKGreatestTrafficCountry(k,bar,false);
                 return this;
             }
             case 6:{
                 auto k = getValidCountryK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if (k != -1) manager.getTopKGreatestTrafficCountry(k,bar,true);
+                manager.getTopKGreatestTrafficCountry(k,bar,true);
                 return this;
             }
             default:

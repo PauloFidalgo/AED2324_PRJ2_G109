@@ -76,9 +76,10 @@ State* StatisticsState4::handleInput() {
                 return this;
             }
             case 2: {
-                vector<Airport*> airports = this->getValidAirportsPerCity();
+                vector<Airport*> airports = getValidAirportsSingleCity();
+                if (airports.empty()) return this;
                 int dist = this->getValidCityK();
-                if (!airports.empty() && dist != -1) manager.getCityDestinantionsUntilDistanceK(airports,dist);
+                if (dist != -1) manager.getCityDestinantionsUntilDistanceK(airports,dist);
                 return this;
             }
             case 3: {
@@ -93,13 +94,14 @@ State* StatisticsState4::handleInput() {
 
             }
             case 5: {
-                vector<Airport*> airports = this->getValidAirportsPerCountry();
+                vector<Airport*> airports = getValidAirportsSingleCountry();
+                if (airports.empty()) return this;
                 int dist = this->getValidCountryK();
-                if (!airports.empty() && dist != -1) manager.getCountryDestinantionsUntilDistanceK(airports,dist);
+                if (dist != -1) manager.getCountryDestinantionsUntilDistanceK(airports,dist);
                 return this;
             }
             case 6: {
-                vector<Airport*> airports = this->getValidAirportsPerCountry();
+                vector<Airport*> airports = getValidAirportsSingleCountry();
                 if (!airports.empty()) manager.getCountryDestinantions(airports);
                 return this;
             }

@@ -71,44 +71,56 @@ State* StatisticsState7::handleInput() {
         switch (userInput) {
             case 1: {
                 unordered_set<Airline*> airlines = getValidAirlineSingleCountry();
+                if (airlines.empty()) return this;
                 int distance = getValidAirlineK();
+                if (distance == -1) return this;
                 auto bar = bars();
-                if (!airlines.empty() && distance != -1) manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,bar,false);
+                manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,bar,false);
                 return this;
             }
             case 2: {
                 unordered_set<Airline*> airlines = getValidAirlineSingleCountry();
+                if (airlines.empty()) return this;
                 int distance = getValidAirlineK();
+                if (distance == -1) return this;
                 auto bar = bars();
-                if (!airlines.empty() && distance != -1) manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,bar,true);
+                manager.getTopKGreatestTrafficAirlinePerCountry(distance, airlines,bar,true);
                 return this;
             }
             case 3: {
                 auto airport = getValidSingleAirport();
+                if (!airport) return this;
                 auto k = getValidAirportK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if (airport && k != -1) manager.getTopKAirlinesThatFlyMoreToAnAirport(k,airport,bar, false);
+                manager.getTopKAirlinesThatFlyMoreToAnAirport(k,airport,bar, false);
                 return this;
             }
             case 4: {
                 auto airport = getValidSingleAirport();
+                if (!airport) return this;
                 auto k = getValidAirportK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if (airport && k != -1) manager.getTopKAirlinesThatFlyMoreToAnAirport(k,airport,bar, true);
+                manager.getTopKAirlinesThatFlyMoreToAnAirport(k,airport,bar, true);
                 return this;
             }
             case 5: {
-                auto k = getValidAirportK();
                 auto airport = getValidSingleAirport();
+                if (!airport) return this;
+                auto k = getValidAirportK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if (airport && k != -1) manager.getTopKAirlinesThatFlyMoreToAnAirportRatio(k, airport, bar, false);
+                manager.getTopKAirlinesThatFlyMoreToAnAirportRatio(k, airport, bar, false);
                 return this;
             }
             case 6: {
-                auto k = getValidAirportK();
                 auto airport = getValidSingleAirport();
+                if (!airport) return this;
+                auto k = getValidAirportK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if (airport && k != -1) manager.getTopKAirlinesThatFlyMoreToAnAirportRatio(k, airport, bar, true);
+                manager.getTopKAirlinesThatFlyMoreToAnAirportRatio(k, airport, bar, true);
                 return this;
             }
             default:

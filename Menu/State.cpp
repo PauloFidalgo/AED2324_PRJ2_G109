@@ -32,7 +32,7 @@ Airport* State::getValidSingleAirport() {
 
     while(!airportCode && !airportName) {
         cin.clear();
-        cout << "Airport (back to cancel): ";
+        cout << "Airport name or code (back to cancel): ";
         getline(cin, code);
 
         if(code == "back") {
@@ -63,7 +63,7 @@ Airline* State::getValidSingleAirline() {
     cout << endl;
 
     while (!airlineCode && !airlineName) {
-        cout << "Airline (back to cancel): ";
+        cout << "Airline name or code (back to cancel): ";
         getline(cin, code);
 
         if (code == "back") {
@@ -136,7 +136,6 @@ string State::getValidSingleCountry() {
  */
 int State::getValidAirportK() {
     cout << endl;
-
     do {
         bool s = false;
         while (!s) {
@@ -578,7 +577,7 @@ vector<Airport*> State::getValidAirports() {
 
         do {
             cin.clear();
-             cout << "Airport Name or Code (ok to confirm, back to cancel): ";
+             cout << "Airport name or code (ok to confirm, back to cancel): ";
             getline(cin, name);
             if (name == "ok") {
                 in = false;
@@ -615,7 +614,7 @@ unordered_set<Airline*> State::getValidAirlines() {
     while (in) {
         do {
             cin.clear();
-             cout << "Airline Name or Code (ok to confirm, back to cancel): ";
+             cout << "Airline name or code (ok to confirm, back to cancel): ";
             getline(cin, name);
 
             if (name == "ok") {
@@ -654,7 +653,7 @@ unordered_set<Airline*> State::getValidAirlinePerCountry() {
 
         do {
             cin.clear();
-             cout << "Country Name (ok to confirm, back to cancel): ";
+             cout << "Country (ok to confirm, back to cancel): ";
             getline(cin, name);
 
             if (name == "ok") {
@@ -690,7 +689,7 @@ unordered_set<Airline*> State::getValidAirlineSingleCountry() {
 
         do {
             cin.clear();
-             cout << "Country Name (back to cancel): ";
+             cout << "Country (back to cancel): ";
             getline(cin, name);
 
             if (name == "back") {

@@ -50,8 +50,8 @@ public:
 
     static void printTopKVector(const vector<pair<Airport *, int>> &airports,const string &label1, const string &label2, const int &nameSize);
     static void printTopKVector(const vector<pair<Airline *, int>> &airlines,const string &label1, const string &label2, const int &nameSize);
-    static void printTopKVectorBars(const vector<pair<Airport *, int>> &airportsOrAirlines, const bool &asc);
-    static void printTopKVectorBars(const vector<pair<Airline *, int>> &airportsOrAirlines, const bool &asc);
+    static void printTopKVectorBars(const vector<pair<Airport *, int>> &airports, const bool &asc);
+    static void printTopKVectorBars(const vector<pair<Airline *, int>> &airlines, const bool &asc);
     static void printTopKVectorRatio(const vector<pair<Airline *, double>> &airlines, const int &nameSize);
     static void printTopKVectorBarsRatio(const vector<pair<Airline *, double>> &airlines, const bool &asc);
 

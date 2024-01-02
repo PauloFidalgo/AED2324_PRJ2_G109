@@ -70,40 +70,48 @@ State* StatisticsState6::handleInput() {
         switch (userInput) {
             case 1: {
                 auto airline = getValidSingleAirline();
+                if (!airline) return this;
                 auto k = getValidAirportK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if (airline && k != -1 )manager.getTopKAirportsAirlineTravelsTo(k,airline,bar, false);
+                manager.getTopKAirportsAirlineTravelsTo(k,airline,bar, false);
                 return this;
             }
             case 2: {
                 auto airline = getValidSingleAirline();
+                if (!airline) return this;
                 auto k = getValidAirportK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if (airline && k != -1 )manager.getTopKAirportsAirlineTravelsTo(k,airline,bar, true);
+                manager.getTopKAirportsAirlineTravelsTo(k,airline,bar, true);
                 return this;
             }
             case 3: {
                 auto k = getValidAirportK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if( k != -1) manager.getTopKAirportsWithMoreAirlines(k,bar,false);
+                manager.getTopKAirportsWithMoreAirlines(k,bar,false);
                 return this;
             }
             case 4: {
                 auto k = getValidAirportK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if( k != -1) manager.getTopKAirportsWithMoreAirlines(k,bar,true);
+                manager.getTopKAirportsWithMoreAirlines(k,bar,true);
                 return this;
             }
             case 5: {
                 int k = getValidAirlineK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if (k != -1) manager.getTopKGreatestTrafficAirline(k,bar,false);
+                manager.getTopKGreatestTrafficAirline(k,bar,false);
                 return this;
             }
             case 6: {
                 int k = getValidAirlineK();
+                if (k == -1) return this;
                 auto bar = bars();
-                if (k != -1) manager.getTopKGreatestTrafficAirline(k,bar,true);
+                manager.getTopKGreatestTrafficAirline(k,bar,true);
                 return this;
             }
             default:

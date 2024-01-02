@@ -44,7 +44,7 @@ void BarsState::displayMenu() {
 State* BarsState::handleInput() {
     cin.clear();
     cout << "Enter your choice: ";
-    cin >> userInputStr;
+    getline(cin, userInputStr);
 
     if (userInputStr == "exit") {
         exit(0);

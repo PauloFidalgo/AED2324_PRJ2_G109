@@ -292,11 +292,21 @@ Airport* Manager::getClosestAirport(const double &x, const double &y) {
     return closest;
 }
 
+void checkBackEdge(Graph &g, Airline* air, Vertex* a, Vertex* b) {
+    for (auto &elem : b->getAdj()) {
+        if (elem.getDest()->getInfo()->getCode() == a->getInfo()->getCode()) {
+            return;
+        }
+    }
+    g.addEdge(b->getInfo(), a->getInfo(), 0,air);
+}
+
 /*! @brief Determina os vértices críticos do grafo
  *  Vértices críticos, são vértices que caso sejam removidos, fazem aumentar o número de componentes do grafo
  *  O()
  */
 void Manager::articulationPoints() {
+    /*
     Graph copy;
     unordered_map<string, Airport *> airVertex;
     for (auto &elem : connections.getVertexSet()) {
@@ -308,14 +318,16 @@ void Manager::articulationPoints() {
     auto *airline = new Airline("", "", "", "");
     for (auto &elem : connections.getVertexSet()) {
         auto air = airVertex.find(elem->getInfo()->getCode());
+        auto a = copy.findVertex(air->second);
         for (auto & edge : elem->getAdj()) {
             auto air1 = airVertex.find(edge.getDest()->getInfo()->getCode());
-            copy.addEdge(air1->second, air->second, 0, airline);
+            auto b = copy.findVertex(air1->second);
             copy.addEdge(air->second, air1->second, 0, airline);
+            checkBackEdge(copy, airline, a, b);
         }
     }
-
-    for (auto &airport : copy.getVertexSet()) {
+    */
+    for (auto &airport : connections.getVertexSet()) {
         airport->setProcessing(false);
         airport->setNum(-1);
         airport->setLow(-1);
@@ -325,7 +337,7 @@ void Manager::articulationPoints() {
     stack<Airport*> s;
     int i = 0;
 
-    for (auto &airport : copy.getVertexSet()) {
+    for (auto &airport : connections.getVertexSet()) {
         if (airport->getNum() == -1) {
             dfsApp(airport, s, res, i);
         }
