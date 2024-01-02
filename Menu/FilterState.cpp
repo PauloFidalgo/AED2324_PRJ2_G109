@@ -266,7 +266,7 @@ void FilterState::excludeCities() {
     } else if (!aux.empty()) {
         excludedAirports.insert(excludedAirports.end(),aux.begin(),aux.end()); // O(n)
     }
-    verifyExcludeAirports(); //O(n*k + r^f + a^t)
+    verifyExcludeAirports(); //O(n*k + r*f + a*t)
 }
 
 /*!@brief  função que verifica se existe algum aeroporto excluído que está no vetor de aeroportos incluídos.

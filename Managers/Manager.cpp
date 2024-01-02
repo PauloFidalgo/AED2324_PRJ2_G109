@@ -300,18 +300,21 @@ void Manager::articulationPoints() {
     Graph copy;
     unordered_map<string, Airport *> airVertex;
     for (auto &elem : connections.getVertexSet()) {
-        auto *air = new Airport(elem->getInfo()->getCode(), "", "", "", 0, 0);
+        auto *air = new Airport(elem->getInfo()->getCode(), elem->getInfo()->getName(), "", "", 0, 0);
         airVertex.insert({elem->getInfo()->getCode(),air});
         copy.addVertex(air);
     }
+
     auto *airline = new Airline("", "", "", "");
     for (auto &elem : connections.getVertexSet()) {
         auto air = airVertex.find(elem->getInfo()->getCode());
         for (auto & edge : elem->getAdj()) {
-            copy.addEdge(edge.getDest()->getInfo(), air->second, 0, airline);
-            copy.addEdge(air->second, edge.getDest()->getInfo(), 0, airline);
+            auto air1 = airVertex.find(edge.getDest()->getInfo()->getCode());
+            copy.addEdge(air1->second, air->second, 0, airline);
+            copy.addEdge(air->second, air1->second, 0, airline);
         }
     }
+
     for (auto &airport : copy.getVertexSet()) {
         airport->setProcessing(false);
         airport->setNum(-1);

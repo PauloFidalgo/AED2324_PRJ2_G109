@@ -87,12 +87,12 @@ State* StatisticsState2::handleInput() {
                 return this;
             }
             case 5: {
-                auto airports = getValidAirportsPerCity();
+                auto airports = getValidAirportsSingleCity();
                 if (!airports.empty()) manager.listAirportsPerCountryCity(airports, name);
                 return this;
             }
             case 6:{
-                auto airline = getValidAirlinePerCountry();
+                auto airline = getValidAirlineSingleCountry();
                 if(!airline.empty()) manager.listAirlinesPerCountry(airline,name);
                 return this;
             }

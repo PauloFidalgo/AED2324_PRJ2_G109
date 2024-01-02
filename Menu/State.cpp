@@ -353,7 +353,6 @@ map<int,vector<Airport*>> State::getValidAirportsPerCities(){
     int i = 1;
     bool in = true;
     bool first = true;
-    cin.ignore();
     cout << endl;
 
     while (in) {
@@ -421,7 +420,6 @@ vector<Airport*> State::getValidAirportsPerCity(){
     vector<Airport*> aux;
     bool in = true;
     bool first = true;
-    cin.ignore();
     cout << endl;
 
     while (in) {
@@ -459,7 +457,6 @@ map<int,vector<Airport*>> State::getValidAirportsPerCountries() {
     int i = 1;
     bool first = true;
     bool in = true;
-    cin.ignore();
     cout << endl;
 
     while (in) {
@@ -497,7 +494,6 @@ vector<Airport*> State::getValidAirportsPerCountry() {
    vector<Airport*> airports;
     bool first = true;
     bool in = true;
-    cin.ignore();
     cout << endl;
 
     while (in) {
@@ -709,7 +705,6 @@ unordered_set<Airline*> State::getValidAirlinePerCountry() {
 unordered_set<Airline*> State::getValidAirlineSingleCountry() {
     unordered_set<Airline *> airlines;
     bool first = true;
-    cin.ignore();
     cout << endl;
 
         do {
