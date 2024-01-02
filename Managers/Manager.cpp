@@ -2231,10 +2231,10 @@ bool Manager::bfsMinAirlines(Vertex* source, Vertex* destination, set<Airline*> 
 
     return found;
 }
-/*!@brief
- *
- * @param airlinesCountry
- * @param country
+
+/*!@brief Imprime os aerportos de um determinado país
+ * @param airlinesCountry aeroportos do país
+ * @param country país em questão
  * O(n)
  */
 void Manager::listAirlinesPerCountry(const unordered_set<Airline *> &airlinesCountry, const string &country) const{
@@ -2246,6 +2246,3 @@ void Manager::listAirlinesPerCountry(const unordered_set<Airline *> &airlinesCou
     Viewer::printListAirlinesPerCountry(airlinesCountry, maxLengthName, country);
 }
 
-unordered_map<string, Airline *> Manager::getAirlines() {
-    return airlines;
-}
