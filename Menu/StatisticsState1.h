@@ -16,7 +16,6 @@ private:
 public:
     void displayMenu() override;
     State * handleInput() override;
-    State* returnToMenu();
 
 };
 

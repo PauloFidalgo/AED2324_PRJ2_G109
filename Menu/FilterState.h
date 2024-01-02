@@ -14,30 +14,17 @@ private:
     unordered_set<Airline*> includedAirlines;
     vector<Airport*> excludedAirports;
     vector<Airport*> includedAirports;
-    vector<string> includedCountries;
-    vector<string> excludedCountries;
-public:
-    // Constructor
-    FilterState(vector<Airport*> &from, vector<Airport*> &to);
 
-    void displayMenu();
-    State * handleInput();
     void excludeAirlinesPerCountry();
     void includeAirlinesPerCountry();
     void includeAirlines();
-
     void excludeAirlines();
-
     void includeCountries();
-
     void excludeCountries();
-
     void excludeAirports();
-
     void includeAirports();
     void includeCities();
     void excludeCities();
-
     void verifyExcludedAirlines();
     void verifyIncludedAirlines();
     void verifyIncludedAirports();
@@ -45,6 +32,12 @@ public:
     void verifyVisitCountryCity();
     bool isAirportToBeRemoved(Airport* airport) const;
 
+public:
+    // Constructor
+    FilterState(vector<Airport*> &from, vector<Airport*> &to);
+
+    void displayMenu();
+    State * handleInput();
 };
 
 

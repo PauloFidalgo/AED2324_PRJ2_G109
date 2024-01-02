@@ -11,24 +11,17 @@
 class FlightSearchState : public State{
 private:
     bool isSelectingFrom;
-    string from;
-    string to;
-    double x;
-    double y;
     Airport* fromCode;
     Airport* toCode;
-    Airline* fromArline;
-    Airline* toAirline;
     vector<Airport*> fromAirports;
     vector<Airport*> toAirports;
 
-
+    void validateToAirports();
 public:
     FlightSearchState();
 
     void displayMenu();
     State* handleInput();
-    void validateToAirports();
 
 };
 

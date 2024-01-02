@@ -1954,46 +1954,6 @@ string nameToLower(const string& word) {
     return res;
 }
 
-/*! @brief Permite fazer uma pesquisa de aeroportos por nome
- * @param airportName nome do aeroporto para o qual se pretende imprimir a informação
- * O(|V| * k)
- */
-void Manager::searchAirportsByName(const string &airportName) {
-    if (airportName.empty()) {
-        cout << "Invalid name." << endl;
-        return;
-    }
-    vector<Airport *> res;
-    int maxLengthName = 0;
-    for (auto& airport : airportsByName) {
-        if (nameToLower(airport.second->getName()).find(nameToLower(airportName)) != string::npos)  {
-            if (airport.second->getName().length() > maxLengthName) maxLengthName = airport.second->getName().length();
-            res.push_back(airport.second);
-        }
-    }
-    Viewer::printSearchAirports(res,maxLengthName,airportName);
-}
-
-/*! @brief Permite fazer uma pesquisa de companhias por nome
- * @param airlineName nome da airline que se pretende procurar e imprimir informação
- * O(n * k)
- */
-void Manager::searchAirlinesByName(const string &airlineName) {
-    if (airlineName.empty()) {
-        cout << "Invalid name." << endl;
-        return;
-    }
-    vector<Airline *> res;
-    int maxLengthName = 0;
-    for (auto& airline : airlinesByName) {
-        if (nameToLower(airline.second->getName()).find(nameToLower(airlineName)) != string::npos)  {
-            if (airline.second->getName().length() > maxLengthName) maxLengthName = airline.second->getName().length();
-            res.push_back(airline.second);
-        }
-    }
-    Viewer::printSearchAirlines(res,maxLengthName,airlineName);
-}
-
 /*! @brief Permite visualizar informação relativa a um dado aeroporto
  * @param airport apontador para aeroporto para o qual se pretende imprimir a informação
  * O(1)

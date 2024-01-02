@@ -105,13 +105,10 @@ public:
     void getTopKAirlinesThatFlyMoreToAnAirport(int k, Airport *airport, const bool &bars = false, const bool& asc = false) const;
     void getTopKAirlinesThatFlyMoreToAnAirportRatio(int k, Airport *airport, const bool &bars = false, const bool& asc = false) const;
     void listAirportsPerCountryCity(const vector<Airport *> &airportsCountry, const string &countryCity) const;
-    void searchAirportsByName(const string &airportName);
-    void searchAirlinesByName(const string &airlineName);
     static void printAirportInfo(Airport *airport);
     static void printAirlineInfo(Airline *airline);
     void listAirlinesPerAirport(Airport *airport);
     void listAirlinesPerCountry(const unordered_set<Airline *> &airlinesCountry, const string &country) const;
-    unordered_map<string, Airline*> getAirlines();
 
 };
 
