@@ -447,7 +447,7 @@ void Viewer::printListAirportsPerCountryCity(const vector<Airport *> &airports, 
  * @param country Nome do país para o qual listar as companhias aéreas.
  * O(n)
  */
-void Viewer::printListAirlinesPerCountry(const vector<Airline *> &airlines, const int &nameSize, const string &country) {
+void Viewer::printListAirlinesPerCountry(const unordered_set<Airline *> &airlines, const int &nameSize, const string &country) {
     int space = nameSize + 8 > 40 ? nameSize + 8 : 40;
     int lenEssentialAirportsLabel = (space - 12 - country.length()) / 2;
     int lenFEssentialAirportsLabel = (space - 12 - country.length()) % 2 == 0 ? lenEssentialAirportsLabel : lenEssentialAirportsLabel + 1;

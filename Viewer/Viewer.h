@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <unordered_set>
 #include <set>
 #include "../DataModel/Airport.h"
 #include "../DataModel/Airline.h"
@@ -37,7 +38,7 @@ public:
     static void printAirlineGreatestTraffic(const vector<Airline *> &airlinesByTraffic, const int& nameSize);
     static void printAirlinesPerAirport (const set<Airline *> &airlines, const int& nameSize);
     static void printListAirportsPerCountryCity(const vector<Airport *> &airports, const int &nameSize, const string &countryCity);
-    static void printListAirlinesPerCountry(const vector<Airline *> &airlines, const int &nameSize, const string &country);
+    static void printListAirlinesPerCountry(const unordered_set<Airline *> &airlines, const int &nameSize, const string &country);
     static void printSearchAirports(const vector<Airport *> &airports, const int &nameSize, const string &airportName);
     static void printSearchAirlines(const vector<Airline *> &airlines, const int &nameSize, const string &airlineName);
     static void printAirportInfo(Airport *airport);

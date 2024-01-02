@@ -1972,3 +1972,18 @@ void Manager::getTopKCountriesWithMoreAirlines(int k, const bool &bars, const bo
     if (bars) Viewer::printCityOrCountryGreatestTrafficBars(res, nameSize, asc);
     else Viewer::printCountryCityStats(res, "Countries", "Number of airlines", nameSize);
 }
+
+/*!@brief
+ *
+ * @param airlinesCountry
+ * @param country
+ * O(n)
+ */
+void Manager::listAirlinesPerCountry(const unordered_set<Airline *> &airlinesCountry, const string &country) const{
+    int maxLengthName = 0;
+
+    for (auto& elem : airlinesCountry) {
+        if (elem->getName().length() > maxLengthName) maxLengthName = elem->getName().length();
+    }
+    Viewer::printListAirlinesPerCountry(airlinesCountry, maxLengthName, country);
+}
