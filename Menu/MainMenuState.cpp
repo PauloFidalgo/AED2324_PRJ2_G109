@@ -26,7 +26,7 @@ void MainMenuState::displayMenu() {
     cout << "|                                                                      |                                   |" << endl;
     cout << "|                                                                 .-     -.  -.                            |" << endl;
     cout << "|                                                               .'_________'. .'                           |" << endl;
-    cout << "|            1. Flight Search                                  /_/_|__|__|_|_\\                            |" << endl;
+    cout << "|            1. Flight Search                                  /_/_|__|__|_|_\\                             |" << endl;
     cout << "|            2. Statistics                                    ;'-._       _.-';                            |" << endl;
     cout << "|                                        ,--------------------|    `-. .-'    |--------------------,       |" << endl;
     cout << "|                                        ```---..__.  ._____ ;       ' '      ; _____.  .__..---´´´        |" << endl;
@@ -45,7 +45,7 @@ void MainMenuState::displayMenu() {
  */
 State * MainMenuState::handleInput() {
     cout << "Enter your choice: ";
-    cin >> userInputStr;
+    getline(cin, userInputStr);
     if (userInputStr == "exit") {
         exit(0);
     } else {

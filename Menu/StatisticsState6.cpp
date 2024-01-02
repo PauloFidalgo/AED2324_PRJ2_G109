@@ -40,7 +40,7 @@ void StatisticsState6::displayMenu() {
  */
 State* StatisticsState6::handleInput() {
     cout << "Enter your choice: ";
-    cin >> userInputStr;
+    getline(cin, userInputStr);
 
     if (userInputStr == "back") {
         if (!State::stateHistory.empty()) {

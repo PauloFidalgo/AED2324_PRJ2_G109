@@ -1,3 +1,4 @@
+#include <limits>
 #include "State.h"
 #include "BarsState.h"
 std::stack<State*> State::stateHistory;
@@ -27,7 +28,6 @@ State::~State() {
 Airport* State::getValidSingleAirport() {
     Airport* airportCode = nullptr;
     Airport* airportName = nullptr;
-    cin.ignore();
     cout << endl;
 
     while(!airportCode && !airportName) {
@@ -59,7 +59,6 @@ Airport* State::getValidSingleAirport() {
 Airline* State::getValidSingleAirline() {
     Airline* airlineCode = nullptr;
     Airline* airlineName = nullptr;
-    cin.ignore();
     cin.clear();
     cout << endl;
 
@@ -75,7 +74,6 @@ Airline* State::getValidSingleAirline() {
         airlineName = manager.getAirlinePerName(code); //O(n)
         if (!airlineCode and !airlineName) {
             cout << "Airline doesn't exist. Try again." << endl;
-            cin.ignore();
             cin.clear();
         }
     }
@@ -91,7 +89,6 @@ Airline* State::getValidSingleAirline() {
 string State::getValidSingleCity() {
     string city;
     bool s = false;
-    cin.ignore();
     cout << endl;
 
     while (!s) {
@@ -117,7 +114,6 @@ string State::getValidSingleCity() {
  */
 string State::getValidSingleCountry() {
     cout << endl;
-    cin.ignore();
 
     while(!manager.validateCountryName(code)){
         cin.clear();
@@ -139,7 +135,6 @@ string State::getValidSingleCountry() {
  * O(1)
  */
 int State::getValidAirportK() {
-    cin.ignore();
     cout << endl;
 
     do {
@@ -172,7 +167,6 @@ int State::getValidAirportK() {
  * O(1)
  */
 int State::getValidAirlineK() {
-    cin.ignore();
     cout << endl;
 
     do {
@@ -205,7 +199,6 @@ int State::getValidAirlineK() {
  * O(1)
  */
 int State::getValidCityK() {
-    cin.ignore();
     cout << endl;
 
     do {
@@ -239,7 +232,6 @@ int State::getValidCityK() {
  * O(n)
  */
 int State::getValidCountryK(){
-    cin.ignore();
     cout << endl;
 
     do {
@@ -273,8 +265,7 @@ int State::getValidCountryK(){
  * O(|V|)
  */
 Airport* State::getValidAirportPerCoordinates() {
-    Airport* airport = nullptr;
-    cin.ignore();
+    Airport* airport;
     cout << endl;
 
     do {
@@ -323,7 +314,6 @@ Airport* State::getValidAirportPerCoordinates() {
  */
 vector<Airport*> State::getValidAirportsSingleCountry() {
     vector<Airport*> airports;
-    cin.ignore();
     cout << endl;
 
     while (airports.empty()) {
@@ -390,7 +380,6 @@ map<int,vector<Airport*>> State::getValidAirportsPerCities(){
  */
 vector<Airport*> State::getValidAirportsSingleCity() {
     vector<Airport*> airports;
-    cin.ignore();
     cout << endl;
 
     while (airports.empty())
@@ -530,7 +519,6 @@ vector<Airport*> State::getValidAirportsPerCountry() {
  */
 vector<Airport*> State::getAirportsRange(int x) {
     vector<Airport*> airports;
-    cin.ignore();
     cout << endl;
 
     do {
@@ -731,7 +719,6 @@ unordered_set<Airline*> State::getValidAirlineSingleCountry() {
  */
 unordered_set<string> State::getValidCitiesSingleCountry() {
     unordered_set<string> cities;
-    cin.ignore();
     cout << endl;
 
     while (cities.empty()) {

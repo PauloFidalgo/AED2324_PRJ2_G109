@@ -6,8 +6,10 @@
 #include "FilterState.h"
 #include "iostream"
 #include "FlightSearchState.h"
+#include "MainMenuState.h"
 
 using namespace std;
+State *homeMenu = new MainMenuState();
 
 /*!@brief Construtor da classe FilterState que atribui as variáveis" fromAirports" e "toAirports" o respetivo valor.
  * @param from aeroporto de partida
@@ -39,8 +41,8 @@ void FilterState::displayMenu() {
     cout << "|        9 - Exclude 1 or more Countries                                                               |" << endl;
     cout << "|        10 - Include 1 or more Countries                                                              |" << endl;
     cout << "|                                                                                                      |" << endl;
-    cout << "|  0 - Go back                                                                                         |" << endl;
-    cout << "| -1 - Exit                                                                                            |" << endl;
+    cout << "|  back - Go back                                                                                      |" << endl;
+    cout << "|  exit - Exit                                                                                         |" << endl;
     cout << "--------------------------------------------------------------------------------------------------------" << endl;
 }
 
@@ -49,89 +51,86 @@ void FilterState::displayMenu() {
  */
 
 State* FilterState::handleInput() {
-    int userInput;
-    std::cout << "Enter your choice: ";
-    std::cin >> userInput;
+    cout << "Enter your choice: ";
+    getline(cin, userInputStr);
 
-    switch (userInput) {
-        case 1:
-            this->excludeAirlines();
+    if (userInputStr == "back") {
+        if (!State::stateHistory.empty()) {
+            State *previousState = State::stateHistory.top();
+            State::stateHistory.pop();
+            return previousState;
+        } else {
+            std::cout << "No previous Menu available" << std::endl;
             return this;
-        case 2:
-            this->includeAirlines();
-            return this;
-        case 3:
-            this->excludeAirlinesPerCountry();
-            return this;
-        case 4:
-            this->includeAirlinesPerCountry();
-            return this;
-        case 5:
-            this->excludeAirports();
-            return this;
-        case 6:
-            this->includeAirports();
-            return this;
-        case 7:
-            this->excludeCities();
-            return this;
-        case 8:
-            this->includeCities();
-            return this;
-        case 9:
-            this->excludeCountries();
-            return this;
-        case 10:
-            this->includeCountries();
-            return this;
-        case 11:
-            manager.manageFlightSearchFromMenuMinAirlines(fromAirports,toAirports,includedAirports,cityCountry,excludedAirports,excludedAirlines,includedAirlines);
-            toAirports.clear();
-            fromAirports.clear();
-            includedAirports.clear();
-            cityCountry.clear();
-            excludedAirports.clear();
-            includedAirlines.clear();
-            while (stateHistory.size() != 1) stateHistory.pop();
-            return stateHistory.top();
-        case 12:
-            manager.manageFlightSearchFromMenuMinDistance(fromAirports,toAirports,includedAirports,cityCountry,excludedAirports,excludedAirlines,includedAirlines);
-            toAirports.clear();
-            fromAirports.clear();
-            includedAirports.clear();
-            cityCountry.clear();
-            excludedAirports.clear();
-            includedAirlines.clear();
-            while (stateHistory.size() != 1) stateHistory.pop();
-            return stateHistory.top();
-        case 13:
-            manager.manageFlightSearchFromMenu(fromAirports,toAirports,includedAirports,cityCountry,excludedAirports,excludedAirlines,includedAirlines);
-            toAirports.clear();
-            fromAirports.clear();
-            includedAirports.clear();
-            cityCountry.clear();
-            excludedAirports.clear();
-            includedAirlines.clear();
-            while (stateHistory.size() != 1) stateHistory.pop();
-            return stateHistory.top();
-        case 0:
-            if(!State::stateHistory.empty()){
-                State* previousState = State::stateHistory.top();
-                State::stateHistory.pop();
-                return previousState;
-            }
-            else {
-                std::cout << "No previous Menu available" << std::endl;
+        }
+    }
+    if (userInputStr == "exit") {
+        exit(0);
+    } else {
+        istringstream(userInputStr) >> userInput;
+
+        switch (userInput) {
+            case 1:
+                excludedAirlines.clear();
+                this->excludeAirlines();
                 return this;
-            }
-        case -1:
-            exit(0);
-        default:
-            std:: cout << " Invalid choice. try again"<< std::endl;
-            return this;
+            case 2:
+                includedAirlines.clear();
+                this->includeAirlines();
+                return this;
+            case 3:
+                excludedAirlines.clear();
+                this->excludeAirlinesPerCountry();
+                return this;
+            case 4:
+                includedAirlines.clear();
+                this->includeAirlinesPerCountry();
+                return this;
+            case 5:
+                excludedAirports.clear();
+                this->excludeAirports();
+                return this;
+            case 6:
+                includedAirports.clear();
+                this->includeAirports();
+                return this;
+            case 7:
+                excludedAirports.clear();
+                this->excludeCities();
+                return this;
+            case 8:
+                cityCountry.clear();
+                this->includeCities();
+                return this;
+            case 9:
+                excludedAirports.clear();
+                this->excludeCountries();
+                return this;
+            case 10:
+                cityCountry.clear();
+                this->includeCountries();
+                return this;
+            case 11:
+                manager.manageFlightSearchFromMenuMinAirlines(fromAirports, toAirports, includedAirports, cityCountry,
+                                                              excludedAirports, excludedAirlines, includedAirlines);
+                while (!stateHistory.empty()) stateHistory.pop();
+                return homeMenu;
+            case 12:
+                manager.manageFlightSearchFromMenuMinDistance(fromAirports, toAirports, includedAirports, cityCountry,
+                                                              excludedAirports, excludedAirlines, includedAirlines);
+                while (!stateHistory.empty()) stateHistory.pop();
+                return homeMenu;
+            case 13:
+                manager.manageFlightSearchFromMenu(fromAirports, toAirports, includedAirports, cityCountry,
+                                                   excludedAirports, excludedAirlines, includedAirlines);
+                while (!stateHistory.empty()) stateHistory.pop();
+                return homeMenu;
+            default:
+                std::cout << " Invalid choice. try again" << std::endl;
+                return this;
+        }
     }
 }
-
 
 /*!@brief  função que exclui companhias aéreas
  *O(n*k + r*f + a*t)
