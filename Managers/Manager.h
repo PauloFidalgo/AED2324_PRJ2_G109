@@ -56,6 +56,7 @@ public:
     bool getMaxKCities(const int &x) const;
     bool getMaxKAirlines(const int &x) const;
 
+
     // Main Functions
     vector<Airport*> scheduleTripMinDistance(Airport* &source, Airport* &destination, vector<Airport*> &airporsToVisit, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines);
     vector<Airport*> findShortestPathExclude(Airport* u, Airport* v, vector<Airport*> &airpExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines);
@@ -67,6 +68,10 @@ public:
     void dfsApp(Vertex *v, stack<Airport*> &s, vector<Airport*> &res, int &i);
     void scc();
     void dfsScc(Vertex *v, stack<Airport*> &s, vector<vector<Airport*>> &res, int &i);
+    vector<vector<Airport*>> scheduleTripMinAirlines(Airport* source, Airport* destination, const vector<Airport*>& airporsToVisit, const vector<Airport*> &airportsToExclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines);
+    vector<vector<Airport*>> findPathMinAirlines(Airport* source, Airport* destination, const vector<Airport*> &airportsToExclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines);
+    bool bfsMinAirlines(Vertex* source, Vertex* destination, set<Airline*> &airlines, vector<vector<Airport*>> &res, const vector<Airport*> &airportsToExclude);
+    void manageFlightSearchFromMenuMinAirlines(vector<Airport*> &source, vector<Airport*> &destination,  vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, const vector<Airport*> &airportsToExclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines);
 
     //-----------------------------------------------------------------------------------------------------
     void getNumAirportsAndFlights() const;

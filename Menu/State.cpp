@@ -583,7 +583,6 @@ vector<Airport*> State::getValidAirports() {
     vector<Airport *> airports;
     bool in = true;
     bool first = true;
-    cin.ignore();
     cout << endl;
 
     while (in) {
@@ -626,7 +625,6 @@ unordered_set<Airline*> State::getValidAirlines() {
     Airline* aux2 = nullptr;
     bool first = true;
     bool in = true;
-    cin.ignore();
     cout << endl;
 
     while (in) {
@@ -665,7 +663,6 @@ unordered_set<Airline*> State::getValidAirlinePerCountry() {
     unordered_set<Airline *> airlines;
     bool in = true;
     bool first = true;
-    cin.ignore();
     cout << endl;
 
     while (in) {
