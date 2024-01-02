@@ -728,8 +728,8 @@ vector<Airport*> Manager::scheduleTripMinDistance(Airport* &source, Airport* &de
     return res;
 }
 
-vector<vector<Airport*>> Manager::scheduleTripMinAirlines(Airport* source, Airport* destination, const vector<Airport*>& airporsToVisit, const vector<Airport*> &airportsToExclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines) {
-    vector<vector<Airport*>> path;
+set<vector<Airport*>> Manager::scheduleTripMinAirlines(Airport* source, Airport* destination, const vector<Airport*>& airporsToVisit, const vector<Airport*> &airportsToExclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines) {
+    set<vector<Airport*>> path;
 
     auto start = source;
     bool first = true;
@@ -749,7 +749,7 @@ vector<vector<Airport*>> Manager::scheduleTripMinAirlines(Airport* source, Airpo
                 }
             }
             path.clear();
-            if (!re.empty()) path.insert(path.end(), re.begin(), re.end());
+            if (!re.empty()) path.insert(re.begin(), re.end());
         }
         else {
             for (auto &pa : currentPaths) {
@@ -757,7 +757,7 @@ vector<vector<Airport*>> Manager::scheduleTripMinAirlines(Airport* source, Airpo
                 for (auto &b : pa) {
                     air.push_back(b);
                 }
-                path.push_back(air);
+                path.insert(air);
                 first = false;
             }
         }
@@ -765,17 +765,17 @@ vector<vector<Airport*>> Manager::scheduleTripMinAirlines(Airport* source, Airpo
         start = code;
     }
 
-    vector<vector<Airport*>> lastLeg = findPathMinAirlines(start, destination, airportsToExclude, airlinesToExclude, flyOnlyAirlines);
+    set<vector<Airport*>> lastLeg = findPathMinAirlines(start, destination, airportsToExclude, airlinesToExclude, flyOnlyAirlines);
 
     if (path.empty()) return lastLeg;
 
-    vector<vector<Airport *>> re;
+    set<vector<Airport *>> re;
     for (auto &pa: path) {
         for (auto &trip: lastLeg) {
             vector<Airport *> aux;
             aux.insert(aux.end(), pa.begin(), pa.end());
             aux.insert(aux.end(), trip.begin() + 1, trip.end());
-            re.push_back(aux);
+            re.insert(aux);
         }
     }
 
@@ -2147,14 +2147,15 @@ void generateCombinationsOnlyAirlines(int size, const unordered_set<Airline*> &a
  * @return vetor de caminhos que satisfazem os requitos e minimizam o número de airlines distintos, ou vetor vazio caso não haja caminho
  * O(|V| * |E| * K * N!) V - número de vértices, E - Número de edges, K - número de companhias do set, N - número de airlines
  */
-vector<vector<Airport*>> Manager::findPathMinAirlines(Airport* s, Airport* d, const vector<Airport*> &airportsToExclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines) {
+set<vector<Airport*>> Manager::findPathMinAirlines(Airport* s, Airport* d, const vector<Airport*> &airportsToExclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines) {
 
-    if (s == d) return {};
+    set<vector<Airport*>> result;
+
+    if (s == d) return result;
 
     auto source = connections.findVertex(airports[s->getCode()]);
     auto destination = connections.findVertex(airports[d->getCode()]);
 
-    vector<vector<Airport*>> result;
     bool found = false;
     for (int i = 1; i < airlines.size(); i++) {
         set<set<Airline*>> res;
@@ -2168,10 +2169,10 @@ vector<vector<Airport*>> Manager::findPathMinAirlines(Airport* s, Airport* d, co
 
         for (auto par : res) {
 
-            vector<vector<Airport*>> path;
+            set<vector<Airport*>> path;
             if (bfsMinAirlines(source, destination, par, path, airportsToExclude)) {
                 if (!path.empty()) {
-                    result.insert(result.end(), path.begin(), path.end());
+                    result.insert(path.begin(), path.end());
                     found = true;
                 }
             }
@@ -2207,7 +2208,7 @@ bool hasAirl(const set<Airline*> &a, const set<Airline*> &b) {
  * @return true se existir caminho com as airlines pretendidas, false caso contrário
  * O (|V| * |E| * K) V - número de vértices, E - Número de edges, K - número de companhias do set
  */
-bool Manager::bfsMinAirlines(Vertex* source, Vertex* destination, set<Airline*> &airlines, vector<vector<Airport*>> &res, const vector<Airport*> &airportsToExclude) {
+bool Manager::bfsMinAirlines(Vertex* source, Vertex* destination, set<Airline*> &airlines, set<vector<Airport*>> &res, const vector<Airport*> &airportsToExclude) {
     for (auto &node : connections.getVertexSet()) {
         node->setVisited(false);
     }
@@ -2265,7 +2266,7 @@ bool Manager::bfsMinAirlines(Vertex* source, Vertex* destination, set<Airline*> 
             current = parent[current];
         }
         path.push_back(destination->getInfo());
-        res.push_back(path);
+        res.insert(path);
     }
 
     return found;

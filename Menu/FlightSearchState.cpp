@@ -147,14 +147,14 @@ State *FlightSearchState::handleInput() {
                 if (isSelectingFrom) {
                     fromAirports.clear();
                     fromCode = this->getValidAirportPerCoordinates();
-                    if (fromAirports.empty()) return this;
+                    if (!fromCode) return this;
                     fromAirports.push_back(fromCode);
                     isSelectingFrom = false;
                     return this;
                 } else {
                     toAirports.clear();
                     toCode = this->getValidAirportPerCoordinates();
-                    if (toAirports.empty()) return this;
+                    if (!toCode) return this;
                     toAirports.push_back(toCode);
                     isSelectingFrom = true;
                     validateToAirports();

@@ -68,9 +68,9 @@ public:
     void dfsApp(Vertex *v, stack<Airport*> &s, vector<Airport*> &res, int &i);
     void scc();
     void dfsScc(Vertex *v, stack<Airport*> &s, vector<vector<Airport*>> &res, int &i);
-    vector<vector<Airport*>> scheduleTripMinAirlines(Airport* source, Airport* destination, const vector<Airport*>& airporsToVisit, const vector<Airport*> &airportsToExclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines);
-    vector<vector<Airport*>> findPathMinAirlines(Airport* source, Airport* destination, const vector<Airport*> &airportsToExclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines);
-    bool bfsMinAirlines(Vertex* source, Vertex* destination, set<Airline*> &airlines, vector<vector<Airport*>> &res, const vector<Airport*> &airportsToExclude);
+    set<vector<Airport*>> scheduleTripMinAirlines(Airport* source, Airport* destination, const vector<Airport*>& airporsToVisit, const vector<Airport*> &airportsToExclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines);
+    set<vector<Airport*>> findPathMinAirlines(Airport* source, Airport* destination, const vector<Airport*> &airportsToExclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines);
+    bool bfsMinAirlines(Vertex* source, Vertex* destination, set<Airline*> &airlines, set<vector<Airport*>> &res, const vector<Airport*> &airportsToExclude);
     void manageFlightSearchFromMenuMinAirlines(vector<Airport*> &source, vector<Airport*> &destination,  vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, const vector<Airport*> &airportsToExclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines);
 
     //-----------------------------------------------------------------------------------------------------

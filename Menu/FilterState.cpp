@@ -32,8 +32,8 @@ void FilterState::displayMenu() {
     cout << "|                                                                                                      |" << endl;
     cout << "|        1 - Exclude 1 or more Airlines                  11 - Minimize Number of Distinct Airlines     |" << endl;
     cout << "|        2 - Include 1 or more Airlines                  12 - Distance Travelled                       |" << endl;
-    cout << "|        3 - Exclude 1 or more Airlines Per Country      13 - Minimize Stops                           |" << endl;
-    cout << "|        4 - Include 1 or more Airlines Per Country                                                    |" << endl;
+    cout << "|        3 - Exclude Airlines from 1 or more Countries   13 - Minimize Stops                           |" << endl;
+    cout << "|        4 - Include Airlines from 1 or more Countries                                                 |" << endl;
     cout << "|        5 - Exclude 1 or more Airports                                                                |" << endl;
     cout << "|        6 - Include 1 or more Airports                                                                |" << endl;
     cout << "|        7 - Exclude 1 or more Cities                                                                  |" << endl;
