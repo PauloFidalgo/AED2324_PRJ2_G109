@@ -26,13 +26,13 @@ void MainMenuState::displayMenu() {
     cout << "|                                                                      |                                   |" << endl;
     cout << "|                                                                 .-     -.  -.                            |" << endl;
     cout << "|                                                               .'_________'. .'                           |" << endl;
-    cout << "|            1. Flight Search                                  /_/_|__|__|_|_\\                              |" << endl;
+    cout << "|            1. Flight Search                                  /_/_|__|__|_|_\\                            |" << endl;
     cout << "|            2. Statistics                                    ;'-._       _.-';                            |" << endl;
     cout << "|                                        ,--------------------|    `-. .-'    |--------------------,       |" << endl;
-    cout << "|                                        ``  --..__    ___   ;       '       ;   ___    __..--  ``         |" << endl;
-    cout << "|                                                  `  -//     .._               /_..//     -  `            |" << endl;
-    cout << "|                                                         _//    '._       _.'        _//                  |" << endl;
-    cout << "|                                                       `  `        ``---``        `  `                    |" << endl;
+    cout << "|                                        ```---..__.  ._____ ;       ' '      ; _____.  .__..---´´´        |" << endl;
+    cout << "|                                                  `--´      ._               _.     `--´                  |" << endl;
+    cout << "|                                                               '._       _.'                              |" << endl;
+    cout << "|                                                                   `---`                                  |" << endl;
     cout << "|                                                                                                          |" << endl;
     cout << "|                                                                                                          |" << endl;
     cout << "|    exit - Exit                                                                                           |" << endl;

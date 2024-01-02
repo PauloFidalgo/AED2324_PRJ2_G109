@@ -5,6 +5,6 @@
 #include "Managers/Manager.h"
 
 int main() {
-   MenuManager manager;
-   manager.menuNavigation();
+    MenuManager m;
+    m.menuNavigation();
 }

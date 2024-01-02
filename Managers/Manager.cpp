@@ -715,6 +715,60 @@ vector<Airport*> Manager::scheduleTripMinDistance(Airport* &source, Airport* &de
     return res;
 }
 
+vector<vector<Airport*>> Manager::scheduleTripMinAirlines(Airport* source, Airport* destination, const vector<Airport*>& airporsToVisit, const vector<Airport*> &airportsToExclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines) {
+    vector<vector<Airport*>> path;
+
+    auto start = source;
+    bool first = true;
+
+    for (auto &code : airporsToVisit) {
+
+        auto currentPaths = findPathMinAirlines(start, code, airportsToExclude, airlinesToExclude, flyOnlyAirlines);
+
+        if (!first) {
+            vector<vector<Airport*>> re;
+            for (auto &pa: path) {
+                for (auto &trip: currentPaths) {
+                    vector<Airport *> aux;
+                    aux.insert(aux.end(), pa.begin(), pa.end());
+                    aux.insert(aux.end(), trip.begin() + 1, trip.end());
+                    re.push_back(aux);
+                }
+            }
+            path.clear();
+            if (!re.empty()) path.insert(path.end(), re.begin(), re.end());
+        }
+        else {
+            for (auto &pa : currentPaths) {
+                vector<Airport*> air;
+                for (auto &b : pa) {
+                    air.push_back(b);
+                }
+                path.push_back(air);
+                first = false;
+            }
+        }
+
+        start = code;
+    }
+
+    vector<vector<Airport*>> lastLeg = findPathMinAirlines(start, destination, airportsToExclude, airlinesToExclude, flyOnlyAirlines);
+
+    if (path.empty()) return lastLeg;
+
+    vector<vector<Airport *>> re;
+    for (auto &pa: path) {
+        for (auto &trip: lastLeg) {
+            vector<Airport *> aux;
+            aux.insert(aux.end(), pa.begin(), pa.end());
+            aux.insert(aux.end(), trip.begin() + 1, trip.end());
+            re.push_back(aux);
+        }
+    }
+
+    return re;
+}
+
 /*! @brief Função auxiliar que na determinação das viagens com número mínimo de escalas entre dois pontos, com vários filtros
  *  É possível incluir aeroportos para passar, excluir vários aeroportos, companhias aéreas ou voar apenas em algumas companhias
  *  @param source apontador para o aeroporto de partida
@@ -907,7 +961,46 @@ void allCombinations(map<int, vector<Airport*>>& cityCountry, vector<vector<Airp
     combinationalHelper(it, next, cityCountry, res, path);
 }
 
-/*! @brief Função que recebe pedido do menu para procurar voos de um conjunto de pontos de partida até um conjunto de pontos de destinos, minimizando o número de escalas, com vários filtros
+/*! @brief Função que recebe pedido do menu para procurar voos de um conjunto de pontos de partida até um conjunto de pontos de chegada, minimizando o número de companhias aéreas diferentes, com vários filtros
+ *  É possível incluir aeroportos para passar, excluir vários aeroportos, companhias aéreas ou voar apenas em algumas companhias
+ * @param source vetor de apontadores para aeroportos correspondentes aos aeroportos de partida, inseridos pelo utilizador
+ * @param destination vetor de apontadores para aeroportos correspondentes aos aeroportos de destino, inseridos pelo utilizador
+ * @param airporsToVisit vetor de apontadores para aeroportos correspondentes aos aeroportos por onde o utilizador pretende passar
+ * @param cityCountry mapa de inteiro (correspondente à ordem pela qual devem ser visitados) os países ou cidades inseridas pelo utilizador
+ * @param airportsToExclude vetor de apontadores para aeroportos a excluir, inseridos pelo utilizador
+ * @param airlinesToExclude unordered_set de apontadores para Airlines a excluir, inseridos pelo utilizador
+ * @param flyOnlyAirlines unordered_set de apontadores para Airlines a incluir, inseridos pelo utilizador
+ */
+void Manager::manageFlightSearchFromMenuMinAirlines(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, const vector<Airport*> &airportsToExclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines) {
+    vector<vector<Airport*>> res;
+    vector<vector<Airport*>> trip;
+
+    if (!cityCountry.empty()) allCombinations(cityCountry, trip);
+
+
+    for (auto &from : source) {
+        for (auto &to : destination) {
+
+            if (!cityCountry.empty()) {
+                for (auto vis : trip) {
+                    airporsToVisit.insert(airporsToVisit.end(), vis.begin(), vis.end());
+                    auto next = scheduleTripMinAirlines(from, to, airporsToVisit, airportsToExclude, airlinesToExclude, flyOnlyAirlines);
+
+                    for (int i = 0; i < vis.size(); i++) airporsToVisit.pop_back();
+
+                    if (!next.empty()) res.insert(res.end(), next.begin(), next.end());
+                }
+            }
+            else {
+                auto next = scheduleTripMinAirlines(from, to, airporsToVisit, airportsToExclude, airlinesToExclude, flyOnlyAirlines);
+                if (!next.empty()) res.insert(res.end(), next.begin(), next.end());
+            }
+        }
+    }
+    Viewer::printFlightOptions(res);
+}
+
+/*! @brief Função que recebe pedido do menu para procurar voos de um conjunto de pontos de partida até um conjunto de destinos, minimizando o número de escalas, com vários filtros
  *  É possível incluir aeroportos para passar, excluir vários aeroportos, companhias aéreas ou voar apenas em algumas companhias
  * @param source vetor de apontadores para aeroportos correspondentes aos aeroportos de partida, inseridos pelo utilizador
  * @param destination vetor de apontadores para aeroportos correspondentes aos aeroportos de destino, inseridos pelo utilizador
@@ -1971,4 +2064,190 @@ void Manager::getTopKCountriesWithMoreAirlines(int k, const bool &bars, const bo
     }
     if (bars) Viewer::printCityOrCountryGreatestTrafficBars(res, nameSize, asc);
     else Viewer::printCountryCityStats(res, "Countries", "Number of airlines", nameSize);
+}
+
+
+
+/*!
+ * Função auxiliar para determinar as combinações possíveis entre airlines, de um tamanho fixo
+ * @param size número de airlines a serem incluídas nas combinações
+ * @param airlines conjunto de airlines existente
+ * @param combinations conjunto de combinações possíveis
+ * @param currentCombination combinação atual
+ * @param airlinesToExclude companhias a serem excluídas
+ */
+void generateCombinations(int size, unordered_map<string, Airline*>& airlines, set<set<Airline*>>& combinations, set<Airline*>& currentCombination, const unordered_set<Airline*> &airlinesToExclude) {
+    if (currentCombination.size() == size) {
+        combinations.insert(currentCombination);
+        return;
+    }
+
+    for (const auto& kvp : airlines) {
+        Airline* airline = kvp.second;
+
+        if (currentCombination.find(airline) == currentCombination.end() && airlinesToExclude.find(airline) == airlinesToExclude.end()) {
+            currentCombination.insert(airline);
+            generateCombinations(size, airlines, combinations, currentCombination, airlinesToExclude);
+            currentCombination.erase(airline);
+        }
+    }
+}
+
+/*!
+ * Função auxiliar para determinar as combinações possíveis entre airlines, de um tamanho fixo
+ * @param size número de airlines a serem incluídas nas combinações
+ * @param airlines conjunto de airlines existente
+ * @param combinations conjunto de combinações possíveis
+ * @param currentCombination combinação atual
+ * @param airlinesToExclude companhias a serem excluídas
+ * O(N!)
+ */
+void generateCombinationsOnlyAirlines(int size, const unordered_set<Airline*> &airlines, set<set<Airline*>>& combinations, set<Airline*>& currentCombination, const unordered_set<Airline*> &airlinesToExclude) {
+    if (currentCombination.size() == size) {
+        combinations.insert(currentCombination);
+        return;
+    }
+
+    for (const auto& airline : airlines) {
+
+        if (currentCombination.find(airline) == currentCombination.end() && airlinesToExclude.find(airline) == airlinesToExclude.end()) {
+            currentCombination.insert(airline);
+            generateCombinationsOnlyAirlines(size, airlines, combinations, currentCombination, airlinesToExclude);
+            currentCombination.erase(airline);
+        }
+    }
+}
+
+/*!
+ * @brief Função auxiliar para determinar os caminhos entre dois pontos, com o mínimo airlines possível, com vários filtros
+ * @param s apontador para vértice de partida
+ * @param d apontador para vértice de chegada
+ * @param airportsToExclude vetor de apontadores para aeroportos a serem excluídos
+ * @param airlinesToExclude unordered_set de apontadores para as Airlines a serem excluídas
+ * @param flyOnlyAirlines unordered_set de apontadores para as Airlines a serem consideradas
+ * @return vetor de caminhos que satisfazem os requitos e minimizam o número de airlines distintos, ou vetor vazio caso não haja caminho
+ * O(|V| * |E| * K * N!) V - número de vértices, E - Número de edges, K - número de companhias do set, N - número de airlines
+ */
+vector<vector<Airport*>> Manager::findPathMinAirlines(Airport* s, Airport* d, const vector<Airport*> &airportsToExclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines) {
+
+    if (s == d) return {};
+
+    auto source = connections.findVertex(airports[s->getCode()]);
+    auto destination = connections.findVertex(airports[d->getCode()]);
+
+    vector<vector<Airport*>> result;
+    bool found = false;
+    for (int i = 1; i < airlines.size(); i++) {
+        set<set<Airline*>> res;
+        std::set<Airline*> currentCombination;
+        if (flyOnlyAirlines.empty()) {
+            generateCombinations(i, airlines, res, currentCombination, airlinesToExclude);
+        }
+        else {
+            generateCombinationsOnlyAirlines(i, flyOnlyAirlines, res, currentCombination, airlinesToExclude);
+        }
+
+        for (auto par : res) {
+
+            vector<vector<Airport*>> path;
+            if (bfsMinAirlines(source, destination, par, path, airportsToExclude)) {
+                if (!path.empty()) {
+                    result.insert(result.end(), path.begin(), path.end());
+                    found = true;
+                }
+            }
+        }
+
+        if (found) {
+            return result;
+        }
+    }
+    return {};
+}
+
+/*!
+ * @brief Função auxiliar para determinar se existem uma companhia aérea em comum entre os sets a e b
+ * @param a set de airlines
+ * @param b set de airlines
+ * @return true o set a e b tem, pelo menos, uma airline em comum
+ */
+bool hasAirl(const set<Airline*> &a, const set<Airline*> &b) {
+    for (auto it : a) {
+        if (b.find(it) != b.end()) return true;
+    }
+    return false;
+}
+
+/*!
+ * @brief Função que faz pesquisa em largura, utilizando apenas um conjunto de airlines e excluindo determinados aeroportos
+ * @param source apontador para vértice de partida
+ * @param destination apontador para vértice de chegada
+ * @param airlines set de apontadores para as Airlines a serem consideradas
+ * @param res vetor de caminhos que satisfazem os requisitos
+ * @param airportsToExclude vetor de apontadores para aeroportos a serem excluídos
+ * @return true se existir caminho com as airlines pretendidas, false caso contrário
+ * O (|V| * |E| * K) V - número de vértices, E - Número de edges, K - número de companhias do set
+ */
+bool Manager::bfsMinAirlines(Vertex* source, Vertex* destination, set<Airline*> &airlines, vector<vector<Airport*>> &res, const vector<Airport*> &airportsToExclude) {
+    for (auto &node : connections.getVertexSet()) {
+        node->setVisited(false);
+    }
+
+    for (auto &node : airportsToExclude) {
+        auto m = connections.findVertex(node);
+        m->setVisited(true);
+    }
+
+    queue<Vertex*> q;
+    unordered_map<Vertex*, Vertex*> parent;
+
+    q.push(source);
+    source->setVisited(true);
+    bool found = false;
+
+    vector<Vertex*> aux;
+
+    while (!q.empty()) {
+        int size = q.size();
+
+        for (int i = 0; i < size; i++) {
+            Vertex* current = q.front();
+            q.pop();
+
+
+            for (Edge& flight : current->getAdj()) {
+                Vertex* neighbor = flight.getDest();
+
+                    if (hasAirl(flight.getAirlines(), airlines)) {
+                        if (!neighbor->isVisited()) {
+                            q.push(neighbor);
+                            parent[neighbor] = current;
+                            neighbor->setVisited(true);
+
+                            if (neighbor == destination) {
+                                found = true;
+                                neighbor->setVisited(false);
+                                aux.push_back(current);
+                            }
+                        }
+                    }
+
+
+            }
+        }
+        if (found) break;
+    }
+
+    for (auto v : aux) {
+        Vertex* current = v;
+        vector<Airport*> path;
+        while (current != nullptr) {
+            path.insert(path.begin(), current->getInfo());
+            current = parent[current];
+        }
+        path.push_back(destination->getInfo());
+        res.push_back(path);
+    }
+
+    return found;
 }
