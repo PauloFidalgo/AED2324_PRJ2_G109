@@ -1,4 +1,4 @@
-#include <limits>
+
 #include "State.h"
 #include "BarsState.h"
 std::stack<State*> State::stateHistory;
@@ -342,14 +342,14 @@ map<int,vector<Airport*>> State::getValidAirportsPerCities(){
     map <int,vector<Airport*>> airports;
     int i = 1;
     bool in = true;
-    bool first = true;
+    
     cout << endl;
 
     while (in) {
         vector<Airport*> aux;
         do {
             cin.clear();
-            if (!first) cout << "City (ok to confirm, back to cancel): ";
+            cout << "City (ok to confirm, back to cancel): ";
             getline(cin, name);
 
             if (name == "ok") {
@@ -361,10 +361,10 @@ map<int,vector<Airport*>> State::getValidAirportsPerCities(){
 
             aux = manager.getAirportsPerCity(name); // O(n)
 
-            if (aux.empty() && !first) {
+            if (aux.empty() ) {
                 cout << "City doesn't exist. Try again." << endl;
             }
-            first = false;
+            
 
         } while (aux.empty());
         airports.insert({i,aux});
@@ -408,13 +408,13 @@ vector<Airport*> State::getValidAirportsPerCity(){
     vector<Airport*> airports;
     vector<Airport*> aux;
     bool in = true;
-    bool first = true;
+    
     cout << endl;
 
     while (in) {
         do {
             cin.clear();
-            if (!first) cout << "City (ok to confirm, back to cancel): ";
+            cout << "City (ok to confirm, back to cancel): ";
             getline(cin, name);
 
             if (name == "ok") {
@@ -425,10 +425,10 @@ vector<Airport*> State::getValidAirportsPerCity(){
 
             aux = manager.getAirportsPerCity(name); // O(n)
 
-            if ((aux.empty() || !in) && !first) {
+            if ((aux.empty() || !in) ) {
                 cout << "City doesn't exist. Try again." << endl;
             }
-            first = false;
+            
         } while (aux.empty() || !in);
 
         airports.insert(airports.end(),aux.begin(),aux.end()); // O(1)
@@ -444,7 +444,7 @@ vector<Airport*> State::getValidAirportsPerCity(){
 map<int,vector<Airport*>> State::getValidAirportsPerCountries() {
     map <int,vector<Airport*>> airports;
     int i = 1;
-    bool first = true;
+    
     bool in = true;
     cout << endl;
 
@@ -452,7 +452,7 @@ map<int,vector<Airport*>> State::getValidAirportsPerCountries() {
         vector<Airport*> aux;
         do {
             cin.clear();
-            if (!first) cout << "Country (ok to confirm, back to cancel): ";
+             cout << "Country (ok to confirm, back to cancel): ";
             getline(cin, name);
 
             if (name == "ok") {
@@ -463,10 +463,10 @@ map<int,vector<Airport*>> State::getValidAirportsPerCountries() {
 
             aux = manager.getAirportsPerCountry(name); //O(n * k)
 
-            if (aux.empty() && !first) {
+            if (aux.empty() ) {
                 cout << "Country doesn't exist. Try again." << endl;
             }
-            first = false;
+            
         } while (aux.empty());
        airports.insert({i,aux});
        i++;
@@ -481,7 +481,7 @@ map<int,vector<Airport*>> State::getValidAirportsPerCountries() {
  */
 vector<Airport*> State::getValidAirportsPerCountry() {
    vector<Airport*> airports;
-    bool first = true;
+    
     bool in = true;
     cout << endl;
 
@@ -489,7 +489,7 @@ vector<Airport*> State::getValidAirportsPerCountry() {
         vector<Airport*> aux;
         do {
             cin.clear();
-            if (!first) cout << "Country (ok to confirm, back to cancel): ";
+             cout << "Country (ok to confirm, back to cancel): ";
             getline(cin, name);
 
             if (name == "ok") {
@@ -501,10 +501,10 @@ vector<Airport*> State::getValidAirportsPerCountry() {
 
             aux = manager.getAirportsPerCountry(name); // O(n * k)
 
-            if (aux.empty() && !first) {
+            if (aux.empty() ) {
                 cout << "Country doesn't exist. Try again." << endl;
             }
-            first = false;
+            
         } while (aux.empty());
         airports.insert(airports.end(),aux.begin(),aux.end());
     }
@@ -570,7 +570,6 @@ vector<Airport*> State::getAirportsRange(int x) {
 vector<Airport*> State::getValidAirports() {
     vector<Airport *> airports;
     bool in = true;
-    bool first = true;
     cout << endl;
 
     while (in) {
@@ -579,7 +578,7 @@ vector<Airport*> State::getValidAirports() {
 
         do {
             cin.clear();
-            if (!first) cout << "Airport Name or Code (ok to confirm, back to cancel): ";
+             cout << "Airport Name or Code (ok to confirm, back to cancel): ";
             getline(cin, name);
             if (name == "ok") {
                 in = false;
@@ -590,10 +589,9 @@ vector<Airport*> State::getValidAirports() {
              aux = manager.getAirportPerCode(name);
              aux2 = manager.getAirportPerName(name);
 
-            if (!aux && !aux2 && !first) {
+            if (!aux && !aux2 ) {
                 cout << "Airport doesn't exist. Try again." << endl;
             }
-            first = false;
         } while (!aux && !aux2);
 
         if (aux) airports.push_back(aux);
@@ -611,14 +609,13 @@ unordered_set<Airline*> State::getValidAirlines() {
     unordered_set<Airline *> airlines;
     Airline* aux = nullptr;
     Airline* aux2 = nullptr;
-    bool first = true;
     bool in = true;
     cout << endl;
 
     while (in) {
         do {
             cin.clear();
-            if (!first) cout << "Airline Name or Code (ok to confirm, back to cancel): ";
+             cout << "Airline Name or Code (ok to confirm, back to cancel): ";
             getline(cin, name);
 
             if (name == "ok") {
@@ -630,10 +627,10 @@ unordered_set<Airline*> State::getValidAirlines() {
             aux = manager.getAirlinePerCode(name); // O(n)
             aux2 = manager.getAirlinePerName(name); // O(n)
 
-            if (!aux && !aux2 && !first) {
+            if (!aux && !aux2 ) {
                 cout << "Airline doesn't exist. Try again." << endl;
             }
-            first = false;
+            
         } while (!aux and !aux2);
 
         if (aux) airlines.insert(aux);
@@ -650,7 +647,6 @@ unordered_set<Airline*> State::getValidAirlines() {
 unordered_set<Airline*> State::getValidAirlinePerCountry() {
     unordered_set<Airline *> airlines;
     bool in = true;
-    bool first = true;
     cout << endl;
 
     while (in) {
@@ -658,7 +654,7 @@ unordered_set<Airline*> State::getValidAirlinePerCountry() {
 
         do {
             cin.clear();
-            if (!first) cout << "Country Name (ok to confirm, back to cancel): ";
+             cout << "Country Name (ok to confirm, back to cancel): ";
             getline(cin, name);
 
             if (name == "ok") {
@@ -670,10 +666,10 @@ unordered_set<Airline*> State::getValidAirlinePerCountry() {
 
             aux = manager.getAirlinesPerCountry(name); // O(n)
 
-            if (aux.empty() && !first) {
+            if (aux.empty() ) {
                 cout << "Country doesn't exist. Try again." << endl;
             }
-            first = false;
+            
         } while (aux.empty());
 
         airlines.insert(aux.begin(), aux.end());
@@ -689,12 +685,12 @@ unordered_set<Airline*> State::getValidAirlinePerCountry() {
  */
 unordered_set<Airline*> State::getValidAirlineSingleCountry() {
     unordered_set<Airline *> airlines;
-    bool first = true;
+    
     cout << endl;
 
         do {
             cin.clear();
-            if (!first) cout << "Country Name (back to cancel): ";
+             cout << "Country Name (back to cancel): ";
             getline(cin, name);
 
             if (name == "back") {
@@ -703,10 +699,10 @@ unordered_set<Airline*> State::getValidAirlineSingleCountry() {
 
             airlines = manager.getAirlinesPerCountry(name); //O(n)
 
-            if (airlines.empty() && !first) {
+            if (airlines.empty() ) {
                 cout << "Country doesn't exist. Try again." << endl;
             }
-            first = false;
+            
         } while (airlines.empty());
 
     return airlines;
