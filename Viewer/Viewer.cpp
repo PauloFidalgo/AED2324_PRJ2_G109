@@ -408,7 +408,7 @@ void Viewer::printTopKVector(const vector<pair<Airport *, int>> &airports,const 
  *  @param nameSize tamanho do maior nome de uma companhia aérea que vai ser impresso.
  *  O(n)
  */
-void Viewer::printAirlinesPerAirport(const set<Airline *> &airlines, const int &nameSize) {
+void Viewer::printAirlinesPerAirport(const unordered_set<Airline *> &airlines, const int &nameSize) {
     int space = nameSize + 8 > 10 ? nameSize + 8 : 10;
     int lenAirlinesLabel = (space - 8) / 2;
     int lenFAirlinesLabel= (space - 8) % 2 == 0 ? lenAirlinesLabel : lenAirlinesLabel+ 1;

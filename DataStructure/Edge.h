@@ -7,7 +7,7 @@
 #include "Vertex.h"
 #include "Graph.h"
 #include <string>
-#include <set>
+#include <unordered_set>
 
 class Graph;
 class Vertex;
@@ -17,11 +17,11 @@ class Airline;
 class Edge {
     Vertex * dest;      // destination vertex
     double weight;         // edge weight
-    std::set<Airline*> airlines;
+    std::unordered_set<Airline*> airlines;
 public:
     Edge(Vertex *d, double w);
     void addAirline(Airline* airline);
-    std::set<Airline*> getAirlines() const;
+    std::unordered_set<Airline*> getAirlines() const;
     Vertex* getDest() const;
     void setDest(Vertex *dest);
     double getWeight() const;

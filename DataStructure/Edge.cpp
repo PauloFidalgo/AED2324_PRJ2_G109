@@ -2,6 +2,7 @@
 // Created by Wagner Pedrosa on 30/11/2023.
 //
 
+#include <set>
 #include "Edge.h"
 
 Edge::Edge(Vertex *d, double w): dest(d), weight(w) {}
@@ -56,7 +57,7 @@ void Edge::addAirline(Airline* airline) {
  * @return set de apontadores para airlines que fazem esse voo
  * O(1)
  */
-std::set<Airline *> Edge::getAirlines() const {
+std::unordered_set<Airline *> Edge::getAirlines() const {
     return this->airlines;
 }
 

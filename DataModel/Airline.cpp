@@ -27,6 +27,7 @@ void Airline::increaseNumFlights(){
 /*!
  * @brief Permite obter o número total de voos de uma companhia
  * @return int correspondente ao número de voos da companhia
+ * O(1)
  */
 int Airline::getNumFlights() const {
     return this->numFlights;
