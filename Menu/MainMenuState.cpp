@@ -57,8 +57,6 @@ State * MainMenuState::handleInput() {
             case 2:
                 State::stateHistory.push(this);
                 return stat;
-            case -1:
-                exit(0);
             default:
                 std::cout << " Invalid choice. try again" << std::endl;
                 return this;
