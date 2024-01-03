@@ -738,7 +738,7 @@ void Viewer::printTopKVectorBars(const vector<pair<Airline *, int>> &airlines, c
  * @param nameSize Tamanho do nome a ser considerado ao formatar a saída.
  * O(n)
  */
-void Viewer::printArticulationPoints(const vector<Airport *> res, const int &nameSize) {
+void Viewer::printArticulationPoints(const unordered_set<Airport *> &res, const int &nameSize) {
     int space = nameSize + 8 > 35 ? nameSize + 8 : 35;
     int lenEssentialAirportsLabel = (space - 33) / 2;
     int lenFEssentialAirportsLabel = (space - 33) % 2 == 0 ? lenEssentialAirportsLabel : lenEssentialAirportsLabel + 1;

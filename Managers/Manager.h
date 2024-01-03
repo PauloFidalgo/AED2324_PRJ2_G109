@@ -65,7 +65,7 @@ public:
     vector<vector<Airport*>> scheduleTripMinConnectionAirports(Airport* u, Airport* v, const vector<Airport*>& visit, const vector<Airport*> &exclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines);
     void manageFlightSearchFromMenu(vector<Airport*> &source, vector<Airport*> &destination, vector<Airport*> &airporsToVisit, map<int, vector<Airport*>> &cityCountry, vector<Airport*> &airportsToExclude, unordered_set<Airline*> &airlinesToExclude, unordered_set<Airline*> &flyOnlyAirlines);
     void articulationPoints();
-    void dfsApp(Vertex *v, stack<Airport*> &s, vector<Airport*> &res, int &i);
+    void dfsApp(Vertex *v, stack<Airport*> &s, unordered_set<Airport*> &res, int &i);
     void scc();
     void dfsScc(Vertex *v, stack<Airport*> &s, vector<vector<Airport*>> &res, int &i);
     set<vector<Airport*>> scheduleTripMinAirlines(Airport* source, Airport* destination, const vector<Airport*>& airporsToVisit, const vector<Airport*> &airportsToExclude, const unordered_set<Airline*> &airlinesToExclude, const unordered_set<Airline*> &flyOnlyAirlines);
@@ -109,7 +109,6 @@ public:
     static void printAirlineInfo(Airline *airline);
     void listAirlinesPerAirport(Airport *airport);
     void listAirlinesPerCountry(const unordered_set<Airline *> &airlinesCountry, const string &country) const;
-
 };
 
 

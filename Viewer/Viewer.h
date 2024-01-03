@@ -32,7 +32,7 @@ public:
     static void printCityDestinations(const string& city, const int &numAirports, const int &numCities, const int &numCountries);
     static void printCountryDestinations(const string &country, const int &numAirports, const int &numCities, const int &numCountries);
     static void printDiameterPairs(const vector<pair<Airport *, Airport *>>& result, const int &maxDiameter);
-    static void printArticulationPoints(vector<Airport *> airports, const int &nameSize);
+    static void printArticulationPoints(const unordered_set <Airport *> &airports, const int &nameSize);
 
     static void printAirportGreatestTraffic(const vector<Airport *> &airportsByTraffic, const int& nameSize);
     static void printAirlineGreatestTraffic(const vector<Airline *> &airlinesByTraffic, const int& nameSize);

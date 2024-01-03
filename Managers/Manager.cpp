@@ -308,31 +308,39 @@ void checkBackEdge(Graph &g, Airline* air, Vertex* a, Vertex* b) {
 void Manager::articulationPoints() {
     Graph copy;
     unordered_map<string, Airport *> airVertex;
-    for (auto &elem : connections.getVertexSet()) {
-        auto *air = new Airport(elem->getInfo()->getCode(), elem->getInfo()->getName(), "", "", 0, 0);
-        airVertex.insert({elem->getInfo()->getCode(),air});
-        copy.addVertex(air);
+
+    for (auto &airport : airports) {
+        auto* n = new Airport(airport.second->getCode(), airport.second->getName(), airport.second->getCity(), airport.second->getCountry(), airport.second->getLatitude(), airport.second->getLongitude());
+        airVertex.insert({n->getCode(), n});
+        copy.addVertex(n);
     }
 
-    auto *airline = new Airline("", "", "", "");
+
     for (auto &elem : connections.getVertexSet()) {
+
         auto air = airVertex.find(elem->getInfo()->getCode());
         auto a = copy.findVertex(air->second);
+
         for (auto & edge : elem->getAdj()) {
             auto air1 = airVertex.find(edge.getDest()->getInfo()->getCode());
+
             auto b = copy.findVertex(air1->second);
-            copy.addEdge(air->second, air1->second, 0, airline);
-            checkBackEdge(copy, airline, a, b);
+
+            copy.addEdge(air->second, air1->second, edge.getWeight(), *edge.getAirlines().begin());
+            checkBackEdge(copy, *edge.getAirlines().begin(), a, b);
         }
     }
+
+
     for (auto &airport : copy.getVertexSet()) {
         airport->setProcessing(false);
         airport->setNum(-1);
         airport->setLow(-1);
     }
 
-    vector<Airport*> res;
+    unordered_set<Airport*> res;
     stack<Airport*> s;
+
     int i = 0;
 
     for (auto &airport : copy.getVertexSet()) {
@@ -340,10 +348,12 @@ void Manager::articulationPoints() {
             dfsApp(airport, s, res, i);
         }
     }
+
     int maxLengthName = 0;
     for (auto& elem : res) {
         if (elem->getName().length() > maxLengthName) maxLengthName = elem->getName().length();
     }
+
     Viewer::printArticulationPoints(res, maxLengthName);
 }
 
@@ -354,7 +364,7 @@ void Manager::articulationPoints() {
  *  @param i valor que indica a ordem de visita do vértice
  *  O(|V| + |E|)
  */
-void Manager::dfsApp(Vertex *v, stack<Airport*> &s, vector<Airport*> &res, int &i) {
+void Manager::dfsApp(Vertex *v, stack<Airport*> &s, unordered_set<Airport*> &res, int &i) {
     v->setNum(i);
     v->setLow(i);
     i++;
@@ -370,17 +380,19 @@ void Manager::dfsApp(Vertex *v, stack<Airport*> &s, vector<Airport*> &res, int &
             v->setLow(min(v->getLow(), dest->getLow()));
 
             if (dest->getLow() >= v->getNum() && v->getNum() != 0) {
-                res.push_back(dest->getInfo());
+                res.insert(v->getInfo());
             }
         }
         else if (dest->isProcessing()) {
             v->setLow(min(v->getLow(), dest->getNum()));
         }
     }
-    v->setProcessing(false);
-    if (child > 1 && v->getNum() == 0) {
-        res.push_back(v->getInfo());
+
+    if (v->getNum() == 0 && child > 1) {
+        res.insert(v->getInfo());
     }
+
+    v->setProcessing(false);
     s.pop();
 }
 
@@ -2245,4 +2257,6 @@ void Manager::listAirlinesPerCountry(const unordered_set<Airline *> &airlinesCou
     }
     Viewer::printListAirlinesPerCountry(airlinesCountry, maxLengthName, country);
 }
+
+
 
