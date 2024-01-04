@@ -6,9 +6,38 @@
 #define AED2324_PRJ2_G109_FILTERSTATE_H
 #include "State.h"
 class FilterState: public State {
+private:
+    vector<Airport*> fromAirports;
+    vector<Airport*> toAirports;
+    map<int,vector<Airport*>> cityCountry;
+    unordered_set<Airline*> excludedAirlines;
+    unordered_set<Airline*> includedAirlines;
+    vector<Airport*> excludedAirports;
+    vector<Airport*> includedAirports;
+
+    void excludeAirlinesPerCountry();
+    void includeAirlinesPerCountry();
+    void includeAirlines();
+    void excludeAirlines();
+    void includeCountries();
+    void excludeCountries();
+    void excludeAirports();
+    void includeAirports();
+    void includeCities();
+    void excludeCities();
+    void verifyExcludedAirlines();
+    void verifyIncludedAirlines();
+    void verifyIncludedAirports();
+    void verifyExcludeAirports();
+    void verifyVisitCountryCity();
+    bool isAirportToBeRemoved(Airport* airport) const;
+
 public:
-    void displayMenu() override;
-    State * handleInput() override;
+    // Constructor
+    FilterState(vector<Airport*> &from, vector<Airport*> &to);
+
+    void displayMenu();
+    State * handleInput();
 };
 
 

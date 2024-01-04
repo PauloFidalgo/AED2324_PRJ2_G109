@@ -12,10 +12,17 @@ private:
     std::string name;
     std::string callsign;
     std::string country;
+    int numFlights = 0;
 
 public:
+    Airline();
     Airline(const std::string &code, const std::string &name, const std::string &callsign, const std::string &country);
     std::string getName() const;
+    void increaseNumFlights();
+    int getNumFlights() const;
+    std::string getCode() const;
+    std::string getCountry() const;
+    std::string getCallsign() const;
 };
 
 

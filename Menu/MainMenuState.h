@@ -5,12 +5,17 @@
 #ifndef AED2324_PRJ2_G109_MAINMENUSTATE_H
 #define AED2324_PRJ2_G109_MAINMENUSTATE_H
 #include "State.h"
-
+#include "StatisticsState1.h"
+#include "FlightSearchState.h"
 
 class MainMenuState : public State{
+private:
+    string userInputStr;
+    int userInput;
+
 public:
-    void displayMenu() override;
-    State * handleInput() override;
+    void displayMenu();
+    State * handleInput();
 
 };
 

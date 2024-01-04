@@ -10,6 +10,8 @@ class Airport {
 private:
     std::string code, name, city, country;
     double latitude, longitude;
+    int numFlightsOut = 0;
+    int numFlightsIn = 0;
 
 public:
     Airport(const std::string &code, const std::string &name, const std::string &city, const std::string &country, const double &latitude, const double &longitude);
@@ -17,7 +19,13 @@ public:
     const double& getLatitude() const;
     const double& getLongitude() const;
     std::string getCode() const;
+    std::string getCountry() const;
     std::string getName() const;
+    std::string getCity() const;
+    void increaseNumFlightsOut();
+    int getNumFlightsOut() const;
+    void increaseNumFlightsIn();
+    int getNumFlightsIn() const;
 };
 
 

@@ -20,15 +20,39 @@ add_executable(AED2324_PRJ2_G109
         Managers/Manager.cpp
         Managers/Manager.h
         Menu/State.h
+        Menu/State.cpp
         Menu/MainMenuState.h
         Menu/MainMenuState.cpp
         Menu/MenuManager.h
         Menu/MenuManager.cpp
-        Menu/FilghtSearchState.h
-        Menu/FilghtSearchState.cpp
-        Menu/State.cpp
-        Menu/ChooseTypeOfAirportState.h
-        Menu/ChooseTypeOfAirportState.cpp
+        Menu/FlightSearchState.cpp
+        Menu/FlightSearchState.cpp
         Menu/FilterState.h
         Menu/FilterState.cpp
+        Menu/StatisticsState1.h
+        Menu/StatisticsState1.cpp
+        Menu/StatisticsState2.h
+        Menu/StatisticsState2.cpp
+        Menu/StatisticsState3.h
+        Menu/StatisticsState3.cpp
+        Menu/StatisticsState4.h
+        Menu/StatisticsState4.cpp
+        Viewer/Viewer.cpp
+        Viewer/Viewer.h
+        Menu/BarsState.h
+        Menu/BarsState.cpp
+        Menu/BarsState.h
+        Menu/BarsState.cpp
+        Menu/StatisticsState5.h
+        Menu/StatisticsState5.cpp
+        Menu/StatisticsState6.h
+        Menu/StatisticsState6.h
+        Menu/StatisticsState6.cpp
+        Menu/StatisticsState7.h
+        Menu/StatisticsState7.cpp
+        Menu/StatisticsState8.h
+        Menu/StatisticsState8.cpp
+        Menu/StatisticsState9.h
+        Menu/StatisticsState9.cpp
+
 )
